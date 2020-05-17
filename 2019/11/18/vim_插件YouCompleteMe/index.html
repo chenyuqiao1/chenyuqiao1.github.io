@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="vim安装插件youcompleteme">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim安装插件youcompleteme">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="vim安装插件youcompleteme">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574123741424.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574125262109.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574129126968.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-d228ddb8f70dc72c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/903/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-40aea3936346d3ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/904/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-895167b14d7d8f4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/655/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-063a2d668a0e3d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/901/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-ff77cc71cfb947d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/909/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/83222-b58f9abd726322f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/904/format/webp">
+<meta property="article:published_time" content="2019-11-18T02:02:58.000Z">
+<meta property="article:modified_time" content="2019-11-17T16:00:00.000Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="youcompleteme">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574123741424.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>vim安装插件youcompleteme | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vim安装插件youcompleteme
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-18 10:02:58 / Modified: 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-18T10:02:58+08:00">2019-11-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shell-script/" itemprop="url" rel="index"><span itemprop="name">shell_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="vim安装插件youcompleteme"><a href="#vim安装插件youcompleteme" class="headerlink" title="vim安装插件youcompleteme"></a>vim安装插件youcompleteme</h2><a id="more"></a>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.vim/bundle/YouCompleteMe</span><br><span class="line">git submodule update --init --recursive # 这句话很重要</span><br><span class="line">python3 install.py --clang-completer --system-libclang</span><br><span class="line">python3 run_tests.py # 不断试错</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574123741424.png" alt="1574123741424"></p>
+<blockquote>
+<p>缺什么补什么</p>
+<p>缺模块就补模块 pip3 install 模块名</p>
+<p>缺包就补包 sudo apt install 包名</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip3 install nose </span><br><span class="line">pip3 install future</span><br><span class="line">pip3 install mock</span><br><span class="line">pip3 install PyHamcrest # No module named 'hamcrest' ,这个包很特殊</span><br></pre></td></tr></table></figure>
+
+<h6 id="运行安装语句"><a href="#运行安装语句" class="headerlink" title="运行安装语句"></a>运行安装语句</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.vim/bundle/YouCompleteMe</span><br><span class="line">python3 install.py --clang-completer --system-libclang # clang-completer 是支持C语言的意思</span><br><span class="line">python3 install.py --all # 管他那么多，都安装得了</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574125262109.png" alt="1574125262109"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install llvm-3.9 clang-3.9 libclang-3.9-dev libboost-all-dev</span><br></pre></td></tr></table></figure>
+
+
+
+<p>最终安装成功 </p>
+<p><a href="https://github.com/ycm-core/YouCompleteMe" target="_blank" rel="noopener">https://github.com/ycm-core/YouCompleteMe</a> </p>
+<p>参考 Quick Feature Summary 支持的语言主要是C，java，python。</p>
+<p><img src="/2019/11/18/vim_%E6%8F%92%E4%BB%B6YouCompleteMe/1574129126968.png" alt="1574129126968"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install exuberant-ctags</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<p>1.安装YouCompleteMe</p>
+<p>在.vimrc中插入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &#39;Valloric&#x2F;YouCompleteMe&#39;</span><br></pre></td></tr></table></figure>
+
+<p>利用git下载安装包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;Valloric&#x2F;YouCompleteMe.git ~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe</span><br></pre></td></tr></table></figure>
+
+<p>然后进入YouCompeteMe所在的文件夹：~/.vim/bundle/YouCompleteMe，运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 install.py --clang-completer --system-libclang</span><br></pre></td></tr></table></figure>
+
+<p>其中编译安装的过程中，不断提示编译所缺少的依赖，会有错误提示，按照提示安装缺少的依赖就好，其中比较重要的是clang，所以先需要运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install clang</span><br></pre></td></tr></table></figure>
+
+<p>运行install.py时会显示</p>
+<p>最后在.vimrc文件中，添加配置信息：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">set ts&#x3D;4</span><br><span class="line">set expandtab</span><br><span class="line">set shiftwidth&#x3D;4</span><br><span class="line">set softtabstop&#x3D;4</span><br><span class="line">set number</span><br><span class="line">&quot;vundle&quot;</span><br><span class="line">filetype off</span><br><span class="line">set rtp+&#x3D;~&#x2F;.vim&#x2F;bundle&#x2F;Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">Plugin &#39;VundleVim&#x2F;Vundle.vim&#39;</span><br><span class="line">Plugin &#39;Valloric&#x2F;YouCompleteMe&#39;</span><br><span class="line">Plugin &#39;davidhalter&#x2F;jedi-vim&#39;</span><br><span class="line">call vundle#end()</span><br><span class="line">filetype plugin indent on</span><br><span class="line">&quot;youcompleteme&quot;</span><br><span class="line">&quot;默认配置文件路径&quot;</span><br><span class="line">let g:ycm_global_ycm_extra_conf &#x3D; &#39;~&#x2F;.vim&#x2F;bundle&#x2F;YouCompleteMe&#x2F;.ycm_extra_conf.py&#39;       &quot;配置全局路径</span><br><span class="line">&quot;log&quot;</span><br><span class="line">&quot;let g:ycm_server_keep_logfiles&#x3D;1</span><br><span class="line">&quot;let g:ycm_sever_log_level&#x3D;&#39;debug&#39;</span><br><span class="line">&quot;打开vim时不再询问是否加载ycm_extra_conf.py配置&quot;</span><br><span class="line">&quot;let g:ycm_confirm_extra_conf&#x3D;0</span><br><span class="line">&quot;set completeopt&#x3D;longest,menu</span><br><span class="line">&quot;python解释器路径&quot;</span><br><span class="line">let g:ycm_path_to_python_interpreter&#x3D;&#39;&#x2F;home&#x2F;wdh&#x2F;anaconda3&#x2F;bin&#x2F;python3&#39;</span><br><span class="line">&quot;let g:ycm_python_binary_path &#x3D; &#39;&#x2F;home&#x2F;wdh&#x2F;anaconda3&#x2F;bin&#x2F;python3&#39;   &quot;python 环境</span><br><span class="line">&quot;是否开启语义补全&quot;</span><br><span class="line">let g:ycm_seed_identifiers_with_syntax&#x3D;1</span><br><span class="line">&quot;是否在注释中也开启补全&quot;</span><br><span class="line">let g:ycm_complete_in_comments&#x3D;1</span><br><span class="line">let g:ycm_collect_identifiers_from_comments_and_strings &#x3D; 0</span><br><span class="line">&quot;开始补全的字符数&quot;</span><br><span class="line">let g:ycm_min_num_of_chars_for_completion&#x3D;2</span><br><span class="line">&quot;补全后自动关机预览窗口&quot;</span><br><span class="line">&quot;let g:ycm_autoclose_preview_window_after_completion&#x3D;1</span><br><span class="line">&quot; 禁止缓存匹配项,每次都重新生成匹配项&quot;</span><br><span class="line">let g:ycm_cache_omnifunc&#x3D;0</span><br><span class="line">&quot;字符串中也开启补全&quot;</span><br><span class="line">let g:ycm_complete_in_strings &#x3D; 1</span><br><span class="line">let g:ycm_seed_identifiers_with_syntax&#x3D;1 &quot;补全关键字 </span><br><span class="line">&quot;离开插入模式后自动关闭预览窗口&quot;</span><br><span class="line">autocmd InsertLeave * if pumvisible() &#x3D;&#x3D; 0|pclose|endif</span><br><span class="line">&quot;回车即选中当前项&quot;</span><br><span class="line">&quot;inoremap &lt;expr&gt; &lt;CR&gt;       pumvisible() ? &#39;&lt;C-y&gt;&#39; : &#39;\&lt;CR&gt;&#39;     </span><br><span class="line">&quot;上下左右键行为&quot;</span><br><span class="line">&quot;inoremap &lt;expr&gt; &lt;Down&gt;     pumvisible() ? &#39;\&lt;C-n&gt;&#39; : &#39;\&lt;Down&gt;&#39;</span><br><span class="line">&quot;inoremap &lt;expr&gt; &lt;Up&gt;       pumvisible() ? &#39;\&lt;C-p&gt;&#39; : &#39;\&lt;Up&gt;&#39;</span><br><span class="line">&quot;inoremap &lt;expr&gt; &lt;PageDown&gt; pumvisible() ? &#39;\&lt;PageDown&gt;\&lt;C-p&gt;\&lt;C-n&gt;&#39; : &#39;\&lt;PageDown&gt;&#39;</span><br><span class="line">&quot;inoremap &lt;expr&gt; &lt;PageUp&gt;   pumvisible() ? &#39;\&lt;PageUp&gt;\&lt;C-p&gt;\&lt;C-n&gt;&#39; : &#39;\&lt;PageUp&gt;&#39;\</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<blockquote>
+<p>YouCompleteMe is a fast, as-you-type, fuzzy-search code completion engine for Vim.<br> <strong>参考： <a href="https://github.com/Valloric/YouCompleteMe#full-installation-guide" target="_blank" rel="noopener">https://github.com/Valloric/YouCompleteMe#full-installation-guide</a></strong><br> 本篇文章默认读者知道什么是 unix/linux，vim/vi， YouCompleteMe，如果有不清楚的，<code>Search engine is your friend</code> 或者留言讨论。YouCompleteMe 简称 YCM 以下都称为 YCM。</p>
+</blockquote>
+<p><a href="https://link.jianshu.com?t=https://github.com/Valloric/YouCompleteMe" target="_blank" rel="noopener">YouCompleteMe</a> 的强大想必大家都听说过，简单的用一句话来概括的话，<code>媲美 VS 的自动补全</code> 当然可能有一点点过，但可见其强大。但是作为一个十分强大的 vim 插件，他可是十分的难以安装，几乎所有的人，都会在安装阶段苦苦挣扎（别问老夫怎么知道的），然后要么成功安装享受工具带来的便利，要么放弃继续使用传统的自动补全工具（当然也没有那么差，但可能没有 YCM 那么强大）。</p>
+<p>经过老夫的辛苦探索，终于在听到 YCM 大名的一年之后成功安装，所以分享出来，希望能够帮助到更多的人。另外如果在安装过程中遇到任何问题都欢迎在评论与我讨论。</p>
+<blockquote>
+<p>有了你我才是我，你的存在令我完整<br> —— 老夫</p>
+</blockquote>
+<p>系统环境：Kali-Rolling on Oracle VirtualBox，可以当作是最新版（或者说实验版）的 Debian</p>
+<p>目标：成功安装使用 YCM， 尽量少的编译软件（即尽量使用预编译 deb 包），尽量可以实现更多种语言的自动补全</p>
+<h1 id="安装步骤："><a href="#安装步骤：" class="headerlink" title="安装步骤："></a>安装步骤：</h1><h4 id="0-确保-vim-版本是-7-4-143-或以上，并且支持-python-2-3-脚本"><a href="#0-确保-vim-版本是-7-4-143-或以上，并且支持-python-2-3-脚本" class="headerlink" title="0. 确保 vim 版本是 7.4.143 或以上，并且支持 python 2/3 脚本"></a>0. 确保 vim 版本是 7.4.143 或以上，并且支持 python 2/3 脚本</h4><p>vim version</p>
+<p>从上图可以看出老夫的 vim 版本是 8.0.49 且支持 python3 脚本但不支持 python2 脚本（截图的倒数第 7，8 行）<br> 如果你的打印结果中没有相关 python 脚本信息，还可以在 vim 中键入命令 <code>:echo has(&#39;python&#39;) || has(&#39;python3&#39;)</code>，若结果是 1 则证明是支持的。</p>
+<p>若不论是 vim 版本不满足条件或者是不支持 python 脚本，那么就需要<a href="https://link.jianshu.com?t=https://github.com/Valloric/YouCompleteMe/wiki/Building-Vim-from-source" target="_blank" rel="noopener">从源码编译安装 vim</a> 了，</p>
+<h4 id="1-通过-Vundle-来安装-YCM（官方推荐）"><a href="#1-通过-Vundle-来安装-YCM（官方推荐）" class="headerlink" title="1. 通过 Vundle 来安装 YCM（官方推荐）"></a>1. 通过 Vundle 来安装 YCM（官方推荐）</h4><p><a href="https://link.jianshu.com?t=https://github.com/VundleVim/Vundle.vim#quick-start" target="_blank" rel="noopener">快速安装 vim 的插件管理插件 vundle</a></p>
+<p>在 vim 的配置文件 <code>~/.vimrc</code> 中添加一行（在<code>call vundle#begin()</code> 和 <code>call vundle#end()</code> 之间）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">call vundle<span class="comment">#begin()</span></span><br><span class="line">. . . </span><br><span class="line">Plugin <span class="string">'Valloric/YouCompleteMe’</span></span><br><span class="line"><span class="string">. . .</span></span><br><span class="line"><span class="string">call vundle#end()</span></span><br></pre></td></tr></table></figure>
+
+<p>然后保存运行 vim 命令 <code>:PluginInstall</code> 安装 <strong>需要特别注意的是这个时候可能等的时间会相当的长</strong></p>
+<h4 id="1-5-通过-Git-安装-YCM"><a href="#1-5-通过-Git-安装-YCM" class="headerlink" title="1.5 通过 Git 安装 YCM"></a>1.5 通过 Git 安装 YCM</h4><p>如果你跟老夫一样，等待 Vundle 安装 YCM 等了好久终于貌似好像成功了，打开 vim 却发现 <code>YouCompleteme unavailable : no module named future</code> （当然没有遇到算你运气好），那么你应该考虑一下换用 Git 来安装 YCM：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 下载 （在 `～/.vim/bundle` 目录下）</span></span><br><span class="line">$ git <span class="built_in">clone</span> --recursive [https://github.com/Valloric/YouCompleteMe.git](https://github.com/Valloric/YouCompleteMe.git)</span><br><span class="line"><span class="comment"># 检查完整性（在 `～/.vim/bundle/YouCompleteMe` 目录下）</span></span><br><span class="line">$ git submodule update --init --recursive</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-下载安装最新版的-libclang"><a href="#2-下载安装最新版的-libclang" class="headerlink" title="2. 下载安装最新版的 libclang"></a>2. 下载安装最新版的 libclang</h4><p>如果不需要 C 家族的语义化补全，则可跳过这一步</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># apt-get install llvm-3.9 clang-3.9 libclang-3.9-dev libboost-all-dev</span></span><br></pre></td></tr></table></figure>
+
+<p>PS: ** YCM 官方墙烈推荐使用上游编译的二进制文件代替系统自带的 libclang**</p>
+<blockquote>
+<p>You can use the system libclang <strong>only if you are sure it is version 3.9 or higher</strong>, otherwise don’t. Even if it is, we recommend using the <a href="https://link.jianshu.com?t=http://llvm.org/releases/download.html" target="_blank" rel="noopener">official binaries from llvm.org</a> if at all possible. Make sure you download the correct archive file for your OS.</p>
+</blockquote>
+<blockquote>
+<p>We <strong>STRONGLY recommend AGAINST use</strong> of the system libclang instead of the upstream compiled binaries. Random things may break. Save yourself the hassle and use the upstream pre-built libclang.</p>
+</blockquote>
+<h4 id="3-编译构建-ycm-core-库"><a href="#3-编译构建-ycm-core-库" class="headerlink" title="3. 编译构建 ycm_core 库"></a>3. 编译构建 <code>ycm_core</code> 库</h4><blockquote>
+<p>** 需要：cmake python3-dev**</p>
+</blockquote>
+<p>YCM 的顶层目录或者说根目录应该是 <code>～/.vim/bundle/YouCompleteMe</code></p>
+<ul>
+<li><strong>创建一个目录放编译过程中产生的文件</strong></li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir ~/.ycm_build</span><br><span class="line">$ <span class="built_in">cd</span> ~/.ycm_build</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>生成 makefile</strong></li>
+</ul>
+<p>如果跳过第三步的话，则可以直接运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cmake -G <span class="string">"Unix Makefiles"</span> . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp</span><br></pre></td></tr></table></figure>
+
+<p>如果没有跳过第三步，说明需要 c 家族的语义化补全则需运行</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cmake -G <span class="string">"Unix Makefiles"</span> -DUSE_SYSTEM_BOOST=ON DUSE_SYSTEM_LIBCLANG=ON . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-d228ddb8f70dc72c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/903/format/webp" alt="img"></p>
+<p>有问题的编译</p>
+<p>编译通过的，没有报错，但是这个编译结果是有问题的，看第 3 行，反复强调的 c 家族的语义补全没有了。经过老夫反复的检查，原来是上面的编译命令少了一个 <code>-</code> 符号</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cmake -G <span class="string">"Unix Makefiles"</span> -DUSE_SYSTEM_BOOST=ON -DUSE_SYSTEM_LIBCLANG=ON . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp</span><br></pre></td></tr></table></figure>
+
+<p>这个时候编译的过程如下图：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-40aea3936346d3ed.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/904/format/webp" alt="img"></p>
+<p>编译正常</p>
+<p>其实这个还是有问题的，看倒数第 3、4 行，使用的是外部的 libclang-3.6 ，第 2 步中说的系统安装的 libclang 最低要是是 3.9。<br> 这个时候就需要删除 <code>~/.ycm_build</code> 目录下的所有文件，使用下面的命令指定 libclang 的版本重新编译。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cmake -G <span class="string">"Unix Makefiles"</span> -DUSE_SYSTEM_BOOST=ON -DEXTERNAL_LIBCLANG_PATH=/usr/lib/x86_64-linux-gnu/libclang-3.9.so . ~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp</span><br></pre></td></tr></table></figure>
+
+<p>编译的结果是之前新建的目录（也就是当前目录下生成了一些 Makefile 文件）</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-895167b14d7d8f4c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/655/format/webp" alt="img"></p>
+<p>Makefile</p>
+<ul>
+<li>构建 ycm_core</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#  --config Release 这个构建选项进针对 Windows</span></span><br><span class="line">$ cmake --build . --target ycm_core --config Release</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-063a2d668a0e3d55.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/901/format/webp" alt="img"></p>
+<p>build ycm_core</p>
+<h4 id="3-5-配置"><a href="#3-5-配置" class="headerlink" title="3.5 配置"></a>3.5 配置</h4><ul>
+<li>复制 .ycm_extra_conf.py  文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cp ~/.vim/bundle/YouCompleteMe/third_party/ycmd/examples/.ycm_extra_conf.py ~/.vim/</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>添加 vim 配置<br> 注意下面的 python 解释器的路径要和编译 ycm_core  的时候使用的 python 解释器是相同的版本（2 或 3）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">“ ～/.vimrc</span><br><span class="line"><span class="built_in">let</span> g:ycm_server_python_interpreter=<span class="string">'/usr/bin/python'</span></span><br><span class="line"><span class="built_in">let</span> g:ycm_global_ycm_extra_conf=<span class="string">'~/.vim/.ycm_extra_conf.py'</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="4-其他语言的支持"><a href="#4-其他语言的支持" class="headerlink" title="4. 其他语言的支持"></a>4. 其他语言的支持</h4><p>C#、Go、TypeScript、 JavaScript、 Rust support<br> 由于老夫对这些语言没有太多的涉猎就不做介绍了。</p>
+<h4 id="5-测试安装"><a href="#5-测试安装" class="headerlink" title="5. 测试安装"></a>5. 测试安装</h4><p>首先新建一个 hello.c 文件，</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-ff77cc71cfb947d3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/909/format/webp" alt="img"></p>
+<p>hello.c</p>
+<p>可以看到自动补全了头文件，厉害了老夫的 YCM</p>
+<p>然后在 vim 中运行 <code>:YcmToggleLogs stderr</code> 命令查看错误日志，</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/83222-b58f9abd726322f2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/904/format/webp" alt="img"></p>
+<p>stderr</p>
+<p>没有看到报错信息，则证明 YCM 已成功安装。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/youcompleteme/" rel="tag"># youcompleteme</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/18/%E5%AD%A6%E4%B9%A0%E7%90%86%E8%A7%A3shell%E8%84%9A%E6%9C%AC/" rel="prev" title="学会使用shell脚本">
+      <i class="fa fa-chevron-left"></i> 学会使用shell脚本
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/18/vim_search/" rel="next" title="Vim查找功能">
+      Vim查找功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#vim安装插件youcompleteme"><span class="nav-number">1.</span> <span class="nav-text">vim安装插件youcompleteme</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#运行安装语句"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">运行安装语句</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#安装步骤："><span class="nav-number"></span> <span class="nav-text">安装步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#0-确保-vim-版本是-7-4-143-或以上，并且支持-python-2-3-脚本"><span class="nav-number">0.0.1.</span> <span class="nav-text">0. 确保 vim 版本是 7.4.143 或以上，并且支持 python 2&#x2F;3 脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-通过-Vundle-来安装-YCM（官方推荐）"><span class="nav-number">0.0.2.</span> <span class="nav-text">1. 通过 Vundle 来安装 YCM（官方推荐）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-5-通过-Git-安装-YCM"><span class="nav-number">0.0.3.</span> <span class="nav-text">1.5 通过 Git 安装 YCM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-下载安装最新版的-libclang"><span class="nav-number">0.0.4.</span> <span class="nav-text">2. 下载安装最新版的 libclang</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-编译构建-ycm-core-库"><span class="nav-number">0.0.5.</span> <span class="nav-text">3. 编译构建 ycm_core 库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-5-配置"><span class="nav-number">0.0.6.</span> <span class="nav-text">3.5 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-其他语言的支持"><span class="nav-number">0.0.7.</span> <span class="nav-text">4. 其他语言的支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-测试安装"><span class="nav-number">0.0.8.</span> <span class="nav-text">5. 测试安装</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

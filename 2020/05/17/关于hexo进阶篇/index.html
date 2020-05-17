@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="关于hexo进阶篇第一章：将hexo部署到我的github上思路可以使用windows进行hexo搭建， 将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中 第一步：在windows 上安装nodejs和git第二步：安装hexo：12sudo apt-get install nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于hexo进阶篇 （将hexo部署到我的github上）">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="关于hexo进阶篇第一章：将hexo部署到我的github上思路可以使用windows进行hexo搭建， 将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中 第一步：在windows 上安装nodejs和git第二步：安装hexo：12sudo apt-get install nodejs">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574038739081.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574039263666.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517165616157.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517170043885.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981869976.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981843703.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573987316232.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214041568.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214110320.png">
+<meta property="article:published_time" content="2020-05-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-16T16:00:00.000Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="blog">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574038739081.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>关于hexo进阶篇 （将hexo部署到我的github上） | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于hexo进阶篇 （将hexo部署到我的github上）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00+08:00">2020-05-17</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><h2 id="第一章：将hexo部署到我的github上"><a href="#第一章：将hexo部署到我的github上" class="headerlink" title="第一章：将hexo部署到我的github上"></a>第一章：将hexo部署到我的github上</h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>可以使用windows进行hexo搭建，</p>
+<p>将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中</p>
+<h4 id="第一步：在windows-上安装nodejs和git"><a href="#第一步：在windows-上安装nodejs和git" class="headerlink" title="第一步：在windows 上安装nodejs和git"></a>第一步：在windows 上安装nodejs和git</h4><h4 id="第二步：安装hexo："><a href="#第二步：安装hexo：" class="headerlink" title="第二步：安装hexo："></a>第二步：安装hexo：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nodejs-legacy</span><br><span class="line">sudo npm install hexo-cli hexo-server hexo-deployer-git -g</span><br></pre></td></tr></table></figure>
+
+<h4 id="第三步：建站，初始化Hexo："><a href="#第三步：建站，初始化Hexo：" class="headerlink" title="第三步：建站，初始化Hexo："></a>第三步：建站，初始化Hexo：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo init myblog</span><br><span class="line">cd myblog</span><br><span class="line">npm install</span><br><span class="line">hexo server -p 4000 --debug #测试</span><br></pre></td></tr></table></figure>
+
+<h4 id="第四步：配置git，和ssh秘钥"><a href="#第四步：配置git，和ssh秘钥" class="headerlink" title="第四步：配置git，和ssh秘钥"></a>第四步：配置git，和ssh秘钥</h4><p>随后我们配置git的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.email &#39;chenyuqiao1116@gmail.com&#39;</span><br><span class="line">git config --global user.name &#39;chenyuqiao1&#39;</span><br></pre></td></tr></table></figure>
+
+<p>然后本地生成ssh秘钥，并需要将公钥传到VPS，使VPS中的git能够识别本地机器。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa -C &#39;chenyuqiao1116@gmail.com&#39;</span><br></pre></td></tr></table></figure>
+
+<p><strong>然后连续3次回车</strong>，最终会生成一个文件在用户目录下，打开用户目录，找到 <code>.ssh\id_rsa.pub</code> 文件（生成的秘钥在<code>~/.ssh</code>），记事本打开并复制里面的内容，打开你的github主页，进入个人设置 -&gt; SSH and GPG keys -&gt; New SSH key：</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574038739081.png" alt="1574038739081"></p>
+<p>测试是否成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@github.com # 注意邮箱地址不用改</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574039263666.png" alt="1574039263666"></p>
+<h4 id="第五步：在github下创建自己的网站"><a href="#第五步：在github下创建自己的网站" class="headerlink" title="第五步：在github下创建自己的网站"></a>第五步：在github下创建自己的网站</h4><p>有默认的格式。我的是chenyuqiao1.github.io</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517165616157.png" alt="image-20200517165616157"></p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517170043885.png" alt="image-20200517170043885"></p>
+<p>即修改hexo配置文件<code>_config.yml</code>，修改Deployment；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: https:&#x2F;&#x2F;github.com&#x2F;chenyuqiao1&#x2F;chenyuqiao1.github.io.git</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>部署之前安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第六步完成部署"><a href="#第六步完成部署" class="headerlink" title="第六步完成部署"></a>第六步完成部署</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo d</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="第二章：将hexo部署到我的服务器上"><a href="#第二章：将hexo部署到我的服务器上" class="headerlink" title="第二章：将hexo部署到我的服务器上"></a>第二章：将hexo部署到我的服务器上</h2><p>思路：主要是要对服务器进行配置，只要将我们的windows创建好的博客部署到我们的域名下的服务器就好了。</p>
+<h4 id="准备：和之前一样，在window下部署博客"><a href="#准备：和之前一样，在window下部署博客" class="headerlink" title="准备：和之前一样，在window下部署博客"></a>准备：和之前一样，在window下部署博客</h4><h4 id="第一步-域名解析"><a href="#第一步-域名解析" class="headerlink" title="第一步: 域名解析"></a>第一步: 域名解析</h4><p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981869976.png" alt="1573981869976"></p>
+<p>10分钟后解析完成，就可以登录了</p>
+<h3 id="第二：服务器配置"><a href="#第二：服务器配置" class="headerlink" title="第二：服务器配置"></a>第二：服务器配置</h3><h5 id="安装nginx"><a href="#安装nginx" class="headerlink" title="安装nginx"></a>安装nginx</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981843703.png" alt="1573981843703"></p>
+<h5 id="配置-Nginx-网站目录"><a href="#配置-Nginx-网站目录" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h5><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
+<p>网站存放文件的目录，用于Nginx托管</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+<p>修改目录的权限，让所有用户都能访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $USER:$USER &#x2F;var&#x2F;www&#x2F;hexo</span><br><span class="line">sudo chmod -R 755 &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+<p>c修改 Nginx设置，打开<code>/etc/nginx/sites-available/default</code>文件，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;default</span><br></pre></td></tr></table></figure>
+
+<p>修改：将root设置为上述目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+<h5 id="配置图片-文件路径"><a href="#配置图片-文件路径" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h5><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
+<blockquote>
+<p>比如我由于是从wordpress服务器上转到阿里云的ECS服务器，之前文章的图片链接都是跟着域名走的，因此我需要在现在服务器上专门再建个相同路径的文件夹来存在文件和图片</p>
+</blockquote>
+<p>具体教程在网上搜：nginx访问静态文件，或者参考：<a href="https://cloud.tencent.com/developer/article/1340455" target="_blank" rel="noopener">Nginx 入门教程</a></p>
+<p>大致步骤如下：</p>
+<p>创建文件夹目录，分别是存放文件和图片的路径，可供网站访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data</span><br><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data&#x2F;photo</span><br></pre></td></tr></table></figure>
+
+<p>修改Nginx配置文件，加上下面一段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;data&#x2F;photo&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br><span class="line">location &#x2F;data&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849.png" alt="1573970957849"></p>
+<h4 id="第三步：创建私有Git仓库"><a href="#第三步：创建私有Git仓库" class="headerlink" title="第三步：创建私有Git仓库"></a>第三步：创建私有Git仓库</h4><p>创建Git仓库，搭配后续的Git钩子使用；创建目录并修改权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir &#x2F;var&#x2F;repo&#x2F;</span><br><span class="line">sudo chown -R $USER:$USER &#x2F;var&#x2F;repo&#x2F;</span><br><span class="line">sudo chmod -R 755 &#x2F;var&#x2F;repo&#x2F;</span><br><span class="line">cd &#x2F;var&#x2F;repo&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>并用Git命令初始化仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo git init --bare hexo_static.git</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第四步：配置Git钩子"><a href="#第四步：配置Git钩子" class="headerlink" title="第四步：配置Git钩子"></a>第四步：配置Git钩子</h4><blockquote>
+<p>什么是Git钩子：Git能在特定的重要动作发生时触发自定义脚本，即我们可以通过Github远程仓库自动更新文章到我们服务器的目录下</p>
+</blockquote>
+<p>创建钩子文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+<p>并在文件中添加命令（主要用checkout切换分支，所以如果仓库目录跟上面写的不一样，记得同样修改下述代码中的路径）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">git --work-tree&#x3D;&#x2F;var&#x2F;www&#x2F;hexo --git-dir&#x3D;&#x2F;var&#x2F;repo&#x2F;hexo_static.git checkout -f</span><br></pre></td></tr></table></figure>
+
+<p>将上述钩子文件赋予执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+
+
+<p>即修改hexo配置文件<code>_config.yml</code>，修改Deployment；其中<code>root</code>是用户，然后<code>IP</code>，最后是Git仓库路径</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Deployment</span><br><span class="line">## Docs: https:&#x2F;&#x2F;hexo.io&#x2F;docs&#x2F;deployment.html</span><br><span class="line">deploy:</span><br><span class="line">  type: git</span><br><span class="line">  repo: ubuntu@49.234.226.202:&#x2F;var&#x2F;repo&#x2F;hexo_static</span><br><span class="line">  branch: master</span><br></pre></td></tr></table></figure>
+
+<p>部署之前安装插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>最后其实单独设置个Git用户并设置SSH登陆，并给与其权限比较方便；不然就会每次发布时都要输入root密码咯</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573987316232.png" alt="1573987316232"></p>
+<blockquote>
+<p>完成</p>
+</blockquote>
+<h2 id="第三章-一个主题可以搜索同时可以对图片进行简单管理"><a href="#第三章-一个主题可以搜索同时可以对图片进行简单管理" class="headerlink" title="第三章 一个主题可以搜索同时可以对图片进行简单管理"></a>第三章 一个主题可以搜索同时可以对图片进行简单管理</h2><h4 id="尝试next"><a href="#尝试next" class="headerlink" title="尝试next"></a>尝试next</h4><p>我一直使用的是next 但是对图片的管理不友好</p>
+<p>我是用markdown进行写作的</p>
+<p>图片的默认格式需要是{$filename/111.jpg}</p>
+<p>但是next默认格式是{111.jpg}</p>
+<p><a href="https://leay.net/2019/12/25/hexo/" target="_blank" rel="noopener">https://leay.net/2019/12/25/hexo/</a></p>
+<p>这篇博客可能能解决我的一切问题</p>
+<p><a href="https://github.com/xcodebuild/hexo-asset-image" target="_blank" rel="noopener">https://github.com/xcodebuild/hexo-asset-image</a></p>
+<h1 id="Usege"><a href="#Usege" class="headerlink" title="Usege"></a>Usege</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<h1 id="Example"><a href="#Example" class="headerlink" title="Example"></a>Example</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MacGesture2-Publish</span><br><span class="line">├── apppicker.jpg</span><br><span class="line">├── logo.jpg</span><br><span class="line">└── rules.jpg</span><br><span class="line">MacGesture2-Publish.md</span><br></pre></td></tr></table></figure>
+
+<p>Make sure <code>post_asset_folder: true</code> in your <code>_config.yml</code>.</p>
+<p>Just use <code>![logo](logo.jpg)</code> to insert <code>logo.jpg</code>.</p>
+<h1 id="History"><a href="#History" class="headerlink" title="History"></a>History</h1><p>成功：</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214041568.png" alt="image-20200517214041568"></p>
+<p>这里图1和图2 同时显示了</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214110320.png" alt="image-20200517214110320"></p>
+<h1 id="参考一下博文"><a href="#参考一下博文" class="headerlink" title="参考一下博文"></a>参考一下博文</h1><h2 id="Hexo-引用本地图片以及引用本地任意位置图片的一点思路"><a href="#Hexo-引用本地图片以及引用本地任意位置图片的一点思路" class="headerlink" title="Hexo 引用本地图片以及引用本地任意位置图片的一点思路"></a>Hexo 引用本地图片以及引用本地任意位置图片的一点思路</h2><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前想在博文里引用本地图片，按着随便搜到的教程无脑折腾了一番，当时记录了下步骤放在博文里，其实根本没搞懂。在 CSDN 上的备份经常被人访问，为了不误人子弟，稍微按自己的理解捋一下。</p>
+<p>当然，也不一定正确。</p>
+<h2 id="引用本地图片与插件-hexo-asset-image"><a href="#引用本地图片与插件-hexo-asset-image" class="headerlink" title="引用本地图片与插件 hexo-asset-image"></a>引用本地图片与插件 hexo-asset-image</h2><h3 id="引用本地图片"><a href="#引用本地图片" class="headerlink" title="引用本地图片"></a>引用本地图片</h3><p>首先要在 Hexo 博客配置添加一行<a href="https://leay.net/2019/12/25/hexo/#fn1" target="_blank" rel="noopener">[1]</a>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 开始使用本地静态资源</span><br><span class="line">post_asset_folder: true</span><br></pre></td></tr></table></figure>
+
+<p><strong>先提一下，我目前的 hexo 版本为 4.0，其它版本可能会有不同。</strong></p>
+<p>当你什么插件也没安装时，使用 hexo 4.0 也可以在文章引用本地图片，引用方式是这样的：</p>
+<p>首先在 <code>_posts</code> 文件夹下建立一个博文文件，比如 <code>2019-12-23-hello-world.md</code>，再建立一个同名的文件夹 <code>2019-12-23-hello-world</code>。这篇文章要引用的图片就放在该文件夹下。</p>
+<blockquote>
+<p>或者 <code>hexo new 2019-12-23-my-post</code></p>
+</blockquote>
+<p>比如我就在该目录下放一个图片<code>2019-12-23-hello-world/haha.png</code>。然后在博文 Markdown 文件里引用该图片，怎么引用呢？用下面这种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](haha.png)</span><br></pre></td></tr></table></figure>
+
+<p>如果你熟悉 Markdown 语法的话就会注意到，这个引用路径不太对劲。<strong>而且通过该路径引用图片，本地的 Markdown 编辑器是不能预览图片的！</strong></p>
+<p>本来文章与图片的路径是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">|-- &#x2F;2019-12-23-hello-world</span><br><span class="line">|----  haha.png</span><br><span class="line">|-- 2019-12-23-hello-world.md</span><br></pre></td></tr></table></figure>
+
+<p>理论上 <code>2019-12-23-hello-world.md</code> 要引用 <code>2019-12-23-hello-world</code> 文件夹下的 <code>haha.png</code>，引用方式应该是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](2019-12-23-hello-world&#x2F;haha.png)</span><br></pre></td></tr></table></figure>
+
+<p>这样才对啊！</p>
+<p><strong>那么，为什么引用的时候不能加文件夹的路径呢？</strong></p>
+<p>这是因为 hexo 在渲染的时候，会把 <code>2019-12-23-hello-world.md</code> 渲染为 <code>public/2019/12/23/hello-world</code> 下的 <code>index.html</code> 网页文件，再把对应文件夹下的静态资源，比如图片 <code>/2019-12-23-hello-world/haha.png</code> 也拷贝到 <code>public/2019/12/23/hello-world</code> 下。</p>
+<p>因此，虽然在我们写博文的时候看来，博文和图片不在同一个文件夹路径下，但是它们最终被渲染后，是放在同一个文件夹下的。</p>
+<p>像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 渲染后</span><br><span class="line">|-- &#x2F;public&#x2F;2019&#x2F;12&#x2F;23&#x2F;hello-world</span><br><span class="line">|---- index.html</span><br><span class="line">|---- haha.png</span><br></pre></td></tr></table></figure>
+
+<p>所以我们在写博文引用图片时，就得把它们当作在一个文件夹下来处理，也就是引用的时候，要去掉文件夹路径。</p>
+<p>最后渲染出来的效果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;haha.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>这样有点反直觉啊！！</strong></p>
+<p>或者简单讲，<strong>我想在本地编辑器里预览图片</strong>，该咋整呢？</p>
+<h3 id="关于-hexo-asset-image"><a href="#关于-hexo-asset-image" class="headerlink" title="关于 hexo-asset-image"></a>关于 hexo-asset-image</h3><p>根据我看到的情况，hexo-asset-image 插件解决的问题是「给引用的本地图片添加绝对路径。」</p>
+<p>毕竟说明里只提到「Give asset image in hexo a absolutely path automatically」……</p>
+<p>比如上面渲染出来的图片标签是用的相对路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;haha.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>经 hexo-asset-image 插件处理后，标签会变成绝对路径：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;&#x2F;2019&#x2F;12&#x2F;23&#x2F;hello-world&#x2F;haha.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>但是，在我现在的环境（hexo 4.0）发现，使用 hexo-asset-image 插件后，我可以在博文（原 Markdown 文件）里使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">![](2019-12-23-hello-world&#x2F;haha.png)</span><br></pre></td></tr></table></figure>
+
+<p>这种形式来引用图片了！</p>
+<p><strong>这样的好处是本地编辑器里也可以直接预览图片。</strong></p>
+<blockquote>
+<p><code>![](haha.png)</code> 这种方式也仍可正常使用。</p>
+</blockquote>
+<p>跟踪了一下插件的代码，发现插件在获取到 <code>2019-12-23-hello-world/haha.png</code> 这个链接后，会先通过字符串操作获取到后面的 <code>haha.png</code>，然后统一进行「相对路径转绝对路径」的操作。</p>
+<p>最后处理为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src&#x3D;&quot;&#x2F;2019&#x2F;12&#x2F;23&#x2F;hello-world&#x2F;haha.png&quot; alt&#x3D;&quot;&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>有些博文里直接把「解决本地编辑器图片显示」当作 hexo-asset-image 的本来功能，可该插件的 Issue 里还有「如何在本地支持 Markdown 图片显示」……</p>
+<p>我觉得可能该插件的本来目的只是「将静态资源的引用路径转化为绝对路径」，至于后面解决了「本地预览」应该是随手做的……不然作者怎么也不说明下……</p>
+<p><strong>也可能我理解错了。</strong></p>
+<blockquote>
+<p>老实说我有点迷惑，也许这可能和 Hexo 的历史有关？</p>
+</blockquote>
+<h3 id="安装-hexo-asset-image"><a href="#安装-hexo-asset-image" class="headerlink" title="安装 hexo-asset-image"></a>安装 hexo-asset-image</h3><p>不过至今（2019-12-25）为止， hexo 4.0 使用了 npm 仓库里的插件 hexo-asset-image 1.0 有点问题，安装后图片不能正常显示，查看图片路径被渲染成了 <code>/.xx/haha.png</code> 的格式。（xx 是域名后缀。）</p>
+<p>但是直接安装 Github 仓库的源码没问题，可以执行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install https:&#x2F;&#x2F;github.com&#x2F;xcodebuild&#x2F;hexo-asset-image.git</span><br><span class="line"># or yarn add https:&#x2F;&#x2F;github.com&#x2F;xcodebuild&#x2F;hexo-asset-image.git</span><br></pre></td></tr></table></figure>
+
+<p>具体使用及配置查看 <a href="https://github.com/xcodebuild/hexo-asset-image" target="_blank" rel="noopener">https://github.com/xcodebuild/hexo-asset-image</a></p>
+<h2 id="hexo-asset-image-的说明与问题"><a href="#hexo-asset-image-的说明与问题" class="headerlink" title="hexo-asset-image 的说明与问题"></a>hexo-asset-image 的说明与问题</h2><p>我在刚使用 Hexo 时，搜索静态图片的问题，大家都推荐使用 hexo-asset-image 这个插件，也没多做考虑……</p>
+<p>现在回头看，其实有许多的轮子可以解决这个问题……比如在 npm 或者 Github 搜索 <code>hexo-asset</code> 或 <code>hexo-imge</code>，就能搜到一大堆大佬们的轮子……</p>
+<blockquote>
+<p>甚至能搜到一大堆 <code>hexo-asset-image</code> 的 fix 包……</p>
+</blockquote>
+<p>现在 <code>hexo-asset-image</code> 已经被作者归档了……我想 npm 上的包应该是因为过时没有更新才会出问题的吧……</p>
+<p><strong>也许现在应该有更好的解决方案。</strong>（但我没研究，毕竟自己的需求够用了……）</p>
+<p>使用 hexo-asset-image 可能会遇到一些问题，比如与懒加载插件搭配时的问题。（我遇到了，所以提一下</p>
+<p>感觉其它莫名其妙的问题也挺多的……但是这个包现在没人统一维护，有许多人都只能修复了一下自己的问题然后单独说明一下……</p>
+<h3 id="hexo-asset-image-与-懒加载的冲突"><a href="#hexo-asset-image-与-懒加载的冲突" class="headerlink" title="hexo-asset-image 与 懒加载的冲突"></a>hexo-asset-image 与 懒加载的冲突</h3><p>我在使用 Hexo 的主题 hexo-next-theme 开启图片懒加载时，hexo-asset-image 插件会失效。</p>
+<p>跟了下代码，发现 hexo-next-theme 使用的图片懒加载插件是 <a href="https://github.com/ApoorvSaxena/lozad.js" target="_blank" rel="noopener">lozad.js</a> 。这个插件会将 <code>img</code> 的 <code>src</code> 属性改为 <code>data-src</code>。hexo-asset-image 的工作原理是统一处理 <code>src</code> ，没有对 <code>data-src</code> 等属性的判断，所以就不会处理图片。</p>
+<p>我自己改了下，想提个 PR 来着，发现原插件仓库已经被归档了……</p>
+<p>于是 fork 了一份：<a href="https://github.com/bythecode/hexo-asset-image" target="_blank" rel="noopener">bythecode/hexo-asset-image</a></p>
+<p>在解决这个问题的时候，发现也有人遇到过类似的问题。可以参考一下别人的问题：</p>
+<p><a href="https://github.com/ci0n/hexo-asset-image" target="_blank" rel="noopener">ci0n/hexo-asset-image</a></p>
+<p>该仓库的 ChangeLog：</p>
+<blockquote>
+<p>2019-09-23: support hexo-lazyload-image<br>2019-09-23: fixed hexo-abbrlink using *.html image path error</p>
+</blockquote>
+<h2 id="【与正文无关】引用本地任意位置图片的一点思路"><a href="#【与正文无关】引用本地任意位置图片的一点思路" class="headerlink" title="【与正文无关】引用本地任意位置图片的一点思路"></a>【与正文无关】引用本地任意位置图片的一点思路</h2><p>hexo 引用本地图片的方式确实不大优雅 —— 必须把图片存储在固定的位置。有时候写一些截图比较多的文章，还得把截图一张张放到那个固定的文件夹，再进行引用。</p>
+<p>比较直观的操作应当这样才对：截图后直接粘贴到文档里。</p>
+<p>如果用图床，甚至是用 Github 做图床，可以使用 <a href="https://github.com/Molunerfinn/PicGo" target="_blank" rel="noopener">PicGo</a> 这个开源的图床上传工具。它可以把你剪贴板里图片上传到图床，然后返回一个 Markdown 格式的引用路径——再粘贴到你需要的位置即可。</p>
+<p>看了一下 hexo-asset-image 的实现方式，想到也许可以把 Markdown 博文中 <strong>任意位置的图片</strong> 拷贝到相应的文件夹里，然后用类似的方式进行字符串替换。</p>
+<p><strong>然后尝试了一下，没做出来……记录一下思路。</strong></p>
+<p>首先需要考虑到不同平台的绝对路径不同，我心想先把流程做出来，于是以 Linux 的为准。</p>
+<p>然后因为我一开始不懂 hexo 怎么写插件，于是就在 hexo-asset-image 上直接改。我把任意位置图片的路径获取到了，然后就是把该图片往文章对应的文件夹复制了。</p>
+<p>这里有两个问题，一是我应该把图片复制到 <code>/public</code> 下还是 <code>/posts</code> 下呢，先复制到 <code>/post</code> 文件夹下吧。</p>
+<p>这还有个问题，如果在 <code>/posts</code> 还有子文件夹咋办？管他的，先不管这个，莽出来再说。</p>
+<p>然后又有问题了，我要把图片复制过来，那首先得判断该文件夹下有没有博文 Markdown 文件对应的文件夹吧……如果没有，我还得创建……</p>
+<p>创建的文件夹得与博文 Markdown 文件同名。我已经创建测试文件夹成功了，完事后才发现在这儿获取不到该篇文章对应的 Markdown 文件的文件名。</p>
+<p>因为 hexo-asset-image 实际上操作的是 hexo 生成的 public 下的 index.html 网页文件……</p>
+<p>于是我尝试到 hexo 渲染 Markdown 为 HTML 的那儿去操作，正当我找到入口，准备大干一番时又发现个问题……插件那边的代码获取不到我在这儿找到的变量啊……</p>
+<p>太麻烦了，遂放弃之。</p>
+<p>PS：我的思路局限在「渲染时」或者「渲染后」，也许写个脚本直接处理 Markdown 博文，很简单就能做到吧……</p>
+<h2 id="ChangeLog"><a href="#ChangeLog" class="headerlink" title="ChangeLog"></a>ChangeLog</h2><p>[2020-04-02-update]</p>
+<p>PS：<a href="mailto:Typora@0.9.86">Typora@0.9.86</a>(beta) 现在可以在设置里开启「插入图片时」，「复制图片到当前文件夹」等操作。而且和 PicGo 联动了，将来甚至可以插入图片时自动上传到云服务再返回链接吧。这就完美实现了我上面关于「引用本地图片」的想法啦！酷～</p>
+<hr>
+<ol>
+<li>这是 Hexo 官方提供的：<a href="https://hexo.io/docs/asset-folders" target="_blank" rel="noopener">asset-folders</a> ，不是插件提供的。其它静态资源的引用方式也可以看这个链接。 <a href="https://leay.net/2019/12/25/hexo/#fnref1" target="_blank" rel="noopener">↩︎</a></li>
+</ol>
+<ul>
+<li><strong>本文作者：</strong> hqweay</li>
+<li><strong>本文链接：</strong> <a href="https://leay.net/2019/12/25/hexo/" target="_blank" rel="noopener">https://leay.net/2019/12/25/hexo/</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/blog/" rel="tag"># blog</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/04/08/correlation-analysis/" rel="prev" title="相关性分析">
+      <i class="fa fa-chevron-left"></i> 相关性分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于hexo进阶篇"><span class="nav-number">1.</span> <span class="nav-text">关于hexo进阶篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章：将hexo部署到我的github上"><span class="nav-number">1.1.</span> <span class="nav-text">第一章：将hexo部署到我的github上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：在windows-上安装nodejs和git"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">第一步：在windows 上安装nodejs和git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：安装hexo："><span class="nav-number">1.1.0.3.</span> <span class="nav-text">第二步：安装hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：建站，初始化Hexo："><span class="nav-number">1.1.0.4.</span> <span class="nav-text">第三步：建站，初始化Hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置git，和ssh秘钥"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">第四步：配置git，和ssh秘钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五步：在github下创建自己的网站"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">第五步：在github下创建自己的网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六步完成部署"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">第六步完成部署</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章：将hexo部署到我的服务器上"><span class="nav-number">1.2.</span> <span class="nav-text">第二章：将hexo部署到我的服务器上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备：和之前一样，在window下部署博客"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">准备：和之前一样，在window下部署博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步-域名解析"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">第一步: 域名解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二：服务器配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">第二：服务器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装nginx"><span class="nav-number">1.2.1.0.1.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置-Nginx-网站目录"><span class="nav-number">1.2.1.0.2.</span> <span class="nav-text">配置 Nginx 网站目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置图片-文件路径"><span class="nav-number">1.2.1.0.3.</span> <span class="nav-text">配置图片&#x2F;文件路径</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：创建私有Git仓库"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">第三步：创建私有Git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置Git钩子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">第四步：配置Git钩子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-一个主题可以搜索同时可以对图片进行简单管理"><span class="nav-number">1.3.</span> <span class="nav-text">第三章 一个主题可以搜索同时可以对图片进行简单管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#尝试next"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">尝试next</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Usege"><span class="nav-number">2.</span> <span class="nav-text">Usege</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#History"><span class="nav-number">4.</span> <span class="nav-text">History</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考一下博文"><span class="nav-number">5.</span> <span class="nav-text">参考一下博文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-引用本地图片以及引用本地任意位置图片的一点思路"><span class="nav-number">5.1.</span> <span class="nav-text">Hexo 引用本地图片以及引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">5.2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用本地图片与插件-hexo-asset-image"><span class="nav-number">5.3.</span> <span class="nav-text">引用本地图片与插件 hexo-asset-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用本地图片"><span class="nav-number">5.3.1.</span> <span class="nav-text">引用本地图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-hexo-asset-image"><span class="nav-number">5.3.2.</span> <span class="nav-text">关于 hexo-asset-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-hexo-asset-image"><span class="nav-number">5.3.3.</span> <span class="nav-text">安装 hexo-asset-image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-asset-image-的说明与问题"><span class="nav-number">5.4.</span> <span class="nav-text">hexo-asset-image 的说明与问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-asset-image-与-懒加载的冲突"><span class="nav-number">5.4.1.</span> <span class="nav-text">hexo-asset-image 与 懒加载的冲突</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【与正文无关】引用本地任意位置图片的一点思路"><span class="nav-number">5.5.</span> <span class="nav-text">【与正文无关】引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeLog"><span class="nav-number">5.6.</span> <span class="nav-text">ChangeLog</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

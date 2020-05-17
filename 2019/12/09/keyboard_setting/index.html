@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="键盘键位修改及管理（Windows篇）12|\ 这个键的 扫描码是 2bbackspace 这个键的 扫描码是0e  先打开Windows注册表编辑器（在cmd或powershell命令行下键入regedit回车即可打开），然后在”HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout”这个项下新建一个名为”ScanC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="键盘键位修改及管理（Windows篇）">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="键盘键位修改及管理（Windows篇）12|\ 这个键的 扫描码是 2bbackspace 这个键的 扫描码是0e  先打开Windows注册表编辑器（在cmd或powershell命令行下键入regedit回车即可打开），然后在”HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout”这个项下新建一个名为”ScanC">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/1575880230336.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/v2-ac694290a9325081ae1658010571ca14_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/v2-9b20f51d669814d62a10601864980067_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/v2-75a37940df6e4a1c44a38023630a8894_hd.jpg">
+<meta property="article:published_time" content="2019-12-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:54.434Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="键盘">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/1575880230336.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>键盘键位修改及管理（Windows篇） | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/09/keyboard_setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          键盘键位修改及管理（Windows篇）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-09 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-09T00:00:00+08:00">2019-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:54" itemprop="dateModified" datetime="2020-05-17T21:54:54+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="键盘键位修改及管理（Windows篇）"><a href="#键盘键位修改及管理（Windows篇）" class="headerlink" title="键盘键位修改及管理（Windows篇）"></a>键盘键位修改及管理（Windows篇）</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">|\ 这个键的 扫描码是 2b</span><br><span class="line">backspace 这个键的 扫描码是0e</span><br></pre></td></tr></table></figure>
+
+<p>先打开Windows注册表编辑器（在cmd或powershell命令行下键入regedit回车即可打开），然后在”HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout”这个项下新建一个名为”ScanCode Map”键（<strong>右键新建二进制值</strong>），然后再右键名称列下的这个”ScanCode Map”修改，这时就可以依次键入编辑那一串hex值了，最后确定就完成了注册表的修改了！</p>
+<p>0000000000000000050000001D003A003A001D002B000E000E002B0000000000</p>
+<p>我的需求是将backspace和其下方的按键互换，capslock 和左侧control互换。</p>
+<a id="more"></a>
+
+<p><img src="/2019/12/09/keyboard_setting/1575880230336.png" alt="1575880230336"></p>
+<p>不知道大家生活中有没有遇到这些情况：键盘上某个比较重要的键损坏或失灵而要重新更换键盘，或者在一些游戏、办公软件重的一些默认按键不合理，又或者希望自己DIY出一套属于自己的键位布局。那么我想这篇文章对你会很有帮助。</p>
+<p>前几个月因心血来潮想尝试一些其他键位布局（例如Dvorak、Norman、Colemak等），需要修改键盘键位。其实，修改键位的方法也有很多，比较常见的是安装第三方辅助软件修改键位映射和功能。但对于我个人来说，出于简洁安全、自由可控的原因，不太喜欢在自己计算机上安装一些不必要的软件，这个功能完全可以在Windows上通过修改底层的注册表实现。</p>
+<p>先说一下这篇文章的大致内容：</p>
+<ol>
+<li><strong>实现原理</strong></li>
+<li><strong>自制管理工具（Python3）</strong></li>
+</ol>
+<p><strong>实现原理</strong></p>
+<p>在Windows注册表中有个”Scancode Map”(即扫描码映射)的键，我们可以通过修改这个键的值来实现键位映射的更改。</p>
+<p>“Scancode Map”的值的格式是”hex:00,00,00,00,00,00,00,00,xx,00,00,00,[yy,yy,yy,yy,…,yy,yy,yy,yy,]00,00,00,00”</p>
+<p>前8个16进制的值（即前8组00）表示版本号和头部字节，后4个16进制的值（即最后的4组00）表示结束标志，中间xx表示映射数目，最小值为01（考虑到结束标志的4组00）,中括号内为可写项，也是我们修改键位比较关键的部分，每四个代表一组映射。</p>
+<p>在我们键盘上每一个按键都有其十六进制扫描码，例如A的扫描码为”1e”,其十六进制扫描码修正形式（为了表示方便就这么说吧）就是”001e”,B的扫描码为”0030”,右ctrl键的扫描码为”e01d”,右alt键的扫描码则表示为”e038”，空值的扫描码为”0000”（可实现无效按键或者说是屏蔽按键）。具体其他按键扫描码在源码中贴有。</p>
+<p>既然我们知道键盘上每一个键都具有其对应的扫描码，那么我们假设需要A和B键互换，应该怎么做呢？这个时候就需要我们向中括号中添加我们需要的值，”30,00,1e,00,”就可以实现将B键的功能映射到物理键盘A上（通俗点说就是敲击键盘上的A键会打出B字符，同时要注意值的顺序）。你以为这样就完了吗？不然。”30,00,1e,00,”只能将B键功能映射在物理键盘A键位上，而物理键位B键并未被映射成A！这很危险，相当于键盘上没有一个按键能实现A的功能，所以我们还得添加一项”1e,00,30,00,”。最后我们的”Scancode Map”的完整值就为”hex:00,00,00,00,00,00,00,00,03,00,00,00,30,00,1e,00,1e,00,30,00,00,00,00,00”。就这一串值就可完全调换A，B键的功能。</p>
+<p>再来一个，我们要实现右Alt键能实现右Ctrl键的功能，并且屏蔽掉右Ctrl键，那么其”Scancode Map”值就为”hex:00,00,00,00,00,00,00,00,03,00,00,00,1d,e0,38,e0,00,00,1d,e0,00,00,00,00”。</p>
+<p>那么问题来了，既然我知道这个键位和所谓的键盘扫描码之间的对应关系和Scancode值之后，具体怎么实现呢？</p>
+<p>别急，我们一步步来，先打开Windows注册表编辑器（在cmd或powershell命令行下键入regedit回车即可打开），然后在”HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout”这个项下新建一个名为”ScanCode Map”键（<strong>右键新建二进制值</strong>），然后再右键名称列下的这个”ScanCode Map”修改，这时就可以依次键入编辑那一串hex值了，最后确定就完成了注册表的修改了！</p>
+<p>图示如下，先新建这个ScanCode Map的键（右键Keyboard Layout或空白处，然后选择新建二进制值）</p>
+<p><img src="/2019/12/09/keyboard_setting/v2-ac694290a9325081ae1658010571ca14_hd.jpg" alt="img"></p>
+<p>然后修改值（我的这个hex值功能是实现左Ctrl和CapsLock互换，毕竟Emacs党）</p>
+<p><img src="/2019/12/09/keyboard_setting/v2-9b20f51d669814d62a10601864980067_hd.jpg" alt="img"></p>
+<p>但是，<strong>修改完了后并不能立即生效</strong>，因为是通过注册表修改底层键位映射所以需要重启计算机，重启资源管理器也是没有用的。</p>
+<p>那么，要还原按键怎么办？也很简单，有两种方法，一是从注册表中删除你创建的ScanCode Map这个键，或者用”hex:00,00,00,00,00,00,00,00,01,00,00,00,00,00,00,00”覆盖掉原来的值就行了。</p>
+<p>当然，如果修改的键位比较多的话，通过查各个键位映射值，修改注册表写hex值，就麻烦很多了（很佩服曾经的自己硬是这样写了一些键位布局）。这时我们需要一个工具来管理，可以用第三方软件。但是既然原理我们已经知道了，也并不难远未达到工程级的量级，那完全可以自己实现这个管理工具。我们可以用Java，C++，Python等来写，这不重要，自己喜欢什么就用什么吧。下面是我用Python写的一个布局管理工具。</p>
+<p><strong>自制管理工具</strong></p>
+<p>这个工具名为layout_manage.py，功能是实现将我们要修改的键位关系转换为hex，并导出bat或reg文件（bat是Windows批处理文件，reg是Windows注册表脚本文件，在这里的功能是将hex值写入前面注册表中”ScanCode Map”这个键中）到layout_bat或layout_reg文件夹中。<strong>其本身不带有修改注册表功能（python自身的权限问题）</strong>，只是生成的文件具有此功能。</p>
+<p>即我们想修改以下键位：将qwer和asdf调换位置，小键盘123和789调换位置，屏蔽右shift键。这时我们只需要新建一个文本文件（例如一个名为test.txt的文件），将以下内容写入：</p>
+<p><img src="/2019/12/09/keyboard_setting/v2-75a37940df6e4a1c44a38023630a8894_hd.jpg" alt="img"></p>
+<p>这个文件内容是按键值对组成的，”Q: A”的意思是将物理按键Q映射为A字符，即按Q键敲出A，更容易让人理解，冒号前为物理按键，冒号后为按键功能。说一下这个格式规则：</p>
+<ol>
+<li>忽略大小写</li>
+<li>忽略换行符、冒号、分号前后的空白字符（位于两单词间的空格不忽略，如Left Ctrl中间只能有一个空格）</li>
+<li>小键盘上的字符前需要加n，例如小键盘上的’0’和’.’应分别写为”n0”和’n.’</li>
+<li>一些功能键需正确写入，如：Tab、Esc、CapsLock、Backspace、Delete、Enter、Left Ctrl、Left Windows等</li>
+</ol>
+<p>然后我们将这个文件作为参数，传递给layout_manage.py并执行。有两种方法，第一种是直接拖动这个txt文件到layout_manage.py图标上，这样layout_manage.py也能顺利执行。第二种方法是在cmd或powershell中执行命令”python layout_manage.py test.txt”,注意路径问题。</p>
+<p>此外如果没有其他参数传递给该脚本文件时（即双击直接执行），将会生成一个recover文件，即还原初始键位的文件，也很方便。</p>
+<p>附上源码，注释应该很清楚了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">save_format = <span class="string">"bat"</span>    <span class="comment">#这个值可以修改，有两个选项(bat和reg)，可选择生成bat批处理文件或者reg注册表脚本文件,功能一样</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CountError</span><span class="params">(Exception)</span>:</span>    <span class="comment">#文本文件格式错误异常</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FileFormatError</span><span class="params">(Exception)</span>:</span>    <span class="comment">#save_format值异常</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> save_format <span class="keyword">not</span> <span class="keyword">in</span> [<span class="string">"bat"</span>,<span class="string">"reg"</span>]:</span><br><span class="line">    <span class="keyword">raise</span> FileFormatError(<span class="string">"The variable 'save_format'`s value must be 'bat' or 'reg'."</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> os.path.isdir(<span class="string">"layout_"</span>+save_format):</span><br><span class="line">        os.mkdir(<span class="string">"layout_"</span>+save_format)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> len(sys.argv) == <span class="number">1</span>:</span><br><span class="line">        <span class="keyword">if</span> save_format == <span class="string">"bat"</span>:</span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">"layout_bat/recover.bat"</span>,<span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(<span class="string">'@echo off\nreg delete "hklm\\system\\currentcontrolset\\control\\keyboard layout" /v "ScanCode Map" /f\necho "键位已恢复，重启系统后生效"\npause'</span>)</span><br><span class="line">            input(<span class="string">"恢复文件recover.bat已生成至layout_bat文件夹下，以管理员身份右键执行该文件后重启系统生效。\n按回车键退出程序..."</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">with</span> open(<span class="string">"layout_reg/recover.reg"</span>,<span class="string">'w'</span>) <span class="keyword">as</span> f:</span><br><span class="line">                f.write(<span class="string">'Windows Registry Editor Version 5.00\n[HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Keyboard Layout]\n"ScanCode Map"=hex:00,00,00,00,00,00,00,00,01,00,00,00,00,00,00,00'</span>)</span><br><span class="line">            input(<span class="string">"恢复文件recover.reg已生成至layout_reg文件夹下，双击执行该文件后重启系统生效。\n按回车键退出程序..."</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">elif</span> len(sys.argv) == <span class="number">2</span>:</span><br><span class="line">        scan_code_dict = &#123;</span><br><span class="line">            <span class="string">"00 00"</span>:<span class="string">"None"</span>,</span><br><span class="line">            <span class="string">"01 00"</span>:<span class="string">"Esc"</span>,    <span class="comment">#即Esc键的扫描码是"0001"</span></span><br><span class="line">            <span class="string">"02 00"</span>:<span class="string">"1"</span>,</span><br><span class="line">            <span class="string">"03 00"</span>:<span class="string">"2"</span>,</span><br><span class="line">            <span class="string">"04 00"</span>:<span class="string">"3"</span>,</span><br><span class="line">            <span class="string">"05 00"</span>:<span class="string">"4"</span>,</span><br><span class="line">            <span class="string">"06 00"</span>:<span class="string">"5"</span>,</span><br><span class="line">            <span class="string">"07 00"</span>:<span class="string">"6"</span>,</span><br><span class="line">            <span class="string">"08 00"</span>:<span class="string">"7"</span>,</span><br><span class="line">            <span class="string">"09 00"</span>:<span class="string">"8"</span>,</span><br><span class="line">            <span class="string">"0a 00"</span>:<span class="string">"9"</span>,</span><br><span class="line">            <span class="string">"0b 00"</span>:<span class="string">"0"</span>,</span><br><span class="line">            <span class="string">"0c 00"</span>:<span class="string">"-"</span>,</span><br><span class="line">            <span class="string">"0d 00"</span>:<span class="string">"="</span>,</span><br><span class="line">            <span class="string">"0e 00"</span>:<span class="string">"Backspace"</span>,</span><br><span class="line">            <span class="string">"0f 00"</span>:<span class="string">"Tab"</span>,</span><br><span class="line">            <span class="string">"10 00"</span>:<span class="string">"Q"</span>,</span><br><span class="line">            <span class="string">"11 00"</span>:<span class="string">"W"</span>,</span><br><span class="line">            <span class="string">"12 00"</span>:<span class="string">"E"</span>,</span><br><span class="line">            <span class="string">"13 00"</span>:<span class="string">"R"</span>,</span><br><span class="line">            <span class="string">"14 00"</span>:<span class="string">"T"</span>,</span><br><span class="line">            <span class="string">"15 00"</span>:<span class="string">"Y"</span>,</span><br><span class="line">            <span class="string">"16 00"</span>:<span class="string">"U"</span>,</span><br><span class="line">            <span class="string">"17 00"</span>:<span class="string">"I"</span>,</span><br><span class="line">            <span class="string">"18 00"</span>:<span class="string">"O"</span>,</span><br><span class="line">            <span class="string">"19 00"</span>:<span class="string">"P"</span>,</span><br><span class="line">            <span class="string">"1a 00"</span>:<span class="string">"["</span>,</span><br><span class="line">            <span class="string">"1b 00"</span>:<span class="string">"]"</span>,</span><br><span class="line">            <span class="string">"1c 00"</span>:<span class="string">"Enter"</span>,</span><br><span class="line">            <span class="string">"1d 00"</span>:<span class="string">"Left Ctrl"</span>,</span><br><span class="line">            <span class="string">"1e 00"</span>:<span class="string">"A"</span>,</span><br><span class="line">            <span class="string">"1f 00"</span>:<span class="string">"S"</span>,</span><br><span class="line">            <span class="string">"20 00"</span>:<span class="string">"D"</span>,</span><br><span class="line">            <span class="string">"21 00"</span>:<span class="string">"F"</span>,</span><br><span class="line">            <span class="string">"22 00"</span>:<span class="string">"G"</span>,</span><br><span class="line">            <span class="string">"23 00"</span>:<span class="string">"H"</span>,</span><br><span class="line">            <span class="string">"24 00"</span>:<span class="string">"J"</span>,</span><br><span class="line">            <span class="string">"25 00"</span>:<span class="string">"K"</span>,</span><br><span class="line">            <span class="string">"26 00"</span>:<span class="string">"L"</span>,</span><br><span class="line">            <span class="string">"27 00"</span>:<span class="string">"Semicolon"</span>,    <span class="comment">#由评论区指出，键盘上的“;”应该用其他值代替，否则会与配置文本文件中的“;”混淆</span></span><br><span class="line">            <span class="string">"28 00"</span>:<span class="string">"'"</span>,</span><br><span class="line">            <span class="string">"29 00"</span>:<span class="string">"`"</span>,</span><br><span class="line">            <span class="string">"2a 00"</span>:<span class="string">"Left Shift"</span>,</span><br><span class="line">            <span class="string">"2b 00"</span>:<span class="string">"\\"</span>,</span><br><span class="line">            <span class="string">"2c 00"</span>:<span class="string">"Z"</span>,</span><br><span class="line">            <span class="string">"2d 00"</span>:<span class="string">"X"</span>,</span><br><span class="line">            <span class="string">"2e 00"</span>:<span class="string">"C"</span>,</span><br><span class="line">            <span class="string">"2f 00"</span>:<span class="string">"V"</span>,</span><br><span class="line">            <span class="string">"30 00"</span>:<span class="string">"B"</span>,</span><br><span class="line">            <span class="string">"31 00"</span>:<span class="string">"N"</span>,</span><br><span class="line">            <span class="string">"32 00"</span>:<span class="string">"M"</span>,</span><br><span class="line">            <span class="string">"33 00"</span>:<span class="string">","</span>,</span><br><span class="line">            <span class="string">"34 00"</span>:<span class="string">"."</span>,</span><br><span class="line">            <span class="string">"35 00"</span>:<span class="string">"/"</span>,</span><br><span class="line">            <span class="string">"36 00"</span>:<span class="string">"Right Shift"</span>,</span><br><span class="line">            <span class="string">"37 00"</span>:<span class="string">"n*"</span>,</span><br><span class="line">            <span class="string">"38 00"</span>:<span class="string">"Left Alt"</span>,</span><br><span class="line">            <span class="string">"39 00"</span>:<span class="string">"Space"</span>,</span><br><span class="line">            <span class="string">"3a 00"</span>:<span class="string">"Caps Lock"</span>,</span><br><span class="line">            <span class="string">"3b 00"</span>:<span class="string">"F1"</span>,</span><br><span class="line">            <span class="string">"3c 00"</span>:<span class="string">"F2"</span>,</span><br><span class="line">            <span class="string">"3d 00"</span>:<span class="string">"F3"</span>,</span><br><span class="line">            <span class="string">"3e 00"</span>:<span class="string">"F4"</span>,</span><br><span class="line">            <span class="string">"3f 00"</span>:<span class="string">"F5"</span>,</span><br><span class="line">            <span class="string">"40 00"</span>:<span class="string">"F6"</span>,</span><br><span class="line">            <span class="string">"41 00"</span>:<span class="string">"F7"</span>,</span><br><span class="line">            <span class="string">"42 00"</span>:<span class="string">"F8"</span>,</span><br><span class="line">            <span class="string">"43 00"</span>:<span class="string">"F9"</span>,</span><br><span class="line">            <span class="string">"44 00"</span>:<span class="string">"F10"</span>,</span><br><span class="line">            <span class="string">"45 00"</span>:<span class="string">"Num Lock"</span>,</span><br><span class="line">            <span class="string">"46 00"</span>:<span class="string">"Scroll Lock"</span>,</span><br><span class="line">            <span class="string">"47 00"</span>:<span class="string">"n7"</span>,</span><br><span class="line">            <span class="string">"48 00"</span>:<span class="string">"n8"</span>,</span><br><span class="line">            <span class="string">"49 00"</span>:<span class="string">"n9"</span>,</span><br><span class="line">            <span class="string">"4a 00"</span>:<span class="string">"n-"</span>,</span><br><span class="line">            <span class="string">"4b 00"</span>:<span class="string">"n4"</span>,</span><br><span class="line">            <span class="string">"4c 00"</span>:<span class="string">"n5"</span>,</span><br><span class="line">            <span class="string">"4d 00"</span>:<span class="string">"n6"</span>,</span><br><span class="line">            <span class="string">"4e 00"</span>:<span class="string">"n+"</span>,</span><br><span class="line">            <span class="string">"4f 00"</span>:<span class="string">"n1"</span>,</span><br><span class="line">            <span class="string">"50 00"</span>:<span class="string">"n2"</span>,</span><br><span class="line">            <span class="string">"51 00"</span>:<span class="string">"n3"</span>,</span><br><span class="line">            <span class="string">"52 00"</span>:<span class="string">"n0"</span>,</span><br><span class="line">            <span class="string">"53 00"</span>:<span class="string">"n."</span>,</span><br><span class="line">            <span class="string">"57 00"</span>:<span class="string">"F11"</span>,</span><br><span class="line">            <span class="string">"58 00"</span>:<span class="string">"F12"</span>,</span><br><span class="line"></span><br><span class="line">            </span><br><span class="line">            <span class="string">"1c e0"</span>:<span class="string">"nEnter"</span>,</span><br><span class="line">            <span class="string">"1d e0"</span>:<span class="string">"Right Ctrl"</span>,</span><br><span class="line">            <span class="string">"37 e0"</span>:<span class="string">"PrtSc"</span>,</span><br><span class="line">            <span class="string">"38 e0"</span>:<span class="string">"Right Alt"</span>,</span><br><span class="line">            <span class="string">"47 e0"</span>:<span class="string">"Home"</span>,</span><br><span class="line">            <span class="string">"48 e0"</span>:<span class="string">"Up"</span>,</span><br><span class="line">            <span class="string">"49 e0"</span>:<span class="string">"Page Up"</span>,</span><br><span class="line">            <span class="string">"4b e0"</span>:<span class="string">"Left"</span>,</span><br><span class="line">            <span class="string">"4d e0"</span>:<span class="string">"Right"</span>,</span><br><span class="line">            <span class="string">"4f e0"</span>:<span class="string">"End"</span>,</span><br><span class="line">            <span class="string">"50 e0"</span>:<span class="string">"Down"</span>,</span><br><span class="line">            <span class="string">"51 e0"</span>:<span class="string">"Page Down"</span>,</span><br><span class="line">            <span class="string">"52 e0"</span>:<span class="string">"Insert"</span>,</span><br><span class="line">            <span class="string">"53 e0"</span>:<span class="string">"Delete"</span>,</span><br><span class="line">            <span class="string">"5b e0"</span>:<span class="string">"Left Windows"</span>,</span><br><span class="line">            <span class="string">"5c e0"</span>:<span class="string">"Right Windows"</span>,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        fun_key_dict = dict((m.upper(),n) <span class="keyword">for</span> n,m <span class="keyword">in</span> scan_code_dict.items())    <span class="comment">#键值互换,键值全大写</span></span><br><span class="line">        content = <span class="string">'00 00 00 00 00 00 00 00'</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">#用于暂时保存映射前后的键位，判断这次键位修改是否有风险</span></span><br><span class="line">        before_map_set = set()</span><br><span class="line">        after_map_set = set()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">with</span> open(sys.argv[<span class="number">1</span>]) <span class="keyword">as</span> f:</span><br><span class="line">            p = f.read().strip().split(<span class="string">';'</span>)</span><br><span class="line">            p.remove(<span class="string">''</span>)</span><br><span class="line">            content += <span class="string">' &#123;:0&gt;2x&#125; 00 00 00'</span>.format(len(p)+<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">try</span>:</span><br><span class="line">                <span class="keyword">for</span> i <span class="keyword">in</span> p:</span><br><span class="line">                    <span class="keyword">if</span> len(i.strip().split(<span class="string">':'</span>)) == <span class="number">2</span>:</span><br><span class="line">                        before_map_set.add(i.split(<span class="string">':'</span>)[<span class="number">0</span>].strip().upper())</span><br><span class="line">                        after_map_set.add(i.split(<span class="string">':'</span>)[<span class="number">1</span>].strip().upper())</span><br><span class="line">                        content += <span class="string">' '</span>+fun_key_dict[i.split(<span class="string">':'</span>)[<span class="number">1</span>].strip().upper()]+<span class="string">' '</span>+fun_key_dict[i.split(<span class="string">':'</span>)[<span class="number">0</span>].strip().upper()]</span><br><span class="line">                    <span class="keyword">else</span>:</span><br><span class="line">                        <span class="keyword">raise</span> CountError</span><br><span class="line">                content += <span class="string">' 00 00 00 00'</span></span><br><span class="line">            <span class="keyword">except</span> KeyError:</span><br><span class="line">                print(<span class="string">"文件中键名称有误"</span>)</span><br><span class="line">                </span><br><span class="line">            <span class="keyword">except</span> CountError:</span><br><span class="line">                print(<span class="string">"文件中未按格式书写"</span>)</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">if</span> before_map_set != after_map_set:</span><br><span class="line">                    run = input(<span class="string">"此次键位替换存在风险，&#123;&#125;键功能将在键盘上无对应按键，是否继续？(输入y继续，否则退出程序)"</span>.format(str(before_map_set-after_map_set)[<span class="number">1</span>:<span class="number">-1</span>]))</span><br><span class="line">                    <span class="keyword">if</span> run != <span class="string">'y'</span>:</span><br><span class="line">                        sys.exit()</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> save_format == <span class="string">"bat"</span>:</span><br><span class="line">                    <span class="keyword">with</span> open(<span class="string">"layout_bat/"</span>+<span class="string">'.'</span>.join(sys.argv[<span class="number">1</span>].split(<span class="string">'\\'</span>)[<span class="number">-1</span>].split(<span class="string">'.'</span>)[:<span class="number">-1</span>])+<span class="string">'.bat'</span>,<span class="string">'w'</span>) <span class="keyword">as</span> g:</span><br><span class="line">                        g.write(<span class="string">'@echo off\nreg add "hklm\\system\\currentcontrolset\\control\\keyboard layout" /v "ScanCode Map" /t REG_BINARY /d "&#123;&#125;" /f\necho "键位已完成修改，重启系统后生效"\npause'</span>.format(<span class="string">''</span>.join(content.split())))</span><br><span class="line">                    input(<span class="string">"...\n&#123;&#125;文件已生成至layout_bat目录下，右键以管理员身份执行该文件后重启系统生效。\n按回车键退出程序..."</span>.format(<span class="string">'.'</span>.join(sys.argv[<span class="number">1</span>].split(<span class="string">'\\'</span>)[<span class="number">-1</span>].split(<span class="string">'.'</span>)[:<span class="number">-1</span>])+<span class="string">'.'</span>+save_format))</span><br><span class="line"></span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    <span class="keyword">with</span> open(<span class="string">"layout_reg/"</span>+<span class="string">'.'</span>.join(sys.argv[<span class="number">1</span>].split(<span class="string">'\\'</span>)[<span class="number">-1</span>].split(<span class="string">'.'</span>)[:<span class="number">-1</span>])+<span class="string">'.reg'</span>,<span class="string">'w'</span>) <span class="keyword">as</span> g:</span><br><span class="line">                        g.write(<span class="string">'Windows Registry Editor Version 5.00\n[HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Control\\Keyboard Layout]\n"ScanCode Map"=hex:&#123;&#125;'</span>.format(<span class="string">','</span>.join(content.split())))</span><br><span class="line"></span><br><span class="line">                    input(<span class="string">"...\n&#123;&#125;文件已生成至layout_reg目录下，双击执行该文件后重启系统生效。\n按回车键退出程序..."</span>.format(<span class="string">'.'</span>.join(sys.argv[<span class="number">1</span>].split(<span class="string">'\\'</span>)[<span class="number">-1</span>].split(<span class="string">'.'</span>)[:<span class="number">-1</span>])+<span class="string">'.'</span>+save_format))</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        input(<span class="string">"传入参数错误，按回车键退出程序..."</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>另外通过此脚本生成的bat或reg文件可以将其保存好，在其他Windows系统电脑上可以直接执行并修改为你想要的键位，这样可以<strong>一次生成，多处适用</strong>！切勿用来恶作剧哦。</p>
+<p>关于键位布局：我用了一个多月的Dvorak和两个多月的Norman，刚开始练习使用新键位的一周非常痛苦和新鲜，适应之后在英文文章输入的确要快点，但不是很明显。如果是敲code的话，就没什么可比性了。考虑到种种因素（尤其是在用其他人设备时），所以最后还是回归了QWERTY键位。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">The scancodes in translated scancode set 2 are given in hex. Between parentheses the keycap on a US keyboard. The scancodes are given in order, grouped according to groups of keys that are usually found next to each other.</span><br><span class="line"></span><br><span class="line">00 is normally an error code</span><br><span class="line"></span><br><span class="line">01 (Esc)</span><br><span class="line"></span><br><span class="line">02 (1!), 03 (2@), 04 (3#), 05 (4$), 06 (5%E), 07 (6^), 08 (7&amp;), 09 (8*), 0a (9(), 0b (0)), 0c (-_), 0d (&#x3D;+), 0e (Backspace)</span><br><span class="line"></span><br><span class="line">0f (Tab), 10 (Q), 11 (W), 12 (E), 13 (R), 14 (T), 15 (Y), 16 (U), 17 (I), 18 (O), 19 (P), 1a ([&#123;), 1b (]&#125;)</span><br><span class="line"></span><br><span class="line">1c (Enter)</span><br><span class="line"></span><br><span class="line">1d (LCtrl)</span><br><span class="line"></span><br><span class="line">1e (A), 1f (S), 20 (D), 21 (F), 22 (G), 23 (H), 24 (J), 25 (K), 26 (L), 27 (;:), 28 (&#39;&quot;)</span><br><span class="line"></span><br><span class="line">29 (&#96;~)</span><br><span class="line"></span><br><span class="line">2a (LShift)</span><br><span class="line"></span><br><span class="line">2b (\|), on a 102-key keyboard</span><br><span class="line"></span><br><span class="line">2c (Z), 2d (X), 2e (C), 2f (V), 30 (B), 31 (N), 32 (M), 33 (,&lt;), 34 (.&gt;), 35 (&#x2F;?), 36 (RShift)</span><br><span class="line"></span><br><span class="line">37 (Keypad-*) or (*&#x2F;PrtScn) on a 83&#x2F;84-key keyboard</span><br><span class="line"></span><br><span class="line">38 (LAlt), 39 (Space bar),</span><br><span class="line"></span><br><span class="line">3a (CapsLock)</span><br><span class="line"></span><br><span class="line">3b (F1), 3c (F2), 3d (F3), 3e (F4), 3f (F5), 40 (F6), 41 (F7), 42 (F8), 43 (F9), 44 (F10)</span><br><span class="line"></span><br><span class="line">45 (NumLock)</span><br><span class="line"></span><br><span class="line">46 (ScrollLock)</span><br><span class="line"></span><br><span class="line">47 (Keypad-7&#x2F;Home), 48 (Keypad-8&#x2F;Up), 49 (Keypad-9&#x2F;PgUp)</span><br><span class="line"></span><br><span class="line">4a (Keypad--)</span><br><span class="line"></span><br><span class="line">4b (Keypad-4&#x2F;Left), 4c (Keypad-5), 4d (Keypad-6&#x2F;Right), 4e (Keypad-+)</span><br><span class="line"></span><br><span class="line">4f (Keypad-1&#x2F;End), 50 (Keypad-2&#x2F;Down), 51 (Keypad-3&#x2F;PgDn)</span><br><span class="line"></span><br><span class="line">52 (Keypad-0&#x2F;Ins), 53 (Keypad-.&#x2F;Del)</span><br><span class="line"></span><br><span class="line">54 (Alt-SysRq) on a 84+ key keyboard</span><br><span class="line"></span><br><span class="line">55 is less common; occurs e.g. as F11 on a Cherry G80-0777 keyboard, as F12 on a Telerate keyboard, as PF1 on a Focus 9000 keyboard, and as FN on an IBM ThinkPad.</span><br><span class="line"></span><br><span class="line">56 mostly on non-US keyboards. It is often an unlabelled key to the left or to the right of the left Alt key.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">57 (F11), 58 (F12) both on a 101+ key keyboard</span><br><span class="line"></span><br><span class="line">59-5a-...-7f are less common. Assignment is essentially random. Scancodes 55-59 occur as F11-F15 on the Cherry G80-0777 keyboard. Scancodes 59-5c occur on the RC930 keyboard. X calls 5d &#96;KEY_Begin&#39;. Scancodes 61-64 occur on a Telerate keyboard. Scancodes 55, 6d, 6f, 73, 74, 77, 78, 79, 7a, 7b, 7c, 7e occur on the Focus 9000 keyboard. Scancodes 65, 67, 69, 6b occur on a Compaq Armada keyboard. Scancodes 66-68, 73 occur on the Cherry G81-3000 keyboard. Scancodes 70, 73, 79, 7b, 7d occur on a Japanese 86&#x2F;106 keyboard.</span><br><span class="line"></span><br><span class="line">Scancodes f1 and f2 occur on Korean keyboards.</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%94%AE%E7%9B%98/" rel="tag"># 键盘</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/05/coOncoplot/" rel="prev" title="Maftools的一些函数">
+      <i class="fa fa-chevron-left"></i> Maftools的一些函数
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/10/upload_files_to_NCBI/" rel="next" title="upload_files_to_NCBI">
+      upload_files_to_NCBI <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#键盘键位修改及管理（Windows篇）"><span class="nav-number">1.</span> <span class="nav-text">键盘键位修改及管理（Windows篇）</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

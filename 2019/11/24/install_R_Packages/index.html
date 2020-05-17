@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写在最前面R-Package的安装最主要的因素在于网络 如果安装失败首先要排除VPN网络原因 Bioconductor version cannot be validated; no internet connection? 如果出现这样的字样，首先要排查的是网络。 我的个人体会是，不需要重新卸载安装R。网络问题解决了，一般问题都能解决。 配置镜像12345678rm(list &#x3D; ls())">
+<meta property="og:type" content="article">
+<meta property="og:title" content="R包安装">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/24/install_R_Packages/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="写在最前面R-Package的安装最主要的因素在于网络 如果安装失败首先要排除VPN网络原因 Bioconductor version cannot be validated; no internet connection? 如果出现这样的字样，首先要排查的是网络。 我的个人体会是，不需要重新卸载安装R。网络问题解决了，一般问题都能解决。 配置镜像12345678rm(list &#x3D; ls())">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-11-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:54.330Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="install">
+<meta property="article:tag" content="R-Packages">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/24/install_R_Packages/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>R包安装 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/24/install_R_Packages/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          R包安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-24T00:00:00+08:00">2019-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:54" itemprop="dateModified" datetime="2020-05-17T21:54:54+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="写在最前面"><a href="#写在最前面" class="headerlink" title="写在最前面"></a>写在最前面</h3><p>R-Package的安装最主要的因素在于网络</p>
+<p>如果安装失败首先要排除VPN网络原因</p>
+<p>Bioconductor version cannot be validated; no internet connection?</p>
+<p>如果出现这样的字样，首先要排查的是网络。</p>
+<p>我的个人体会是，不需要重新卸载安装R。网络问题解决了，一般问题都能解决。</p>
+<h3 id="配置镜像"><a href="#配置镜像" class="headerlink" title="配置镜像"></a>配置镜像</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())   </span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)</span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line"><span class="comment"># options("repos" = c(CRAN="https://mirrors.ustc.edu.cn/CRAN/"))</span></span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br></pre></td></tr></table></figure>
+
+
+
+<p>更多镜像<a href="https://cran.r-project.org/mirrors.html" target="_blank" rel="noopener">https://cran.r-project.org/mirrors.html</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">China</span><br><span class="line">https://mirrors.tuna.tsinghua.edu.cn/CRAN/	TUNA Team, Tsinghua University</span><br><span class="line">https://mirrors.ustc.edu.cn/CRAN/	University of Science and Technology of China</span><br><span class="line">https://mirror-hk.koddos.net/CRAN/	KoDDoS <span class="keyword">in</span> Hong Kong</span><br><span class="line">https://mirror.lzu.edu.cn/CRAN/	Lanzhou University Open Source Society</span><br><span class="line">https://mirrors.tongji.edu.cn/CRAN/	Tongji University</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<a id="more"></a>
+
+
+
+<h3 id="linux-安装R"><a href="#linux-安装R" class="headerlink" title="linux 安装R"></a>linux 安装R</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install r-base-core</span><br><span class="line">sudo apt upgrade r-base-core</span><br><span class="line"><span class="meta">#</span><span class="bash"> 打开R</span></span><br><span class="line">sudo -i R</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<p>大神的提醒。。。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 强调，不是所有的R包都需要安装成功的。</span></span><br><span class="line"><span class="comment">## 强调，不是所有的R包都需要安装成功的。</span></span><br><span class="line"><span class="comment">## 强调，不是所有的R包都需要安装成功的。</span></span><br><span class="line"><span class="comment">## 强调，不是所有的R包都需要安装成功的。</span></span><br><span class="line"><span class="comment">## 失败就失败，大不了从头再来，卸载R语言，从新开始。</span></span><br><span class="line"></span><br><span class="line"><span class="comment">## 强调，中国大陆的粉丝务必注意下载镜像。</span></span><br><span class="line"><span class="comment">## 强调，管是什么电脑，都请务必安装好R及Rstudio哦</span></span><br><span class="line"><span class="comment"># 所有的软件都安装在c盘哦，然后系统用户名最好是不要用中文，写代码最怕中文字符串哦！</span></span><br><span class="line"><span class="comment"># 生信0基础第一步，下载R和Rstudio并且安装在自己的电脑上面。官网链接是 </span></span><br><span class="line"><span class="comment"># - R: https://mirrors.tuna.tsinghua.edu.cn/CRAN/</span></span><br><span class="line"><span class="comment"># - RStudio：https://www.rstudio.com/products/rstudio/download/#download </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rm(list = ls()) </span><br><span class="line"><span class="comment">#清空当前工作空间变量  </span></span><br><span class="line">options()$repos  </span><br><span class="line"><span class="comment">#查看当前工作空间默认的下载包路径</span></span><br><span class="line">options()$BioC_mirror </span><br><span class="line"><span class="comment">#查看使用BioCManager下载包的默认路径</span></span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>) </span><br><span class="line"><span class="comment"># 指定使用BioCManager下载的路径</span></span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>)) </span><br><span class="line"><span class="comment"># 指定使用install.packages下载包的路径</span></span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># https://bioconductor.org/packages/release/bioc/html/GEOquery.html</span></span><br><span class="line"><span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))</span><br><span class="line">  install.packages(<span class="string">"BiocManager"</span>) </span><br><span class="line"><span class="comment">#判断是否存在BiocManger包，没有的话下载该包</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#BiocManager::install("KEGG.db",ask = F,update = F)</span></span><br><span class="line"><span class="comment">#BiocManager::install(c("GSEABase","GSVA","clusterProfiler" ),ask = F,update = F)</span></span><br><span class="line"><span class="comment">#BiocManager::install(c("GEOquery","limma","impute" ),ask = F,update = F)</span></span><br><span class="line"><span class="comment">#BiocManager::install(c("genefu","org.Hs.eg.db","hgu133plus2.db" ),ask = F,update = F)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#判断是否存在这些包，不存在的话安装这些包</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"GenomicDataCommons"</span>)) BiocManager::install(<span class="string">"GenomicDataCommons"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"DT"</span>)) BiocManager::install(<span class="string">"DT"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"BSgenome.Hsapiens.UCSC.hg38"</span>)) BiocManager::install(<span class="string">"BSgenome.Hsapiens.UCSC.hg38"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"deconstructSigs"</span>)) BiocManager::install(<span class="string">"deconstructSigs"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"VennDiagram"</span>)) BiocManager::install(<span class="string">"VennDiagram"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"reshape2"</span>)) BiocManager::install(<span class="string">"reshape2"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"glmnet"</span>)) BiocManager::install(<span class="string">"glmnet"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"KEGG.db"</span>)) BiocManager::install(<span class="string">"KEGG.db"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"GSEABase"</span>)) BiocManager::install(<span class="string">"GSEABase"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"GSVA"</span>)) BiocManager::install(<span class="string">"GSVA"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"clusterProfiler"</span>)) BiocManager::install(<span class="string">"clusterProfiler"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"GEOquery"</span>)) BiocManager::install(<span class="string">"GEOquery"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"limma"</span>)) BiocManager::install(<span class="string">"limma"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"impute"</span>)) BiocManager::install(<span class="string">"impute"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"genefu"</span>)) BiocManager::install(<span class="string">"genefu"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"org.Hs.eg.db"</span>)) BiocManager::install(<span class="string">"org.Hs.eg.db"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"hgu133plus2.db"</span>)) BiocManager::install(<span class="string">"hgu133plus2.db"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"ConsensusClusterPlus"</span>)) BiocManager::install(<span class="string">"ConsensusClusterPlus"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line">BiocManager::install(c(<span class="string">'airway'</span>,<span class="string">'DESeq2'</span>,<span class="string">'edgeR'</span>,<span class="string">'limma'</span>),</span><br><span class="line">                     ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"maftools"</span>)) BiocManager::install(<span class="string">"maftools"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"genefilter"</span>)) BiocManager::install(<span class="string">"genefilter"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"CLL"</span>)) BiocManager::install(<span class="string">"CLL"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"org.Hs.eg.db"</span>)) BiocManager::install(<span class="string">'org.Hs.eg.db'</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"maftools"</span>)) BiocManager::install(<span class="string">"maftools"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"RTCGA"</span>)) BiocManager::install(<span class="string">"RTCGA"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"RTCGA.clinical"</span>)) BiocManager::install(<span class="string">"RTCGA.clinical"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># https://bioconductor.org/packages/3.6/data/experiment/src/contrib/RTCGA.clinical_20151101.8.0.tar.gzn</span></span><br><span class="line"><span class="keyword">if</span>(! <span class="keyword">require</span>(<span class="string">"RTCGA.miRNASeq"</span>)) BiocManager::install(<span class="string">"RTCGA.miRNASeq"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 如果万一是 R3.4 版本之前的，请使用下面代码下载该项目所需要的包</span></span><br><span class="line"><span class="comment"># source("https://bioconductor.org/BiocManager::install.R") </span></span><br><span class="line"><span class="comment"># library('BiocInstaller') </span></span><br><span class="line"><span class="comment"># options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/") </span></span><br><span class="line"><span class="comment"># BiocInstaller::BiocManager::install("GEOquery")</span></span><br><span class="line"><span class="comment"># BiocInstaller::BiocManager::install(c("limma"))</span></span><br><span class="line"><span class="comment"># BiocInstaller::BiocManager::install(c("impute"))</span></span><br><span class="line"></span><br><span class="line">options()$repos</span><br><span class="line"></span><br><span class="line"><span class="comment">#install.packages('WGCNA')</span></span><br><span class="line"><span class="comment">#install.packages(c("FactoMineR", "factoextra"))</span></span><br><span class="line"><span class="comment">#install.packages(c("ggplot2", "pheatmap","ggpubr"))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#判断是否存在这些包，不存在的话安装这些包</span></span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"WGCNA"</span>)) install.packages(<span class="string">"WGCNA"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"FactoMineR"</span>)) install.packages(<span class="string">"FactoMineR"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"factoextra"</span>)) install.packages(<span class="string">"factoextra"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"ggplot2"</span>)) install.packages(<span class="string">"ggplot2"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"pheatmap"</span>)) install.packages(<span class="string">"pheatmap"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"ggpubr"</span>)) install.packages(<span class="string">"ggpubr"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"glmnet"</span>)) install.packages(<span class="string">"glmnet"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">require</span>(<span class="string">"randomForest"</span>)) install.packages(<span class="string">"randomForest"</span>,update = <span class="literal">F</span>,ask = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(<span class="string">"FactoMineR"</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"factoextra"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(GSEABase)</span><br><span class="line"><span class="keyword">library</span>(GSVA)</span><br><span class="line"><span class="keyword">library</span>(clusterProfiler)</span><br><span class="line"><span class="keyword">library</span>(genefu)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"><span class="keyword">library</span>(hgu133plus2.db)</span><br><span class="line"><span class="keyword">library</span>(limma)</span><br><span class="line"><span class="keyword">library</span>(org.Hs.eg.db)</span><br><span class="line"><span class="keyword">library</span>(pheatmap)</span><br><span class="line"></span><br><span class="line">install.packages(c(<span class="string">"devtools"</span>,<span class="string">"reshape2"</span>,<span class="string">"pheatmap"</span>,</span><br><span class="line">                   <span class="string">"ggplot2"</span>,<span class="string">"ggfortify"</span>,<span class="string">"stringr"</span>,</span><br><span class="line">                   <span class="string">"survival"</span>,<span class="string">"survminer"</span>,<span class="string">"lars"</span>,</span><br><span class="line">                   <span class="string">"glmnet"</span>,<span class="string">"timeROC"</span>,<span class="string">"ggpubr"</span>,</span><br><span class="line">                   <span class="string">"randomForest"</span>,<span class="string">"ROCR"</span>,<span class="string">"Hmisc"</span>,</span><br><span class="line">                   <span class="string">"caret"</span>,<span class="string">"ggstatsplot"</span>,<span class="string">"tableone"</span>, </span><br><span class="line">                   <span class="string">"devtools"</span>,<span class="string">"reshape2"</span>,<span class="string">"randomForest"</span>))</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(devtools)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/install/" rel="tag"># install</a>
+              <a href="/tags/R-Packages/" rel="tag"># R-Packages</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/24/python/" rel="prev" title="python_生信分析">
+      <i class="fa fa-chevron-left"></i> python_生信分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/24/complexheatmap/" rel="next" title="学会使用complexheatmap">
+      学会使用complexheatmap <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在最前面"><span class="nav-number">1.</span> <span class="nav-text">写在最前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置镜像"><span class="nav-number">2.</span> <span class="nav-text">配置镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-安装R"><span class="nav-number">3.</span> <span class="nav-text">linux 安装R</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="最终发现要处理我自己的数据，用maftools 这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图complexheatmap的github 使用说明 https:&#x2F;&#x2F;jokergoo.github.io&#x2F;ComplexHeatmap-reference&#x2F;book&#x2F; Chapter 7 OncoPrint">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学会使用complexheatmap">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="最终发现要处理我自己的数据，用maftools 这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图complexheatmap的github 使用说明 https:&#x2F;&#x2F;jokergoo.github.io&#x2F;ComplexHeatmap-reference&#x2F;book&#x2F; Chapter 7 OncoPrint">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586617985.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586032259.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586055324.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586320798.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586368264.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586469803.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586404856.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586509998.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586559285.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586579103.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586590025.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/7559841-a931de1c72355123.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1575530299847.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1575530309904.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1575530322262.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592470240.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592549356.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592574552.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592601996.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592664639.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592696667.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592716333.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592736397.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592760042.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592781033.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592796451.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592818066.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592840818.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574592856189.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574729399332.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574729412061.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574729420960.png">
+<meta property="article:published_time" content="2019-11-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:53.405Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="heatmap">
+<meta property="article:tag" content="maftools">
+<meta property="article:tag" content="annovar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/24/complexheatmap/1574586617985.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/24/complexheatmap/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>学会使用complexheatmap | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/24/complexheatmap/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学会使用complexheatmap
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-24T00:00:00+08:00">2019-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:53" itemprop="dateModified" datetime="2020-05-17T21:54:53+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="最终发现要处理我自己的数据，用maftools-这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图"><a href="#最终发现要处理我自己的数据，用maftools-这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图" class="headerlink" title="最终发现要处理我自己的数据，用maftools 这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图"></a>最终发现要处理我自己的数据，用maftools 这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图</h4><p><a href="https://github.com/jokergoo/ComplexHeatmap" target="_blank" rel="noopener">complexheatmap的github</a></p>
+<p>使用说明</p>
+<p><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/" target="_blank" rel="noopener">https://jokergoo.github.io/ComplexHeatmap-reference/book/</a></p>
+<h2 id="Chapter-7-OncoPrint"><a href="#Chapter-7-OncoPrint" class="headerlink" title="Chapter 7 OncoPrint"></a>Chapter 7 OncoPrint</h2><a id="more"></a>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())   </span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)</span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BiocManager::install(<span class="string">"ComplexHeatmap"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ComplexHeatmap)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(circlize)</span><br><span class="line">mat = read.table(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>,    </span><br><span class="line">                             <span class="string">"tcga_lung_adenocarcinoma_provisional_ras_raf_mek_jnk_signalling.txt"</span>),     </span><br><span class="line">                 header = <span class="literal">TRUE</span>, stringsAsFactors = <span class="literal">FALSE</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line">mat[is.na(mat)] = <span class="string">""</span></span><br><span class="line">rownames(mat) = mat[, <span class="number">1</span>]</span><br><span class="line">mat = mat[, -<span class="number">1</span>]</span><br><span class="line">mat=  mat[, -ncol(mat)]</span><br><span class="line">mat = t(as.matrix(mat))</span><br><span class="line">mat[<span class="number">1</span>:<span class="number">10</span>, <span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">col = c(<span class="string">"HOMDEL"</span> = <span class="string">"blue"</span>, <span class="string">"AMP"</span> = <span class="string">"red"</span>, <span class="string">"MUT"</span> = <span class="string">"#008000"</span>)</span><br><span class="line">alter_fun = list(    </span><br><span class="line">  background = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),</span><br><span class="line">              gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;,    </span><br><span class="line">  <span class="comment"># big blue    </span></span><br><span class="line">  HOMDEL = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),             </span><br><span class="line">              gp = gpar(fill = col[<span class="string">"HOMDEL"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">  &#125;,    </span><br><span class="line">  <span class="comment"># bug red    </span></span><br><span class="line">  AMP = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),             </span><br><span class="line">              gp = gpar(fill = col[<span class="string">"AMP"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">  &#125;,    </span><br><span class="line">  <span class="comment"># small green   </span></span><br><span class="line">  MUT = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h*<span class="number">0.33</span>,             </span><br><span class="line">              gp = gpar(fill = col[<span class="string">"MUT"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma, genes in Ras Raf MEK JNK signalling"</span></span><br><span class="line">heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"HOMDEL"</span>, <span class="string">"AMP"</span>, <span class="string">"MUT"</span>),         </span><br><span class="line">                            labels = c(<span class="string">"Deep deletion"</span>, <span class="string">"Amplification"</span>, <span class="string">"Mutation"</span>))</span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, </span><br><span class="line">          col = col, </span><br><span class="line">          column_title = column_title,</span><br><span class="line">          heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 删除空行和空列 remove_empty_columns = TRUE 和 remove_empty_rows = TRUE</span></span><br><span class="line"></span><br><span class="line">column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma, genes in Ras Raf MEK JNK signalling"</span></span><br><span class="line">heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"HOMDEL"</span>, <span class="string">"AMP"</span>, <span class="string">"MUT"</span>),         labels = c(<span class="string">"Deep deletion"</span>, <span class="string">"Amplification"</span>, <span class="string">"Mutation"</span>))</span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col, column_title = column_title,</span><br><span class="line">          heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 行和进行排序 row_order = 1:nrow(mat), column_order = sample_order</span></span><br><span class="line">sample_order = scan(paste0(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>),     <span class="string">"/sample_order.txt"</span>), what = <span class="string">"character"</span>)</span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          row_order = <span class="number">1</span>:nrow(mat), column_order = sample_order,   </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 行和列注释anno_oncoprint_barplot()可以对突变类型进行筛选绘制Bar图。</span></span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          top_annotation = HeatmapAnnotation (column_barplot = anno_oncoprint_barplot(<span class="string">"MUT"</span>, border = <span class="literal">TRUE</span>, <span class="comment"># only MUT            </span></span><br><span class="line">                                                                                      height = unit(<span class="number">4</span>, <span class="string">"cm"</span>))),    </span><br><span class="line">          right_annotation = rowAnnotation(row_barplot = anno_oncoprint_barplot(c(<span class="string">"AMP"</span>, <span class="string">"HOMDEL"</span>),  <span class="comment"># only AMP and HOMDEL            </span></span><br><span class="line">                                                                                  border = <span class="literal">TRUE</span>, height = unit(<span class="number">4</span>, <span class="string">"cm"</span>),            </span><br><span class="line">                                                                                  axis_param = list(side = <span class="string">"bottom"</span>, labels_rot = <span class="number">90</span>))),   </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line">  </span><br><span class="line"><span class="comment"># 对行显示位置进行调整pct_side = “right”, row_names_side = “left”                                                                                                                                         </span></span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    </span><br><span class="line">          pct_side = <span class="string">"right"</span>, row_names_side = <span class="string">"left"</span>,    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 增加样品分组注释</span></span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,   </span><br><span class="line">          top_annotation = HeatmapAnnotation(cbar = anno_oncoprint_barplot(),        </span><br><span class="line">                                             foo1 = <span class="number">1</span>:<span class="number">172</span>,       </span><br><span class="line">                                             bar1 = anno_points(<span class="number">1</span>:<span class="number">172</span>)), </span><br><span class="line">          left_annotation = rowAnnotation(foo2 = <span class="number">1</span>:<span class="number">26</span>),    </span><br><span class="line">          right_annotation = rowAnnotation(bar2 = anno_barplot(<span class="number">1</span>:<span class="number">26</span>)),    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574586617985.png" alt="1574586617985"></p>
+<h2 id="资料一："><a href="#资料一：" class="headerlink" title="资料一："></a>资料一：</h2><p><strong>ComplexHeatmap</strong> <strong>R包是Zuguang Gu编写的，也是现在文章中利用的较多的R包。这个包能实现的功能很强大，今天给大家介绍一下利用ComplexHeatmap R包中的oncoprint绘制突变景观图。</strong></p>
+<p><strong>一、文件格式</strong></p>
+<p><strong>1、突变矩阵文件</strong></p>
+<p><img src="/2019/11/24/complexheatmap/1574586032259.png" alt="1574586032259"></p>
+<p><strong>2、排序文件</strong></p>
+<p><img src="/2019/11/24/complexheatmap/1574586055324.png" alt="1574586055324"></p>
+<p><strong>二、代码和绘图释义</strong></p>
+<p>首先需要安装：打开网址<a href="http://www.bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html，找到安装命令：" target="_blank" rel="noopener">http://www.bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html，找到安装命令：</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (!requireNamespace(<span class="string">"BiocManager"</span>, quietly = <span class="literal">TRUE</span>))    </span><br><span class="line">    install.packages(<span class="string">"BiocManager"</span>)</span><br><span class="line">BiocManager::install(<span class="string">"ComplexHeatmap"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>也可以将此R包下载下来进行本地安装。</p>
+<p>安装成功后，输入加载命令</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(ComplexHeatmap)</span><br><span class="line"><span class="keyword">library</span>(circlize)</span><br><span class="line">mat = read.table(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>,     <span class="string">"tcga_lung_adenocarcinoma_provisional_ras_raf_mek_jnk_signalling.txt"</span>),     header = <span class="literal">TRUE</span>, stringsAsFactors = <span class="literal">FALSE</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line">mat[is.na(mat)] = <span class="string">""</span></span><br><span class="line">rownames(mat) = mat[, <span class="number">1</span>]</span><br><span class="line">mat = mat[, -<span class="number">1</span>]</span><br><span class="line">mat=  mat[, -ncol(mat)]</span><br><span class="line">mat = t(as.matrix(mat))</span><br><span class="line">mat[<span class="number">1</span>:<span class="number">3</span>, <span class="number">1</span>:<span class="number">3</span>]</span><br></pre></td></tr></table></figure>
+
+<p><strong>mat文件中含有: HOMDEL, AMP and MUT类型突变. 对突变进行颜色和突变分类定义</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">col = c(<span class="string">"HOMDEL"</span> = <span class="string">"blue"</span>, <span class="string">"AMP"</span> = <span class="string">"red"</span>, <span class="string">"MUT"</span> = <span class="string">"#008000"</span>)</span><br><span class="line">alter_fun = list(    </span><br><span class="line">    background = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),</span><br><span class="line">                  gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = <span class="literal">NA</span>))</span><br><span class="line">    &#125;,    </span><br><span class="line">    <span class="comment"># big blue    </span></span><br><span class="line">    HOMDEL = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),             </span><br><span class="line">                  gp = gpar(fill = col[<span class="string">"HOMDEL"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">    &#125;,    </span><br><span class="line">    <span class="comment"># bug red    </span></span><br><span class="line">    AMP = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),             </span><br><span class="line">                  gp = gpar(fill = col[<span class="string">"AMP"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">    &#125;,    </span><br><span class="line">    <span class="comment"># small green   </span></span><br><span class="line">    MUT = <span class="keyword">function</span>(x, y, w, h) &#123;        </span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h*<span class="number">0.33</span>,             </span><br><span class="line">                  gp = gpar(fill = col[<span class="string">"MUT"</span>], col = <span class="literal">NA</span>))    </span><br><span class="line">    &#125;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>column_title 和 heatmap_legend_param定义</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma, genes in Ras Raf MEK JNK signalling"</span></span><br><span class="line">heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"HOMDEL"</span>, <span class="string">"AMP"</span>, <span class="string">"MUT"</span>),         labels = c(<span class="string">"Deep deletion"</span>, <span class="string">"Amplification"</span>, <span class="string">"Mutation"</span>))</span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col, column_title = column_title,</span><br><span class="line">          heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574586320798.png" alt="1574586320798"></p>
+<p><strong>删除空行和空列</strong></p>
+<p><strong>remove_empty_columns = TRUE 和 remove_empty_rows = TRUE</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574586368264.png" alt="1574586368264"></p>
+<p><strong>行和进行排序</strong></p>
+<p><strong>row_order = 1:nrow(mat), column_order = sample_order</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sample_order = scan(paste0(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>),     <span class="string">"/sample_order.txt"</span>), what = <span class="string">"character"</span>)</span><br><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          row_order = <span class="number">1</span>:nrow(mat), column_order = sample_order,   </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574586469803.png" alt="1574586469803"></p>
+<p><strong>行和列注释anno_oncoprint_barplot()可以对突变类型进行筛选绘制Bar图。</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          top_annotation = HeatmapAnnotation (column_barplot = anno_oncoprint_barplot(<span class="string">"MUT"</span>, border = <span class="literal">TRUE</span>, <span class="comment"># only MUT            </span></span><br><span class="line">                                                                                      height = unit(<span class="number">4</span>, <span class="string">"cm"</span>))),    </span><br><span class="line">          right_annotation = rowAnnotation(row_barplot = anno_oncoprint_barplot(c(<span class="string">"AMP"</span>, <span class="string">"HOMDEL"</span>),  <span class="comment"># only AMP and HOMDEL            </span></span><br><span class="line">                                                                                  border = <span class="literal">TRUE</span>, height = unit(<span class="number">4</span>, <span class="string">"cm"</span>),            </span><br><span class="line">                                                                                  axis_param = list(side = <span class="string">"bottom"</span>, labels_rot = <span class="number">90</span>))),   </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://plobimage.ybzhao.com/wp-content/uploads/2016/11/1573059732-3624-5OOTQibS6LBFcXAaou3AJNjf9StQ.jpg" target="_blank" rel="noopener"><img src="/2019/11/24/complexheatmap/1574586404856.png" alt="1574586404856"></a></p>
+<p><strong>对行显示位置进行调整pct_side = “right”, row_names_side = “left”</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,    </span><br><span class="line">          pct_side = <span class="string">"right"</span>, row_names_side = <span class="string">"left"</span>,    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574586509998.png" alt="1574586509998"></p>
+<p><strong>增加样品分组注释</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,    </span><br><span class="line">          alter_fun = alter_fun, col = col,     </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,   </span><br><span class="line">          top_annotation = HeatmapAnnotation(cbar = anno_oncoprint_barplot(),        </span><br><span class="line">                                             foo1 = <span class="number">1</span>:<span class="number">172</span>,       </span><br><span class="line">                                             bar1 = anno_points(<span class="number">1</span>:<span class="number">172</span>)), </span><br><span class="line">          left_annotation = rowAnnotation(foo2 = <span class="number">1</span>:<span class="number">26</span>),    </span><br><span class="line">          right_annotation = rowAnnotation(bar2 = anno_barplot(<span class="number">1</span>:<span class="number">26</span>)),    </span><br><span class="line">          column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574586559285.png" alt="1574586559285"></p>
+<p><strong>绘制一张带有分组注释的突变景观图就完成了，同时还能对此图增加聚类热图来显示更多信息。</strong> </p>
+<p><img src="/2019/11/24/complexheatmap/1574586579103.png" alt="1574586579103"></p>
+<p><strong>最后自己用测试数据进行绘图，绘制如下：</strong></p>
+<p><img src="/2019/11/24/complexheatmap/1574586590025.png" alt="1574586590025"></p>
+<h2 id="资料二：ComplexHeatmap画基因突变热图-一"><a href="#资料二：ComplexHeatmap画基因突变热图-一" class="headerlink" title="资料二：ComplexHeatmap画基因突变热图(一)"></a>资料二：ComplexHeatmap画基因突变热图(一)</h2><p>数据格式如下：</p>
+<p><img src="/2019/11/24/complexheatmap/7559841-a931de1c72355123.webp" alt="img"></p>
+<p>image.png</p>
+<p>若某个基因在某个样本中既有deletion又有mutation则以;分隔</p>
+<figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">library(ComplexHeatmap)</span><br><span class="line">library(RColorBrewer)</span><br><span class="line">setwd(<span class="string">"E:/project/r"</span>)</span><br><span class="line">data1&lt;-read.csv(<span class="string">"test_1.csv"</span>,header = T,stringsAsFactors = F,row.names = <span class="number">1</span>)            </span><br><span class="line">col = c(<span class="string">"deletion"</span> = <span class="string">"#1F78B4"</span>, <span class="string">"insertion"</span> = <span class="string">"#33A02C"</span>, <span class="string">"mutation"</span> = <span class="string">"#E31A1C"</span>)</span><br><span class="line">alter_fun = function(x, y, w, h, v) &#123;</span><br><span class="line">  n=sum(v)</span><br><span class="line">  h=h*<span class="number">0</span>.<span class="number">9</span></span><br><span class="line">  grid.rect(x, y, w-unit(<span class="number">0</span>.<span class="number">5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0</span>.<span class="number">5</span>, <span class="string">"mm"</span>), gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = NA))</span><br><span class="line">  <span class="keyword">if</span>(v[<span class="string">"mutation"</span>])  grid.rect(x, y - h*<span class="number">0</span>.<span class="number">5</span> + <span class="number">0</span>.<span class="number">95</span><span class="symbol">:n/n*h</span>, w*<span class="number">1</span>, <span class="number">1</span>/n*h,  gp = gpar(fill = col[names(which(v))], col = NA), just = <span class="string">"top"</span>)</span><br><span class="line">  <span class="keyword">if</span>(v[<span class="string">"insertion"</span>])    grid.rect(x, y - h*<span class="number">0</span>.<span class="number">5</span> + <span class="number">0</span>.<span class="number">95</span><span class="symbol">:n/n*h</span>, w*<span class="number">1</span>, <span class="number">1</span>/n*h,  gp = gpar(fill = col[names(which(v))], col = NA), just = <span class="string">"top"</span>)</span><br><span class="line">  <span class="keyword">if</span>(v[<span class="string">"deletion"</span>])    grid.rect(x, y - h*<span class="number">0</span>.<span class="number">5</span> + <span class="number">0</span>.<span class="number">95</span><span class="symbol">:n/n*h</span>, w*<span class="number">1</span>, <span class="number">1</span>/n*h,  gp = gpar(fill = col[names(which(v))], col = NA), just = <span class="string">"top"</span>)</span><br><span class="line">&#125;</span><br><span class="line">oncoPrint(data1, get_type = function(x) strsplit(x, <span class="string">";"</span>)[[<span class="number">1</span>]],</span><br><span class="line">          alter_fun = alter_fun, col = col,  row_order = NULL, column_order = NULL, show_column_names = TRUE,</span><br><span class="line">          show_pct = TRUE, show_row_barplot = TRUE,         </span><br><span class="line">          heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"insertion"</span>, <span class="string">"mutation"</span>, <span class="string">"deletion"</span>), labels = c(<span class="string">"insertion"</span>, <span class="string">"mutation"</span>, <span class="string">"deletion"</span>)))</span><br></pre></td></tr></table></figure>
+
+<p>结果如下：</p>
+<p><img src="/2019/11/24/complexheatmap/1575530299847.png" alt="1575530299847"></p>
+<p>Rplot.png</p>
+<p>其中oncoPrint（）中有些参数可选，可以选择是否隐藏顶部或者左右两边的部分，例如：<br>如果设置这几个参数<br>show_pct = FALSE, show_row_barplot = FALSE, top_annotation = NULL<br>那么最后出来的结果就会是这样的：</p>
+<p><img src="/2019/11/24/complexheatmap/1575530309904.png" alt="1575530309904"></p>
+<h2 id="资料三：基本突变情况热图绘制，转自生信技能树"><a href="#资料三：基本突变情况热图绘制，转自生信技能树" class="headerlink" title="资料三：基本突变情况热图绘制，转自生信技能树"></a>资料三：基本突变情况热图绘制，转自生信技能树</h2><p>对于测序相关文章，有一张漂亮的基因突变全景图可以为文章增色不少。下面我们就来一步步看怎么绘制漂亮的全景图。</p>
+<h3 id="基本热图绘制"><a href="#基本热图绘制" class="headerlink" title="基本热图绘制"></a>基本热图绘制</h3><p>安装R包complexheatmap</p>
+<h3 id="导入数据"><a href="#导入数据" class="headerlink" title="导入数据"></a>导入数据</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">mat = read.table(paste0(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>), </span><br><span class="line">                        <span class="string">"/tcga_lung_adenocarcinoma_provisional_ras_raf_mek_jnk_signalling.txt"</span>), </span><br><span class="line">                 header = <span class="literal">TRUE</span>,stringsAsFactors=<span class="literal">FALSE</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line">mat[is.na(mat)] = <span class="string">""</span></span><br><span class="line">mat &lt;- mat[<span class="number">1</span>:<span class="number">50</span>,<span class="number">1</span>:<span class="number">28</span>]</span><br><span class="line">rownames(mat) = mat[, <span class="number">1</span>]</span><br><span class="line">mat = mat[, -<span class="number">1</span>]</span><br><span class="line">mat=  mat[, -ncol(mat)]</span><br><span class="line">mat = t(as.matrix(mat))</span><br><span class="line"><span class="comment">###设置参数</span></span><br><span class="line">col = c(<span class="string">"MUT"</span> = <span class="string">"#008000"</span>, <span class="string">"INDEL"</span> = <span class="string">"red"</span>, <span class="string">"nonstop"</span> = <span class="string">"blue"</span>,<span class="string">"nonsense"</span>= <span class="string">"yellow"</span>)</span><br><span class="line">alter_fun = list(</span><br><span class="line">  background = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;,</span><br><span class="line">  INDEL = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), gp = gpar(fill = col[<span class="string">"INDEL"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;,</span><br><span class="line">  nonstop = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), gp = gpar(fill = col[<span class="string">"nonstop"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;,</span><br><span class="line">  MUT = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), gp = gpar(fill = col[<span class="string">"MUT"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;,</span><br><span class="line">  nonsense = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">    grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>),  h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), gp = gpar(fill = col[<span class="string">"nonsense"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h4 id="画图"><a href="#画图" class="headerlink" title="画图"></a>画图</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat, get_type = <span class="keyword">function</span>(x) strsplit(x, <span class="string">";"</span>)[[<span class="number">1</span>]],</span><br><span class="line">          alter_fun = alter_fun, col = col, </span><br><span class="line">          remove_empty_columns = <span class="literal">TRUE</span>,show_pct = <span class="literal">TRUE</span>, pct_gp = gpar(fontsize = <span class="number">8</span>),row_names_gp = gpar(fontsize = <span class="number">8</span>),</span><br><span class="line">          column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma</span></span><br><span class="line"><span class="string">          genes in Ras Raf MEK JNK signalling"</span>,</span><br><span class="line">          heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"INDEL"</span>, <span class="string">"nonstop"</span>, <span class="string">"MUT"</span>,<span class="string">"nonsense"</span>), labels = c(<span class="string">"INDEL"</span>, <span class="string">"nonstop"</span>, <span class="string">"Mutation"</span>,<span class="string">"nonsense"</span>)))</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1575530322262.png" alt="1575530322262"></p>
+<p>image</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">mat = read.table(paste0(system.file(<span class="string">"extdata"</span>, package = <span class="string">"ComplexHeatmap"</span>),</span><br><span class="line"><span class="string">"/tcga_lung_adenocarcinoma_provisional_ras_raf_mek_jnk_signalling.txt"</span>),</span><br><span class="line">header = <span class="literal">TRUE</span>,stringsAsFactors=<span class="literal">FALSE</span>, sep = <span class="string">"\t"</span>)</span><br><span class="line">mat[is.na(mat)] = <span class="string">""</span></span><br><span class="line">mat &lt;- mat[<span class="number">1</span>:<span class="number">50</span>,<span class="number">1</span>:<span class="number">28</span>]</span><br><span class="line">rownames(mat) = mat[, <span class="number">1</span>]</span><br><span class="line">mat = mat[, -<span class="number">1</span>]</span><br><span class="line">mat=  mat[, -ncol(mat)]</span><br><span class="line">mat = t(as.matrix(mat))</span><br><span class="line">col = c(<span class="string">"MUT"</span> = <span class="string">"#008000"</span>, <span class="string">"INDEL"</span> = <span class="string">"red"</span>, <span class="string">"nonstop"</span> = <span class="string">"blue"</span>,<span class="string">"nonsense"</span>= <span class="string">"yellow"</span>)</span><br><span class="line">alter_fun = list(</span><br><span class="line">background =  <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w, h, gp = gpar(fill = <span class="string">"white"</span>)),</span><br><span class="line">INDEL = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">w = convertWidth(w, <span class="string">"cm"</span>)</span><br><span class="line">h = convertHeight(h, <span class="string">"cm"</span>)</span><br><span class="line">r = min(unit.c(w, h))*<span class="number">0.5</span></span><br><span class="line">grid.circle(x, y, r*<span class="number">0.5</span>, gp = gpar(fill = col[<span class="string">"INDEL"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">&#125;,</span><br><span class="line">nonstop = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">w = convertWidth(w, <span class="string">"cm"</span>)</span><br><span class="line">h = convertHeight(h, <span class="string">"cm"</span>)</span><br><span class="line">r = min(unit.c(w, h))*<span class="number">0.5</span></span><br><span class="line">grid.circle(x, y, r*<span class="number">0.5</span>, gp = gpar(fill = col[<span class="string">"nonstop"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">&#125;,</span><br><span class="line">MUT = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">w = convertWidth(w, <span class="string">"cm"</span>)</span><br><span class="line">h = convertHeight(h, <span class="string">"cm"</span>)</span><br><span class="line">r = min(unit.c(w, h))*<span class="number">0.5</span></span><br><span class="line">grid.circle(x, y, r*<span class="number">0.5</span>, gp = gpar(fill = col[<span class="string">"MUT"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">&#125;,</span><br><span class="line">nonsense = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">w = convertWidth(w, <span class="string">"cm"</span>)</span><br><span class="line">h = convertHeight(h, <span class="string">"cm"</span>)</span><br><span class="line">r = min(unit.c(w, h))*<span class="number">0.5</span></span><br><span class="line">grid.circle(x, y, r*<span class="number">0.5</span>, gp = gpar(fill = col[<span class="string">"nonsense"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">&#125;</span><br><span class="line">)</span><br><span class="line">oncoPrint(mat, get_type = <span class="keyword">function</span>(x) strsplit(x, <span class="string">";"</span>)[[<span class="number">1</span>]],</span><br><span class="line">alter_fun = alter_fun, col = col,</span><br><span class="line">remove_empty_columns = <span class="literal">TRUE</span>,show_pct = <span class="literal">F</span>, pct_gp = gpar(fontsize = <span class="number">8</span>),row_names_gp = gpar(fontsize = <span class="number">8</span>),show_row_barplot = <span class="literal">TRUE</span>,</span><br><span class="line">column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma</span></span><br><span class="line"><span class="string">genes in Ras Raf MEK JNK signalling"</span>,</span><br><span class="line">heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"INDEL"</span>, <span class="string">"nonstop"</span>, <span class="string">"MUT"</span>,<span class="string">"nonsense"</span>), labels = c(<span class="string">"INDEL"</span>, <span class="string">"nonstop"</span>, <span class="string">"Mutation"</span>,<span class="string">"nonsense"</span>)))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="资料四："><a href="#资料四：" class="headerlink" title="资料四："></a>资料四：</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(ComplexHeatmap)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mat = read.table(textConnection(</span><br><span class="line"><span class="string">"s1,s2,s3</span></span><br><span class="line"><span class="string">g1,snv;indel,snv,indel</span></span><br><span class="line"><span class="string">g2,,snv;indel,snv</span></span><br><span class="line"><span class="string">g3,snv,,indel;snv"</span>), row.names = <span class="number">1</span>, header = <span class="literal">TRUE</span>, sep = <span class="string">","</span>, stringsAsFactors = <span class="literal">FALSE</span>)</span><br><span class="line">mat = as.matrix(mat)</span><br><span class="line">mat</span><br></pre></td></tr></table></figure>
+
+
+
+<p>矩阵是</p>
+<p><img src="/2019/11/24/complexheatmap/1574592470240.png" alt="1574592470240"></p>
+<p>通过上面的例子，我们可以看到。每个数据基因在不同样本当中如果基因组发生改变就标注为什么改变。如果没有的话，那么就是空白。<code>oncoplot</code>会自动识别以<code>;:,|</code>为分隔符的不同变异。</p>
+<h3 id="alter-fun自定义变异如何显示"><a href="#alter-fun自定义变异如何显示" class="headerlink" title="alter_fun自定义变异如何显示"></a>alter_fun自定义变异如何显示</h3><p><code>alter_fun</code>可以自定义不同的变异通过什么样子来进行显示。这个函数包括四个参数<code>x,y,w,h</code>分别代表变异的位置(x,y)以及高度(h)和宽度(w)。我们在得到所有变异的类型之后。在<code>alter_fun</code>函数里面要定义所有的变化特点。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">col = c(snv = <span class="string">"red"</span>, indel = <span class="string">"blue"</span>)</span><br><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = list(</span><br><span class="line">        snv = <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.9</span>, </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"snv"</span>], col = <span class="literal">NA</span>)),</span><br><span class="line">        indel = <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.4</span>, </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"indel"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">    ), col = col)</span><br><span class="line"><span class="comment">## All mutation types: snv, indel</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592549356.png" alt="1574592549356"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = <span class="keyword">function</span>(x, y, w, h, v) &#123;</span><br><span class="line">        n = sum(v)  <span class="comment"># how many alterations for current gene in current sample</span></span><br><span class="line">        h = h*<span class="number">0.9</span></span><br><span class="line">        <span class="comment"># use `names(which(v))` to correctly map between `v` and `col`</span></span><br><span class="line">        <span class="keyword">if</span>(n) grid.rect(x, y - h*<span class="number">0.5</span> + <span class="number">1</span>:n/n*h, w*<span class="number">0.9</span>, <span class="number">1</span>/n*h, </span><br><span class="line">            gp = gpar(fill = col[names(which(v))], col = <span class="literal">NA</span>), just = <span class="string">"top"</span>)</span><br><span class="line">    &#125;, col = col)</span><br><span class="line"><span class="comment">## All mutation types: snv, indel</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592574552.png" alt="1574592574552"></p>
+<h4 id="背景设置"><a href="#背景设置" class="headerlink" title="背景设置"></a>背景设置</h4><p><code>alter_fun</code>当中不止可以设置各个变异的参数。同时也可以设置背景的颜色。默认的是没有背景颜色的。我们可以进行进一步的设置。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = list(</span><br><span class="line">        background = <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w, h, </span><br><span class="line">            gp = gpar(fill = <span class="string">"#00FF0020"</span>)),</span><br><span class="line">        snv = <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.9</span>, </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"snv"</span>], col = <span class="literal">NA</span>)),</span><br><span class="line">        indel = <span class="keyword">function</span>(x, y, w, h) grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.4</span>, </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"indel"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">    ), col = col)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592601996.png" alt="1574592601996"></p>
+<p>如果不想要背景的话，可以通过<code>background = function(...) NULL,</code>来设置为没有背景。</p>
+<h4 id="更加复杂的设定"><a href="#更加复杂的设定" class="headerlink" title="更加复杂的设定"></a>更加复杂的设定</h4><p>有时候我们不只是想要显示不同的颜色。同时还想要在不同变异上面进行标记。例如下面这个</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">set.seed(<span class="number">123</span>)</span><br><span class="line">x1 = sample(c(<span class="string">""</span>, <span class="string">"snv"</span>), <span class="number">100</span>, replace = <span class="literal">TRUE</span>, prob = c(<span class="number">8</span>, <span class="number">2</span>))</span><br><span class="line">x2 = sample(c(<span class="string">""</span>, <span class="string">"indel"</span>), <span class="number">100</span>, replace = <span class="literal">TRUE</span>, prob = c(<span class="number">8</span>, <span class="number">2</span>))</span><br><span class="line">x2[x1 == <span class="string">"snv"</span>] = <span class="string">""</span></span><br><span class="line">x3 = sample(c(<span class="string">""</span>, <span class="string">"intronic"</span>), <span class="number">100</span>, replace = <span class="literal">TRUE</span>, prob = c(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line">x4 = sample(c(<span class="string">""</span>, <span class="string">"exonic"</span>), <span class="number">100</span>, replace = <span class="literal">TRUE</span>, prob = c(<span class="number">5</span>, <span class="number">5</span>))</span><br><span class="line">x3[x1 == <span class="string">""</span> &amp; x2 == <span class="string">""</span>] = <span class="string">""</span></span><br><span class="line">x4[x1 == <span class="string">""</span> &amp; x2 == <span class="string">""</span>] = <span class="string">""</span></span><br><span class="line">x4[x3 == <span class="string">"intronic"</span>] = <span class="string">""</span></span><br><span class="line">x = apply(cbind(x1, x2, x3, x4), <span class="number">1</span>, <span class="keyword">function</span>(x) &#123;</span><br><span class="line">    x = x[x != <span class="string">""</span>]</span><br><span class="line">    paste(x, collapse = <span class="string">";"</span>)</span><br><span class="line">&#125;)</span><br><span class="line">m = matrix(x, nrow = <span class="number">10</span>, ncol = <span class="number">10</span>, dimnames = list(paste0(<span class="string">"g"</span>, <span class="number">1</span>:<span class="number">10</span>), paste0(<span class="string">"s"</span>, <span class="number">1</span>:<span class="number">10</span>)))</span><br><span class="line">alter_fun = list(</span><br><span class="line">    background = <span class="keyword">function</span>(x, y, w, h) </span><br><span class="line">        grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.9</span>, gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = <span class="literal">NA</span>)),</span><br><span class="line">    <span class="comment"># red rectangles</span></span><br><span class="line">    snv = <span class="keyword">function</span>(x, y, w, h) </span><br><span class="line">        grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.9</span>, gp = gpar(fill = <span class="string">"red"</span>, col = <span class="literal">NA</span>)),</span><br><span class="line">    <span class="comment"># blue rectangles</span></span><br><span class="line">    indel = <span class="keyword">function</span>(x, y, w, h) </span><br><span class="line">        grid.rect(x, y, w*<span class="number">0.9</span>, h*<span class="number">0.9</span>, gp = gpar(fill = <span class="string">"blue"</span>, col = <span class="literal">NA</span>)),</span><br><span class="line">    <span class="comment"># dots</span></span><br><span class="line">    intronic = <span class="keyword">function</span>(x, y, w, h) </span><br><span class="line">        grid.points(x, y, pch = <span class="number">16</span>),</span><br><span class="line">    <span class="comment"># crossed lines</span></span><br><span class="line">    exonic = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">        grid.segments(x - w*<span class="number">0.4</span>, y - h*<span class="number">0.4</span>, x + w*<span class="number">0.4</span>, y + h*<span class="number">0.4</span>, gp = gpar(lwd = <span class="number">2</span>))</span><br><span class="line">        grid.segments(x + w*<span class="number">0.4</span>, y - h*<span class="number">0.4</span>, x - w*<span class="number">0.4</span>, y + h*<span class="number">0.4</span>, gp = gpar(lwd = <span class="number">2</span>))</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">ht = oncoPrint(m, alter_fun = alter_fun, col = c(snv = <span class="string">"red"</span>, indel = <span class="string">"blue"</span>))</span><br><span class="line"><span class="comment">## All mutation types: snv, intronic, indel, exonic</span></span><br><span class="line"><span class="comment">## Colors are not defined for: intronic, exonic</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">draw(ht, heatmap_legend_list = list(</span><br><span class="line">    Legend(labels = c(<span class="string">"intronic"</span>, <span class="string">"exonic"</span>), type = <span class="string">"points"</span>, pch = c(<span class="number">16</span>, <span class="number">28</span>))</span><br><span class="line">))</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574592664639.png" alt="1574592664639"></p>
+<h3 id="函数的其他参数"><a href="#函数的其他参数" class="headerlink" title="函数的其他参数"></a>函数的其他参数</h3><p><code>show_column_names</code>可以用来定义是否显示列名。 <code>row_names_side</code>定义行名的位置 <code>pct_side</code>定义突变百分比的位置 <code>pct_digits</code>定义突变个数百分比的小数点个数 <code>anno_oncoprint_barplot</code>调整上面和有面barplot的具体参数 <code>heatmap_legend_param</code>定义图例的变化</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat, alter_fun = alter_fun, col = col, </span><br><span class="line">    top_annotation = HeatmapAnnotation(</span><br><span class="line">        cbar = anno_oncoprint_barplot(height = unit(<span class="number">1</span>, <span class="string">"cm"</span>))),</span><br><span class="line">    right_annotation = rowAnnotation(</span><br><span class="line">        rbar = anno_oncoprint_barplot(</span><br><span class="line">            width = unit(<span class="number">4</span>, <span class="string">"cm"</span>),</span><br><span class="line">            axis_param = list(at = c(<span class="number">0</span>, <span class="number">2</span>, <span class="number">4</span>),</span><br><span class="line">                labels = c(<span class="string">"zero"</span>, <span class="string">"two"</span>, <span class="string">"four"</span>),</span><br><span class="line">                side = <span class="string">"top"</span>,</span><br><span class="line">                labels_rot = <span class="number">0</span>))),</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592696667.png" alt="1574592696667"></p>
+<p>如果我们想把右边的图放到左边的话，则可以</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat, alter_fun = alter_fun, col = col, </span><br><span class="line">    left_annotation =  rowAnnotation(</span><br><span class="line">        rbar = anno_oncoprint_barplot(</span><br><span class="line">            axis_param = list(direction = <span class="string">"reverse"</span>)</span><br><span class="line">    )),</span><br><span class="line">    right_annotation = <span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592716333.png" alt="1574592716333"></p>
+<h3 id="具体绘图演示"><a href="#具体绘图演示" class="headerlink" title="具体绘图演示"></a>具体绘图演示</h3><p>我们使用TCGA数据库当中一部分突变数据来进行绘图。首先加载数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mat &#x3D; read.table(system.file(&quot;extdata&quot;, package &#x3D; &quot;ComplexHeatmap&quot;, </span><br><span class="line">    &quot;tcga_lung_adenocarcinoma_provisional_ras_raf_mek_jnk_signalling.txt&quot;), </span><br><span class="line">    header &#x3D; TRUE, stringsAsFactors &#x3D; FALSE, sep &#x3D; &quot;\t&quot;)</span><br><span class="line">mat[is.na(mat)] &#x3D; &quot;&quot;</span><br><span class="line">rownames(mat) &#x3D; mat[, 1]</span><br><span class="line">mat &#x3D; mat[, -1]</span><br><span class="line">mat&#x3D;  mat[, -ncol(mat)]</span><br><span class="line">mat &#x3D; t(as.matrix(mat))</span><br><span class="line">mat[1:3, 1:3]</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592736397.png" alt="1574592736397"></p>
+<p>我们发现数据当中存在三种变异分别是<code>HOMDEL, AMP and MUT</code>所以，我们对三种变异进行定义</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">col = c(<span class="string">"HOMDEL"</span> = <span class="string">"blue"</span>, <span class="string">"AMP"</span> = <span class="string">"red"</span>, <span class="string">"MUT"</span> = <span class="string">"#008000"</span>)</span><br><span class="line">alter_fun = list(</span><br><span class="line">    background = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), </span><br><span class="line">            gp = gpar(fill = <span class="string">"#CCCCCC"</span>, col = <span class="literal">NA</span>))</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment"># big blue</span></span><br><span class="line">    HOMDEL = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"HOMDEL"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment"># bug red</span></span><br><span class="line">    AMP = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"AMP"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment"># small green</span></span><br><span class="line">    MUT = <span class="keyword">function</span>(x, y, w, h) &#123;</span><br><span class="line">        grid.rect(x, y, w-unit(<span class="number">0.5</span>, <span class="string">"mm"</span>), h*<span class="number">0.33</span>, </span><br><span class="line">            gp = gpar(fill = col[<span class="string">"MUT"</span>], col = <span class="literal">NA</span>))</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">column_title = <span class="string">"OncoPrint for TCGA Lung Adenocarcinoma, genes in Ras Raf MEK JNK signalling"</span></span><br><span class="line">heatmap_legend_param = list(title = <span class="string">"Alternations"</span>, at = c(<span class="string">"HOMDEL"</span>, <span class="string">"AMP"</span>, <span class="string">"MUT"</span>), </span><br><span class="line">        labels = c(<span class="string">"Deep deletion"</span>, <span class="string">"Amplification"</span>, <span class="string">"Mutation"</span>))</span><br><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = alter_fun, col = col, </span><br><span class="line">    column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"><span class="comment">## All mutation types: MUT, AMP, HOMDEL</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592760042.png" alt="1574592760042"></p>
+<p>上图我们可以看到有很多样本都没有突变， 这个时候我们就需要去掉这些没有突变的样本。<code>remove_empty_columns</code>和<code>remove_empty_rows</code>可以去掉没有突变的样本或者基因</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = alter_fun, col = col, </span><br><span class="line">    remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,</span><br><span class="line">    column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"><span class="comment">## All mutation types: MUT, AMP, HOMDEL</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/complexheatmap/1574592781033.png" alt="1574592781033"></p>
+<p>另外我们可以通过<code>row_order</code>以及<code>column_order</code>来调整分布的顺序</p>
+<h3 id="oncoplot注释"><a href="#oncoplot注释" class="headerlink" title="oncoplot注释"></a>oncoplot注释</h3><p>我们可以通过<code>anno_oncoprint_barplot</code>来自定义注释的内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun &#x3D; alter_fun, col &#x3D; col, </span><br><span class="line">    top_annotation &#x3D; HeatmapAnnotation(</span><br><span class="line">        column_barplot &#x3D; anno_oncoprint_barplot(&quot;MUT&quot;, border &#x3D; TRUE, # only MUT</span><br><span class="line">            height &#x3D; unit(4, &quot;cm&quot;))),</span><br><span class="line">    right_annotation &#x3D; rowAnnotation(</span><br><span class="line">        row_barplot &#x3D; anno_oncoprint_barplot(c(&quot;AMP&quot;, &quot;HOMDEL&quot;),  # only AMP and HOMDEL</span><br><span class="line">            border &#x3D; TRUE, height &#x3D; unit(4, &quot;cm&quot;), </span><br><span class="line">            axis_param &#x3D; list(side &#x3D; &quot;bottom&quot;, labels_rot &#x3D; 90))),</span><br><span class="line">    remove_empty_columns &#x3D; TRUE, remove_empty_rows &#x3D; TRUE,</span><br><span class="line">    column_title &#x3D; column_title, heatmap_legend_param &#x3D; heatmap_legend_param)</span><br><span class="line">## All mutation types: MUT, AMP, HOMDEL</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592796451.png" alt="1574592796451"></p>
+<p>另外由于<code>oncoplot</code>本身就是热图。所以我们可以在原始的基础上添加别的注释</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">oncoPrint(mat,</span><br><span class="line">    alter_fun = alter_fun, col = col, </span><br><span class="line">    remove_empty_columns = <span class="literal">TRUE</span>, remove_empty_rows = <span class="literal">TRUE</span>,</span><br><span class="line">    top_annotation = HeatmapAnnotation(cbar = anno_oncoprint_barplot(),</span><br><span class="line">        foo1 = <span class="number">1</span>:<span class="number">172</span>,</span><br><span class="line">        bar1 = anno_points(<span class="number">1</span>:<span class="number">172</span>)),</span><br><span class="line">    left_annotation = rowAnnotation(foo2 = <span class="number">1</span>:<span class="number">26</span>),</span><br><span class="line">    right_annotation = rowAnnotation(bar2 = anno_barplot(<span class="number">1</span>:<span class="number">26</span>)),</span><br><span class="line">    column_title = column_title, heatmap_legend_param = heatmap_legend_param)</span><br><span class="line"><span class="comment">## All mutation types: MUT, AMP, HOMDEL</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592818066.png" alt="1574592818066"></p>
+<h3 id="oncplot和heatmap连接"><a href="#oncplot和heatmap连接" class="headerlink" title="oncplot和heatmap连接"></a>oncplot和heatmap连接</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ht_list = oncoPrint(mat,</span><br><span class="line">    alter_fun = alter_fun, col = col, </span><br><span class="line">    column_title = column_title, heatmap_legend_param = heatmap_legend_param) +</span><br><span class="line">Heatmap(matrix(rnorm(nrow(mat)*<span class="number">10</span>), ncol = <span class="number">10</span>), name = <span class="string">"expr"</span>, width = unit(<span class="number">4</span>, <span class="string">"cm"</span>))</span><br><span class="line"><span class="comment">## All mutation types: MUT, AMP, HOMDEL</span></span><br><span class="line">draw(ht_list, row_split = sample(c(<span class="string">"a"</span>, <span class="string">"b"</span>), nrow(mat), replace = <span class="literal">TRUE</span>))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592840818.png" alt="1574592840818"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ht_list = oncoPrint(mat,</span><br><span class="line">    alter_fun = alter_fun, col = col, </span><br><span class="line">    column_title = column_title, heatmap_legend_param = heatmap_legend_param) %v%</span><br><span class="line">Heatmap(matrix(rnorm(ncol(mat)*<span class="number">10</span>), nrow = <span class="number">10</span>), name = <span class="string">"expr"</span>, height = unit(<span class="number">4</span>, <span class="string">"cm"</span>))</span><br><span class="line"><span class="comment">## All mutation types: MUT, AMP, HOMDEL</span></span><br><span class="line">draw(ht_list)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/complexheatmap/1574592856189.png" alt="1574592856189"></p>
+<h2 id="资料五：如何制作complexheatmap需要的文件"><a href="#资料五：如何制作complexheatmap需要的文件" class="headerlink" title="资料五：如何制作complexheatmap需要的文件"></a>资料五：如何制作complexheatmap需要的文件</h2><p>​       在之前画图的时候，输入的excel是自己手动输入的，如果样本量较大或者说基因较多时，手动输入就显得非常麻烦，尤其是我想将annovar的注释结果画成这种图时，就比较麻烦，因此这里写了一个python脚本，用于annovar结果的转换。需要准备两个文件：sample_merge.csv、sample_merge_by_gene.csv，如：<br>sample_merge.csv：</p>
+<p><img src="/2019/11/24/complexheatmap/1574729399332.png" alt="1574729399332"></p>
+<p>sample_merge.csv</p>
+<p>在annovar的输出结果中添加一些列，这里必须的是Tumor_Sample_Barcode这一列，即所有的样本名称。<br>sample_merge_by_gene.csv：</p>
+<blockquote>
+<p>rownames 代表基因名，colnames 代表各个样本名。</p>
+</blockquote>
+<p><img src="/2019/11/24/complexheatmap/1574729412061.png" alt="1574729412061"></p>
+<p>sample_merge_by_gene.csv</p>
+<p>这个文件也是将annovar的结果做一些处理，将每个样本按照突变的基因合并，<strong>这个直接用R非常容易。</strong>       </p>
+<p>有了这两个文件之后就可以使用这个python脚本了：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">pd.options.mode.chained_assignment = <span class="literal">None</span></span><br><span class="line"></span><br><span class="line">df = pd.read_csv(<span class="string">'all_filter_sample_merge.csv'</span>)</span><br><span class="line">dff = df[[<span class="string">'Tumor_Sample_Barcode'</span>,<span class="string">'Gene.refGene'</span>,<span class="string">'Ref'</span>,<span class="string">'Alt'</span>]]</span><br><span class="line">dff[<span class="string">'rlen'</span>] = dff[<span class="string">'Ref'</span>].apply(len) <span class="comment"># 获取列表长度</span></span><br><span class="line">dff[<span class="string">'alen'</span>] = dff[<span class="string">'Alt'</span>].apply(len)</span><br><span class="line">df1 = pd.read_csv(<span class="string">'all_sample_filter_gene_merge.csv'</span>)</span><br><span class="line">df1.rename(columns=&#123;<span class="string">'Gene.refGene'</span>:<span class="string">'sample'</span>&#125;, inplace = <span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">mut_type</span><span class="params">(a,b)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> a &gt; b:</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">'deletion'</span>)</span><br><span class="line">    <span class="keyword">elif</span> a == b:</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">'mutation'</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span>(<span class="string">'insertion'</span>)</span><br><span class="line">dff[<span class="string">'mut_type'</span>] = dff[[<span class="string">'rlen'</span>,<span class="string">'alen'</span>]].apply(<span class="keyword">lambda</span> dff:mut_type(dff[<span class="string">'rlen'</span>],dff[<span class="string">'alen'</span>]),axis=<span class="number">1</span>)</span><br><span class="line"><span class="comment"># 这里也就是在dff这个列表中，增加了mut_type这一列</span></span><br><span class="line"><span class="comment"># Python中的lambda和apply用法：需要学习</span></span><br><span class="line"></span><br><span class="line">sample = df1.columns.tolist() <span class="comment">#numpy tolist()的用法，将数组或者矩阵转换成列表</span></span><br><span class="line">sample.remove(<span class="string">'sample'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mut_type</span><span class="params">(sp,gene)</span>:</span></span><br><span class="line">    mut = dff[(dff[<span class="string">'Tumor_Sample_Barcode'</span>]==sp) &amp; (dff[<span class="string">'Gene.refGene'</span>]==gene)]</span><br><span class="line">    types = mut[[<span class="string">'mut_type'</span>]].drop_duplicates()[<span class="string">'mut_type'</span>].tolist()</span><br><span class="line">    mt = <span class="string">";"</span>.join(types)</span><br><span class="line">    <span class="keyword">return</span>(mt)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> range(<span class="number">1</span>,df1.shape[<span class="number">1</span>]):</span><br><span class="line">    <span class="keyword">for</span> n <span class="keyword">in</span> range(<span class="number">0</span>,df1.shape[<span class="number">0</span>]):</span><br><span class="line">        <span class="keyword">if</span> df1.iloc[n,s] != <span class="number">0</span>:</span><br><span class="line">            gene = df1.iloc[n,<span class="number">0</span>]</span><br><span class="line">            sp = sample[s<span class="number">-1</span>]</span><br><span class="line">            mut = get_mut_type(sp,gene)</span><br><span class="line">            df1.iloc[n,s] = mut</span><br><span class="line">        </span><br><span class="line">df1 = df1.replace(<span class="number">0</span>,np.nan)</span><br><span class="line">df2 = df1.T</span><br><span class="line">df2.to_csv(<span class="string">'csv2complex.csv'</span>,header=<span class="literal">None</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>最后的运行结果就是之前的输入格式：</p>
+<p><img src="/2019/11/24/complexheatmap/1574729420960.png" alt="1574729420960"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/heatmap/" rel="tag"># heatmap</a>
+              <a href="/tags/maftools/" rel="tag"># maftools</a>
+              <a href="/tags/annovar/" rel="tag"># annovar</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/24/install_R_Packages/" rel="prev" title="R包安装">
+      <i class="fa fa-chevron-left"></i> R包安装
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/29/mutation_heatmap/" rel="next" title="突变热图作图">
+      突变热图作图 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#最终发现要处理我自己的数据，用maftools-这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图"><span class="nav-number">1.</span> <span class="nav-text">最终发现要处理我自己的数据，用maftools 这种工具还是很难达到自己的客制化要求，所以需要使用complexheatmap进行作图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chapter-7-OncoPrint"><span class="nav-number"></span> <span class="nav-text">Chapter 7 OncoPrint</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料一："><span class="nav-number"></span> <span class="nav-text">资料一：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料二：ComplexHeatmap画基因突变热图-一"><span class="nav-number"></span> <span class="nav-text">资料二：ComplexHeatmap画基因突变热图(一)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料三：基本突变情况热图绘制，转自生信技能树"><span class="nav-number"></span> <span class="nav-text">资料三：基本突变情况热图绘制，转自生信技能树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本热图绘制"><span class="nav-number"></span> <span class="nav-text">基本热图绘制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入数据"><span class="nav-number"></span> <span class="nav-text">导入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#画图"><span class="nav-number">1.</span> <span class="nav-text">画图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料四："><span class="nav-number"></span> <span class="nav-text">资料四：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#alter-fun自定义变异如何显示"><span class="nav-number"></span> <span class="nav-text">alter_fun自定义变异如何显示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#背景设置"><span class="nav-number">1.</span> <span class="nav-text">背景设置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更加复杂的设定"><span class="nav-number">2.</span> <span class="nav-text">更加复杂的设定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数的其他参数"><span class="nav-number"></span> <span class="nav-text">函数的其他参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体绘图演示"><span class="nav-number"></span> <span class="nav-text">具体绘图演示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oncoplot注释"><span class="nav-number"></span> <span class="nav-text">oncoplot注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oncplot和heatmap连接"><span class="nav-number"></span> <span class="nav-text">oncplot和heatmap连接</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#资料五：如何制作complexheatmap需要的文件"><span class="nav-number"></span> <span class="nav-text">资料五：如何制作complexheatmap需要的文件</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

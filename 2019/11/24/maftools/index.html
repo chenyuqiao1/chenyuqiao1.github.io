@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="学会使用maftools可视化annovar的注释结果一下所有的教程都是基于这个官方文档写的,其实一个官方文档就已经写的非常漂亮了，参考链接">
+<meta property="og:type" content="article">
+<meta property="og:title" content="学会使用可视化神器maftools">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/24/maftools/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="学会使用maftools可视化annovar的注释结果一下所有的教程都是基于这个官方文档写的,其实一个官方文档就已经写的非常漂亮了，参考链接">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2341581803.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/466283000.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/4215678115.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/3240821803.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2433201063.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/908294149.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/745670644.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/4171903635.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1124839463.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2397203106.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/3612972268.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/3096055403.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/3762535478.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2634720578.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2729101926.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-a6385218e1c2561f087986d953ce15e5_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-b9dec0ee0c7c0fedf038e47d0f8e21b3_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-0206400f9b3aa778915103abe05e50fd_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-4f32e44adeefbcce259c5896da1a96b8_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-0bd10e76096b0186345817dba73c6131_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-7ecf49e8fa84ccbfe941ef0723455d1f_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-1b861780df5682eee2d8710c7a6851d0_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-ae8f40586656931e340663c0d38ceea1_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-0e53012d9d0ca080f86af02946f5d56b_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-2149d608adc9cc0546225aa0178178c9_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-7a3940ed78e1089abc7b7859555b84b1_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-554ae7c18edaac896946ce184ef8b733_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-77e5c7f526a83e6a35510c16cd3c0759_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-6e79c29fa423529110c5331ebfda3cdc_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/v2-39884310463c6ebde953b41855cbbdf6_hd.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575257290.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575271692.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575282983.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575295832.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575314555.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575327947.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575384816.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575343947.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575358469.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575368856.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575398809.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575409968.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575418379.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1574575428779.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/3626470955.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/354321420.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/744553740.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/4273252394.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1237896571.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/167632340.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1520441678.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/1521086195.png">
+<meta property="article:published_time" content="2019-11-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:54.797Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="maftools">
+<meta property="article:tag" content="annovar">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/24/maftools/2341581803.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/24/maftools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>学会使用可视化神器maftools | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/24/maftools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          学会使用可视化神器maftools
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-24T00:00:00+08:00">2019-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:54" itemprop="dateModified" datetime="2020-05-17T21:54:54+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DNAseq/" itemprop="url" rel="index"><span itemprop="name">DNAseq</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="学会使用maftools可视化annovar的注释结果"><a href="#学会使用maftools可视化annovar的注释结果" class="headerlink" title="学会使用maftools可视化annovar的注释结果"></a>学会使用maftools可视化annovar的注释结果</h1><h4 id="一下所有的教程都是基于这个官方文档写的-其实一个官方文档就已经写的非常漂亮了，参考链接"><a href="#一下所有的教程都是基于这个官方文档写的-其实一个官方文档就已经写的非常漂亮了，参考链接" class="headerlink" title="一下所有的教程都是基于这个官方文档写的,其实一个官方文档就已经写的非常漂亮了，参考链接"></a><a href="https://bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html" target="_blank" rel="noopener">一下所有的教程都是基于这个官方文档写的,其实一个官方文档就已经写的非常漂亮了，参考链接</a></h4><a id="more"></a>
+
+
+
+<h1 id="肿瘤变异数据分析和可视化工具maftools：突变的数据分析"><a href="#肿瘤变异数据分析和可视化工具maftools：突变的数据分析" class="headerlink" title="肿瘤变异数据分析和可视化工具maftools：突变的数据分析"></a>肿瘤变异数据分析和可视化工具maftools：突变的数据分析</h1><h2 id="Maftools系列文章："><a href="#Maftools系列文章：" class="headerlink" title="Maftools系列文章："></a>Maftools系列文章：</h2><blockquote>
+<ol>
+<li>《<a href="https://byteofbio.com/archives/15.html" target="_blank" rel="noopener">maftools使用方法总结以及常见问题</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/4.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：安装和文件格式要求</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/11.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变的数据分析</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/14.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：CNV的可视化</a>》</li>
+</ol>
+</blockquote>
+<p>上一篇文章《<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</a>》主要以TCGA-LUAD为例介绍突变数据和临床数据的下载、处理以及简单的可视化。这篇文章更详细介绍可以利用maftools对肿瘤MAF格式的突变数据做哪些分析。</p>
+<h2 id="还和上篇一样，先用maftools把数据读入"><a href="#还和上篇一样，先用maftools把数据读入" class="headerlink" title="还和上篇一样，先用maftools把数据读入"></a>还和上篇一样，先用maftools把数据读入</h2><p>具体的数据下载和处理方法这里就不再赘述了，请移步上篇文章：《<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</a>》。这篇文章里，读入的临床数据终于可以派上用场了。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(maftools)</span><br><span class="line">luad &lt;- read.maf(maf=<span class="string">"TCGA.LUAD.maf"</span>, clinicalData=<span class="string">"clinical.tsv"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="突变的互斥性（exclusive）和共现性（Co-occurrence）分析"><a href="#突变的互斥性（exclusive）和共现性（Co-occurrence）分析" class="headerlink" title="突变的互斥性（exclusive）和共现性（Co-occurrence）分析"></a>突变的互斥性（exclusive）和共现性（Co-occurrence）分析</h2><p>使用函数<code>somaticInteractions</code>可通过对所选突变两两之间进行成对的Fisher精确检验分析突变的互斥性和共现性。此外还通过<code>cometExactTest</code>通过<a href="https://link.springer.com/article/10.1186/s13059-015-0700-7" target="_blank" rel="noopener">CoMEt检验</a>寻找包含&gt;2基因的互斥基因集。参数<code>top=30</code>用于设定队列中突变最多的30个基因。也可以用参数<code>genes</code>手动设定想要比较的基因列表。<code>pvalue</code>用来设定图中“点”和“星号”标注显著性所对应的阈值。</p>
+<p>由于程序原因，直接运行<code>somaticInteractions</code>不能显示成对互斥性和共现性的结果<code>$pairs</code>，需要用一个变量（如下面的<code>output</code>）捕获该函数的返回值并运行两次才能得到<code>$pairs</code>：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&gt; output &lt;- somaticInteractions(maf=luad, top=<span class="number">50</span>, pvalue=c(<span class="number">0.05</span>, <span class="number">0.01</span>)) <span class="comment"># 使用变量捕获函数输出</span></span><br><span class="line"><span class="comment">## Checking for Gene sets</span></span><br><span class="line"><span class="comment">## ------------------</span></span><br><span class="line"><span class="comment">## genes: 4</span></span><br><span class="line"><span class="comment">## geneset size: 3</span></span><br><span class="line"><span class="comment">## 4 combinations</span></span><br><span class="line"><span class="comment">## Signifcantly altered gene-sets: 1 </span></span><br><span class="line"><span class="comment">## ------------------</span></span><br><span class="line"></span><br><span class="line">&gt; output <span class="comment"># 第一次</span></span><br><span class="line"><span class="comment">## $pairs</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $gene_sets</span></span><br><span class="line"><span class="comment">##             gene_set     pvalue</span></span><br><span class="line"><span class="comment">## 1: TP53, KRAS, STK11 0.04708279</span></span><br><span class="line"></span><br><span class="line">&gt; output <span class="comment"># 第二次</span></span><br><span class="line"><span class="comment">## $pairs</span></span><br><span class="line"><span class="comment">##        gene1    gene2       pValue oddsRatio  00  11  01  10        Event</span></span><br><span class="line"><span class="comment">##    1:  XIRP2    ZFHX4 1.968494e-14  4.850686 334  80  90  61 Co_Occurance</span></span><br><span class="line"><span class="comment">##    2:  MUC16      TTN 3.880676e-14  3.817014 229 146 112  78 Co_Occurance</span></span><br><span class="line"><span class="comment">##    3:  LRP1B    MUC16 4.388807e-14  4.074352 272 114 110  69 Co_Occurance</span></span><br><span class="line"><span class="comment">##    4:   RYR2    LRP1B 6.666331e-14  4.068623 284 107  76  98 Co_Occurance</span></span><br><span class="line"><span class="comment">##    5:    TTN     RYR2 9.467845e-14  3.835079 238 136  69 122 Co_Occurance</span></span><br><span class="line"><span class="comment">##   ---                                                                    </span></span><br><span class="line"><span class="comment">## 1039: AHNAK2    RP1L1 4.506738e-02  1.853890 415  19  72  59 Co_Occurance</span></span><br><span class="line"><span class="comment">## 1040: ZNF536    SPTA1 4.702016e-02  1.613526 353  35 102  75 Co_Occurance</span></span><br><span class="line"><span class="comment">## 1041:  LRRC7     FAT4 4.792946e-02  1.807431 414  19  69  63 Co_Occurance</span></span><br><span class="line"><span class="comment">## 1042: ADGRG4 ADAMTS12 4.907451e-02  1.769172 398  23  76  68 Co_Occurance</span></span><br><span class="line"><span class="comment">## 1043:   RELN   ADGRG4 4.978755e-02  1.784468 413  19  72  61 Co_Occurance</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">## $gene_sets</span></span><br><span class="line"><span class="comment">##             gene_set     pvalue</span></span><br><span class="line"><span class="comment">## 1: TP53, KRAS, STK11 0.04708279</span></span><br></pre></td></tr></table></figure>
+
+<p>本例中共获得1042个显著互斥/共现的突变基因对（Fisher精确检验）以及1个互斥的基因集（CoMEt检验）。注意程序输出的“occurance”存在拼写错误，应为“occurrence”。输出详细结果可以使用<code>write.table</code>写入到文件：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">write.table(output$pairs, file=<span class="string">"somaticInteractions.pairwise.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">write.table(output$gene_sets, file=<span class="string">"somaticInteractions.comet.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>生成的图以矩阵的形式展示基因对Fisher精确检验的结果。其中绿色和洋红色分别代表共现和互斥，颜色深浅代表显著性程度-log10(p-value)：</p>
+<p><img src="/2019/11/24/maftools/2341581803.png" alt="maftools somaticInteractions exclusive Co-occurrence"></p>
+<p>然后可以选择感兴趣的基因，使用<code>oncostrip</code>展示（当然也可以使用<code>oncoplot</code>）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oncostrip(maf=luad, genes=c(<span class="string">"TP53"</span>, <span class="string">"KRAS"</span>, <span class="string">"STK11"</span>), border=<span class="literal">NULL</span>) <span class="comment"># 这里选择了exclusive的基因集</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/466283000.png" alt="maftools oncostrip"></p>
+<h2 id="预测癌症驱动基因"><a href="#预测癌症驱动基因" class="headerlink" title="预测癌症驱动基因"></a>预测癌症驱动基因</h2><p>maftools中的函数<code>oncodrive</code>基于“<a href="https://academic.oup.com/bioinformatics/article/29/18/2238/240376" target="_blank" rel="noopener">oncodriveCLUST算法</a>”可直接从MAF文件中鉴定癌症驱动基因。其原理是癌症驱动基因的突变通常富集在特定位点（热点）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">luad.sig &lt;- oncodrive(maf=luad, minMut=<span class="number">5</span>, AACol=<span class="string">"HGVSp_Short"</span>, pvalMethod=<span class="string">"zscore"</span>)</span><br><span class="line"><span class="comment"># 将统计结果保存到文件</span></span><br><span class="line">write.table(luad.sig, file=<span class="string">"luad.oncodrive.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line"><span class="comment"># 使用plotOncodrive函数绘制散点图</span></span><br><span class="line">plotOncodrive(res = laml.sig, fdrCutOff = <span class="number">0.1</span>, useFraction = <span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
+<p>图中点的大小以及基因名后的数字展示的是基因内突变cluster的数量，X轴为cluster内的突变数量或者占突变总数的比例（根据参数<code>useFraction</code>设定显示方式），Y轴是-log10(fdr)。本例（TCGA-LUAD）中鉴定到的驱动基因candidate为<em>KRAS</em>：</p>
+<p><img src="/2019/11/24/maftools/4215678115.png" alt="maftools oncodrive plotOncodrive"></p>
+<h2 id="pfam注释和统计"><a href="#pfam注释和统计" class="headerlink" title="pfam注释和统计"></a>pfam注释和统计</h2><p><code>pfamDomains</code>可以用来注释导致氨基酸改变的突变所在pfam结构域以及按照pfam结构域为对象的统计结果（分别储存在<code>luad.pfam$proteinSummary</code>和<code>luad.pfam$domainSummary</code>中），并绘制散点图：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luad.pfam &lt;- pfamDomains(maf=luad, AACol=<span class="string">"HGVSp_Short"</span>, top=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p>圆点代表pfam结构域，对应X轴为该结构域中出现的突变数量，Y轴以及圆点的大小为影响的基因数。参数<code>top</code>用来选择标记突变数最多的pfam domain数量。</p>
+<p><img src="/2019/11/24/maftools/3240821803.png" alt="maftools pfamDomains"></p>
+<p>统计结果的展示和保存：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&gt; luad.pfam$proteinSummary[,<span class="number">1</span>:<span class="number">7</span>, with=<span class="literal">FALSE</span>]</span><br><span class="line"><span class="comment">##         HGNC AAPos Variant_Classification   N total   fraction DomainLabel</span></span><br><span class="line"><span class="comment">##      1: KRAS    12      Missense_Mutation 136   154 0.88311688     COG1100</span></span><br><span class="line"><span class="comment">##      2: EGFR   858      Missense_Mutation  23    78 0.29487179   PTKc_EGFR</span></span><br><span class="line"><span class="comment">##      3: EGFR   746           In_Frame_Del  17    78 0.21794872   PTKc_EGFR</span></span><br><span class="line"><span class="comment">##      4: TP53   273      Missense_Mutation  10   281 0.03558719         P53</span></span><br><span class="line"><span class="comment">##      5: TP53   249      Missense_Mutation  10   281 0.03558719         P53</span></span><br><span class="line"><span class="comment">##     ---                                                                   </span></span><br><span class="line"><span class="comment">## 138224:   pk   753      Missense_Mutation   1     6 0.16666667        &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 138225:   pk   543      Missense_Mutation   1     6 0.16666667        &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 138226:   pk   735      Missense_Mutation   1     6 0.16666667        &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 138227:   pk   316      Missense_Mutation   1     6 0.16666667        &lt;NA&gt;</span></span><br><span class="line"><span class="comment">## 138228:   pk   313      Missense_Mutation   1     6 0.16666667        &lt;NA&gt;</span></span><br><span class="line"></span><br><span class="line">&gt; luad.pfam$domainSummary[,<span class="number">1</span>:<span class="number">3</span>, with=<span class="literal">FALSE</span>]</span><br><span class="line"><span class="comment">##           DomainLabel nMuts nGenes</span></span><br><span class="line"><span class="comment">##    1:           7tm_1  4740    573</span></span><br><span class="line"><span class="comment">##    2: Cadherin_repeat  1925    109</span></span><br><span class="line"><span class="comment">##    3:         COG5048  1760    408</span></span><br><span class="line"><span class="comment">##    4:             FN3  1290    138</span></span><br><span class="line"><span class="comment">##    5:           I-set   878    115</span></span><br><span class="line"><span class="comment">##   ---                             </span></span><br><span class="line"><span class="comment">## 6734:  zf-Sec23_Sec24     1      1</span></span><br><span class="line"><span class="comment">## 6735:         zf-ZPR1     1      1</span></span><br><span class="line"><span class="comment">## 6736:      zf-piccolo     1      1</span></span><br><span class="line"><span class="comment">## 6737:      zf-primase     1      1</span></span><br><span class="line"><span class="comment">## 6738:         zf-rbx1     1      1</span></span><br><span class="line"></span><br><span class="line">&gt; write.table(luad.pfam$proteinSummary, file=<span class="string">"pfam_protsum.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">&gt; write.table(luad.pfam$domainSummary, file=<span class="string">"pfam_domainsum.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛癌的比较分析"><a href="#泛癌的比较分析" class="headerlink" title="泛癌的比较分析"></a>泛癌的比较分析</h2><p><code>pancanComparison</code>函数可以将给定的队列和21个癌症队列中高频突变的基因（<a href="https://www.nature.com/articles/nature12912" target="_blank" rel="noopener">参考文献</a>）进行比较，从而分析给定队列中特异性的突变。做这个分析需要用到MutSigCV的结果。<strong>（略，有时间再补充）</strong></p>
+<h2 id="生存分析"><a href="#生存分析" class="headerlink" title="生存分析"></a>生存分析</h2><p>使用函数<code>mafSurvival</code>可以利用突变和临床数据绘制Kaplan-Meier曲线（KM曲线）进行生存分析。临床数据的处理请翻看上篇文章《<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</a>》。参数<code>genes</code>用于选定基因，<code>time</code>设定临床数据中保存随访时间的字段，<code>Status</code>设定临床数据中存放生存状态的。</p>
+<p>参数<code>isTCGA</code>在这里设定数据是否来自TCGA。如果设定为<code>TRUE</code>，程序会将临床数据中”Tumor_Sample_Barcode”字段前12个字符截取出来和MAF文件进行匹配。因为我在上篇文章中通过一个Python脚本<code>tcga_format.py</code>已经做过这个处理了，所以这里是否设定<code>TRUE</code>都可以（未免麻烦，建议这么做）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mafSurvival(maf=luad, genes=c(<span class="string">"TP53"</span>, <span class="string">"TTN"</span>, <span class="string">"MUC16"</span>), time=<span class="string">"days_to_last_follow_up"</span>, Status=<span class="string">"days_to_death"</span>, isTCGA=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出突变/野生型样本数量、生存时间中位数等信息：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Looking for clinical data in annoatation slot of MAF..</span></span><br><span class="line"><span class="comment">## Number of mutated samples for given genes: </span></span><br><span class="line"><span class="comment">##  TP53   TTN MUC16 </span></span><br><span class="line"><span class="comment">##   270   258   224 </span></span><br><span class="line"><span class="comment">## Median survival..</span></span><br><span class="line"><span class="comment">##     Group medianTime   N</span></span><br><span class="line"><span class="comment">## 1: Mutant        606 414</span></span><br><span class="line"><span class="comment">## 2:     WT        704 153</span></span><br><span class="line"><span class="comment">## Removed 178 samples with NA's</span></span><br></pre></td></tr></table></figure>
+
+<p>KM曲线和logrank test：</p>
+<p><img src="/2019/11/24/maftools/2433201063.png" alt="maftools,mafSurvival,survival analysis,logrank test"></p>
+<h2 id="比较两个MAF文件（队列）"><a href="#比较两个MAF文件（队列）" class="headerlink" title="比较两个MAF文件（队列）"></a>比较两个MAF文件（队列）</h2><p>函数<code>mafCompare</code>通过对两个队列的MAF文件中所有基因进行Fisher精确检验检测差异突变基因。Maftools官方文档给了一个例子是Acute Promyelocytic Leukemia（APL，急性早幼粒细胞白血病）在不同分期两个队列中的差异突变基因。2016年<a href="https://www.sciencedirect.com/science/article/pii/S1535610816301118" target="_blank" rel="noopener">发表在Cancer Cell上的一篇文章</a>中分析了癌症中的性别差异。其中LUAD也是性别偏好性明显的癌症类别。这里我拿不同性别的TCGA-LUAD进行比较分析：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 从临床数据中提取性别对应的"Tumor_Sample_Barcode"</span></span><br><span class="line">clin &lt;- read.table(<span class="string">"clinical.tsv"</span>, header=<span class="literal">T</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">clin.female &lt;- subset(clin, gender==<span class="string">"female"</span>)$Tumor_Sample_Barcode</span><br><span class="line">clin.male &lt;- subset(clin, gender==<span class="string">"male"</span>)$Tumor_Sample_Barcode</span><br><span class="line"><span class="comment"># 使用subsetMaf构建男性和女性的MAF对象</span></span><br><span class="line">luad.female &lt;- subsetMaf(maf=luad, tsb=clin.female, isTCGA=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 使用mafCompare比较差异突变基因</span></span><br><span class="line">fvsm &lt;- mafCompare(m1=luad.female, m2=luad.male, m1Name=<span class="string">"Female"</span>, m2Name=<span class="string">"Male"</span>, minMut=<span class="number">5</span>)</span><br><span class="line"><span class="comment"># 结果保存到文件"female_vs_male.tsv"</span></span><br><span class="line">write.table(fvsm$results, file=<span class="string">"female_vs_male.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-绘制森林图"><a href="#1-绘制森林图" class="headerlink" title="1. 绘制森林图"></a>1. 绘制森林图</h3><p>续上一个例子，用forestPlot可以绘制森林图展示分析结果：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">forestPlot(mafCompareRes=fvsm, pVal=<span class="number">0.001</span>, color=c(<span class="string">"maroon"</span>, <span class="string">"royalblue"</span>), geneFontSize=<span class="number">0.8</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/908294149.png" alt="maftools forestPlot"></p>
+<h3 id="2-比较两个队列的oncoplot"><a href="#2-比较两个队列的oncoplot" class="headerlink" title="2. 比较两个队列的oncoplot"></a>2. 比较两个队列的oncoplot</h3><p>使用<code>coOncoplot</code>并排绘制两个队列的oncoplot：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">genes &lt;- c(<span class="string">"PCDH11Y"</span>, <span class="string">"HTATSF1"</span>, <span class="string">"WWC3"</span>, <span class="string">"DMD"</span>, <span class="string">"PLXNB3"</span>, <span class="string">"AMER"</span>, <span class="string">"MCF2"</span>, <span class="string">"FLNA"</span>)</span><br><span class="line">coOncoplot(m1=luad.female, m2=luad.male, m1Name=<span class="string">"Female"</span>, m2Name=<span class="string">"male"</span>, genes=genes)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/745670644.png" alt="maftools coOncoplot"></p>
+<h3 id="3-比较两个队列的棒棒糖图"><a href="#3-比较两个队列的棒棒糖图" class="headerlink" title="3. 比较两个队列的棒棒糖图"></a>3. 比较两个队列的棒棒糖图</h3><p>使用<code>lollipopPlot2</code>比较两个队列突变位点和类型：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lollipopPlot2(m1=luad.female, m2=luad.male, m1_name=<span class="string">"Female"</span>, m2_name=<span class="string">"Male"</span>, gene=<span class="string">"IQGAP2"</span>, AACol1 = <span class="string">"HGVSp_Short"</span>, AACol2 = <span class="string">"HGVSp_Short"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/4171903635.png" alt="maftools lollipopPlot2"></p>
+<h2 id="临床富集分析"><a href="#临床富集分析" class="headerlink" title="临床富集分析"></a>临床富集分析</h2><p><code>clinicalEnrichment</code>可用于做临床数据的富集分析（突变富集在哪些临床特征上），和上面例子类似，这里对性别进行富集：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">clin_enrich &lt;- clinicalEnrichment(maf=luad, clinicalFeature=<span class="string">"gender"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>clinicalEnrichment</code>会进行两两配对（比如female vs male）和分组的Fisher精确检验（female vs rest），结果分别储存于<code>$pairwise_comparision</code>和<code>$groupwise_comparision</code>之中。这里就不贴返回结果了，用writetable保存到文件：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">write.table(clin_enrich$pairwise_comparision, file=<span class="string">"clin_enrich_pair.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">write.table(clin_enrich$groupwise_comparision, file=<span class="string">"clin_enrich_group.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>绘制富集结果，<code>pVal</code>用来控制输出pvalue的阈值，似乎目前还不能按照fdr进行筛选：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotEnrichmentResults(enrich_res=clin_enrich, pVal=<span class="number">0.001</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/1124839463.png" alt="maftools clinicalEnrichment plotEnrichmentResults"></p>
+<p>这里的分析做得比较粗糙，因为没有去掉未报道性别的case，建议先对临床特征进行筛选再使用，否则会影响groupwise的结果。</p>
+<h2 id="药物基因互作"><a href="#药物基因互作" class="headerlink" title="药物基因互作"></a>药物基因互作</h2><p><code>drugInteractions</code>函数可以通过查询编译到maftools中的<a href="http://www.dgidb.org/" target="_blank" rel="noopener">Drug Gene Interaction database</a>分析基因的成药性（gene druggability）以及药物和基因间的互作。<strong>注意：本函数用到的数据来源为纯科研用途，不构成医疗建议。</strong></p>
+<h3 id="1-基因的成药性"><a href="#1-基因的成药性" class="headerlink" title="1. 基因的成药性"></a>1. 基因的成药性</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">druggability &lt;- drugInteractions(maf=luad)</span><br><span class="line"><span class="comment"># 保存到文件</span></span><br><span class="line">write.table(druggability, file=<span class="string">"druggability.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/2397203106.png" alt="maftools,drugInteractions,gene druggability"></p>
+<p>图中展示潜在的可成药基因分类，每个分类后面中括号里的是前5的基因，少于5个就全部显示。Y轴为可成药基因分类中的基因数量。</p>
+<h3 id="2-药物和基因间互作"><a href="#2-药物和基因间互作" class="headerlink" title="2. 药物和基因间互作"></a>2. 药物和基因间互作</h3><p>通过给定基因或基因列表，查询相应互作的药物：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kras &lt;- drugInteractions(genes=<span class="string">"KRAS"</span>, drugs=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 展示其中部分列</span></span><br><span class="line">kras[,.(Gene, interaction_types, drug_name, drug_claim_name)]</span><br><span class="line"><span class="comment"># 保存到文件</span></span><br><span class="line">write.table(kras, file=<span class="string">"kras_drug.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##      Gene interaction_types    drug_name drug_claim_name</span></span><br><span class="line"><span class="comment">##   1: KRAS                   LENALIDOMIDE    lenalidomide</span></span><br><span class="line"><span class="comment">##   2: KRAS                    IMGATUZUMAB           GA201</span></span><br><span class="line"><span class="comment">##   3: KRAS                                           3144</span></span><br><span class="line"><span class="comment">##   4: KRAS                    SELUMETINIB     Selumetinib</span></span><br><span class="line"><span class="comment">##   5: KRAS                     BUPARLISIB          BKM120</span></span><br><span class="line"><span class="comment">##  ---                                                    </span></span><br><span class="line"><span class="comment">## 291: KRAS                    GEDATOLISIB     Gedatolisib</span></span><br><span class="line"><span class="comment">## 292: KRAS                                       XMT-1536</span></span><br><span class="line"><span class="comment">## 293: KRAS                    GEMCITABINE     Gemcitabine</span></span><br><span class="line"><span class="comment">## 294: KRAS                     NAVITOCLAX         ABT-263</span></span><br><span class="line"><span class="comment">## 295: KRAS                         PA-799       CH5132799</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="致癌信号通路"><a href="#致癌信号通路" class="headerlink" title="致癌信号通路"></a>致癌信号通路</h2><p><code>OncogenicPathways</code>函数可以分析<a href="https://www.sciencedirect.com/science/article/pii/S0092867418303593" target="_blank" rel="noopener">TCGA中已知的10个致癌信号通路</a>中基因突变的数量和比例。包括cell cycle, Hippo, Myc, Notch, Nrf2, PI-3-Kinase/Akt, RTK-RAS, TGFβ signaling, p53 and β-catenin/Wnt：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">OncogenicPathways(maf=luad)</span><br></pre></td></tr></table></figure>
+
+<p>输出致癌信号通路基因突变统计：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Pathway alteration fractions</span></span><br><span class="line"><span class="comment">##        Pathway  N n_affected_genes fraction_affected</span></span><br><span class="line"><span class="comment">##  1:    RTK-RAS 85               81         0.9529412</span></span><br><span class="line"><span class="comment">##  2:        WNT 68               64         0.9411765</span></span><br><span class="line"><span class="comment">##  3:      NOTCH 71               61         0.8591549</span></span><br><span class="line"><span class="comment">##  4:      Hippo 38               36         0.9473684</span></span><br><span class="line"><span class="comment">##  5:       PI3K 29               28         0.9655172</span></span><br><span class="line"><span class="comment">##  6: Cell_Cycle 15               12         0.8000000</span></span><br><span class="line"><span class="comment">##  7:        MYC 13               11         0.8461538</span></span><br><span class="line"><span class="comment">##  8:   TGF-Beta  7                7         1.0000000</span></span><br><span class="line"><span class="comment">##  9:       TP53  6                6         1.0000000</span></span><br><span class="line"><span class="comment">## 10:       NRF2  3                3         1.0000000</span></span><br></pre></td></tr></table></figure>
+
+<p>绘制的散点图：</p>
+<p><img src="/2019/11/24/maftools/3612972268.png" alt="maftools OncogenicPathways"></p>
+<p><code>PlotOncogenicPathways</code>函数也可以用瀑布图的形式展示某个pathway所有基因的图片情况，其中红色标注的基因为抑癌基因，蓝色标注的为致癌基因：</p>
+<p><img src="/2019/11/24/maftools/3096055403.png" alt="maftools PlotOncogenicPathways"></p>
+<h2 id="肿瘤异质性和MATH-score"><a href="#肿瘤异质性和MATH-score" class="headerlink" title="肿瘤异质性和MATH score"></a>肿瘤异质性和MATH score</h2><h3 id="1-肿瘤样品的异质性"><a href="#1-肿瘤样品的异质性" class="headerlink" title="1. 肿瘤样品的异质性"></a>1. 肿瘤样品的异质性</h3><p>肿瘤通常是异质性的，包含多种克隆。通过对<a href="https://byteofbio.com/archives/7.html" target="_blank" rel="noopener">等位基因频率VAF</a>的聚类可以推断肿瘤的异质性。函数<code>inferHeterogeneity</code>可以实现这个功能（需要调用<code>mclust</code>）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 指定Tumor_Sample_Barcodes为"TCGA-55-7283"</span></span><br><span class="line">vafclust &lt;- inferHeterogeneity(maf=luad, tsb=<span class="string">"TCGA-55-7283"</span>)</span><br><span class="line"><span class="comment"># 保存结果到文件</span></span><br><span class="line">write.table(vafclust$clusterData, file=<span class="string">"vaf_clustdata.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">write.table(vafclust$clusterMeans, file=<span class="string">"vaf_clustmean.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>输出结果中各突变基因VAF的数据储存在<code>$clusterData</code>中，聚类数量和平均VAF储存在<code>$clusterMeans</code>中。用<code>plotClusters</code>函数展示聚类结果：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotClusters(clusters=vafclust)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/3762535478.png" alt="maftools inferHeterogeneity plotClusters"></p>
+<p>可以看到聚成两类，说明可能存在两种克隆。图上方的箱线图展示聚类中的数据分布。除了聚类的方法，还有一种用来量化肿瘤异质性的方式叫做”<a href="https://www.sciencedirect.com/science/article/abs/pii/S1368837512002977" target="_blank" rel="noopener">MATH score</a>“，用来计算VAF分布的宽度（即离散程度）。通常很高的MATH score与更差的预后相关。</p>
+<h3 id="2-排除发生了拷贝数变异的突变基因"><a href="#2-排除发生了拷贝数变异的突变基因" class="headerlink" title="2. 排除发生了拷贝数变异的突变基因"></a>2. 排除发生了拷贝数变异的突变基因</h3><p>因为突变基因的CNV会影响到VAF的计算，因此在做聚类之前最好最好排除这部分基因。我们需要在TCGA上下载样品对应的DNACopy生成的Copy Number Segment文件。并把”GDC_Aliquot”字段替换为”Sample”，该列内容也替换为对应的Tumor_Sample_Barcodes。这里以TCGA-38-4625为例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed <span class="string">'s/GDC_Aliquot/Sample/g'</span> LOOBY_p_TCGAb58_SNP_N_GenomeWideSNP_6_E04_680252.nocnv_grch38.seg.v2.txt | sed <span class="string">'s/d0597d1</span></span><br><span class="line"><span class="string">4-df0c-413b-888f-53597d1fb61a/TCGA-38-4625/g'</span> &gt; TCGA-38-4625.seg</span><br></pre></td></tr></table></figure>
+
+<p>重新运行<code>inferHeterogeneity</code>和<code>plotClusters</code></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vafclust &lt;- inferHeterogeneity(maf=luad, tsb=<span class="string">"TCGA-38-4625"</span>, segFile=<span class="string">"TCGA-38-4625.seg"</span>)</span><br><span class="line">plotClusters(clusters=vafclust, genes=<span class="string">'CN_altered'</span>, showCNvars=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
+<p><code>inferHeterogeneity</code>将根据读入的Segment文件去掉没有CNV数据的突变并标记存在CNV的突变。</p>
+<p><img src="/2019/11/24/maftools/2634720578.png" alt="maftools inferHeterogeneity plotClusters CNV"></p>
+<h2 id="突变特征"><a href="#突变特征" class="headerlink" title="突变特征"></a>突变特征</h2><h3 id="1-构建突变矩阵-amp-计算APOBEC-enrichment-score"><a href="#1-构建突变矩阵-amp-计算APOBEC-enrichment-score" class="headerlink" title="1. 构建突变矩阵 &amp; 计算APOBEC enrichment score"></a>1. 构建突变矩阵 &amp; 计算APOBEC enrichment score</h3><p>分析突变特征需要读入突变位点上下游的序列构建突变矩阵，因此需要使用到全基因组序列。这里因为作为案例的TCGA-LUAD使用的参考基因组是hg38，因此使用”BSgenome.Hsapiens.UCSC.hg38”，如果参考基因组为hg19，则用对应的”BSgenome.Hsapiens.UCSC.hg19”：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BiocManager::install(<span class="string">"BSgenome.Hsapiens.UCSC.hg38"</span>)</span><br><span class="line"><span class="keyword">library</span>(BSgenome.Hsapiens.UCSC.hg38, quietly=<span class="literal">TRUE</span>)</span><br><span class="line"><span class="comment"># 预测APOBEC enrichment scores &amp; 构建用于突变特征分析的突变矩阵</span></span><br><span class="line">luad.tnm &lt;- trinucleotideMatrix(maf=luad, ref_genome=<span class="string">"BSgenome.Hsapiens.UCSC.hg38"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-APOBEC富集和非富集样品差异"><a href="#2-APOBEC富集和非富集样品差异" class="headerlink" title="2. APOBEC富集和非富集样品差异"></a>2. APOBEC富集和非富集样品差异</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apobec_enrich &lt;- plotApobecDiff(tnm=luad.tnm, maf=luad)</span><br><span class="line"><span class="comment"># 保存到文件</span></span><br><span class="line">write.table(apobec_enrich$results, file=<span class="string">"apobec_result.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br><span class="line">write.table(apobec_enrich$SampleSummary, file=<span class="string">"apobec_sum.tsv"</span>, quote=<span class="literal">FALSE</span>, row.names=<span class="literal">FALSE</span>, sep=<span class="string">"\t"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/2729101926.png" alt="maftools plotApobecDiff APOBEC"></p>
+<h3 id="3-突变特征分析"><a href="#3-突变特征分析" class="headerlink" title="3. 突变特征分析"></a>3. 突变特征分析</h3><p><code>extractSignatures</code>函数用于从96种替换类型中提取突变特征。这里<code>nTry=6</code>设定尝试n的最大值，程序将调用<code>NMF</code>计算cophenetic correlation coefficient并选取最合适的值。<strong>因为内存消耗太大，后面的例子都没跑通，有时间再补上：</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(<span class="string">"NMF"</span>)</span><br><span class="line">luad.sign &lt;- extractSignatures(mat=luad.tnm, nTry=<span class="number">6</span>, plotBestFitRes=<span class="literal">FALSE</span>)</span><br><span class="line">plotSignatures(luad.sign)</span><br></pre></td></tr></table></figure>
+
+<p>绘制成热图：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(<span class="string">'pheatmap'</span>)</span><br><span class="line">pheatmap::pheatmap(mat=luad.sign$coSineSimMat, cluster_rows=<span class="literal">FALSE</span>, main=<span class="string">"cosine similarity against validated signatures"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="4-突变特征富集分析"><a href="#4-突变特征富集分析" class="headerlink" title="4. 突变特征富集分析"></a>4. 突变特征富集分析</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">luad.se &lt;- signatureEnrichment(maf=luad, sig_res=luad.sign)</span><br><span class="line">plotEnrichmentResults(enrich_res=luad.se, pVal=<span class="number">0.05</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<p><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html" target="_blank" rel="noopener">https://www.bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html</a></p>
+</blockquote>
+<h4 id="oncoplot请参考"><a href="#oncoplot请参考" class="headerlink" title="oncoplot请参考"></a><a href="http://bioconductor.org/packages/devel/bioc/vignettes/maftools/inst/doc/oncoplots.html" target="_blank" rel="noopener">oncoplot请参考</a></h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(maf, top = 20, genes = NULL, altered = FALSE,</span><br><span class="line">  mutsig = NULL, mutsigQval = 0.1, drawRowBar = TRUE,</span><br><span class="line">  drawColBar = TRUE, includeColBarCN = TRUE, draw_titv = FALSE,</span><br><span class="line">  logColBar = FALSE, clinicalFeatures = NULL, exprsTbl = NULL,</span><br><span class="line">  additionalFeature = NULL, additionalFeaturePch = 20,</span><br><span class="line">  additionalFeatureCol = "white", additionalFeatureCex = 0.9,</span><br><span class="line">  annotationDat = NULL, annotationColor = NULL, genesToIgnore = NULL,</span><br><span class="line">  showTumorSampleBarcodes = FALSE, barcode_mar = 4, gene_mar = 5,</span><br><span class="line">  removeNonMutated = TRUE, fill = TRUE, cohortSize = NULL,</span><br><span class="line">  colors = NULL, sortByMutation = FALSE, sortByAnnotation = FALSE,</span><br><span class="line">  numericAnnoCol = NULL, groupAnnotationBySize = TRUE,</span><br><span class="line">  annotationOrder = NULL, keepGeneOrder = FALSE,</span><br><span class="line">  GeneOrderSort = TRUE, sampleOrder = NULL, writeMatrix = FALSE,</span><br><span class="line">  sepwd_genes = 0.5, sepwd_samples = 0.25, fontSize = 0.8,</span><br><span class="line">  SampleNamefontSize = 1, showTitle = TRUE, titleFontSize = 1.5,</span><br><span class="line">  legendFontSize = 1.2, annotationFontSize = 1.2, bgCol = "#CCCCCC",</span><br><span class="line">  borderCol = "white", colbar_pathway = FALSE)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Arguments"><a href="#Arguments" class="headerlink" title="Arguments"></a>Arguments</h2><table>
+<thead>
+<tr>
+<th><code>maf</code></th>
+<th>an <code>MAF</code> object generated by <code>read.maf</code></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>top</code></td>
+<td>how many top genes to be drawn. defaults to 20.</td>
+</tr>
+<tr>
+<td><code>genes</code></td>
+<td>Just draw oncoplot for these genes. Default NULL.</td>
+</tr>
+<tr>
+<td><code>altered</code></td>
+<td>Default FALSE. Chooses top genes based on muatation status. If <code>TRUE</code> chooses top genes based alterations (CNV or mutation).</td>
+</tr>
+<tr>
+<td><code>mutsig</code></td>
+<td>Mutsig resuts if availbale. Usually file named sig_genes.txt If provided plots significant genes and correpsonding Q-values as side row-bar. Default NULL.</td>
+</tr>
+<tr>
+<td><code>mutsigQval</code></td>
+<td>Q-value to choose significant genes from mutsig results. Default 0.1</td>
+</tr>
+<tr>
+<td><code>drawRowBar</code></td>
+<td>logical plots barplot for each gene. Default <code>TRUE</code>.</td>
+</tr>
+<tr>
+<td><code>drawColBar</code></td>
+<td>logical plots barplot for each sample. Default <code>TRUE</code>.</td>
+</tr>
+<tr>
+<td><code>includeColBarCN</code></td>
+<td>Whether to include CN in column bar plot. Default TRUE</td>
+</tr>
+<tr>
+<td><code>draw_titv</code></td>
+<td>logical Includes TiTv plot. <code>FALSE</code></td>
+</tr>
+<tr>
+<td><code>logColBar</code></td>
+<td>Plot top bar plot on log10 scale. Default <code>FALSE</code>.</td>
+</tr>
+<tr>
+<td><code>clinicalFeatures</code></td>
+<td>columns names from ‘clinical.data’ slot of <code>MAF</code> to be drawn in the plot. Dafault NULL.</td>
+</tr>
+<tr>
+<td><code>exprsTbl</code></td>
+<td>Expression values if availble. Must be a data.frame with two columns containing to gene names and expression values.</td>
+</tr>
+<tr>
+<td><code>additionalFeature</code></td>
+<td>a vector of length two indicating column name in the MAF and the factor level to be highlighted.</td>
+</tr>
+<tr>
+<td><code>additionalFeaturePch</code></td>
+<td>Default 20</td>
+</tr>
+<tr>
+<td><code>additionalFeatureCol</code></td>
+<td>Default “white”</td>
+</tr>
+<tr>
+<td><code>additionalFeatureCex</code></td>
+<td>Default 0.9</td>
+</tr>
+<tr>
+<td><code>annotationDat</code></td>
+<td>If MAF file was read without clinical data, provide a custom <code>data.frame</code> with a column <code>Tumor_Sample_Barcode</code> containing sample names along with rest of columns with annotations. You can specify which columns to be drawn using ‘clinicalFeatures’ argument.</td>
+</tr>
+<tr>
+<td><code>annotationColor</code></td>
+<td>Custom colors to use for ‘clinicalFeatures’. Must be a named list containing a named vector of colors. Default NULL. See example for more info.</td>
+</tr>
+<tr>
+<td><code>genesToIgnore</code></td>
+<td>do not show these genes in Oncoplot. Default NULL.</td>
+</tr>
+<tr>
+<td><code>showTumorSampleBarcodes</code></td>
+<td>logical to include sample names.</td>
+</tr>
+<tr>
+<td><code>barcode_mar</code></td>
+<td>Default 4</td>
+</tr>
+<tr>
+<td><code>gene_mar</code></td>
+<td>Default 5</td>
+</tr>
+<tr>
+<td><code>removeNonMutated</code></td>
+<td>Logical. If <code>TRUE</code> removes samples with no mutations in the oncoplot for better visualization. Default <code>TRUE</code>.</td>
+</tr>
+<tr>
+<td><code>fill</code></td>
+<td>Logical. If <code>TRUE</code> draws genes and samples as blank grids even when they are not altered.</td>
+</tr>
+<tr>
+<td><code>cohortSize</code></td>
+<td>Number of sequenced samples in the cohort. Default all samples from Cohort. You can manually specify the cohort size. Default <code>NULL</code></td>
+</tr>
+<tr>
+<td><code>colors</code></td>
+<td>named vector of colors for each Variant_Classification.</td>
+</tr>
+<tr>
+<td><code>sortByMutation</code></td>
+<td>Force sort matrix according mutations. Helpful in case of MAF was read along with copy number data. Default FALSE.</td>
+</tr>
+<tr>
+<td><code>sortByAnnotation</code></td>
+<td>logical sort oncomatrix (samples) by provided ‘clinicalFeatures’. Sorts based on first ‘clinicalFeatures’. Defaults to FALSE. column-sort</td>
+</tr>
+<tr>
+<td><code>numericAnnoCol</code></td>
+<td>color palette used for numeric annotations. Default ‘YlOrBr’ from RColorBrewer</td>
+</tr>
+<tr>
+<td><code>groupAnnotationBySize</code></td>
+<td>Further group ‘sortByAnnotation’ orders by their size. Defaults to TRUE. Largest groups comes first.</td>
+</tr>
+<tr>
+<td><code>annotationOrder</code></td>
+<td>Manually specify order for annotations. Works only for first ‘clinicalFeatures’. Default NULL.</td>
+</tr>
+<tr>
+<td><code>keepGeneOrder</code></td>
+<td>logical whether to keep order of given genes. Default FALSE, order according to mutation frequency</td>
+</tr>
+<tr>
+<td><code>GeneOrderSort</code></td>
+<td>logical this is applicable when ‘keepGeneOrder’ is TRUE. Default TRUE</td>
+</tr>
+<tr>
+<td><code>sampleOrder</code></td>
+<td>Manually speify sample names for oncolplot ordering. Default NULL.</td>
+</tr>
+<tr>
+<td><code>writeMatrix</code></td>
+<td>writes character coded matrix used to generate the plot to an output file.</td>
+</tr>
+<tr>
+<td><code>sepwd_genes</code></td>
+<td>Default 0.5</td>
+</tr>
+<tr>
+<td><code>sepwd_samples</code></td>
+<td>Default 0.25</td>
+</tr>
+<tr>
+<td><code>fontSize</code></td>
+<td>font size for gene names. Default 0.8.</td>
+</tr>
+<tr>
+<td><code>SampleNamefontSize</code></td>
+<td>font size for sample names. Default 1</td>
+</tr>
+<tr>
+<td><code>showTitle</code></td>
+<td>Default TRUE</td>
+</tr>
+<tr>
+<td><code>titleFontSize</code></td>
+<td>font size for title. Default 1.5</td>
+</tr>
+<tr>
+<td><code>legendFontSize</code></td>
+<td>font size for legend. Default 1.2</td>
+</tr>
+<tr>
+<td><code>annotationFontSize</code></td>
+<td>font size for annotations. Default 1.2</td>
+</tr>
+<tr>
+<td><code>bgCol</code></td>
+<td>Background grid color for wild-type (not-mutated) samples. Default gray - “#CCCCCC”</td>
+</tr>
+<tr>
+<td><code>borderCol</code></td>
+<td>border grid color (not-mutated) samples. Default ‘white’.</td>
+</tr>
+<tr>
+<td><code>colbar_pathway</code></td>
+<td>Draw top column bar with respect to diplayed pathway. Default FALSE.</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">laml.maf &lt;- system.file("extdata", "tcga_laml.maf.gz", package = "maftools")</span><br><span class="line">laml.clin = system.file('extdata', 'tcga_laml_annot.tsv', package = 'maftools')</span><br><span class="line">laml &lt;- read.maf(maf = laml.maf, clinicalData = laml.clin)</span><br><span class="line"><span class="meta">#</span><span class="bash">Basic onocplot</span></span><br><span class="line">oncoplot(maf = laml, top = 3)</span><br><span class="line"><span class="meta">#</span><span class="bash">Changing colors <span class="keyword">for</span> variant classifications (You can use any colors, here <span class="keyword">in</span> this example we will use a color palette from RColorBrewer)</span></span><br><span class="line">col = RColorBrewer::brewer.pal(n = 8, name = 'Paired')</span><br><span class="line">names(col) = c('Frame_Shift_Del','Missense_Mutation', 'Nonsense_Mutation', 'Multi_Hit', 'Frame_Shift_Ins',</span><br><span class="line">               'In_Frame_Ins', 'Splice_Site', 'In_Frame_Del')</span><br><span class="line"><span class="meta">#</span><span class="bash">Color coding <span class="keyword">for</span> FAB classification; try getAnnotations(x = laml) to see available annotations.</span></span><br><span class="line">fabcolors = RColorBrewer::brewer.pal(n = 8,name = 'Spectral')</span><br><span class="line">names(fabcolors) = c("M0", "M1", "M2", "M3", "M4", "M5", "M6", "M7")</span><br><span class="line">fabcolors = list(FAB_classification = fabcolors)</span><br><span class="line">oncoplot(maf = laml, colors = col, clinicalFeatures = 'FAB_classification', sortByAnnotation = TRUE, annotationColor = fabcolors)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>所有的变换都可以用这个官方文档来实现</p>
+<h2 id><a href="#" class="headerlink" title></a></h2><h1 id="maftools-从头开始绘制发表级oncoplot（瀑布图）"><a href="#maftools-从头开始绘制发表级oncoplot（瀑布图）" class="headerlink" title="maftools | 从头开始绘制发表级oncoplot（瀑布图）"></a>maftools | 从头开始绘制发表级oncoplot（瀑布图）</h1><p>原文链接：<a href="https://link.zhihu.com/?target=https%3A//mp.weixin.qq.com/s/G-0PtaoO6bYuhx_D_Rlrlw">https://mp.weixin.qq.com/s/G-0PtaoO6bYuhx_D_Rlrlw</a></p>
+<h3 id="对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。"><a href="#对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。" class="headerlink" title="对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。"></a><strong>对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。</strong></h3><p>随着癌症基因组学的进步, <a href="https://link.zhihu.com/?target=https%3A//wiki.nci.nih.gov/display/TCGA/Mutation%2BAnnotation%2BFormat%2B(MAF)%2BSpecification">突变注释格式</a> (MAF) 被广泛用于存储检测到的somatic variants。<a href="https://link.zhihu.com/?target=http%3A//cancergenome.nih.gov/">The Cancer Genome Atlas</a> 项目对30多种不同的癌症进行了测序，每种癌症类型的样本量超过200种。maftools-R包能够有效的汇总，分析和可视化MAF格式的文件。</p>
+<p>maftools函数主要分为可视化和分析两个模块，其主要功能及简短的描述如下所示，使用时只需读取MAF文件然后降MAF对象传递给所需要的绘图或分析功能即可。</p>
+<p><img src="/2019/11/24/maftools/v2-a6385218e1c2561f087986d953ce15e5_hd.jpg" alt="img"></p>
+<p>本次主要使用R-maftools包绘制组学突变结果（MAF）的oncoplot或者叫“瀑布图”。</p>
+<h2 id="一、-载入R包，数据"><a href="#一、-载入R包，数据" class="headerlink" title="一、 载入R包，数据"></a><strong>一、 载入R包，数据</strong></h2><h3 id="1）-载入maftools包"><a href="#1）-载入maftools包" class="headerlink" title="1） 载入maftools包"></a><strong>1） 载入maftools包</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (!require(&quot;BiocManager&quot;))</span><br><span class="line">    install.packages(&quot;BiocManager&quot;)</span><br><span class="line">BiocManager::install(&quot;maftools&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2）-载入数据"><a href="#2）-载入数据" class="headerlink" title="2） 载入数据"></a><strong>2） 载入数据</strong></h3><p>通过<code>read.maf</code>函数读入MAF文件，将各种数据（组学基因突变，拷贝数变异，临床数据，表达数据等）汇总并将其存储为MAF对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#TCGA-LAML MAF file (gz) </span><br><span class="line">laml.maf &#x3D; system.file(&#39;extdata&#39;, &#39;tcga_laml.maf.gz&#39;, package &#x3D; &#39;maftools&#39;) </span><br><span class="line">#clinical information (optional)</span><br><span class="line">laml.clin &#x3D; system.file(&#39;extdata&#39;, &#39;tcga_laml_annot.tsv&#39;, package &#x3D; &#39;maftools&#39;) </span><br><span class="line"></span><br><span class="line">laml &#x3D; read.maf(maf &#x3D; laml.maf, clinicalData &#x3D; laml.clin)</span><br></pre></td></tr></table></figure>
+
+<p>MAF对象中除了上面基因突变数据和对应的临床数据外，还可以加入拷贝数变异，表达数据等其他数据类型，后面需要的时候会添加。</p>
+<h2 id="二、-MAF对象汇总"><a href="#二、-MAF对象汇总" class="headerlink" title="二、 MAF对象汇总"></a><strong>二、 MAF对象汇总</strong></h2><h3 id="1）-展示MAF重点变量的summary信息"><a href="#1）-展示MAF重点变量的summary信息" class="headerlink" title="1） 展示MAF重点变量的summary信息"></a><strong>1） 展示MAF重点变量的summary信息</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#Shows sample summry.</span><br><span class="line">getSampleSummary(laml)</span><br><span class="line">#Shows gene summary.</span><br><span class="line">getGeneSummary(laml)</span><br><span class="line">#Shows all fields in MAF</span><br><span class="line">getFields(laml)</span><br><span class="line">#shows clinical data associated with samples</span><br><span class="line">getClinicalData(laml)</span><br><span class="line">#Writes maf summary to an output file with basename laml.</span><br><span class="line">write.mafSummary(maf &#x3D; laml, basename &#x3D; &#39;laml&#39;)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-b9dec0ee0c7c0fedf038e47d0f8e21b3_hd.jpg" alt="img"></p>
+<p>上图为临床数据（getClinicalData）的summary结果，其余可自行输入查看结果。</p>
+<h3 id="2）-绘制MAF-summary图"><a href="#2）-绘制MAF-summary图" class="headerlink" title="2） 绘制MAF-summary图"></a><strong>2） 绘制MAF-summary图</strong></h3><p>使用 plotmafSummary 绘制 maf 文件的summary信息，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#plotmafSummary </span><br><span class="line">plotmafSummary(maf &#x3D; laml, rmOutlier &#x3D; TRUE, addStat &#x3D; &#39;median&#39;, dashboard &#x3D; TRUE, titvRaw &#x3D; FALSE)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-0206400f9b3aa778915103abe05e50fd_hd.jpg" alt="img"></p>
+<p>堆叠的 barplot展示maf 文件中每个样本中的变异数量，并添加中位线，以显示队列间的中位数变异数量。箱线图展示variant_Classification的变异类型。</p>
+<h2 id="三、-绘制oncoplot（瀑布）图"><a href="#三、-绘制oncoplot（瀑布）图" class="headerlink" title="三、 绘制oncoplot（瀑布）图"></a><strong>三、 绘制oncoplot（瀑布）图</strong></h2><h3 id="1-绘制基础oncoplots（瀑布图）"><a href="#1-绘制基础oncoplots（瀑布图）" class="headerlink" title="1 绘制基础oncoplots（瀑布图）"></a><strong>1 绘制基础oncoplots（瀑布图）</strong></h3><p>oncoplots或者瀑布图可以很好的展示maf文件中的变异信息，侧面条形图和顶部条形图可分别由<code>drawRowBar</code>和<code>drawColBar</code>参数控制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#展示top20的变异genes.</span><br><span class="line">oncoplot(maf &#x3D; laml, top &#x3D; 20)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-4f32e44adeefbcce259c5896da1a96b8_hd.jpg" alt="img"></p>
+<p>注：变异注释为<code>Multi_Hit</code>表示同一样本中突变多次的基因。</p>
+<h3 id="2-更改变异类型的颜色"><a href="#2-更改变异类型的颜色" class="headerlink" title="2 更改变异类型的颜色"></a><strong>2 更改变异类型的颜色</strong></h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此处使用RColorBrewer的颜色，当然也可以使用任意颜色</span></span><br><span class="line">vc_cols = RColorBrewer::brewer.pal(n = <span class="number">8</span>, name = <span class="string">'Paired'</span>)</span><br><span class="line">names(vc_cols) = c(</span><br><span class="line">  <span class="string">'Frame_Shift_Del'</span>,</span><br><span class="line">  <span class="string">'Missense_Mutation'</span>,</span><br><span class="line">  <span class="string">'Nonsense_Mutation'</span>,</span><br><span class="line">  <span class="string">'Multi_Hit'</span>,</span><br><span class="line">  <span class="string">'Frame_Shift_Ins'</span>,</span><br><span class="line">  <span class="string">'In_Frame_Ins'</span>,</span><br><span class="line">  <span class="string">'Splice_Site'</span>,</span><br><span class="line">  <span class="string">'In_Frame_Del'</span></span><br><span class="line">)</span><br><span class="line"><span class="comment">#查看变异类型对应的颜色</span></span><br><span class="line">print(vc_cols)</span><br><span class="line"><span class="comment">#&gt;   Frame_Shift_Del Missense_Mutation Nonsense_Mutation         Multi_Hit </span></span><br><span class="line"><span class="comment">#&gt;         "#A6CEE3"         "#1F78B4"         "#B2DF8A"         "#33A02C" </span></span><br><span class="line"><span class="comment">#&gt;   Frame_Shift_Ins      In_Frame_Ins       Splice_Site      In_Frame_Del </span></span><br><span class="line"><span class="comment">#&gt;         "#FB9A99"         "#E31A1C"         "#FDBF6F"         "#FF7F00"</span></span><br><span class="line"></span><br><span class="line">oncoplot(maf = laml, colors = vc_cols, top = <span class="number">20</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-0bd10e76096b0186345817dba73c6131_hd.jpg" alt="img"></p>
+<h3 id="3-添加copy-number-信息"><a href="#3-添加copy-number-信息" class="headerlink" title="3 添加copy number 信息"></a><strong>3 添加copy number 信息</strong></h3><p>可以使用两种方式向maf文件中添加SCNA信息</p>
+<ul>
+<li>GISTIC result</li>
+<li>Custom copy number table</li>
+</ul>
+<h3 id="3-1-GISTIC-results"><a href="#3-1-GISTIC-results" class="headerlink" title="3.1 GISTIC results"></a><strong>3.1 GISTIC results</strong></h3><p>GISTIC会得到很多结果，此处只需要四个文件即可： <code>all_lesions.conf_XX.txt</code>, <code>amp_genes.conf_XX.txt</code>, <code>del_genes.conf_XX.txt</code>, <code>scores.gistic</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">#GISTIC results </span><br><span class="line">all.lesions &#x3D;</span><br><span class="line">  system.file(&quot;extdata&quot;, &quot;all_lesions.conf_99.txt&quot;, package &#x3D; &quot;maftools&quot;)</span><br><span class="line">amp.genes &#x3D;</span><br><span class="line">  system.file(&quot;extdata&quot;, &quot;amp_genes.conf_99.txt&quot;, package &#x3D; &quot;maftools&quot;)</span><br><span class="line">del.genes &#x3D;</span><br><span class="line">  system.file(&quot;extdata&quot;, &quot;del_genes.conf_99.txt&quot;, package &#x3D; &quot;maftools&quot;)</span><br><span class="line">scores.gis &#x3D;</span><br><span class="line">  system.file(&quot;extdata&quot;, &quot;scores.gistic&quot;, package &#x3D; &quot;maftools&quot;)</span><br><span class="line"></span><br><span class="line">#Read GISTIC results along with MAF</span><br><span class="line">laml.plus.gistic &#x3D; read.maf(</span><br><span class="line">  maf &#x3D; laml.maf,</span><br><span class="line">  gisticAllLesionsFile &#x3D; all.lesions,</span><br><span class="line">  gisticAmpGenesFile &#x3D; amp.genes,</span><br><span class="line">  gisticDelGenesFile &#x3D; del.genes,</span><br><span class="line">  gisticScoresFile &#x3D; scores.gis,</span><br><span class="line">  isTCGA &#x3D; TRUE,</span><br><span class="line">  verbose &#x3D; FALSE, </span><br><span class="line">  clinicalData &#x3D; laml.clin</span><br><span class="line">)</span><br><span class="line">#绘制含有SCNA信息的oncolpot</span><br><span class="line">oncoplot(maf &#x3D; laml.plus.gistic, top &#x3D; 20)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-7ecf49e8fa84ccbfe941ef0723455d1f_hd.jpg" alt="img"></p>
+<h3 id="3-2-Custom-copy-number-table"><a href="#3-2-Custom-copy-number-table" class="headerlink" title="3.2 Custom copy-number table"></a><strong>3.2 Custom copy-number table</strong></h3><p>可以自定义一个copy-number结果，例如，让我们在随机的 20 个样本中创建 DNMT3A 的假 SCNA变异。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">set.seed(seed = <span class="number">1234</span>)</span><br><span class="line">barcodes = as.character(getSampleSummary(x = laml)[,Tumor_Sample_Barcode])</span><br><span class="line"><span class="comment">#Random 20 samples</span></span><br><span class="line">dummy.samples = sample(x = barcodes,</span><br><span class="line">                       size = <span class="number">20</span>,</span><br><span class="line">                       replace = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Genarate random CN status for above samples</span></span><br><span class="line">cn.status = sample(</span><br><span class="line">  x = c(<span class="string">'Amp'</span>, <span class="string">'Del'</span>),</span><br><span class="line">  size = length(dummy.samples),</span><br><span class="line">  replace = <span class="literal">TRUE</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">custom.cn.data = data.frame(</span><br><span class="line">  Gene = <span class="string">"DNMT3A"</span>,</span><br><span class="line">  Sample_name = dummy.samples,</span><br><span class="line">  CN = cn.status,</span><br><span class="line">  stringsAsFactors = <span class="literal">FALSE</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">head(custom.cn.data)</span><br><span class="line"><span class="comment">#&gt;     Gene  Sample_name  CN</span></span><br><span class="line"><span class="comment">#&gt; 1 DNMT3A TCGA-AB-2898 Amp</span></span><br><span class="line"><span class="comment">#&gt; 2 DNMT3A TCGA-AB-2879 Amp</span></span><br><span class="line"><span class="comment">#&gt; 3 DNMT3A TCGA-AB-2920 Del</span></span><br><span class="line"><span class="comment">#&gt; 4 DNMT3A TCGA-AB-2866 Amp</span></span><br><span class="line"><span class="comment">#&gt; 5 DNMT3A TCGA-AB-2892 Amp</span></span><br><span class="line"><span class="comment">#&gt; 6 DNMT3A TCGA-AB-2863 Amp</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#添加SCNA信息</span></span><br><span class="line">laml.plus.cn = read.maf(maf = laml.maf,</span><br><span class="line">                        cnTable = custom.cn.data,</span><br><span class="line">                        verbose = <span class="literal">FALSE</span>)</span><br><span class="line"></span><br><span class="line">oncoplot(maf = laml.plus.cn, top = <span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-1b861780df5682eee2d8710c7a6851d0_hd.jpg" alt="img"></p>
+<h3 id="4-添加-significance-values"><a href="#4-添加-significance-values" class="headerlink" title="4 添加 significance values"></a><strong>4 添加 significance values</strong></h3><p>输入data.frame格式的数据，包括<code>gene</code> and <code>q值</code>两列即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#MutSig results</span><br><span class="line">laml.mutsig &#x3D; system.file(&quot;extdata&quot;, &quot;LAML_sig_genes.txt.gz&quot;, package &#x3D; &quot;maftools&quot;)</span><br><span class="line"></span><br><span class="line">oncoplot(</span><br><span class="line">  maf &#x3D; laml,</span><br><span class="line">  mutsig &#x3D; laml.mutsig,</span><br><span class="line">  mutsigQval &#x3D; 0.01,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-ae8f40586656931e340663c0d38ceea1_hd.jpg" alt="img"></p>
+<h3 id="5-临床信息-annotations"><a href="#5-临床信息-annotations" class="headerlink" title="5 临床信息 annotations"></a><strong>5 临床信息 annotations</strong></h3><p>1）使用存储在 <code>clinical.data</code> 中的变量进行注释</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用FAB_classification注释</span></span><br><span class="line">oncoplot(maf = laml, clinicalFeatures = <span class="string">'FAB_classification'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-0e53012d9d0ca080f86af02946f5d56b_hd.jpg" alt="img"></p>
+<p>2）临床信息注释的变量同样可以自定义颜色：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#更改FAB classification的颜色设置</span></span><br><span class="line">fabcolors = RColorBrewer::brewer.pal(n = <span class="number">8</span>,name = <span class="string">'Spectral'</span>)</span><br><span class="line"><span class="comment">#颜色和变量的种类要一样多</span></span><br><span class="line">names(fabcolors) = c(<span class="string">"M0"</span>, <span class="string">"M1"</span>, <span class="string">"M2"</span>, <span class="string">"M3"</span>, <span class="string">"M4"</span>, <span class="string">"M5"</span>, <span class="string">"M6"</span>, <span class="string">"M7"</span>)</span><br><span class="line">fabcolors = list(FAB_classification = fabcolors)</span><br><span class="line"></span><br><span class="line">oncoplot(</span><br><span class="line">  maf = laml,</span><br><span class="line">  clinicalFeatures = <span class="string">'FAB_classification'</span>,</span><br><span class="line">  sortByAnnotation = <span class="literal">TRUE</span>,</span><br><span class="line">  annotationColor = fabcolors</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-2149d608adc9cc0546225aa0178178c9_hd.jpg" alt="img"></p>
+<p>3）注释多个临床数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(</span><br><span class="line">    maf &#x3D; laml, </span><br><span class="line">    clinicalFeatures &#x3D; c(&#39;FAB_classification&#39;,&#39;SEX&#39;,&#39;Overall_Survival_Status&#39;),</span><br><span class="line">    annotationColor &#x3D; fabcolors)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/v2-7a3940ed78e1089abc7b7859555b84b1_hd.jpg" alt="img"></p>
+<p>以上就是如何使用R-maftools包完成瀑布图绘制的简单介绍，然后基本上也就完成了文献的Fig1 🤭。</p>
+<p>开篇就说了maftools对于组学数据的分析和展示来说，算是一个宝藏“R包”，因此后续还会介绍其他的汇总，分析和可视化功能。</p>
+<h2 id="利用maftools分析annovar的注释结果"><a href="#利用maftools分析annovar的注释结果" class="headerlink" title="利用maftools分析annovar的注释结果"></a>利用maftools分析annovar的注释结果</h2><p>第一步：</p>
+<p>将annovar注释后的txt文件合并，并在后面添加一列样本名称</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for i in *.hg19_multianno.txt</span><br><span class="line">do</span><br><span class="line">    sample=`echo $i|awk -F '.' '&#123;print $1&#125;'`</span><br><span class="line">    cut -f '1-10' $i|sed '1d'|sed "s/$/\t$&#123;sample&#125;/"&gt;&gt;all_sample.txt</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">sed -i '1s/^/Chr\tStart\tEnd\tRef\tAlt\tFunc.refGene\tGene.refGene\tGeneDetail.refGene\tExonicFunc.refGene\tAAChange.refGene\tTumor_Sample_Barcode\n/' all_sample.txt</span><br></pre></td></tr></table></figure>
+
+<p>结果应具有一下几列</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Chr     Start   End     Ref     Alt     Func.refGene    Gene.refGene    GeneDetail.refGene      ExonicFunc.refGene      AAChange.refGene      Tumor_Sample_Barcode</span><br></pre></td></tr></table></figure>
+
+<p>第二步：</p>
+<p>将文件转为maf格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">library(maftools)</span><br><span class="line">var.annovar.maf &#x3D; annovarToMaf(annovar &#x3D; &quot;all_sample.txt&quot;, </span><br><span class="line">                            Center &#x3D; &#39;NA&#39;, </span><br><span class="line">                            refBuild &#x3D; &#39;hg38&#39;, </span><br><span class="line">                            tsbCol &#x3D; &#39;Tumor_Sample_Barcode&#39;, </span><br><span class="line">                            table &#x3D; &#39;refGene&#39;,</span><br><span class="line">                            sep &#x3D; &quot;\t&quot;)</span><br><span class="line">write.table(var.annovar.maf,file&#x3D;&quot;var_annovar.maf&quot;,quote&#x3D; F,sep&#x3D;&quot;\t&quot;,row.names&#x3D;F)</span><br><span class="line">var_maf &#x3D; read.maf(maf &#x3D;&quot;var_annovar.maf&quot;)</span><br><span class="line">plotmafSummary(maf &#x3D; var_maf, rmOutlier &#x3D; TRUE, addStat &#x3D; &#39;median&#39;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/v2-554ae7c18edaac896946ce184ef8b733_hd.jpg" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(maf &#x3D; var_maf, top &#x3D; 30, fontSize &#x3D; 12 ,showTumorSampleBarcodes &#x3D; F )</span><br></pre></td></tr></table></figure>
+
+
+
+<p>然后画瀑布图</p>
+<p><img src="/2019/11/24/maftools/v2-77e5c7f526a83e6a35510c16cd3c0759_hd.jpg" alt="img"></p>
+<p>箱线图，显示六种不同转换的总体分布</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">laml.titv &#x3D; titv(maf &#x3D; var_maf, plot &#x3D; FALSE, useSyn &#x3D; TRUE)</span><br><span class="line">plotTiTv(res &#x3D; laml.titv)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/v2-6e79c29fa423529110c5331ebfda3cdc_hd.jpg" alt="img"></p>
+<p>分析相互关系图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">somaticInteractions(maf &#x3D; var_maf, top &#x3D; 25, pvalue &#x3D; c(0.05, 0.1))</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/v2-39884310463c6ebde953b41855cbbdf6_hd.jpg" alt="img"></p>
+<h1 id="背景介绍"><a href="#背景介绍" class="headerlink" title="背景介绍"></a>背景介绍</h1><p>随着癌症基因组学的进步，突变注释格式（MAF）被广泛接受并用于存储检测到的体细胞变体。 癌症基因组图谱项目对30多种不同的癌症进行了测序，每种癌症类型的样本量超过200种。由体细胞变体组成的结果数据以MAF格式形式存储。 只要数据采用MAF格式，该软件包就会尝试从TCGA源或任何内部研究中有效地汇总，分析，注释和可视化MAF文件.</p>
+<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>使用前要先将文件转换为maf格式,对于VCF格式文件，可以使用<a href="https://github.com/mskcc/vcf2maf" target="_blank" rel="noopener">vcf2maf</a>进行格式转换.</p>
+<p>maf文件包含的内容：</p>
+<ul>
+<li>Mandatory fields(必填项): <strong>Hugo_Symbol, Chromosome, Start_Position, End_Position, Reference_Allele, Tumor_Seq_Allele2, Variant_Classification, Variant_Type and Tumor_Sample_Barcode</strong>.</li>
+<li>Recommended optional fields（选填项）: non MAF specific fields containing VAF (Variant Allele Frequecy) and amino acid change information.</li>
+</ul>
+<h1 id="格式转换"><a href="#格式转换" class="headerlink" title="格式转换"></a>格式转换</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">将突变结果进行注释，得到txt文件</span></span><br><span class="line">for i in *.somatic.anno; do perl ~/software/Desktop/annovar/table_annovar.pl $sra_file /home/yang.zou/database/humandb_new/ -buildver hg19 -out variants --otherinfo -remove -protocol ensGene -operation g -nastring NA -outfile;done</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">然后将所有.hg19_multianno.txt文件添加一列填入文件名前缀并将所有txt文件拼接成一个文件，提取出含有外显子的信息</span></span><br><span class="line">for i in *.hg19_multianno.txt;do sed '1d' $i | sed "s/$/$&#123;i%%.*&#125;/" &gt;&gt; all_annovar;done </span><br><span class="line">grep -P "\texonic\t" all_annovar &gt; all_annovar2</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span><span class="bash">格式转换</span></span><br><span class="line">perl to-maftools.pl all_annovar2         #将文件转换为maf格式 </span><br><span class="line"><span class="meta">  #</span><span class="bash">to-maftools.pl</span></span><br><span class="line">    use strict;</span><br><span class="line">    use warnings;</span><br><span class="line">     </span><br><span class="line">    open (FA,"all_annovar2");</span><br><span class="line">    open (FB,"&gt;all_annovar3");</span><br><span class="line">     </span><br><span class="line">    print FB "Chr\tStart\tEnd\tRef\tAlt\tFunc.ensGene\tGene.ensGene\tGeneDetail.ensGene\tExonicFunc.ensGene\tAAChange.ensGene\tTumor_Sample_Barcode\n";</span><br><span class="line">    while (&lt;FA&gt;)&#123;</span><br><span class="line">            chomp;</span><br><span class="line">            my @l=split /\t/,$_;</span><br><span class="line">            print FB $l[0],"\t",$l[1],"\t",$l[2],"\t",$l[3],"\t",$l[4],"\t",$l[5],"\t",$l[6],"\t",$l[7],"\t",$l[8],"\t",$l[9],"\t",$l[10],"\n";</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="总体分析框架"><a href="#总体分析框架" class="headerlink" title="总体分析框架"></a>总体分析框架</h1><p><img src="/2019/11/24/maftools/1574575257290.png" alt="1574575257290"></p>
+<p>总体框架</p>
+<h1 id="maftools安装"><a href="#maftools安装" class="headerlink" title="maftools安装"></a>maftools安装</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;http:&#x2F;&#x2F;bioconductor.org&#x2F;biocLite.R&quot;)</span><br><span class="line">biocLite(&quot;maftools&quot;)</span><br><span class="line"> </span><br><span class="line">library(maftools)</span><br></pre></td></tr></table></figure>
+
+<p>注：<strong>安装过程特别麻烦，按了好几天，R版本要求3.3以上，也不要使用最新版本，可能有的包新版本还没同步</strong>。我使用的是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">version.string R version 3.4.1 (2017-06-30)</span><br></pre></td></tr></table></figure>
+
+<h1 id="正式处理"><a href="#正式处理" class="headerlink" title="正式处理"></a>正式处理</h1><h2 id="读入annovar文件转换为maf——annovarToMaf"><a href="#读入annovar文件转换为maf——annovarToMaf" class="headerlink" title="读入annovar文件转换为maf——annovarToMaf"></a>读入annovar文件转换为maf——annovarToMaf</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#read maf</span><br><span class="line">var.annovar.maf &#x3D; annovarToMaf(annovar &#x3D; &quot;all_annovar3&quot;, Center &#x3D; &#39;NA&#39;, refBuild &#x3D; &#39;hg19&#39;, tsbCol &#x3D; &#39;Tumor_Sample_Barcode&#39;, table &#x3D; &#39;ensGene&#39;,sep &#x3D; &quot;\t&quot;)</span><br><span class="line">write.table(x&#x3D;var.annovar.maf,file&#x3D;&quot;var_annovar_maf&quot;,quote&#x3D; F,sep&#x3D;&quot;\t&quot;,row.names&#x3D;F)</span><br></pre></td></tr></table></figure>
+
+<p>annovarToMaf函数说明</p>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><p>Converts variant annotations from Annovar into a basic MAF.将annovar格式转换为maf格式</p>
+<h3 id="Usage"><a href="#Usage" class="headerlink" title="Usage"></a>Usage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">annovarToMaf(annovar, Center &#x3D; NULL, refBuild &#x3D; &quot;hg19&quot;, tsbCol &#x3D; NULL,</span><br><span class="line">  table &#x3D; &quot;refGene&quot;, basename &#x3D; NULL, sep &#x3D; &quot;\t&quot;, MAFobj &#x3D; FALSE,</span><br><span class="line">  sampleAnno &#x3D; NULL)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arguments-1"><a href="#Arguments-1" class="headerlink" title="Arguments"></a>Arguments</h3><p>| <code>参数</code> |详细解释 |<br> | <code>annovar</code>| input annovar annotation file.|<br> | <code>Center</code> | Center field in MAF file will be filled with this value. Default NA.（MAF文件中的中心字段将填充此值。 默认NA）|<br> | <code>refBuild</code> | NCBI_Build field in MAF file will be filled with this value. Default hg19.（MAF文件中的NCBI_Build字段将填充此值。 默认hg19）|<br> | <code>tsbCol</code> | column name containing Tumor_Sample_Barcode or sample names in input file.（列名包含Tumor_Sample_Barcode或输入文件中的示例名称） |<br> | <code>table</code> | reference table used for gene-based annotations. Can be ‘ensGene’ or ‘refGene’. Default ‘refGene’（用于基于基因的注释的参考表。 可以是’ensGene’或’refGene’。 默认’refGene)|<br> | <code>basename</code> | If provided writes resulting MAF file to an output file. （将结果MAF文件写入输出文件）|<br> | <code>sep</code> | field seperator for input file. Default tab seperated.|<br> | <code>MAFobj</code> | If TRUE, returns results as an <code>[MAF](http://127.0.0.1:37698/help/library/maftools/help/MAF</code> object.|<br> | <code>sampleAnno</code> | annotations associated with each sample/Tumor_Sample_Barcode in input annovar file. If provided it will be included in MAF object. Could be a text file or a data.frame. Ideally annotation would contain clinical data, survival information and other necessary features associated with samples. Default NULL.（与输入annovar文件中的每个样本/ Tumor_Sample_Barcode相关联的注释。 如果提供，它将包含在MAF对象中。 可以是文本文件或data.frame。 理想情况下，注释将包含临床数据，生存信息和与样本相关的其他必要特征。 默认为NULL）|</p>
+<p>然后用linux处理掉那些无义突变，也可以在后续设置参数去掉无义突变</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sed 's/^NA/unknown/' var_annovar_maf &gt; var_annovar_maf2</span><br><span class="line">grep -v "^NA" var_annovar_maf | grep -v -P "\tUNKNOWN\t"&gt; var_annovar_maf2</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="读入maf文件——read-maf"><a href="#读入maf文件——read-maf" class="headerlink" title="读入maf文件——read.maf"></a>读入maf文件——read.maf</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var_maf = read.maf(maf =<span class="string">"var_annovar_maf2"</span>)</span><br><span class="line">plotmafSummary(maf = var_maf, rmOutlier = <span class="literal">TRUE</span>, addStat = <span class="string">'median'</span>)</span><br><span class="line">oncoplot(maf = var_maf, top = <span class="number">400</span>, writeMatrix=<span class="literal">T</span>,removeNonMutated = <span class="literal">F</span>,showTumorSampleBarcodes=<span class="literal">T</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Description-1"><a href="#Description-1" class="headerlink" title="Description"></a>Description</h3><p>Takes tab delimited MAF (can be plain text or gz compressed) file as an input and summarizes it in various ways. Also creates oncomatrix - helpful for visualization.</p>
+<h3 id="Usage-1"><a href="#Usage-1" class="headerlink" title="Usage"></a>Usage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">read.maf(maf, clinicalData &#x3D; NULL, removeDuplicatedVariants &#x3D; TRUE,</span><br><span class="line">  useAll &#x3D; TRUE, gisticAllLesionsFile &#x3D; NULL, gisticAmpGenesFile &#x3D; NULL,</span><br><span class="line">  gisticDelGenesFile &#x3D; NULL, gisticScoresFile &#x3D; NULL, cnLevel &#x3D; &quot;all&quot;,</span><br><span class="line">  cnTable &#x3D; NULL, isTCGA &#x3D; FALSE, vc_nonSyn &#x3D; NULL, verbose &#x3D; TRUE)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arguments-2"><a href="#Arguments-2" class="headerlink" title="Arguments"></a>Arguments</h3><ul>
+<li><p><code>maf</code><br>tab delimited MAF file. File can also be gz compressed. Required. Alternatively, you can also provide already read MAF file as a dataframe.(制表符分隔的MAF文件。 文件也可以是gz压缩的。 也可以将已读取的MAF文件作为数据框提供</p>
+</li>
+<li><p><code>clinicalData</code><br> Clinical data associated with each sample/Tumor_Sample_Barcode in MAF. Could be a text file or a data.frame. Default NULL.(与MAF中每个样本/ Tumor_Sample_Barcode相关的临床数据。 可以是文本文件或data.frame。 默认为NULL)</p>
+</li>
+<li><p><code>removeDuplicatedVariants</code><br> removes repeated variants in a particuar sample, mapped to multiple transcripts of same Gene. See Description. Default TRUE.(去除特定样本中的重复变体，映射到同一基因的多个转录本。 见说明。 默认值为TRUE)</p>
+</li>
+<li><p><code>useAll</code><br> logical. Whether to use all variants irrespective of values in Mutation_Status. Defaults to TRUE. If FALSE, only uses with values Somatic.(逻辑。 是否使用所有变体而不管Mutation_Status中的值。 默认为TRUE。 如果为FALSE，则仅使用值Somatic)</p>
+</li>
+<li><p><code>gisticAllLesionsFile</code><br> All Lesions file generated by gistic. e.g; all_lesions.conf_XX.txt, where XX is the confidence level. Default NULL.</p>
+</li>
+<li><p><code>gisticAmpGenesFile</code><br> Amplification Genes file generated by gistic. e.g; amp_genes.conf_XX.txt, where XX is the confidence level. Default NULL.(扩增由gistic生成的基因文件。 例如; amp_genes.conf_XX.txt)</p>
+</li>
+<li><p><code>gisticDelGenesFile</code><br> Deletion Genes file generated by gistic. e.g; del_genes.conf_XX.txt, where XX is the confidence level. Default NULL.(删除由gistic生成的Genes文件。 例如; del_genes.conf_XX.txt)</p>
+</li>
+<li><p><code>gisticScoresFile</code><br> scores.gistic file generated by gistic. Default NULL(由gistic生成的scores.gistic文件)</p>
+</li>
+<li><p><code>cnLevel</code><br> level of CN changes to use. Can be ‘all’, ‘deep’ or ‘shallow’. Default uses all i.e, genes with both ‘shallow’ or ‘deep’ CN changes(CN级别改变使用。 可以是“全部”，“深层”或“浅层”。 默认使用所有，即具有“浅”或“深”CN变化的基因)</p>
+</li>
+<li><p><code>cnTable</code><br> Custom copynumber data if gistic results are not available. Input file or a data.frame should contain three columns with gene name, Sample name and copy number status (either ‘Amp’ or ‘Del’). Default NULL.(如果gistic结果不可用，则自定义copynumber数据。 输入文件或data.frame应包含三列，其中包含基因名称，样品名称和拷贝编号状态（’Amp’或’Del’）。 默认为NULL)</p>
+</li>
+<li><p><code>isTCGA</code><br> Is input MAF file from TCGA source. If TRUE uses only first 12 characters from Tumor_Sample_Barcode.(是来自TCGA源的输入MAF文件。 如果TRUE仅使用Tumor_Sample_Barcode中的前12个字符。)</p>
+</li>
+<li><p><code>vc_nonSyn</code><br> NULL. Provide manual list of variant classifications to be considered as non-synonymous. Rest will be considered as silent variants. Default uses Variant Classifications with High/Moderate variant consequences. <a href="http://asia.ensembl.org/Help/Glossary?id=535" target="_blank" rel="noopener">http://asia.ensembl.org/Help/Glossary?id=535</a>: “Frame_Shift_Del”, “Frame_Shift_Ins”, “Splice_Site”, “Translation_Start_Site”,”Nonsense_Mutation”, “Nonstop_Mutation”, “In_Frame_Del”,”In_Frame_Ins”, “Missense_Mutation”</p>
+</li>
+<li><p><code>verbose</code><br> TRUE logical. Default to be talkative and prints summary.</p>
+</li>
+</ul>
+<hr>
+<h2 id="绘制maf文件的摘要——plotmafSummary"><a href="#绘制maf文件的摘要——plotmafSummary" class="headerlink" title="绘制maf文件的摘要——plotmafSummary"></a>绘制maf文件的摘要——plotmafSummary</h2><p>该文件将每个样本中的变体数显示为堆积条形图，将变体类型显示为Variant_Classification汇总的箱形图。 我们可以在堆积的条形图中添加平均线或中线，以显示整个群组中变体的平均值/中值数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotmafSummary(maf &#x3D; laml, rmOutlier &#x3D; TRUE, addStat &#x3D; &#39;median&#39;, dashboard &#x3D; TRUE, titvRaw &#x3D; FALSE)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/1574575271692.png" alt="1574575271692"></p>
+<h3 id="Description-2"><a href="#Description-2" class="headerlink" title="Description"></a>Description</h3><p>Plots maf summary.</p>
+<h3 id="Usage-2"><a href="#Usage-2" class="headerlink" title="Usage"></a>Usage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">plotmafSummary(maf, file &#x3D; NULL, rmOutlier &#x3D; TRUE, dashboard &#x3D; TRUE,</span><br><span class="line">  titvRaw &#x3D; TRUE, width &#x3D; 10, height &#x3D; 7, addStat &#x3D; NULL,</span><br><span class="line">  showBarcodes &#x3D; FALSE, fs &#x3D; 10, textSize &#x3D; 2, color &#x3D; NULL,</span><br><span class="line">  statFontSize &#x3D; 3, titleSize &#x3D; c(10, 8), titvColor &#x3D; NULL, top &#x3D; 10)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arguments-3"><a href="#Arguments-3" class="headerlink" title="Arguments"></a>Arguments</h3><ul>
+<li><code>maf</code><br> an <a href="http://127.0.0.1:27693/help/library/maftools/help/MAF" target="_blank" rel="noopener">MAF</a> object generated by <a href="http://127.0.0.1:27693/help/library/maftools/help/read.maf" target="_blank" rel="noopener">read.maf</a></li>
+<li><code>file</code><br> If given pdf file will be generated.</li>
+<li><code>rmOutlier</code><br> If TRUE removes outlier from boxplot.</li>
+<li><code>dashboard</code><br> If FALSE plots simple summary instead of dashboard style.</li>
+<li><code>titvRaw</code><br> TRUE. If false instead of raw counts, plots fraction.</li>
+<li><code>width</code><br> plot parameter for output file.</li>
+<li><code>height</code><br> plot parameter for output file.</li>
+<li><code>addStat</code><br> Can be either mean or median. Default NULL.</li>
+<li><code>showBarcodes</code><br> include sample names in the top bar plot.</li>
+<li><code>fs</code><br> base size for text. Default 10.</li>
+<li><code>color</code><br> named vector of colors for each Variant_Classification.</li>
+<li><code>titvColor</code><br> colors for SNV classifications.</li>
+<li><code>top</code><br> include top n genes dashboard plot. Default 10.</li>
+</ul>
+<hr>
+<h2 id="绘制瀑布图——oncoplots"><a href="#绘制瀑布图——oncoplots" class="headerlink" title="绘制瀑布图——oncoplots"></a>绘制瀑布图——oncoplots</h2><p>Oncoplot函数使用“ComplexHeatmap”来绘制oncoplots2。 具体来说，oncoplot是ComplexHeatmap的OncoPrint功能的包装器，几乎没有任何修改和自动化，使绘图更容易。 侧面条形图和顶部条形图可分别由drawRowBar和drawColBar参数控制。</p>
+<p><strong>top的值需要视情况而定</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(maf &#x3D; var_maf, top &#x3D; 400, writeMatrix&#x3D;T,removeNonMutated &#x3D; F,showTumorSampleBarcodes&#x3D;T)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/1574575282983.png" alt="1574575282983"></p>
+<p>takes output generated by read.maf and draws an oncoplot</p>
+<h3 id="Usage-3"><a href="#Usage-3" class="headerlink" title="Usage"></a>Usage</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(maf, top = <span class="number">20</span>, genes = <span class="literal">NULL</span>, mutsig = <span class="literal">NULL</span>, mutsigQval = <span class="number">0.1</span>,</span><br><span class="line">  drawRowBar = <span class="literal">TRUE</span>, drawColBar = <span class="literal">TRUE</span>, clinicalFeatures = <span class="literal">NULL</span>,</span><br><span class="line">  annotationDat = <span class="literal">NULL</span>, annotationColor = <span class="literal">NULL</span>, genesToIgnore = <span class="literal">NULL</span>,</span><br><span class="line">  showTumorSampleBarcodes = <span class="literal">FALSE</span>, removeNonMutated = <span class="literal">TRUE</span>, colors = <span class="literal">NULL</span>,</span><br><span class="line">  sortByMutation = <span class="literal">FALSE</span>, sortByAnnotation = <span class="literal">FALSE</span>,</span><br><span class="line">  annotationOrder = <span class="literal">NULL</span>, keepGeneOrder = <span class="literal">FALSE</span>, GeneOrderSort = <span class="literal">TRUE</span>,</span><br><span class="line">  sampleOrder = <span class="literal">NULL</span>, writeMatrix = <span class="literal">FALSE</span>, fontSize = <span class="number">10</span>,</span><br><span class="line">  SampleNamefontSize = <span class="number">10</span>, titleFontSize = <span class="number">15</span>, legendFontSize = <span class="number">12</span>,</span><br><span class="line">  annotationFontSize = <span class="number">12</span>, annotationTitleFontSize = <span class="number">12</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arguments-4"><a href="#Arguments-4" class="headerlink" title="Arguments"></a>Arguments</h3><ul>
+<li>maf<br> an <a href="http://127.0.0.1:29367/help/library/maftools/help/MAF" target="_blank" rel="noopener">MAF</a> object generated by <a href="http://127.0.0.1:29367/help/library/maftools/help/read.maf" target="_blank" rel="noopener">read.maf</a>|</li>
+<li>top<br> how many top genes to be drawn. defaults to 20.（显示多少基因）|</li>
+<li>genes<br> Just draw oncoplot for these genes. Default NULL.（显示特定基因）|</li>
+<li>mutsig<br> Mutsig resuts if availbale. Usually file named sig_genes.txt If provided plots significant genes and correpsonding Q-values as side row-bar. Default NULL.（如果可以的话，Mutsig会重新开始。 通常名为sig_genes.txt的文件如果提供，则绘制重要基因并将Q值作为侧行条对应。 默认为NULL） |</li>
+<li>mutsigQval<br> Q-value to choose significant genes from mutsig results. Default 0.1（从mutsig结果中选择重要基因的Q值。 默认值为0.1）|</li>
+<li>genesToIgnore<br> do not show these genes in Oncoplot. Default NULL.</li>
+<li>showTumorSampleBarcodes<br> logical to include sample names.（逻辑包含样本名称）</li>
+<li><strong>removeNonMutated</strong><br>Logical. If <code>TRUE</code> removes samples with no mutations in the oncoplot for better visualization. Default <code>TRUE</code>.（消除无义突变）</li>
+<li>sortByMutation<br> Force sort matrix according mutations. Helpful in case of MAF was read along with copy number data. Default FALSE.（根据突变强制排序矩阵。 在阅读MAF的情况下有用以及拷贝数数据。 默认为FALSE）|</li>
+<li>sortByAnnotation<br> logical sort oncomatrix (samples) by provided ‘clinicalFeatures’. Sorts based on first ‘clinicalFeatures’. Defaults to FALSE. column-sort|</li>
+<li>annotationOrder<br> Manually specify order for annotations. Works only for first ‘clinicalFeatures’. Default NULL. |</li>
+<li>keepGeneOrder<br> logical whether to keep order of given genes. Default FALSE, order according to mutation frequency|</li>
+<li>GeneOrderSort<br> logical this is applicable when ‘keepGeneOrder’ is TRUE. Default TRUE|</li>
+<li>sampleOrder<br> Manually speify sample names for oncolplot ordering. Default NULL.|</li>
+<li>writeMatrix<br> writes character coded matrix used to generate the plot to an output file. This can be used as an input for ComplexHeatmap <a href="http://127.0.0.1:29367/help/library/ComplexHeatmap/html/oncoPrint.html" target="_blank" rel="noopener">oncoPrint</a> function if you wish to customize the plot.（将用于生成绘图的字符编码矩阵写入输出文件。 如果您想自定义绘图，则可以将其用作ComplexHeatmap oncoPrint函数的输入）</li>
+</ul>
+<p>通过包括与样本相关的注释（临床特征），改变变体分类的颜色并包括显着性的q值（从MutSig或类似程序生成），可以进一步改善Oncoplots。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">col = RColorBrewer::brewer.pal(n = <span class="number">8</span>, name = <span class="string">'Paired'</span>)</span><br><span class="line">names(col) = c(<span class="string">'Frame_Shift_Del'</span>,<span class="string">'Missense_Mutation'</span>, <span class="string">'Nonsense_Mutation'</span>, <span class="string">'Multi_Hit'</span>, <span class="string">'Frame_Shift_Ins'</span>,<span class="string">'In_Frame_Ins'</span>, <span class="string">'Splice_Site'</span>, <span class="string">'In_Frame_Del'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#Color coding for FAB classification; try getAnnotations(x = laml) to see available annotations.</span></span><br><span class="line">fabcolors = RColorBrewer::brewer.pal(n = <span class="number">8</span>,name = <span class="string">'Spectral'</span>)</span><br><span class="line">names(fabcolors) = c(<span class="string">"M0"</span>, <span class="string">"M1"</span>, <span class="string">"M2"</span>, <span class="string">"M3"</span>, <span class="string">"M4"</span>, <span class="string">"M5"</span>, <span class="string">"M6"</span>, <span class="string">"M7"</span>)</span><br><span class="line">fabcolors = list(FAB_classification = fabcolors)</span><br><span class="line"></span><br><span class="line"><span class="comment">#MutSig reusults</span></span><br><span class="line">laml.mutsig &lt;- system.file(<span class="string">"extdata"</span>, <span class="string">"LAML_sig_genes.txt.gz"</span>, package = <span class="string">"maftools"</span>)</span><br><span class="line"></span><br><span class="line">oncoplot(maf = laml, colors = col, mutsig = laml.mutsig, mutsigQval = <span class="number">0.01</span>, clinicalFeatures = <span class="string">'FAB_classification'</span>, sortByAnnotation = <span class="literal">TRUE</span>, annotationColor = fabcolors)</span><br></pre></td></tr></table></figure>
+
+<p>[图片上传失败…(image-fc6334-1536734778754)]</p>
+<p>使用oncostrip函数可视化任何一组基因，它们在每个样本中绘制类似于cBioPortal上的OncoPrinter工具的突变。 oncostrip可用于使用top或gene参数绘制任意数量的基因</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#显示特定基因</span><br><span class="line">oncostrip(maf &#x3D; laml, genes &#x3D; c(&#39;DNMT3A&#39;,&#39;NPM1&#39;, &#39;RUNX1&#39;))</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/maftools/1574575295832.png" alt="1574575295832"></p>
+<hr>
+<h2 id="绘制箱线图——-titv"><a href="#绘制箱线图——-titv" class="headerlink" title="绘制箱线图—— titv"></a>绘制箱线图—— titv</h2><p>titv函数将SNP分类为<a href="http://www.mun.ca/biology/scarr/Transitions_vs_Transversions.html" target="_blank" rel="noopener">Transitions_vs_Transversions</a>，并以各种方式返回汇总表的列表。 汇总数据也可以显示为一个箱线图，显示六种不同转换的总体分布，并作为堆积条形图显示每个样本中的转换比例。</p>
+<p><img src="/2019/11/24/maftools/1574575314555.png" alt="1574575314555"></p>
+<h3 id="Description-3"><a href="#Description-3" class="headerlink" title="Description"></a>Description</h3><p>takes output generated by read.maf and classifies Single Nucleotide Variants into Transitions and Transversions.</p>
+<h3 id="Usage-4"><a href="#Usage-4" class="headerlink" title="Usage"></a>Usage</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">titv(maf, useSyn &#x3D; FALSE, plot &#x3D; TRUE, file &#x3D; NULL)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arguments-5"><a href="#Arguments-5" class="headerlink" title="Arguments"></a>Arguments</h3><ul>
+<li><p><code>maf</code><br> an <a href="http://127.0.0.1:27693/help/library/maftools/help/MAF" target="_blank" rel="noopener">MAF</a> object generated by <a href="http://127.0.0.1:27693/help/library/maftools/help/read.maf" target="_blank" rel="noopener">read.maf</a></p>
+</li>
+<li><p><code>useSyn</code><br> Logical. Whether to include synonymous variants in analysis. Defaults to FALSE.</p>
+</li>
+<li><p><code>plot</code><br>plots a titv fractions. default TRUE.</p>
+</li>
+<li><p><code>file</code><br>basename for output file name. If given writes summaries to output file. Default NULL.</p>
+</li>
+</ul>
+<hr>
+<h2 id="绘制棒棒图——lollipopPlot"><a href="#绘制棒棒图——lollipopPlot" class="headerlink" title="#绘制棒棒图——lollipopPlot"></a>#绘制棒棒图——lollipopPlot</h2><p>棒棒糖图是简单且最有效的方式，显示蛋白质结构上的突变点。许多致癌基因具有比任何其他基因座更频繁突变的优先位点。这些斑点被认为是突变热点，棒棒糖图可以用于显示它们以及其他突变。我们可以使用函数lollipopPlot绘制这样的图。这个功能要求我们在maf文件中有氨基酸改变信息。然而，MAF文件没有关于命名氨基酸变化字段的明确指南，不同的研究具有不同的氨基酸变化的字段（或列）名称。默认情况下，lollipopPlot查找列AAChange，如果在MAF文件中找不到它，则会打印所有可用字段并显示警告消息。对于以下示例，MAF文件包含字段/列名称“Protein_Change”下的氨基酸变化。我们将使用参数AACol手动指定它。此函数还将绘图作为ggplot对象返回，如果需要，用户稍后可以修改该对象。</p>
+<p><img src="/2019/11/24/maftools/1574575327947.png" alt="1574575327947"></p>
+<p>maftools还可以制作很多图，比如</p>
+<p><img src="/2019/11/24/maftools/1574575384816.png" alt="1574575384816"></p>
+<p><img src="/2019/11/24/maftools/1574575343947.png" alt="1574575343947"></p>
+<p><img src="/2019/11/24/maftools/1574575358469.png" alt="1574575358469"></p>
+<p><img src="/2019/11/24/maftools/1574575368856.png" alt="1574575368856"></p>
+<p><img src="/2019/11/24/maftools/1574575398809.png" alt="1574575398809"></p>
+<p><img src="/2019/11/24/maftools/1574575409968.png" alt="1574575409968"></p>
+<p>还可以用函数geneCloud绘制突变基因的词云图。 每个基因的大小与其突变/改变的样品总数成比例。</p>
+<p><img src="/2019/11/24/maftools/1574575418379.png" alt="1574575418379"></p>
+<p>癌症中的许多引起疾病的基因共同发生或在其突变模式中显示出强烈的排他性。 可以使用somaticInteractions函数检测这种相互排斥或共同发生的基因组，其执行成对的Fisher’s Exact检验以检测这种显着的基因对。 somaticInteractions函数还使用cometExactTest来识别涉及&gt; 2个基因的潜在改变的基因集</p>
+<p><img src="/2019/11/24/maftools/1574575428779.png" alt="1574575428779"></p>
+<p>maftools包 功能很强大，具体可参考：</p>
+<p><a href="http://bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html" target="_blank" rel="noopener">http://bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html</a></p>
+<h1 id="肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化"><a href="#肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化" class="headerlink" title="肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化"></a>肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</h1><p>链接地址：<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">https://byteofbio.com/archives/9.html</a></p>
+<h2 id="Maftools系列文章：-1"><a href="#Maftools系列文章：-1" class="headerlink" title="Maftools系列文章："></a>Maftools系列文章：</h2><blockquote>
+<ol>
+<li>《<a href="https://byteofbio.com/archives/15.html" target="_blank" rel="noopener">maftools使用方法总结以及常见问题</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/4.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：安装和文件格式要求</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/9.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/11.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：突变的数据分析</a>》</li>
+<li>《<a href="https://byteofbio.com/archives/14.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：CNV的可视化</a>》</li>
+</ol>
+</blockquote>
+<p>本文接上次的内容：《<a href="https://byteofbio.com/archives/4.html" target="_blank" rel="noopener">肿瘤变异数据分析和可视化工具maftools：安装和文件格式要求</a>》，本文以TCGA肺腺癌（LUAD）的数据为例介绍突变数据下载和可视化。</p>
+<h2 id="数据下载和处理"><a href="#数据下载和处理" class="headerlink" title="数据下载和处理"></a>数据下载和处理</h2><p>在TCGA官网下载TCGA-LUAD项目中mutect2输出的MAF格式的突变以及临床信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ls -lhrt</span><br><span class="line">total 50M</span><br><span class="line">-rw-r--r-- 1 xiaofei xiaofei  50M May 14 22:44 TCGA.LUAD.maf.gz</span><br><span class="line">-rw-r--r-- 1 xiaofei xiaofei 157K May 15 00:12 clinical.tsv</span><br></pre></td></tr></table></figure>
+
+<p>因为要通过”Tumor_Sample_Barcode”列将两个文件进行关联，这里做两步处理：</p>
+<ul>
+<li>将临床信息文件<code>clinical.tsv</code>中存放样品ID的”submitter_id”修改为”Tumor_Sample_Barcode”。</li>
+<li>把<code>TCGA.LUAD.maf.gz</code>中的”Tumor_Sample_Barcode”列按照<code>clinical.tsv</code>中的修改成一致。具体在此例中就是只保留”Project-TSS-Participant”部分。这里我使用自己写的Python脚本进行修改：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python tcga_format.py TCGA.LUAD.maf.gz &gt; TCGA.LUAD.maf</span><br></pre></td></tr></table></figure>
+
+<p>注：虽然在本篇文章中还没用到临床信息，不过姑且先了解一下数据读入前应该如何处理。</p>
+<h2 id="使用maftools读取MAF文件并统计"><a href="#使用maftools读取MAF文件并统计" class="headerlink" title="使用maftools读取MAF文件并统计"></a>使用maftools读取MAF文件并统计</h2><h3 id="1-MAF文件读取"><a href="#1-MAF文件读取" class="headerlink" title="1. MAF文件读取"></a>1. MAF文件读取</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(maftools)</span><br><span class="line">luad &lt;- read.maf(maf=<span class="string">"TCGA.LUAD.maf"</span>, clinicalData=<span class="string">"clinical.tsv"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>文件读入时的输出（不同版本的maftools输出结果会有所不同）：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## -Reading</span></span><br><span class="line"><span class="comment">## |--------------------------------------------------|</span></span><br><span class="line"><span class="comment">## |==================================================|</span></span><br><span class="line"><span class="comment">## |--------------------------------------------------|</span></span><br><span class="line"><span class="comment">## |==================================================|</span></span><br><span class="line"><span class="comment">## -Validating</span></span><br><span class="line"><span class="comment">## -Silent variants: 66099 </span></span><br><span class="line"><span class="comment">## -Summarizing</span></span><br><span class="line"><span class="comment">## --Possible FLAGS among top ten genes:</span></span><br><span class="line"><span class="comment">##   TTN</span></span><br><span class="line"><span class="comment">##   MUC16</span></span><br><span class="line"><span class="comment">##   USH2A</span></span><br><span class="line"><span class="comment">## -Processing clinical data</span></span><br><span class="line"><span class="comment">## -Finished in 15.2s elapsed (16.3s cpu)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-MAF文件统计"><a href="#2-MAF文件统计" class="headerlink" title="2. MAF文件统计"></a>2. MAF文件统计</h3><p>使用如下代码可以对读入的MAF文件进行汇总统计：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">luad <span class="comment"># 直接输入MAF对象可以查看MAF文件的基本信息</span></span><br><span class="line">getSampleSummary(luad) <span class="comment"># 显示样品的统计</span></span><br><span class="line">getGeneSummary(luad) <span class="comment"># 显示基因的统计</span></span><br><span class="line">getClinicalData(luad) <span class="comment"># 显示样品关联的临床数据</span></span><br><span class="line">getFields(luad) <span class="comment"># 显示MAF文件中的所有字段</span></span><br><span class="line">write.mafSummary(maf=luad, basename=<span class="string">"luad"</span>) <span class="comment"># 将详细统计结果输出到文件</span></span><br></pre></td></tr></table></figure>
+
+<p>具体输出结果这里就不展示了，可以自行尝试。</p>
+<h2 id="突变的可视化"><a href="#突变的可视化" class="headerlink" title="突变的可视化"></a>突变的可视化</h2><h3 id="1-MAF文件汇总统计图"><a href="#1-MAF文件汇总统计图" class="headerlink" title="1. MAF文件汇总统计图"></a>1. MAF文件汇总统计图</h3><p>使用如下代码即可绘制MAF文件的汇总统计图。dashboard style中包括”Variant Classification”、”Variant Type”、”SNV Class”、”Variants per sample”、”Variant Classification summary”、”Top 10 mutated genes”的统计：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotmafSummary(maf=luad, rmOutlier=<span class="literal">TRUE</span>, addStat=<span class="string">"median"</span>, dashboard=<span class="literal">TRUE</span>, titvRaw = <span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/3626470955.png" alt="maftools plotmafSummary"></p>
+<h3 id="2-Oncoplots"><a href="#2-Oncoplots" class="headerlink" title="2. Oncoplots"></a>2. Oncoplots</h3><p>Oncoplot也就是cBioPortal中的OncoPrint或者叫做瀑布图。简单使用方法如下，通过<code>top=10</code>设定要展示的频率前10的突变：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oncoplot(maf=luad, top=<span class="number">10</span>, borderCol=<span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/354321420.png" alt="maftools oncoplot"></p>
+<p>因为sample数比较多，图缩小之后不是很好看，甚至显示错误。这里可以设置参数<code>borderCol=NULL</code>让样本之间不显示边界，推荐大样本量的时候使用（cBioPortal显示类似，会自适应进行调整）。</p>
+<p>此外，Oncoplot的定制化可通过调整参数和输入的MAF对象实现：</p>
+<ul>
+<li>通过参数<code>genes</code>只展示某几个感兴趣的基因的突变情况</li>
+<li><code>draw_titv=TRUE</code>: 在oncoplot中增加转换和颠换的统计</li>
+<li><code>colors</code>: 更改配色</li>
+<li>如果读入MAF文件时也输入了GISTIC的CNV文件，或者有其他格式的CNV文件，可以在oncoplot中展示</li>
+<li>可以在oncoplot中加入显著性概率（比如MutSig的结果）、表达量、或者任何其他数值</li>
+<li>可以通过<code>clinicalFeatures</code>参数加入临床数据的注释/分类信息并以<code>sortByAnnotation</code>进行排序</li>
+<li>更多方法详见：<a href="http://bioconductor.org/packages/devel/bioc/vignettes/maftools/inst/doc/oncoplots.html" target="_blank" rel="noopener">http://bioconductor.org/packages/devel/bioc/vignettes/maftools/inst/doc/oncoplots.html</a></li>
+</ul>
+<h3 id="3-Oncostrip"><a href="#3-Oncostrip" class="headerlink" title="3. Oncostrip"></a>3. Oncostrip</h3><p><code>oncostrip</code>本质上和<code>oncoplot</code>没什么区别，代码实现也就是<code>oncoplot</code>的封装，只是<code>drawRowBar</code>和<code>drawColBar</code>设置成了<code>FALSE</code>。这里就不做展示了。</p>
+<h3 id="4-转换（transition）和颠换（transversion）的统计和可视化"><a href="#4-转换（transition）和颠换（transversion）的统计和可视化" class="headerlink" title="4. 转换（transition）和颠换（transversion）的统计和可视化"></a>4. 转换（transition）和颠换（transversion）的统计和可视化</h3><p>使用<code>titv</code>函数对SNP进行转换和颠换的分类，然后使用<code>plotTiTv</code>进行可视化：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">luad.titv &lt;- titv(maf=luad, plot=<span class="literal">FALSE</span>, useSyn=<span class="literal">TRUE</span>)</span><br><span class="line">plotTiTv(res=luad.titv)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/744553740.png" alt="maftools plotTiTv"></p>
+<h3 id="5-Lollipop图（棒棒糖图）"><a href="#5-Lollipop图（棒棒糖图）" class="headerlink" title="5. Lollipop图（棒棒糖图）"></a>5. Lollipop图（棒棒糖图）</h3><p>使用<code>lollipopPlot</code>函数可以绘制棒棒糖图，用于显示蛋白的结构域以及氨基酸突变的位点和类型。这个功能需要MAF文件中有体现氨基酸变化的字段，并通过<code>AACol</code>参数进行设定（这个字段通常没有固定的名称）。本例中手动指定该字段为<code>HGVSp_Short</code>：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lollipopPlot(maf=luad, gene=<span class="string">"TP53"</span>, AACol=<span class="string">"HGVSp_Short"</span>, showMutationRate=<span class="literal">TRUE</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/4273252394.png" alt="maftools lollipopPlot"></p>
+<p>此外可以使用<code>labelPos</code>参数标记突变。</p>
+<h3 id="6-Rainfall-plots"><a href="#6-Rainfall-plots" class="headerlink" title="6. Rainfall plots"></a>6. Rainfall plots</h3><p><code>rainfallPlot</code>可以通过绘制染色体尺度的突变间距的展示hyper mutated genomic region。因为使用TCGA-LUAD的数据没有找到”Kataegis”，这里用程序自带的乳腺癌数据<code>brca</code>进行展示（Kataegis在乳腺癌中很常见）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brca &lt;- system.file(<span class="string">"extdata"</span>, <span class="string">"brca.maf.gz"</span>, package=<span class="string">"maftools"</span>)</span><br><span class="line">brca &lt;- read.maf(maf=brca, verbose=<span class="literal">FALSE</span>)</span><br><span class="line">rainfallPlot(maf=brca, detectChangePoints=<span class="literal">TRUE</span>, pointSize=<span class="number">0.6</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行后会输出Kataegis的具体信息，并在图中用黑色箭头进行标记。”Kataegis”定义为包含≥6个连续突变的基因组区段，并且平均突变间距离≤100bp。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## Kataegis detected at:</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##    Chromosome Start_Position End_Position nMuts Avg_intermutation_dist</span></span><br><span class="line"><span class="comment">## 1:          8       98129391     98133560     6               833.8000</span></span><br><span class="line"><span class="comment">## 2:          8       98398603     98403536     8               704.7143</span></span><br><span class="line"><span class="comment">## 3:          8       98453111     98456466     8               479.2857</span></span><br><span class="line"><span class="comment">## 4:          8      124090506    124096810    21               315.2000</span></span><br><span class="line"><span class="comment">## 5:         12       97437934     97439705     6               354.2000</span></span><br><span class="line"><span class="comment">## 6:         17       29332130     29336153     7               670.5000</span></span><br><span class="line"><span class="comment">##    Size Tumor_Sample_Barcode C&gt;G C&gt;T</span></span><br><span class="line"><span class="comment">## 1: 4169         TCGA-A8-A08B   4   2</span></span><br><span class="line"><span class="comment">## 2: 4933         TCGA-A8-A08B   1   7</span></span><br><span class="line"><span class="comment">## 3: 3355         TCGA-A8-A08B  NA   8</span></span><br><span class="line"><span class="comment">## 4: 6304         TCGA-A8-A08B   1  20</span></span><br><span class="line"><span class="comment">## 5: 1771         TCGA-A8-A08B   3   3</span></span><br><span class="line"><span class="comment">## 6: 4023         TCGA-A8-A08B   4   3</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/1237896571.png" alt="maftools rainfallPlot"></p>
+<h3 id="7-肿瘤突变负荷（TMB）统计以及TCGA-cohorts的比较"><a href="#7-肿瘤突变负荷（TMB）统计以及TCGA-cohorts的比较" class="headerlink" title="7. 肿瘤突变负荷（TMB）统计以及TCGA cohorts的比较"></a>7. 肿瘤突变负荷（TMB）统计以及TCGA cohorts的比较</h3><p>TMB在很多癌症中与免疫治疗效果以及预后相关，因此也成为这几年的研究热点。Maftools可以使用<code>tcgaComapare</code>函数统计MAF文件的TMB，并和内置的33个TCGA的cohorts进行比较：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luad.mutload &lt;- tcgaCompare(maf=luad, cohortName=<span class="string">"Download_LUAD"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/167632340.png" alt="maftools tcgaCompare"></p>
+<p>可以看到通过TCGA官网下载的LUAD和这里内置的TCGA-LUAD结果基本上一致（两者Cohort Size有所不同）。</p>
+<h3 id="8-Variant-Allele-Frequency（VAF）可视化"><a href="#8-Variant-Allele-Frequency（VAF）可视化" class="headerlink" title="8. Variant Allele Frequency（VAF）可视化"></a>8. Variant Allele Frequency（VAF）可视化</h3><p>之前已经介绍过<a href="https://byteofbio.com/archives/7.html" target="_blank" rel="noopener">VAF的概念</a>了。<code>plotVaf</code>函数可以将VAF最高的几个基因通过箱线图进行展示：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">plotVaf(maf=luad)</span><br></pre></td></tr></table></figure>
+
+<p>直接运行，会出现提示：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">t_vaf field is missing, but found t_ref_count &amp; t_alt_count columns. Estimating vaf..</span><br></pre></td></tr></table></figure>
+
+<p>这里程序没有找到默认的<code>t_vaf</code>字段，但会通过<code>t_ref_count</code>和<code>t_alt_count</code>列自动<a href="https://byteofbio.com/archives/7.html" target="_blank" rel="noopener">计算VAF</a>。</p>
+<p><img src="/2019/11/24/maftools/1520441678.png" alt="maftools plotVaf"></p>
+<h3 id="9-突变基因词云"><a href="#9-突变基因词云" class="headerlink" title="9. 突变基因词云"></a>9. 突变基因词云</h3><p><code>geneCloud</code>可以通过词云的方式按字体大小展示包含突变基因的样本数。这个函数也可以用来展示GISTC输出的CNV数据。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geneCloud(input=luad, top=<span class="number">10</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/maftools/1521086195.png" alt="maftools geneCloud"></p>
+<h2 id="参考资料-1"><a href="#参考资料-1" class="headerlink" title="参考资料"></a>参考资料</h2><blockquote>
+<ul>
+<li><a href="https://www.bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html" target="_blank" rel="noopener">https://www.bioconductor.org/packages/release/bioc/vignettes/maftools/inst/doc/maftools.html</a></li>
+<li><a href="https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/" target="_blank" rel="noopener">https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/</a></li>
+</ul>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/maftools/" rel="tag"># maftools</a>
+              <a href="/tags/annovar/" rel="tag"># annovar</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/23/GATK_Filter/" rel="prev" title="GATK mutation filter的工具">
+      <i class="fa fa-chevron-left"></i> GATK mutation filter的工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/24/python_numpy_pandas/" rel="next" title="python_numpy_pandas">
+      python_numpy_pandas <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#学会使用maftools可视化annovar的注释结果"><span class="nav-number">1.</span> <span class="nav-text">学会使用maftools可视化annovar的注释结果</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一下所有的教程都是基于这个官方文档写的-其实一个官方文档就已经写的非常漂亮了，参考链接"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">一下所有的教程都是基于这个官方文档写的,其实一个官方文档就已经写的非常漂亮了，参考链接</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#肿瘤变异数据分析和可视化工具maftools：突变的数据分析"><span class="nav-number">2.</span> <span class="nav-text">肿瘤变异数据分析和可视化工具maftools：突变的数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maftools系列文章："><span class="nav-number">2.1.</span> <span class="nav-text">Maftools系列文章：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#还和上篇一样，先用maftools把数据读入"><span class="nav-number">2.2.</span> <span class="nav-text">还和上篇一样，先用maftools把数据读入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#突变的互斥性（exclusive）和共现性（Co-occurrence）分析"><span class="nav-number">2.3.</span> <span class="nav-text">突变的互斥性（exclusive）和共现性（Co-occurrence）分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#预测癌症驱动基因"><span class="nav-number">2.4.</span> <span class="nav-text">预测癌症驱动基因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pfam注释和统计"><span class="nav-number">2.5.</span> <span class="nav-text">pfam注释和统计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#泛癌的比较分析"><span class="nav-number">2.6.</span> <span class="nav-text">泛癌的比较分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生存分析"><span class="nav-number">2.7.</span> <span class="nav-text">生存分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较两个MAF文件（队列）"><span class="nav-number">2.8.</span> <span class="nav-text">比较两个MAF文件（队列）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-绘制森林图"><span class="nav-number">2.8.1.</span> <span class="nav-text">1. 绘制森林图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-比较两个队列的oncoplot"><span class="nav-number">2.8.2.</span> <span class="nav-text">2. 比较两个队列的oncoplot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-比较两个队列的棒棒糖图"><span class="nav-number">2.8.3.</span> <span class="nav-text">3. 比较两个队列的棒棒糖图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#临床富集分析"><span class="nav-number">2.9.</span> <span class="nav-text">临床富集分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#药物基因互作"><span class="nav-number">2.10.</span> <span class="nav-text">药物基因互作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-基因的成药性"><span class="nav-number">2.10.1.</span> <span class="nav-text">1. 基因的成药性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-药物和基因间互作"><span class="nav-number">2.10.2.</span> <span class="nav-text">2. 药物和基因间互作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#致癌信号通路"><span class="nav-number">2.11.</span> <span class="nav-text">致癌信号通路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#肿瘤异质性和MATH-score"><span class="nav-number">2.12.</span> <span class="nav-text">肿瘤异质性和MATH score</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-肿瘤样品的异质性"><span class="nav-number">2.12.1.</span> <span class="nav-text">1. 肿瘤样品的异质性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-排除发生了拷贝数变异的突变基因"><span class="nav-number">2.12.2.</span> <span class="nav-text">2. 排除发生了拷贝数变异的突变基因</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#突变特征"><span class="nav-number">2.13.</span> <span class="nav-text">突变特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-构建突变矩阵-amp-计算APOBEC-enrichment-score"><span class="nav-number">2.13.1.</span> <span class="nav-text">1. 构建突变矩阵 &amp; 计算APOBEC enrichment score</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-APOBEC富集和非富集样品差异"><span class="nav-number">2.13.2.</span> <span class="nav-text">2. APOBEC富集和非富集样品差异</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-突变特征分析"><span class="nav-number">2.13.3.</span> <span class="nav-text">3. 突变特征分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-突变特征富集分析"><span class="nav-number">2.13.4.</span> <span class="nav-text">4. 突变特征富集分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">2.14.</span> <span class="nav-text">参考资料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#oncoplot请参考"><span class="nav-number">2.14.0.1.</span> <span class="nav-text">oncoplot请参考</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Arguments"><span class="nav-number">2.15.</span> <span class="nav-text">Arguments</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">2.16.</span> <span class="nav-text"></span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maftools-从头开始绘制发表级oncoplot（瀑布图）"><span class="nav-number">3.</span> <span class="nav-text">maftools | 从头开始绘制发表级oncoplot（瀑布图）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。"><span class="nav-number">3.0.1.</span> <span class="nav-text">对于组学数据的分析和展示来说，maftools算是一个宝藏“R包”，可用于MAF格式的组学数据的汇总，分析和可视化展示。</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一、-载入R包，数据"><span class="nav-number">3.1.</span> <span class="nav-text">一、 载入R包，数据</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）-载入maftools包"><span class="nav-number">3.1.1.</span> <span class="nav-text">1） 载入maftools包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）-载入数据"><span class="nav-number">3.1.2.</span> <span class="nav-text">2） 载入数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、-MAF对象汇总"><span class="nav-number">3.2.</span> <span class="nav-text">二、 MAF对象汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1）-展示MAF重点变量的summary信息"><span class="nav-number">3.2.1.</span> <span class="nav-text">1） 展示MAF重点变量的summary信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）-绘制MAF-summary图"><span class="nav-number">3.2.2.</span> <span class="nav-text">2） 绘制MAF-summary图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、-绘制oncoplot（瀑布）图"><span class="nav-number">3.3.</span> <span class="nav-text">三、 绘制oncoplot（瀑布）图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-绘制基础oncoplots（瀑布图）"><span class="nav-number">3.3.1.</span> <span class="nav-text">1 绘制基础oncoplots（瀑布图）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-更改变异类型的颜色"><span class="nav-number">3.3.2.</span> <span class="nav-text">2 更改变异类型的颜色</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-添加copy-number-信息"><span class="nav-number">3.3.3.</span> <span class="nav-text">3 添加copy number 信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-GISTIC-results"><span class="nav-number">3.3.4.</span> <span class="nav-text">3.1 GISTIC results</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-Custom-copy-number-table"><span class="nav-number">3.3.5.</span> <span class="nav-text">3.2 Custom copy-number table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-添加-significance-values"><span class="nav-number">3.3.6.</span> <span class="nav-text">4 添加 significance values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-临床信息-annotations"><span class="nav-number">3.3.7.</span> <span class="nav-text">5 临床信息 annotations</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用maftools分析annovar的注释结果"><span class="nav-number">3.4.</span> <span class="nav-text">利用maftools分析annovar的注释结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景介绍"><span class="nav-number">4.</span> <span class="nav-text">背景介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#准备"><span class="nav-number">5.</span> <span class="nav-text">准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#格式转换"><span class="nav-number">6.</span> <span class="nav-text">格式转换</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总体分析框架"><span class="nav-number">7.</span> <span class="nav-text">总体分析框架</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#maftools安装"><span class="nav-number">8.</span> <span class="nav-text">maftools安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#正式处理"><span class="nav-number">9.</span> <span class="nav-text">正式处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#读入annovar文件转换为maf——annovarToMaf"><span class="nav-number">9.1.</span> <span class="nav-text">读入annovar文件转换为maf——annovarToMaf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description"><span class="nav-number">9.1.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage"><span class="nav-number">9.1.2.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-1"><span class="nav-number">9.1.3.</span> <span class="nav-text">Arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#读入maf文件——read-maf"><span class="nav-number">9.2.</span> <span class="nav-text">读入maf文件——read.maf</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-1"><span class="nav-number">9.2.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage-1"><span class="nav-number">9.2.2.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-2"><span class="nav-number">9.2.3.</span> <span class="nav-text">Arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制maf文件的摘要——plotmafSummary"><span class="nav-number">9.3.</span> <span class="nav-text">绘制maf文件的摘要——plotmafSummary</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-2"><span class="nav-number">9.3.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage-2"><span class="nav-number">9.3.2.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-3"><span class="nav-number">9.3.3.</span> <span class="nav-text">Arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制瀑布图——oncoplots"><span class="nav-number">9.4.</span> <span class="nav-text">绘制瀑布图——oncoplots</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage-3"><span class="nav-number">9.4.1.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-4"><span class="nav-number">9.4.2.</span> <span class="nav-text">Arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制箱线图——-titv"><span class="nav-number">9.5.</span> <span class="nav-text">绘制箱线图—— titv</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description-3"><span class="nav-number">9.5.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Usage-4"><span class="nav-number">9.5.2.</span> <span class="nav-text">Usage</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arguments-5"><span class="nav-number">9.5.3.</span> <span class="nav-text">Arguments</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#绘制棒棒图——lollipopPlot"><span class="nav-number">9.6.</span> <span class="nav-text">#绘制棒棒图——lollipopPlot</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化"><span class="nav-number">10.</span> <span class="nav-text">肿瘤变异数据分析和可视化工具maftools：突变数据下载和可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Maftools系列文章：-1"><span class="nav-number">10.1.</span> <span class="nav-text">Maftools系列文章：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据下载和处理"><span class="nav-number">10.2.</span> <span class="nav-text">数据下载和处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用maftools读取MAF文件并统计"><span class="nav-number">10.3.</span> <span class="nav-text">使用maftools读取MAF文件并统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MAF文件读取"><span class="nav-number">10.3.1.</span> <span class="nav-text">1. MAF文件读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-MAF文件统计"><span class="nav-number">10.3.2.</span> <span class="nav-text">2. MAF文件统计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#突变的可视化"><span class="nav-number">10.4.</span> <span class="nav-text">突变的可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-MAF文件汇总统计图"><span class="nav-number">10.4.1.</span> <span class="nav-text">1. MAF文件汇总统计图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-Oncoplots"><span class="nav-number">10.4.2.</span> <span class="nav-text">2. Oncoplots</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Oncostrip"><span class="nav-number">10.4.3.</span> <span class="nav-text">3. Oncostrip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-转换（transition）和颠换（transversion）的统计和可视化"><span class="nav-number">10.4.4.</span> <span class="nav-text">4. 转换（transition）和颠换（transversion）的统计和可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Lollipop图（棒棒糖图）"><span class="nav-number">10.4.5.</span> <span class="nav-text">5. Lollipop图（棒棒糖图）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-Rainfall-plots"><span class="nav-number">10.4.6.</span> <span class="nav-text">6. Rainfall plots</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-肿瘤突变负荷（TMB）统计以及TCGA-cohorts的比较"><span class="nav-number">10.4.7.</span> <span class="nav-text">7. 肿瘤突变负荷（TMB）统计以及TCGA cohorts的比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Variant-Allele-Frequency（VAF）可视化"><span class="nav-number">10.4.8.</span> <span class="nav-text">8. Variant Allele Frequency（VAF）可视化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-突变基因词云"><span class="nav-number">10.4.9.</span> <span class="nav-text">9. 突变基因词云</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料-1"><span class="nav-number">10.5.</span> <span class="nav-text">参考资料</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

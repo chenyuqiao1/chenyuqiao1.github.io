@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="MeRIP&#x2F;ChIP-seq分析流程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MeRIP">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="MeRIP&#x2F;ChIP-seq分析流程">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/MeRIP-seq-1577076799945.jpg">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/MeRIP-seq-workflow.jpg">
+<meta property="og:image" content="https://ming-lian.github.io/images/MeRIP-seq-GOenrich-dotplot.png">
+<meta property="og:image" content="https://ming-lian.github.io/images/MeRIP-seq-GOtop-graph.png">
+<meta property="article:published_time" content="2019-12-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:55.007Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="MeRIP">
+<meta property="article:tag" content="m6A">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/MeRIP-seq-1577076799945.jpg">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>MeRIP | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MeRIP
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-23T00:00:00+08:00">2019-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/project/MeRIP-seq/" itemprop="url" rel="index"><span itemprop="name">MeRIP-seq</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="MeRIP-ChIP-seq分析流程"><a href="#MeRIP-ChIP-seq分析流程" class="headerlink" title="MeRIP/ChIP-seq分析流程"></a>MeRIP/ChIP-seq分析流程</h1><a id="more"></a>
+
+
+
+
+
+<p><img src="/2019/12/23/meRIP-seq/MeRIP-seq-1577076799945.jpg" alt="MeRIP-seq"></p>
+<p><strong>Schematic diagram of the MeRIP-seq protocol</strong></p>
+<p><img src="/2019/12/23/meRIP-seq/MeRIP-seq-workflow.jpg" alt="Workflow"></p>
+<p>由于m6A-seq数据分析的原理与过程和ChIP-seq十分相似，所以这里略过前面的质控，简单说明比对和peak calling步骤，具体内容可以参考<a href="https://github.com/Ming-Lian/Memo/blob/master/ChIP-seq-pipeline.md" target="_blank" rel="noopener"><strong>ChIP-seq分析流程</strong></a></p>
+<h2 id="m6A背景知识"><a href="#m6A背景知识" class="headerlink" title="m6A背景知识"></a>m6A背景知识</h2><p>目前已知有100多种RNA修饰，涉及到mRNAs、tRNAs、rRNAs、small nuclear RNA (snRNAs) 以及 small nucleolar RNAs (snoRNAs)等。其中甲基化修饰是一种非常广泛的修饰，N6-methyl adenosine (m6A)是真核生物mRNA上最为广泛的甲基化修饰之一，并存在于多种多样的物种中。</p>
+<p>腺嘌呤可以被<strong>编码器</strong>METTL3、METTL14和WTAP及其他组分组成的甲基转移酶复合体甲基化，甲基化的腺嘌呤可以被<strong>读码器</strong>（目前发现m6A读码器主要有四个，定位于细胞核内的YTHDC1以及定位在细胞质中的YTHDF1、YTHDF2、YTHDF3、YTHDC2）识别，同时m6A可以被<strong>擦除器</strong>FTO和ALKBH5这两个去甲基化酶催化去甲基化。</p>
+<p>在哺乳动物mRNA中，m6A修饰存在于7000多个基因中，<strong>保守基序为RRACH</strong> (R = G, A; H = A, C, U)。m6A修饰富集在mRNA<strong>终止密码子</strong>附近。</p>
+<h2 id="比对参考基因组"><a href="#比对参考基因组" class="headerlink" title="比对参考基因组"></a>比对参考基因组</h2><p>在 ChIP-seq 中一般用 BWA 或者 Bowtie 进行完全比对就可以了，但是在 MeRIP-seq 中，由于分析的 RNA ，那么就存在<strong>可变剪切</strong>，对于存在可变剪切的 mapping 用 <strong>Tophat</strong> 或者 Tophat 的升级工具 <strong>HISAT2</strong> 更合适</p>
+<h3 id="Tophat"><a href="#Tophat" class="headerlink" title="Tophat"></a>Tophat</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># build reference index</span><br><span class="line">## &lt;1&gt; build genome index</span><br><span class="line">$ bowtie2-build  hg19.fa hg19</span><br><span class="line">## &lt;2&gt; build transcriptome index</span><br><span class="line">$ tophat -p 8 -G hg19.gtf --transcriptome-index&#x3D;Ref&#x2F;hg19&#x2F;hg19_trans&#x2F;know hg19</span><br><span class="line"></span><br><span class="line"># mapping</span><br><span class="line">$ tophat -p 8 --transcriptome-index&#x3D;Ref&#x2F;hg19&#x2F;hg19_trans&#x2F;know -o outdir hg19 reads1_1.fastq reads1_2.fastq</span><br><span class="line"># Only uniquely mapped reads with mapping quality score ≥20 were kept for the subsequent analysis for each sample</span><br><span class="line">$ samtools view -q 20 -O bam -o outdir&#x2F;accepted_hits.highQual.bam outdir&#x2F;accepted_hits.bam</span><br></pre></td></tr></table></figure>
+
+<p>Tophat参数</p>
+<blockquote>
+<ul>
+<li>-p Number of threads to use</li>
+<li>-G Supply TopHat with a set of gene model annotations and/or known transcripts, as a GTF 2.2 or GFF3 formatted file.</li>
+<li>–transcriptome-index TopHat should be first run with the -G/–GTF option together with the –transcriptome-index option pointing to a directory and a name prefix which will indicate where the transcriptome data files will be stored. Then subsequent TopHat runs using the same –transcriptome-index option value will directly use the transcriptome data created in the first run (no -G option needed after the first run).</li>
+<li>-o Sets the name of the directory in which TopHat will write all of its output</li>
+</ul>
+</blockquote>
+<p>samtools view 参数</p>
+<blockquote>
+<ul>
+<li>-q only include reads with mapping quality &gt;= INT [0]</li>
+</ul>
+</blockquote>
+<h3 id="HISAT2"><a href="#HISAT2" class="headerlink" title="HISAT2"></a>HISAT2</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># build reference index</span><br><span class="line">##  using the python scripts included in the HISAT2 package, extract splice-site and exon information from the gene</span><br><span class="line">annotation fle</span><br><span class="line">$ extract_splice_sites.py chrX_data&#x2F;genes&#x2F;chrX.gtf &gt;chrX.ss</span><br><span class="line">$ extract_exons.py chrX_data&#x2F;genes&#x2F;chrX.gtf &gt;chrX.exon</span><br><span class="line">##  build a HISAT2 index</span><br><span class="line">$ hisat2-build --ss chrX.ss --exon chrX.exon chrX_data&#x2F;genome&#x2F;chrX.fa chrX_tran</span><br><span class="line"></span><br><span class="line"># mapping</span><br><span class="line">$ hisat2 -p 10 --dta -x chrX_tran -1 reads1_1.fastq -2 reads1_2.fastq | samtools sort -@ 8 -O bam -o reads1.sort.bam 1&gt;map.log 2&gt;&amp;1</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>-p Number of threads to use</li>
+<li>–dta reports alignments tailored for transcript assemblers</li>
+<li>-x Hisat2 index</li>
+<li>-1 The 1st input fastq file of paired-end reads</li>
+<li>-2 The 2nd input fastq file of paired-end reads</li>
+<li>-S File for SAM output (default: stdout)</li>
+</ul>
+</blockquote>
+<h2 id="Peak-calling"><a href="#Peak-calling" class="headerlink" title="Peak calling"></a>Peak calling</h2><hr>
+<h3 id="MACS2"><a href="#MACS2" class="headerlink" title="MACS2"></a>MACS2</h3><p>参考ChIP-seq分析流程中的<a href="https://github.com/Ming-Lian/Memo/blob/master/ChIP-seq-pipeline.md#peak-calling" target="_blank" rel="noopener">peak calling</a>过程</p>
+<h3 id="PeakRanger"><a href="#PeakRanger" class="headerlink" title="PeakRanger"></a>PeakRanger</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">peakranger ccat --format bam SRR1042594.sorted.bam SRR1042593.sorted.bam  \</span><br><span class="line">Xu_MUT_rep1_ccat_report --report --gene_annot_file hg19refGene.txt -q 0.05 -t 4</span><br></pre></td></tr></table></figure>
+
+<h2 id="Peaks注释"><a href="#Peaks注释" class="headerlink" title="Peaks注释"></a>Peaks注释</h2><hr>
+<h3 id="CEAS"><a href="#CEAS" class="headerlink" title="CEAS"></a>CEAS</h3><p>哈佛刘小乐实验室出品的软件，可以跟MACS软件call到的peaks文件无缝连接，实现peaks的注释以及可视化分析</p>
+<p>CEAS需要三种输入文件：</p>
+<blockquote>
+<ul>
+<li><p>Gene annotation table file (sqlite3)</p>
+<blockquote>
+<p>可以到CEAS官网上下载：<a href="http://liulab.dfci.harvard.edu/CEAS/src/hg18.refGene.gz" target="_blank" rel="noopener">http://liulab.dfci.harvard.edu/CEAS/src/hg18.refGene.gz</a> ，也可以自己构建：到UCSC上下载，然后用<code>build_genomeBG</code>脚本转换成split3格式</p>
+</blockquote>
+</li>
+<li><p>BED file with ChIP regions (TXT)</p>
+<blockquote>
+<p>需要包含chromosomes, start, and end locations，这样文件可以由 peak-caller （如MACS2）得到</p>
+</blockquote>
+</li>
+<li><p>WIG file with ChiP enrichment signal (TXT)</p>
+<blockquote>
+<p>如何得到wig文件可以参考<a href="https://github.com/Ming-Lian/NGS-analysis/blob/master/samtools操作指南.md#output-wig" target="_blank" rel="noopener">samtools操作指南：以WIG文件输出测序深度</a></p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<p>CEAS的使用方法很简单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ceas --name&#x3D;H3K36me3_ceas --pf-res&#x3D;20 --gn-group-names&#x3D;&#39;Top 10%,Bottom 10%&#39;  \</span><br><span class="line">-g hg19.refGene -b  ..&#x2F;paper_results&#x2F;GSM1278641_Xu_MUT_rep1_BAF155_MUT.peaks.bed \</span><br><span class="line">-w ..&#x2F;rawData&#x2F;SRR1042593.wig</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<ul>
+<li>–name Experiment name. This will be used to name the output files.</li>
+<li>–pf-res Wig profiling resolution, DEFAULT: 50bp</li>
+<li>–gn-group-names The names of the gene groups in –gn-groups. The gene group names are separated by commas. (eg, –gn-group-names=’top 10%,bottom 10%’).</li>
+<li>-g Gene annotation table</li>
+<li>-b BED file of ChIP regions</li>
+<li>-w WIG file for either wig profiling or genome background annotation.</li>
+</ul>
+</blockquote>
+<h2 id="Motif识别"><a href="#Motif识别" class="headerlink" title="Motif识别"></a>Motif识别</h2><h3 id="HOMER"><a href="#HOMER" class="headerlink" title="HOMER"></a>HOMER</h3><p>安装旧版本的HOMER比较复杂，因为旧版依赖于调用其他几个工具：</p>
+<blockquote>
+<ul>
+<li>blat</li>
+<li>Ghostscript</li>
+<li>weblogo<br><strong>Does NOT work with version 3.0!!!!</strong></li>
+</ul>
+</blockquote>
+<p>新版HOMER安装很简单，主要是通过<code>configureHomer.pl</code>脚本来安装和管理HOMER</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;biosoft</span><br><span class="line">mkdir homer &amp;&amp;  cd homer</span><br><span class="line">wget http:&#x2F;&#x2F;homer.salk.edu&#x2F;homer&#x2F;configureHomer.pl</span><br><span class="line"></span><br><span class="line"># Installing the basic HOMER software</span><br><span class="line">perl configureHomer.pl -install</span><br><span class="line"></span><br><span class="line"># Download the hg19 version of the human genome</span><br><span class="line">perl configureHomer.pl -install hg19</span><br></pre></td></tr></table></figure>
+
+
+
+<p>安装好后可以进行 Motif Identification</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># 提取对应的列给HOMER作为输入文件</span><br><span class="line"># change </span><br><span class="line">#		chr1	1454086	1454256	MACS_peak_1	59.88 </span><br><span class="line">#to   </span><br><span class="line">#		MACS_peak_1	chr1	1454086	1454256	+</span><br><span class="line">$ awk &#39;&#123;print $4&quot;\t&quot;$1&quot;\t&quot;$2&quot;\t&quot;$3&quot;\t+&quot;&#125;&#39; macs_peaks.bed &gt;homer_peaks.bed</span><br><span class="line"></span><br><span class="line"># MeRIP-seq 中 motif 的长度为6个 nt</span><br><span class="line">$ findMotifsGenome.pl homer_peaks.bed hg19 motifDir -size 200 -len 8,10,12</span><br><span class="line"></span><br><span class="line"># 自己指定background sequences，用bedtools shuffle构造随机的suffling peaks</span><br><span class="line">$ bedtools shuffle -i peaks.bed -g &lt;GENOME&gt; &gt;peaks_shuffle.bed</span><br><span class="line"># 用参数&quot;-bg&quot;指定background sequences</span><br><span class="line">$ findMotifsGenome.pl homer_peaks.bed hg19 motifDir -bg peaks_shuffle.bed -size 200 -len 8,10,12</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Usage: findMotifsGenome.pl &lt;pos file&gt; &lt;genome&gt; &lt;output directory&gt; [additional options]</span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<blockquote>
+<ul>
+<li><p><code>&lt;genome&gt;</code> 参数只需要写出genome的序号，不需要写出具体路径</p>
+</li>
+<li><pre><code>bedtools shuffle
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+</code></pre></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>中的genome文件的格式要求：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&gt; For example, Human (hg19):</span><br><span class="line">&gt;        chr1    249250621</span><br><span class="line">&gt;        chr2    243199373</span><br><span class="line">&gt;        ...</span><br><span class="line">&gt;        chr18_gl000207_random   4262</span><br><span class="line">&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">可以使用 UCSC Genome Browser’s MySQL database 来获取 chromosome sizes 信息并构建genome文件</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p> mysql –user=genome –host=genome-mysql.cse.ucsc.edu -A -e “select chrom, size from hg19.chromInfo” &gt;hg19.genome</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">最后得到的文件夹里面有一个详细的网页版报告</span><br><span class="line"></span><br><span class="line">![img](meRIP-seq&#x2F;peakMotifs.output-1577079586809.png)</span><br><span class="line"></span><br><span class="line">### MEME</span><br><span class="line"></span><br><span class="line">#### 算法原理</span><br><span class="line"></span><br><span class="line">![img](meRIP-seq&#x2F;MeRIP-seq-meme-principle-1-1577079602415.png)</span><br><span class="line"></span><br><span class="line">![img](meRIP-seq&#x2F;MeRIP-seq-meme-principle-2-1577079791236.png)</span><br><span class="line"></span><br><span class="line">![img](meRIP-seq&#x2F;MeRIP-seq-meme-principle-3.png)</span><br><span class="line"></span><br><span class="line">#### 操作</span><br><span class="line"></span><br><span class="line">下载安装MEME </span><br></pre></td></tr></table></figure>
+<p>cd ~/biosoft<br>mkdir MEMEsuite &amp;&amp;  cd MEMEsuite</p>
+</blockquote>
+<h2 id="http-meme-suite-org-doc-download-html"><a href="#http-meme-suite-org-doc-download-html" class="headerlink" title="http://meme-suite.org/doc/download.html"></a><a href="http://meme-suite.org/doc/download.html" target="_blank" rel="noopener">http://meme-suite.org/doc/download.html</a></h2><p>wget  <a href="http://meme-suite.org/meme-software/4.11.2/meme_4.11.2_1.tar.gz" target="_blank" rel="noopener">http://meme-suite.org/meme-software/4.11.2/meme_4.11.2_1.tar.gz</a><br>tar zxvf meme_4.11.2_1.tar.gz<br>cd meme_4.11.2/<br>./configure –prefix=$HOME/my-bin/meme –with-url=”<a href="http://meme-suite.org&quot;" target="_blank" rel="noopener">http://meme-suite.org&quot;</a><br>make<br>make install</p>
+<h1 id="先提取peaks区域所对应的序列"><a href="#先提取peaks区域所对应的序列" class="headerlink" title="先提取peaks区域所对应的序列"></a>先提取peaks区域所对应的序列</h1><p>bedtools getfasta -fi input.fasta -bed input.bed -fo output.fasta</p>
+<h1 id="Motif-identification"><a href="#Motif-identification" class="headerlink" title="Motif identification"></a>Motif identification</h1><p>meme output.fasta -dna -mod oops -pal</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&gt; - &lt; dataset &gt; File containing sequences in FASTA format</span><br><span class="line">&gt; - -dna Sequences use DNA alphabet</span><br><span class="line">&gt; - -mod Distribution of motifs,3 options: oops | zoops | anr</span><br><span class="line">&gt; - -pal Force palindromes (requires -dna)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## Differential binding analysis</span><br><span class="line"></span><br><span class="line">### Merge peaks</span><br><span class="line"></span><br><span class="line">当ChIP-seq数据中有多分组，多样本以及多个重复时，**需要进行样本间peaks的merge**</span><br><span class="line"></span><br><span class="line">&#96;&#96;&#96;shell</span><br><span class="line">bedtools intersect -a Mcf7H3k27acUcdAlnRep1_peaks.filtered.bed -b Mcf7H3k27acUcdAlnRep2_peaks.filtered.bed -wa | cut -f1-3 | sort | uniq &gt; Mcf7Rep1_peaks.bed</span><br><span class="line">bedtools intersect -a Mcf7H3k27acUcdAlnRep1_peaks.filtered.bed -b Mcf7H3k27acUcdAlnRep2_peaks.filtered.bed -wb | cut -f1-3 | sort | uniq &gt; Mcf7Rep2_peaks.bed</span><br><span class="line">bedtools intersect -a Panc1H3k27acUcdAlnRep1_peaks.filtered.bed -b Panc1H3k27acUcdAlnRep2_peaks.filtered.bed -wa | cut -f1-3 | sort | uniq &gt; Panc1Rep1_peaks.bed</span><br><span class="line">bedtools intersect -a Panc1H3k27acUcdAlnRep1_peaks.filtered.bed -b Panc1H3k27acUcdAlnRep2_peaks.filtered.bed -wb | cut -f1-3 | sort | uniq &gt; Panc1Rep2_peaks.bed</span><br><span class="line"></span><br><span class="line">rm *filtered*</span><br><span class="line"></span><br><span class="line">cat *bed | sort -k1,1 -k2,2n | bedtools merge &gt; merge.bed</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Preparing-ChIP-seq-count-table"><a href="#Preparing-ChIP-seq-count-table" class="headerlink" title="Preparing ChIP-seq count table"></a>Preparing ChIP-seq count table</h3><p>用<strong>bedtools</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Make a bed file adding peak id as the fourth colum</span><br><span class="line">$ awk &#39;&#123;$3&#x3D;$3&quot;\t&quot;&quot;peak_&quot;NR&#125;1&#39; OFS&#x3D;&quot;\t&quot; merge.bed &gt; bed_for_multicov.bed</span><br><span class="line"># 输入的bam文件要提前做好index，可同时提供多个bam文件</span><br><span class="line">$ samtools sort -@ 8 -O BAM -o input1.sort.bam input1.bam </span><br><span class="line">$ samtools index -@ 8 input1.sort.bam input1.sort.bam.bai # 注意：生成的索引文件的文件名必须为在原bam文件名后追加&quot;.bai&quot;，否则bedtools multicov无法识别</span><br><span class="line">$ bedtools multicov -bams input1.bam input2.bam ... -bed bed_for_multicov.bed &gt; counts_multicov.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>NR 表示awk开始执行程序后所读取的数据行数</li>
+<li>OFS Out of Field Separator，输出字段分隔符</li>
+</ul>
+</blockquote>
+<p>用<strong>featureCounts</strong> (subread工具包中的组件）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># Make a saf(simplified annotation format) file for featureCount in the subread package,</span><br><span class="line"></span><br><span class="line">shown below:</span><br><span class="line">GeneID	Chr	Start	End	Strand</span><br><span class="line">497097	chr1	3204563	3207049	-</span><br><span class="line">497097	chr1	3411783	3411982	-</span><br><span class="line">497097	chr1	3660633	3661579	-</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">awk -F &quot;\t&quot; &#39;&#123;$1&#x3D;&quot;peak_&quot;NR FS$1;$4&#x3D;$4FS&quot;.&quot;&#125;1&#39; merge.bed &gt; subread.saf</span><br><span class="line">featureCounts -T 4 -a subread.saf -F SAF -o counts_subread.txt ..&#x2F;..&#x2F;data&#x2F;*bam</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>-a Name of an annotation file</li>
+<li>-F Specify format of the provided annotation file. Acceptable formats include ‘GTF’ (or compatible GFF format) and ‘SAF’. ‘GTF’ by default</li>
+<li>-o Name of the output file including read counts</li>
+<li>-T Number of the threads</li>
+</ul>
+</blockquote>
+<h3 id="Differential-binding-by-DESeq2"><a href="#Differential-binding-by-DESeq2" class="headerlink" title="Differential binding by DESeq2"></a>Differential binding by DESeq2</h3><ul>
+<li>对 contrast 构建一个 counts 矩阵，第一组的每个样本占据一列，紧接着的是第二组的样本，也是每个样本一列。</li>
+</ul>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 做好表达矩阵</span></span><br><span class="line">count_table&lt;-read.delim(<span class="string">"count_multicov.txt"</span>,header=<span class="literal">F</span>)</span><br><span class="line">count_matrix&lt;-as.matrix(count_table[,c(-<span class="number">1</span>,-<span class="number">2</span>,-<span class="number">3</span>,-<span class="number">4</span>)])</span><br><span class="line">rownames(count_matrix)&lt;-count_table$V4</span><br><span class="line"><span class="comment"># 做好分组因子即可</span></span><br><span class="line">group_list&lt;-factor(c(<span class="string">"control"</span>,<span class="string">"control"</span>,<span class="string">"control"</span>,<span class="string">"treat"</span>,<span class="string">"treat"</span>,<span class="string">"treat"</span>))</span><br><span class="line">colData &lt;- data.frame(row.names=colnames(count_matrix), group_list=group_list))</span><br><span class="line"><span class="comment"># 构建 DESeqDataSet 对象</span></span><br><span class="line">dds &lt;- DESeqDataSetFromMatrix(countData = count_matrix,</span><br><span class="line">	colData = colData,</span><br><span class="line">	design = ~ group_list)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>接着计算每个样本的 library size 用于后续的标准化。library size 等于落在该样本所有peaks上的reads的总数，即 counts 矩阵中每列的加和。如果bFullLibrarySize设为TRUE，则会使用library的总reads数（根据原BAM/BED文件统计获得）。然后使用<code>estimateDispersions</code>估计统计分布，需要将参数<code>fitType</code>设为’local’</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dds&lt;-estimateSizeFactors(dds)</span><br><span class="line">dds&lt;-estimateDispersions(dds,fitType&#x3D;&quot;local&quot;)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>对负二项分布进行显著性检验（Negative Binomial GLM fitting and Wald statistics）</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dds &lt;- nbinomWaldTest(dds)</span><br><span class="line">res &lt;- results(dds)</span><br><span class="line">res</span><br></pre></td></tr></table></figure>
+
+<p>若存在多个分组需要进行两两比较，则需要提取指定的两个分组之间的比较结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## 提取你想要的差异分析结果，我们这里是treated组对untreated组进行比较</span><br><span class="line">res &lt;-  results(dds2, contrast&#x3D;c(&quot;group_list&quot;,&quot;treated&quot;,&quot;untreated&quot;))</span><br><span class="line">resOrdered &lt;- res[order(res$padj),]</span><br><span class="line">resOrdered&#x3D;as.data.frame(resOrdered)</span><br></pre></td></tr></table></figure>
+
+
+
+<p>注意两个概念：</p>
+<blockquote>
+<ul>
+<li>Full library size: bam文件中reads的总数</li>
+<li>Effective library size: 落在peaks区域的reads的总数</li>
+</ul>
+<p>DESeq2中默认使用 Full library size bam (bFullLibrarySize =TRUE)，在ChIP-seq中使用 Effective library size 更合适，所有应该设置为bFullLibrarySize =FALSE</p>
+</blockquote>
+<h3 id="4-Differential-binding-peaks-annotation"><a href="#4-Differential-binding-peaks-annotation" class="headerlink" title="4. Differential binding peaks annotation"></a>4. Differential binding peaks annotation</h3><p>在<code>Differential binding analysis: 2. Preparing ChIP-seq count table</code>得到的<code>bed_for_multicov.bed</code>中找DiffBind peaks的bed格式信息</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 用R进行取交集操作</span></span><br><span class="line">merge_bed&lt;-read.delim(<span class="string">"m6A_seq/CallPeak/bed_for_multicov.bed"</span>,header=<span class="literal">F</span>)</span><br><span class="line">peaks_diffbind&lt;-read.delim(<span class="string">"m6A_seq/CallPeak/res_diffBind.txt"</span>,header=<span class="literal">T</span>)</span><br><span class="line">peaks_diffbind_bed&lt;-merge_bed[merge_bed$V4 %<span class="keyword">in</span>% rownames(peaks_diffbind),]</span><br><span class="line"><span class="comment"># 保存文件</span></span><br><span class="line">write.table(peaks_diffbind_bed,<span class="string">"m6A_seq/CallPeak/peaks_diffBind.bed"</span>,sep=<span class="string">"\t"</span>,col.names=<span class="literal">F</span>,row.names=<span class="literal">F</span>,quote=<span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+<p>接着，用基因组注释文件GFF/GTF注释peaks</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ bedtools intersect -wa -wb -a m6A_seq&#x2F;CallPeak&#x2F;peaks_diffBind.bed -b Ref&#x2F;mm10&#x2F;mm10_trans&#x2F;Mus_musculus.GRCm38.91.gtf &gt;m6A_seq&#x2F;CallPeak&#x2F;peaks_diffbind.anno.bed</span><br><span class="line"></span><br><span class="line">$ head m6A_seq&#x2F;CallPeak&#x2F;peaks_diffbind.anno.bed</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="peaks注释基因的富集分析"><a href="#peaks注释基因的富集分析" class="headerlink" title="peaks注释基因的富集分析"></a>peaks注释基因的富集分析</h2><h3 id="clusterProfiler-GO-enrichment-analysis"><a href="#clusterProfiler-GO-enrichment-analysis" class="headerlink" title="clusterProfiler: GO enrichment analysis"></a>clusterProfiler: GO enrichment analysis</h3><p>多数人进行GO富集分析时喜欢使用DAVID，但是由于DAVID的最新版本是在2016年更新的，数据并不是最新的，所以不推荐使用DAVID。</p>
+<p>推荐使用bioconductor包<strong>clusterProfiler</strong></p>
+<p><strong>准备geneList</strong></p>
+<p>从<code>DiffBind peaks annotation</code>中获得的peaks_diffbind.anno.bed文件中提取geneID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ cut -f 13 m6A_seq&#x2F;CallPeak&#x2F;peaks_diffbind.anno.bed | \</span><br><span class="line">	awk &#39;BEGIN&#123;FS&#x3D;&quot;;&quot;&#125; &#123;print $1&#125;&#39; | \</span><br><span class="line">	perl -ane &#39;chomp;$F[1]&#x3D;~ s&#x2F;\&quot;&#x2F;&#x2F;g;print &quot;$F[1]\n&quot;&#39; | sort | uniq &gt;m6A_seq&#x2F;CallPeak&#x2F;peaks_diffbind_geneList.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 载入geneList，最终提供给enrichGO的gene list应该是一个geneID的向量</span></span><br><span class="line">gene_list &lt;- read.table("peaks_diffbind_geneList.txt",header=F)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> ID转换，转换需要的信息来自于对应物种的数据包（orgDB），所以使用前需要提前安装好数据包</span></span><br><span class="line">eg = bitr(gene_list$V1, fromType="SYMBOL", toType="ENTREZID", OrgDb="org.Hs.eg.db")</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># ID转换支持的ID类型可以通过以下方式查看</span></span></span><br><span class="line">keytypes(org.Hs.eg.db)</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 当ID转换涉及KEGG ID时需要使用特殊的函数bitr_kegg，只能在kegg，ncbi-geneid，ncbi-proteinid和uniprot之间进行转换</span></span></span><br><span class="line">eg2np &lt;- bitr_kegg(hg, fromType='kegg', toType='ncbi-proteinid', organism='hsa')</span><br></pre></td></tr></table></figure>
+
+
+
+<p>GO over-representation test</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># 需要使用到相应物种的基因组注释数据包（org.Xx.eg.db），请提前安装好，下面以老鼠为例</span><br><span class="line">ego &lt;- enrichGO(gene         &#x3D; gene_list$V1,</span><br><span class="line">                OrgDb         &#x3D; org.Mm.eg.db,</span><br><span class="line">        		keytype       &#x3D; &#39;ENSEMBL&#39;,</span><br><span class="line">                ont           &#x3D; &quot;CC&quot;,</span><br><span class="line">                pAdjustMethod &#x3D; &quot;BH&quot;,</span><br><span class="line">                pvalueCutoff  &#x3D; 0.01,</span><br><span class="line">                qvalueCutoff  &#x3D; 0.05,</span><br><span class="line">                readable      &#x3D; TRUE)</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<blockquote>
+<ul>
+<li>gene: a vector of entrez gene id</li>
+<li>OrgDb: OrgDb</li>
+<li>keytype: keytype of input gene</li>
+<li>ont: One of “MF”, “BP”, and “CC” subontologies</li>
+<li>pvalueCutoff: Cutoff value of pvalue</li>
+<li>pAdjustMethod: one of “holm”, “hochberg”, “hommel”, “bonferroni”, “BH”, “BY”, “fdr”, “none”</li>
+<li>qvalueCutoff: qvalue cutoff</li>
+<li>readable: whether mapping gene ID to gene Name</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head(ego)</span><br></pre></td></tr></table></figure>
+
+<p>富集分析结果可视化</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 绘制气泡图</span><br><span class="line"></span><br><span class="line">## 可以使用clusterProfiler中提供的绘图函数dotplot</span><br><span class="line">dotplot(ego)</span><br><span class="line"></span><br><span class="line">## 也可以使用ggplot2进行自定义绘图</span><br><span class="line">library(ggplot2)</span><br><span class="line">p&lt;-ggplot(ego)+geom_point(aes(x&#x3D;)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ming-lian.github.io/images/MeRIP-seq-GOenrich-dotplot.png" alt="img"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># 绘制GOterm拓扑关系网，依赖topGO和Rgraphviz</span><br><span class="line">library(topGO)</span><br><span class="line">library(Rgraphviz)</span><br><span class="line"># 画出来的拓扑图中节点的文字太小，看不清，这是一个问题</span><br><span class="line">plotGOgraph(ego)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ming-lian.github.io/images/MeRIP-seq-GOtop-graph.png" alt="img"></p>
+<hr>
+<p>参考资料：</p>
+<p>(1) Zhang C, Chen Y, Sun B, et al. m(6)A modulates haematopoietic stem and progenitor cell specification[J]. Nature, 2017, 549(7671):273.</p>
+<p>(2) <a href="http://mp.weixin.qq.com/s/TKwWKEgfZWskP9NWjYO_Ug" target="_blank" rel="noopener">BIG科研 | 细胞质内的m6A结合蛋白YTHDF3促进mRNA的翻译</a></p>
+<p>(3) Pertea M, Kim D, Pertea G, et al. Transcript-level expression analysis of RNA-seq experiments with HISAT, StringTie, and Ballgown[J]. Nature Protocols, 2016, 11(9):1650.</p>
+<p>(4) <a href="https://github.com/Ming-Lian/Memo/blob/master/ChIP-seq-pipeline.md" target="_blank" rel="noopener">ChIP-seq-pipeline</a></p>
+<p>(5) <a href="https://github.com/jmzeng1314/NGS-pipeline/tree/master/CHIPseq" target="_blank" rel="noopener">ChIPseq pipeline on jmzeng1314’s github</a></p>
+<p>(6) <a href="https://github.com/crazyhottommy/ChIP-seq-analysis" target="_blank" rel="noopener">ChIPseq pipeline on crazyhottommy’s github</a></p>
+<p>(7) <a href="https://github.com/crazyhottommy/ChIP-seq-analysis/blob/master/part3.1_Differential_binding_DiffBind_lib_size.md" target="_blank" rel="noopener">library size and normalization for ChIP-seq</a></p>
+<p>(8) <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/DESeq2/inst/doc/DESeq2.html" target="_blank" rel="noopener">Bioconductor tutorial: Analyzing RNA-seq data with DESeq2</a></p>
+<p>(9) <a href="http://www.bioconductor.org/packages/release/bioc/vignettes/clusterProfiler/inst/doc/clusterProfiler.html#introduction" target="_blank" rel="noopener">Bioconductor tutorial: clusterProfiler</a></p>
+<p>(10) 国科大-韩春生《生物信息学应用 - 模序搜索》ppt</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MeRIP/" rel="tag"># MeRIP</a>
+              <a href="/tags/m6A/" rel="tag"># m6A</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/19/R_error/" rel="prev" title="R语言基础补足">
+      <i class="fa fa-chevron-left"></i> R语言基础补足
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/" rel="next" title="chip-seq实战">
+      chip-seq实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MeRIP-ChIP-seq分析流程"><span class="nav-number">1.</span> <span class="nav-text">MeRIP&#x2F;ChIP-seq分析流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#m6A背景知识"><span class="nav-number">1.1.</span> <span class="nav-text">m6A背景知识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比对参考基因组"><span class="nav-number">1.2.</span> <span class="nav-text">比对参考基因组</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tophat"><span class="nav-number">1.2.1.</span> <span class="nav-text">Tophat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HISAT2"><span class="nav-number">1.2.2.</span> <span class="nav-text">HISAT2</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Peak-calling"><span class="nav-number">1.3.</span> <span class="nav-text">Peak calling</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#MACS2"><span class="nav-number">1.3.1.</span> <span class="nav-text">MACS2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PeakRanger"><span class="nav-number">1.3.2.</span> <span class="nav-text">PeakRanger</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Peaks注释"><span class="nav-number">1.4.</span> <span class="nav-text">Peaks注释</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CEAS"><span class="nav-number">1.4.1.</span> <span class="nav-text">CEAS</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Motif识别"><span class="nav-number">1.5.</span> <span class="nav-text">Motif识别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#HOMER"><span class="nav-number">1.5.1.</span> <span class="nav-text">HOMER</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-meme-suite-org-doc-download-html"><span class="nav-number">1.6.</span> <span class="nav-text">http:&#x2F;&#x2F;meme-suite.org&#x2F;doc&#x2F;download.html</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#先提取peaks区域所对应的序列"><span class="nav-number">2.</span> <span class="nav-text">先提取peaks区域所对应的序列</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Motif-identification"><span class="nav-number">3.</span> <span class="nav-text">Motif identification</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Preparing-ChIP-seq-count-table"><span class="nav-number">3.0.1.</span> <span class="nav-text">Preparing ChIP-seq count table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Differential-binding-by-DESeq2"><span class="nav-number">3.0.2.</span> <span class="nav-text">Differential binding by DESeq2</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Differential-binding-peaks-annotation"><span class="nav-number">3.0.3.</span> <span class="nav-text">4. Differential binding peaks annotation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#peaks注释基因的富集分析"><span class="nav-number">3.1.</span> <span class="nav-text">peaks注释基因的富集分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#clusterProfiler-GO-enrichment-analysis"><span class="nav-number">3.1.1.</span> <span class="nav-text">clusterProfiler: GO enrichment analysis</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Maftools 的一些函数print_mat and coOncoplot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Maftools的一些函数">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/05/coOncoplot/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="Maftools 的一些函数print_mat and coOncoplot">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-12-04T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:53.511Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="heatmap">
+<meta property="article:tag" content="maftools">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/05/coOncoplot/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Maftools的一些函数 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/05/coOncoplot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Maftools的一些函数
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-05 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-05T00:00:00+08:00">2019-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:53" itemprop="dateModified" datetime="2020-05-17T21:54:53+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="Maftools-的一些函数"><a href="#Maftools-的一些函数" class="headerlink" title="Maftools 的一些函数"></a>Maftools 的一些函数</h3><p>print_mat and coOncoplot</p>
+<a id="more"></a>
+
+
+
+<h4 id="print-mat函数解读"><a href="#print-mat函数解读" class="headerlink" title="print_mat函数解读"></a>print_mat函数解读</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br></pre></td><td class="code"><pre><span class="line">print_mat = <span class="keyword">function</span>(maf, genes, removeNonMutated = <span class="literal">TRUE</span>, colors = <span class="literal">NULL</span>,</span><br><span class="line">                     bgCol = <span class="string">'gray70'</span>, borderCol = <span class="string">'white'</span>, fontSize = <span class="number">1</span>,</span><br><span class="line">                     plot2 = <span class="literal">FALSE</span>, test = <span class="literal">FALSE</span>, clinicalFeatures = <span class="literal">NULL</span>,</span><br><span class="line">                     additionalFeature = <span class="literal">NULL</span>, additionalFeaturePch = <span class="number">20</span>, additionalFeatureCol = <span class="string">"white"</span>, additionalFeatureCex = <span class="number">0.9</span>,</span><br><span class="line">                     annotationDat = <span class="literal">NULL</span>, annotationColor = <span class="literal">NULL</span>,</span><br><span class="line">                     sortByAnnotation = <span class="literal">FALSE</span>, showBarcodes = <span class="literal">FALSE</span>,</span><br><span class="line">                     title = <span class="literal">NULL</span>, title_size = <span class="number">1.2</span>, barcode_size = <span class="number">1</span>, sepwd_samples = <span class="number">0.1</span>, sepwd_genes = <span class="number">0.1</span>)&#123;</span><br><span class="line"></span><br><span class="line">  tsbs = levels(getSampleSummary(x = maf)[,Tumor_Sample_Barcode])</span><br><span class="line">  genes = as.character(genes)</span><br><span class="line"></span><br><span class="line">  om = createOncoMatrix(m = maf, g = genes)</span><br><span class="line">  <span class="keyword">if</span>(is.null(om))&#123;</span><br><span class="line">    <span class="comment">#nsamps = as.numeric(maf@summary[ID %in% 'Samples', summary])</span></span><br><span class="line">    nsamps = length(tsbs)</span><br><span class="line">    oncoMatrix = matrix(data = <span class="string">""</span>, nrow = length(genes), ncol = nsamps)</span><br><span class="line">    numericMatrix = matrix(data = <span class="number">0</span>, nrow = length(genes), ncol = nsamps)</span><br><span class="line">    colnames(oncoMatrix) = colnames(numericMatrix) = tsbs</span><br><span class="line">    rownames(oncoMatrix) = rownames(numericMatrix) = genes</span><br><span class="line"></span><br><span class="line">    om = list(numericMatrix = numericMatrix, oncoMatrix =oncoMatrix)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  mat_origin = om$oncoMatrix</span><br><span class="line">  numMat = om$numericMatrix</span><br><span class="line"></span><br><span class="line">  genes.missing = genes[!genes %<span class="keyword">in</span>% rownames(mat_origin)]</span><br><span class="line">  genes.present = genes[genes %<span class="keyword">in</span>% rownames(mat_origin)]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(length(genes.present) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    genes.missing.mat = t(matrix(data = <span class="string">''</span>, ncol = ncol(numMat), nrow = length(genes.missing)))</span><br><span class="line">    genes.missing.numat = t(matrix(data = <span class="number">0</span>, ncol = ncol(numMat), nrow = length(genes.missing)))</span><br><span class="line">    colnames(genes.missing.mat) = genes.missing</span><br><span class="line">    colnames(genes.missing.numat) = genes.missing</span><br><span class="line">    mat_origin = rbind(mat_origin, t(genes.missing.mat))</span><br><span class="line">    numMat = rbind(numMat, t(genes.missing.numat))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#remove nonmutated samples to improve visualization</span></span><br><span class="line">  <span class="keyword">if</span>(!removeNonMutated)&#123;</span><br><span class="line">    tsb.include = matrix(data = <span class="number">0</span>, nrow = length(genes),</span><br><span class="line">                         ncol = length(tsbs[!tsbs %<span class="keyword">in</span>% colnames(numMat)]))</span><br><span class="line">    tsb.include.char = matrix(data = <span class="string">''</span>, nrow = length(genes),</span><br><span class="line">                         ncol = length(tsbs[!tsbs %<span class="keyword">in</span>% colnames(numMat)]))</span><br><span class="line">    colnames(tsb.include) = colnames(tsb.include.char) = tsbs[!tsbs %<span class="keyword">in</span>% colnames(numMat)]</span><br><span class="line">    rownames(tsb.include) = rownames(tsb.include.char) = rownames(numMat)</span><br><span class="line">    numMat = cbind(numMat, tsb.include)</span><br><span class="line">    mat_origin = cbind(mat_origin, tsb.include.char)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  numMat = numMat[genes, , drop = <span class="literal">FALSE</span>]</span><br><span class="line">  mat_origin = mat_origin[genes, , drop = <span class="literal">FALSE</span>]</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Parse annotations</span></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures))&#123;</span><br><span class="line">    <span class="keyword">if</span>(is.null(annotationDat))&#123;</span><br><span class="line">      annotation = parse_annotation_dat(annotationDat = maf, clinicalFeatures = clinicalFeatures)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      annotation = parse_annotation_dat(annotationDat = annotationDat, clinicalFeatures = clinicalFeatures)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(sortByAnnotation)&#123;</span><br><span class="line">      numMat = sortByAnnotation(numMat = numMat, maf = maf, anno = annotation)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(colors))&#123;</span><br><span class="line">    vc_col = get_vcColors()</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    vc_col = colors</span><br><span class="line">  &#125;</span><br><span class="line">  vc_codes = om$vc <span class="comment">#VC codes</span></span><br><span class="line"></span><br><span class="line">  percent_alt = paste0(round((apply(numMat, <span class="number">1</span>, <span class="keyword">function</span>(x) length(x[x != <span class="number">0</span>])) / length(tsbs)) * <span class="number">100</span>), <span class="string">"%"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(plot2)&#123;</span><br><span class="line">    <span class="keyword">if</span>(is.null(clinicalFeatures))&#123;</span><br><span class="line">      <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">        par(mar = c(<span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>))</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        par(mar = c(<span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">        par(mar = c(<span class="number">5</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>))</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        par(mar = c(<span class="number">1</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(is.null(clinicalFeatures))&#123;</span><br><span class="line">      <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">        par(mar = c(<span class="number">5</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        par(mar = c(<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">        par(mar = c(<span class="number">5</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        par(mar = c(<span class="number">1</span>, <span class="number">5</span>, <span class="number">3</span>, <span class="number">1</span>))</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(test)&#123;</span><br><span class="line">    <span class="keyword">return</span>(list(numMat, vc_col[om$vc]))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  nm = t(apply(numMat, <span class="number">2</span>, rev))</span><br><span class="line">  nm[nm == <span class="number">0</span>] = <span class="literal">NA</span></span><br><span class="line">  image(x = <span class="number">1</span>:nrow(nm), y = <span class="number">1</span>:ncol(nm), z = nm, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>,</span><br><span class="line">        xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = <span class="string">"white"</span>) <span class="comment">#col = "#FC8D62"</span></span><br><span class="line">  <span class="comment">#Plot for all variant classifications</span></span><br><span class="line">  vc_codes_temp = vc_codes[!vc_codes %<span class="keyword">in</span>% c(<span class="string">'Amp'</span>, <span class="string">'Del'</span>)]</span><br><span class="line">  <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">2</span>:length(names(vc_codes_temp)))&#123;</span><br><span class="line">    vc_code = vc_codes_temp[i]</span><br><span class="line">    col = vc_col[vc_code]</span><br><span class="line">    nm = t(apply(numMat, <span class="number">2</span>, rev))</span><br><span class="line">    nm[nm != names(vc_code)] = <span class="literal">NA</span></span><br><span class="line">    suppressWarnings(image(x = <span class="number">1</span>:nrow(nm), y = <span class="number">1</span>:ncol(nm), z = nm, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>,</span><br><span class="line">          xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = col, add = <span class="literal">TRUE</span>))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Add blanks</span></span><br><span class="line">  nm = t(apply(numMat, <span class="number">2</span>, rev))</span><br><span class="line">  nm[nm != <span class="number">0</span>] = <span class="literal">NA</span></span><br><span class="line">  image(x = <span class="number">1</span>:nrow(nm), y = <span class="number">1</span>:ncol(nm), z = nm, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>, xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = bgCol, add = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Add CNVs if any</span></span><br><span class="line">  mat_origin = mat_origin[rownames(numMat), colnames(numMat), drop = <span class="literal">FALSE</span>]</span><br><span class="line">  mo = t(apply(mat_origin, <span class="number">2</span>, rev))</span><br><span class="line"></span><br><span class="line">  <span class="comment">##Complex events (mutated as well as CN altered)</span></span><br><span class="line">  complex_events = unique(grep(pattern = <span class="string">";"</span>, x = mo, value = <span class="literal">TRUE</span>))</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(length(complex_events) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(complex_events))&#123;</span><br><span class="line">      ce = complex_events[i]</span><br><span class="line">      <span class="comment">#mo = t(apply(mat_origin, 2, rev))</span></span><br><span class="line">      ce_idx = which(mo == ce, arr.ind = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">      ce = unlist(strsplit(x = ce, split = <span class="string">";"</span>, fixed = <span class="literal">TRUE</span>))</span><br><span class="line"></span><br><span class="line">      nm_temp = matrix(<span class="literal">NA</span>, nrow = nrow(nm), ncol = ncol(nm))</span><br><span class="line">      nm_temp[ce_idx] = <span class="number">0</span></span><br><span class="line">      image(x = <span class="number">1</span>:nrow(nm_temp), y = <span class="number">1</span>:ncol(nm_temp), z = nm_temp, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>,</span><br><span class="line">            yaxt=<span class="string">"n"</span>, xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = vc_col[ce[<span class="number">2</span>]], add = <span class="literal">TRUE</span>)</span><br><span class="line">      points(ce_idx, pch= <span class="number">15</span>, col= vc_col[ce[<span class="number">1</span>]])</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  del_idx = which(mo == <span class="string">"Del"</span>, arr.ind = <span class="literal">TRUE</span>)</span><br><span class="line">  amp_idx = which(mo == <span class="string">"Amp"</span>, arr.ind = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(nrow(amp_idx) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    nm_temp = matrix(<span class="literal">NA</span>, nrow = nrow(nm), ncol = ncol(nm))</span><br><span class="line">    nm_temp[amp_idx] = <span class="number">0</span></span><br><span class="line">    image(x = <span class="number">1</span>:nrow(nm_temp), y = <span class="number">1</span>:ncol(nm_temp), z = nm_temp, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>,</span><br><span class="line">          yaxt=<span class="string">"n"</span>, xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = bgCol, add = <span class="literal">TRUE</span>)</span><br><span class="line">    points(amp_idx, pch= <span class="number">15</span>, col= vc_col[<span class="string">'Amp'</span>], cex = <span class="number">1.5</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(nrow(del_idx) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    nm_temp = matrix(<span class="literal">NA</span>, nrow = nrow(nm), ncol = ncol(nm))</span><br><span class="line">    nm_temp[del_idx] = <span class="number">0</span></span><br><span class="line">    image(x = <span class="number">1</span>:nrow(nm_temp), y = <span class="number">1</span>:ncol(nm_temp), z = nm_temp, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>,</span><br><span class="line">          yaxt=<span class="string">"n"</span>, xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = bgCol, add = <span class="literal">TRUE</span>)</span><br><span class="line">    points(del_idx, pch= <span class="number">15</span>, col= vc_col[<span class="string">'Del'</span>], cex = <span class="number">1.5</span>)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Draw if any additional features are requested</span></span><br><span class="line">  additionalFeature_legend = <span class="literal">FALSE</span></span><br><span class="line">  <span class="keyword">if</span>(!is.null(additionalFeature))&#123;</span><br><span class="line">    <span class="keyword">if</span>(length(additionalFeature) &lt; <span class="number">2</span>)&#123;</span><br><span class="line">      <span class="keyword">stop</span>(<span class="string">"additionalFeature must be of length two. See ?oncoplot for details."</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    af_dat = subsetMaf(maf = maf, genes = rownames(numMat), tsb = colnames(numMat), fields = additionalFeature[<span class="number">1</span>], includeSyn = <span class="literal">FALSE</span>, mafObj = <span class="literal">FALSE</span>)</span><br><span class="line">    <span class="keyword">if</span>(length(which(colnames(af_dat) == additionalFeature[<span class="number">1</span>])) == <span class="number">0</span>)&#123;</span><br><span class="line">      message(paste0(<span class="string">"Column "</span>, additionalFeature[<span class="number">1</span>], <span class="string">" not found in maf. Here are available fields.."</span>))</span><br><span class="line">      print(getFields(maf))</span><br><span class="line">      <span class="keyword">stop</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    colnames(af_dat)[which(colnames(af_dat) == additionalFeature[<span class="number">1</span>])] = <span class="string">'temp_af'</span></span><br><span class="line">    af_dat = af_dat[temp_af %<span class="keyword">in</span>% additionalFeature[<span class="number">2</span>]]</span><br><span class="line">    <span class="keyword">if</span>(nrow(af_dat) == <span class="number">0</span>)&#123;</span><br><span class="line">      <span class="keyword">warning</span>(paste0(<span class="string">"No samples are enriched for "</span>, additionalFeature[<span class="number">2</span>], <span class="string">" in "</span>, additionalFeature[<span class="number">1</span>]))</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      af_mat = data.table::dcast(data = af_dat, Tumor_Sample_Barcode ~ Hugo_Symbol, value.var = <span class="string">"temp_af"</span>, fun.aggregate = length)</span><br><span class="line">      af_mat = as.matrix(af_mat, rownames = <span class="string">"Tumor_Sample_Barcode"</span>)</span><br><span class="line"></span><br><span class="line">      nm = t(apply(numMat, <span class="number">2</span>, rev))</span><br><span class="line"></span><br><span class="line">      lapply(seq_len(nrow(af_mat)), <span class="keyword">function</span>(i)&#123;</span><br><span class="line">        af_i = af_mat[i,, drop = <span class="literal">FALSE</span>]</span><br><span class="line">        af_i_genes = colnames(af_i)[which(af_i &gt; <span class="number">0</span>)]</span><br><span class="line">        af_i_sample = rownames(af_i)</span><br><span class="line"></span><br><span class="line">        lapply(af_i_genes, <span class="keyword">function</span>(ig)&#123;</span><br><span class="line">          af_i_mat = matrix(c(which(rownames(nm) == af_i_sample),</span><br><span class="line">                              which(colnames(nm) == ig)),</span><br><span class="line">                            nrow = <span class="number">1</span>)</span><br><span class="line">          points(af_i_mat, pch = additionalFeaturePch, col= additionalFeatureCol, cex = additionalFeatureCex)</span><br><span class="line">        &#125;)</span><br><span class="line">      &#125;)</span><br><span class="line">      additionalFeature_legend = <span class="literal">TRUE</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Add grids</span></span><br><span class="line">  abline(h = (<span class="number">1</span>:ncol(nm)) + <span class="number">0.5</span>, col = borderCol, lwd = sepwd_genes)</span><br><span class="line">  abline(v = (<span class="number">1</span>:nrow(nm)) + <span class="number">0.5</span>, col = borderCol, lwd = sepwd_samples)</span><br><span class="line">  title(title, cex.main = title_size, outer = <span class="literal">FALSE</span>, font = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># mtext(text = colnames(nm), side = 2, at = 1:ncol(nm),</span></span><br><span class="line">  <span class="comment">#       font = 3, line = 0.4, cex = fontSize, las = 2)</span></span><br><span class="line">  <span class="keyword">if</span>(plot2)&#123;</span><br><span class="line">    mtext(text = rev(percent_alt), side = <span class="number">4</span>, at = <span class="number">1</span>:ncol(nm),</span><br><span class="line">          font = <span class="number">1</span>, line = <span class="number">0.4</span>, cex = fontSize, las = <span class="number">2</span>, adj = <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">      text(x =<span class="number">1</span>:nrow(nm), y = <span class="number">0.40</span>,</span><br><span class="line">           labels = rownames(nm), srt = <span class="number">90</span>, font = <span class="number">1</span>,</span><br><span class="line">           cex = barcode_size, adj = <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    mtext(text = rev(percent_alt), side = <span class="number">2</span>, at = <span class="number">1</span>:ncol(nm),</span><br><span class="line">          font = <span class="number">1</span>, line = <span class="number">0.4</span>, cex = fontSize, las = <span class="number">2</span>, adj = <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">if</span>(showBarcodes)&#123;</span><br><span class="line">      text(x =<span class="number">1</span>:nrow(nm), y = <span class="number">0.40</span>,</span><br><span class="line">           labels = rownames(nm), srt = <span class="number">90</span>, font = <span class="number">1</span>,</span><br><span class="line">           cex = barcode_size, adj = <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Color codes for annoations</span></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures))&#123;</span><br><span class="line">    clini_lvls = as.character(unlist(lapply(annotation, <span class="keyword">function</span>(x) unique(as.character(x)))))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(is.null(annotationColor))&#123;</span><br><span class="line">      annotationColor = list()</span><br><span class="line">      <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:ncol(annotation))&#123;</span><br><span class="line">        ann_lvls = levels(annotation[,i])</span><br><span class="line">        <span class="keyword">if</span>(length(ann_lvls) &lt;= <span class="number">9</span>)&#123;</span><br><span class="line">          ann_lvls_cols = RColorBrewer::brewer.pal(n = <span class="number">9</span>, name = <span class="string">'Set1'</span>)[<span class="number">1</span>:length(ann_lvls)]</span><br><span class="line">          names(ann_lvls_cols) = ann_lvls</span><br><span class="line">          annotationColor[[i]] = ann_lvls_cols</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">          ann_lvls_cols = colors()[sample(x = <span class="number">1</span>:<span class="number">100</span>, size = length(ann_lvls), replace = <span class="literal">FALSE</span>)]</span><br><span class="line">          names(ann_lvls_cols) = ann_lvls</span><br><span class="line">          annotationColor[[i]] = ann_lvls_cols</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      names(annotationColor) = colnames(annotation)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    anno_cols = c()</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(annotationColor))&#123;</span><br><span class="line">      anno_cols = c(anno_cols, annotationColor[[i]])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    clini_lvls = clini_lvls[!is.na(clini_lvls)]</span><br><span class="line">    names(clini_lvls) = <span class="number">1</span>:length(clini_lvls)</span><br><span class="line">    temp_rownames = rownames(annotation)</span><br><span class="line">    annotation = data.frame(lapply(annotation, as.character),</span><br><span class="line">                            stringsAsFactors = <span class="literal">FALSE</span>, row.names = temp_rownames)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(clini_lvls))&#123;</span><br><span class="line">      annotation[annotation == clini_lvls[i]] = names(clini_lvls[i])</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    annotation = data.frame(lapply(annotation, as.numeric), stringsAsFactors=<span class="literal">FALSE</span>, row.names = temp_rownames)</span><br><span class="line"></span><br><span class="line">    annotation = annotation[colnames(numMat), ncol(annotation):<span class="number">1</span>, drop = <span class="literal">FALSE</span>]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span>(plot2)&#123;</span><br><span class="line">      par(mar = c(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">5</span>))</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      par(mar = c(<span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    image(x = <span class="number">1</span>:nrow(annotation), y = <span class="number">1</span>:ncol(annotation), z = as.matrix(annotation),</span><br><span class="line">          axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>, bty = <span class="string">"n"</span>,</span><br><span class="line">          xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = <span class="string">"white"</span>) <span class="comment">#col = "#FC8D62"</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">#Plot for all variant classifications</span></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(names(clini_lvls)))&#123;</span><br><span class="line">      anno_code = clini_lvls[i]</span><br><span class="line">      col = anno_cols[anno_code]</span><br><span class="line">      <span class="comment">#temp_anno = t(apply(annotation, 2, rev))</span></span><br><span class="line">      temp_anno = as.matrix(annotation)</span><br><span class="line">      temp_anno[temp_anno != names(anno_code)] = <span class="literal">NA</span></span><br><span class="line">      suppressWarnings(image(x = <span class="number">1</span>:nrow(temp_anno), y = <span class="number">1</span>:ncol(temp_anno), z = temp_anno,</span><br><span class="line">            axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>, xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = col, add = <span class="literal">TRUE</span>))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">#Add grids</span></span><br><span class="line">    abline(h = (<span class="number">1</span>:ncol(nm)) + <span class="number">0.5</span>, col = <span class="string">"white"</span>, lwd = sepwd_genes)</span><br><span class="line">    abline(v = (<span class="number">1</span>:nrow(nm)) + <span class="number">0.5</span>, col = <span class="string">"white"</span>, lwd = sepwd_samples)</span><br><span class="line">    <span class="keyword">if</span>(plot2)&#123;</span><br><span class="line">      mtext(text = colnames(annotation), side = <span class="number">4</span>,</span><br><span class="line">            font = <span class="number">1</span>, line = <span class="number">0.4</span>, cex = fontSize, las = <span class="number">2</span>, at = <span class="number">1</span>:ncol(annotation))</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      mtext(text = colnames(annotation), side = <span class="number">2</span>,</span><br><span class="line">            font = <span class="number">1</span>, line = <span class="number">0.4</span>, cex = fontSize, las = <span class="number">2</span>, at = <span class="number">1</span>:ncol(annotation))</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span>(annotationColor)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">get_m12_annotation_colors = <span class="keyword">function</span>(a1 = <span class="literal">NULL</span>, a1_cf = <span class="literal">NULL</span>,</span><br><span class="line">                                 a2 = <span class="literal">NULL</span> , a2_cf = <span class="literal">NULL</span>)&#123;</span><br><span class="line"></span><br><span class="line">  a1 = parse_annotation_dat(a1, a1_cf)</span><br><span class="line">  a2 = parse_annotation_dat(a2, a2_cf)</span><br><span class="line"></span><br><span class="line">  com_anno = intersect(colnames(a1), colnames(a2))</span><br><span class="line">  cf_cols = list()</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(length(com_anno) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(com_anno))&#123;</span><br><span class="line">      cf_temp = com_anno[i]</span><br><span class="line">      com_clini_lvls = unique(c(as.character(unlist(lapply(a1[,cf_temp, drop = <span class="literal">FALSE</span>], <span class="keyword">function</span>(x) unique(as.character(x))))),</span><br><span class="line">                         as.character(unlist(lapply(a2[,cf_temp, drop = <span class="literal">FALSE</span>], <span class="keyword">function</span>(x) unique(as.character(x)))))))</span><br><span class="line">      <span class="keyword">if</span>(length(com_clini_lvls) &lt;= <span class="number">9</span>)&#123;</span><br><span class="line">        ann_lvls_cols = RColorBrewer::brewer.pal(n = <span class="number">9</span>, name = <span class="string">'Set1'</span>)[<span class="number">1</span>:length(com_clini_lvls)]</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ann_lvls_cols = colors()[sample(x = <span class="number">1</span>:<span class="number">100</span>, size = length(com_clini_lvls), replace = <span class="literal">FALSE</span>)]</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      cf_cols[[i]] = ann_lvls_cols</span><br><span class="line">      names(cf_cols[[i]]) = com_clini_lvls</span><br><span class="line">      <span class="comment">#print(cf_cols)</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  names(cf_cols) = com_anno</span><br><span class="line"></span><br><span class="line">  a1_rest = a1[,colnames(a1)[!colnames(a1) %<span class="keyword">in</span>% com_anno], drop = <span class="literal">FALSE</span>]</span><br><span class="line">  a2_rest = a2[,colnames(a2)[!colnames(a2) %<span class="keyword">in</span>% com_anno], drop = <span class="literal">FALSE</span>]</span><br><span class="line"></span><br><span class="line">  a1_rest_cols = list()</span><br><span class="line">  <span class="keyword">if</span>(ncol(a1_rest) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:ncol(a1_rest))&#123;</span><br><span class="line">      ann_lvls = unique(as.character(a1_rest[,i]))</span><br><span class="line">      <span class="keyword">if</span>(length(ann_lvls) &lt;= <span class="number">9</span>)&#123;</span><br><span class="line">        ann_lvls_cols = RColorBrewer::brewer.pal(n = <span class="number">9</span>, name = <span class="string">'Set1'</span>)[<span class="number">1</span>:length(ann_lvls)]</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ann_lvls_cols = colors()[sample(x = <span class="number">1</span>:<span class="number">100</span>, size = length(ann_lvls), replace = <span class="literal">FALSE</span>)]</span><br><span class="line">      &#125;</span><br><span class="line">      a1_rest_cols[[i]] = ann_lvls_cols</span><br><span class="line">      names(a1_rest_cols[[i]]) = ann_lvls</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  names(a1_rest_cols) = colnames(a1_rest)</span><br><span class="line"></span><br><span class="line">  a2_rest_cols = list()</span><br><span class="line">  <span class="keyword">if</span>(ncol(a2_rest) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:ncol(a2_rest))&#123;</span><br><span class="line">      ann_lvls = unique(as.character(a2_rest[,i]))</span><br><span class="line">      <span class="keyword">if</span>(length(ann_lvls) &lt;= <span class="number">9</span>)&#123;</span><br><span class="line">        ann_lvls_cols = RColorBrewer::brewer.pal(n = <span class="number">9</span>, name = <span class="string">'Set1'</span>)[<span class="number">1</span>:length(ann_lvls)]</span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        ann_lvls_cols = colors()[sample(x = <span class="number">1</span>:<span class="number">100</span>, size = length(ann_lvls), replace = <span class="literal">FALSE</span>)]</span><br><span class="line">      &#125;</span><br><span class="line">      a2_rest_cols[[i]] = ann_lvls_cols</span><br><span class="line">      names(a2_rest_cols[[i]]) = ann_lvls</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  names(a2_rest_cols) = colnames(a2_rest)</span><br><span class="line">  <span class="comment">#print(c(cf_cols, a1_rest_cols, a2_rest_cols))</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span>(c(cf_cols, a1_rest_cols, a2_rest_cols))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="coOncoplot"><a href="#coOncoplot" class="headerlink" title="coOncoplot"></a>coOncoplot</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">coOncoplot = <span class="keyword">function</span>(m1, m2, genes = <span class="literal">NULL</span>, m1Name = <span class="literal">NULL</span>, m2Name = <span class="literal">NULL</span>,</span><br><span class="line">                       clinicalFeatures1 = <span class="literal">NULL</span>, clinicalFeatures2 = <span class="literal">NULL</span>,</span><br><span class="line">                       annotationColor1 = <span class="literal">NULL</span>, annotationColor2 = <span class="literal">NULL</span>, annotationFontSize = <span class="number">1.2</span>,</span><br><span class="line">                       sortByAnnotation1 = <span class="literal">FALSE</span>, sortByAnnotation2 = <span class="literal">FALSE</span>,</span><br><span class="line">                      additionalFeature1 = <span class="literal">NULL</span>, additionalFeaturePch1 = <span class="number">20</span>, additionalFeatureCol1 = <span class="string">"white"</span>, additionalFeatureCex1 = <span class="number">0.9</span>,</span><br><span class="line">                      additionalFeature2 = <span class="literal">NULL</span>, additionalFeaturePch2 = <span class="number">20</span>, additionalFeatureCol2 = <span class="string">"white"</span>, additionalFeatureCex2 = <span class="number">0.9</span>,</span><br><span class="line">                      sepwd_genes1 = <span class="number">0.5</span>, sepwd_samples1 = <span class="number">0.5</span>, sepwd_genes2 = <span class="number">0.5</span>, sepwd_samples2 = <span class="number">0.5</span>,</span><br><span class="line">                       colors = <span class="literal">NULL</span>, removeNonMutated = <span class="literal">TRUE</span>,</span><br><span class="line">                       geneNamefont = <span class="number">0.8</span>, showSampleNames = <span class="literal">FALSE</span>, SampleNamefont = <span class="number">1</span>,</span><br><span class="line">                       legendFontSize = <span class="number">1.2</span>, titleFontSize = <span class="number">1.5</span>, keepGeneOrder=<span class="literal">FALSE</span>,</span><br><span class="line">                       bgCol = <span class="string">"#CCCCCC"</span>, borderCol = <span class="string">"white"</span>)&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(genes))&#123;</span><br><span class="line">    m1.genes = getGeneSummary(m1)[<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">    m2.genes = getGeneSummary(m2)[<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">    mdt = merge(m1.genes[,.(Hugo_Symbol, MutatedSamples)], m2.genes[,.(Hugo_Symbol, MutatedSamples)], by = <span class="string">'Hugo_Symbol'</span>, all = <span class="literal">TRUE</span>)</span><br><span class="line">    mdt$MutatedSamples.x[is.na(mdt$MutatedSamples.x)] = <span class="number">0</span></span><br><span class="line">    mdt$MutatedSamples.y[is.na(mdt$MutatedSamples.y)] = <span class="number">0</span></span><br><span class="line">    mdt$max = apply(mdt[,.(MutatedSamples.x, MutatedSamples.y)], <span class="number">1</span>, max)</span><br><span class="line">    mdt = mdt[order(max, decreasing = <span class="literal">TRUE</span>)]</span><br><span class="line"></span><br><span class="line">    genes = mdt[,Hugo_Symbol]</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  m1.sampleSize = m1@summary[<span class="number">3</span>, summary]</span><br><span class="line">  m2.sampleSize = m2@summary[<span class="number">3</span>, summary]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(m1Name))&#123;</span><br><span class="line">    m1Name = <span class="string">'M1'</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  m1Name = paste(m1Name, <span class="string">' (N = '</span> , m1.sampleSize, <span class="string">')'</span>,sep = <span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(m2Name))&#123;</span><br><span class="line">    m2Name = <span class="string">'M2'</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  m2Name = paste(m2Name, <span class="string">' (N = '</span> , m2.sampleSize, <span class="string">')'</span>,sep = <span class="string">''</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(colors))&#123;</span><br><span class="line">    vc_col = get_vcColors()</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    vc_col = colors</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  m12_annotation_colors = <span class="literal">NULL</span></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures1) &amp; !is.null(clinicalFeatures2))&#123;</span><br><span class="line">    <span class="keyword">if</span>(is.null(annotationColor1) &amp; is.null(annotationColor2))&#123;</span><br><span class="line">      m12_annotation_colors = get_m12_annotation_colors(a1 = m1, a1_cf = clinicalFeatures1,</span><br><span class="line">                                                        a2 = m2, a2_cf = clinicalFeatures2)</span><br><span class="line">      annotationColor1 = m12_annotation_colors</span><br><span class="line">      annotationColor2 = m12_annotation_colors</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">#Get matrix dimensions and legends to adjust plot graphics::layout</span></span><br><span class="line">  nm1 = print_mat(maf = m1, genes = genes, removeNonMutated = removeNonMutated,</span><br><span class="line">                  test = <span class="literal">TRUE</span>, colors = colors)</span><br><span class="line">  nm1_ncol = ncol(nm1[[<span class="number">1</span>]])</span><br><span class="line">  nm1_vc_cols = nm1[[<span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line">  nm2 = print_mat(maf = m2, genes = genes, removeNonMutated = removeNonMutated,</span><br><span class="line">                  test = <span class="literal">TRUE</span>, colors = colors)</span><br><span class="line">  nm2_ncol = ncol(nm2[[<span class="number">1</span>]])</span><br><span class="line">  nm2_vc_cols = nm2[[<span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures1) || !is.null(clinicalFeatures2))&#123;</span><br><span class="line">    mat_lo = mat_lo = matrix(data = c(<span class="number">1</span>,<span class="number">3</span>,<span class="number">5</span>,<span class="number">2</span>,<span class="number">4</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">7</span>,<span class="number">7</span>), nrow = <span class="number">3</span>, ncol = <span class="number">3</span>, byrow = <span class="literal">TRUE</span>)</span><br><span class="line">    mat_lo = graphics::layout(mat = mat_lo,</span><br><span class="line">                    widths = c(<span class="number">6</span> * (nm1_ncol/nm2_ncol), <span class="number">1.5</span>, <span class="number">6</span>), heights = c(<span class="number">12</span>, <span class="number">3</span>, <span class="number">4</span>))</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    mat_lo = matrix(data = c(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">4</span>,<span class="number">4</span>), nrow = <span class="number">2</span>, ncol = <span class="number">3</span>, byrow = <span class="literal">TRUE</span>)</span><br><span class="line">    mat_lo = graphics::layout(mat = mat_lo,</span><br><span class="line">                    widths = c(<span class="number">6</span> * (nm1_ncol/nm2_ncol), <span class="number">1</span>, <span class="number">6</span>), heights = c(<span class="number">12</span>, <span class="number">4</span>))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  m1_legend = print_mat(maf = m1, genes = genes, removeNonMutated = removeNonMutated,</span><br><span class="line">                        clinicalFeatures = clinicalFeatures1, colors = colors,</span><br><span class="line">                        annotationColor = annotationColor1, barcode_size = SampleNamefont,</span><br><span class="line">                        sortByAnnotation = sortByAnnotation1, fontSize = geneNamefont,</span><br><span class="line">                        title = m1Name, title_size = titleFontSize,</span><br><span class="line">                        showBarcodes = showSampleNames, bgCol = bgCol, borderCol = borderCol,</span><br><span class="line">                        additionalFeature = additionalFeature1, additionalFeaturePch = additionalFeaturePch1,</span><br><span class="line">                        additionalFeatureCex = additionalFeatureCex1, additionalFeatureCol = additionalFeatureCol1, sepwd_genes = sepwd_genes1, sepwd_samples = sepwd_samples1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(clinicalFeatures1) &amp; !is.null(clinicalFeatures2))&#123;</span><br><span class="line">    plot.new()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(showSampleNames)&#123;</span><br><span class="line">    par(mar = c(<span class="number">5</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>))</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    par(mar = c(<span class="number">1</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>))</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  nm = matrix(data = <span class="number">1</span>, nrow = <span class="number">1</span>, ncol = length(genes))</span><br><span class="line">  image(x = <span class="number">1</span>:nrow(nm), y = <span class="number">1</span>:ncol(nm), z = nm, axes = <span class="literal">FALSE</span>, xaxt=<span class="string">"n"</span>, yaxt=<span class="string">"n"</span>,</span><br><span class="line">        xlab=<span class="string">""</span>, ylab=<span class="string">""</span>, col = <span class="string">"white"</span>)</span><br><span class="line">  mtext(text = rev(genes), side = <span class="number">2</span>, adj = <span class="number">0.5</span>, at = <span class="number">1</span>:ncol(nm),</span><br><span class="line">        font = <span class="number">3</span>, line = -<span class="number">2</span>, cex = geneNamefont, las = <span class="number">2</span>)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures1) || !is.null(clinicalFeatures2))&#123;</span><br><span class="line">    plot.new()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  m2_legend = print_mat(maf = m2, genes = genes, removeNonMutated = removeNonMutated,</span><br><span class="line">                        clinicalFeatures = clinicalFeatures2, colors = colors,</span><br><span class="line">                        annotationColor = annotationColor2, barcode_size = SampleNamefont,</span><br><span class="line">                        sortByAnnotation = sortByAnnotation2, fontSize = geneNamefont,</span><br><span class="line">                        title = m2Name, title_size = titleFontSize, plot2 = <span class="literal">TRUE</span>,</span><br><span class="line">                        showBarcodes = showSampleNames, bgCol = bgCol, borderCol = borderCol,</span><br><span class="line">                        additionalFeature = additionalFeature2, additionalFeaturePch = additionalFeaturePch2,</span><br><span class="line">                        additionalFeatureCex = additionalFeatureCex2, additionalFeatureCol = additionalFeatureCol2,</span><br><span class="line">                        sepwd_genes = sepwd_genes2, sepwd_samples = sepwd_samples2)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!is.null(clinicalFeatures1) &amp; is.null(clinicalFeatures2))&#123;</span><br><span class="line">    plot.new()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  vc_legend = unique(c(names(nm1_vc_cols), names(nm2_vc_cols)))</span><br><span class="line">  vc_legend = vc_col[vc_legend]</span><br><span class="line">  vc_legend = vc_legend[!is.na(vc_legend)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(is.null(m12_annotation_colors))&#123;</span><br><span class="line">    anno_legend = c(m1_legend, m2_legend)</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    anno_legend = m12_annotation_colors</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  par(mar = c(<span class="number">1</span>, <span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>), xpd = <span class="literal">TRUE</span>)</span><br><span class="line"></span><br><span class="line">  vc_pch = rep(<span class="number">15</span>, length(vc_legend))</span><br><span class="line">  <span class="keyword">if</span>(!is.null(additionalFeature1))&#123;</span><br><span class="line">    vc_legend = c(vc_legend, <span class="string">"gray70"</span>)</span><br><span class="line">    names(vc_legend)[length(vc_legend)] = paste(additionalFeature1, collapse = <span class="string">":"</span>)</span><br><span class="line">    vc_pch = c(vc_pch, additionalFeaturePch1)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!is.null(additionalFeature2))&#123;</span><br><span class="line">    vc_legend = c(vc_legend, <span class="string">"gray70"</span>)</span><br><span class="line">    names(vc_legend)[length(vc_legend)] = paste(additionalFeature2, collapse = <span class="string">":"</span>)</span><br><span class="line">    vc_pch = c(vc_pch, additionalFeaturePch2)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  plot(<span class="literal">NULL</span>,ylab=<span class="string">''</span>,xlab=<span class="string">''</span>, xlim=<span class="number">0</span>:<span class="number">1</span>, ylim=<span class="number">0</span>:<span class="number">1</span>, axes = <span class="literal">FALSE</span>)</span><br><span class="line">  lep = legend(<span class="string">"topleft"</span>, legend = names(vc_legend),</span><br><span class="line">               col = vc_legend, border = <span class="literal">NA</span>, bty = <span class="string">"n"</span>,</span><br><span class="line">               ncol= <span class="number">2</span>, pch = vc_pch, xpd = <span class="literal">TRUE</span>, xjust = <span class="number">0</span>, yjust = <span class="number">0</span>, cex = legendFontSize)</span><br><span class="line"></span><br><span class="line">  x_axp = <span class="number">0</span>+lep$rect$w</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(!is.null(anno_legend))&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(i <span class="keyword">in</span> <span class="number">1</span>:length(anno_legend))&#123;</span><br><span class="line">      <span class="comment">#x = unique(annotation[,i])</span></span><br><span class="line">      x = anno_legend[[i]]</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span>(length(x) &lt;= <span class="number">4</span>)&#123;</span><br><span class="line">        n_col = <span class="number">1</span></span><br><span class="line">      &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        n_col = (length(x) %/% <span class="number">4</span>)+<span class="number">1</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      lep = legend(x = x_axp, y = <span class="number">1</span>, legend = names(x),</span><br><span class="line">                   col = x, border = <span class="literal">NA</span>,</span><br><span class="line">                   ncol= n_col, pch = <span class="number">15</span>, xpd = <span class="literal">TRUE</span>, xjust = <span class="number">0</span>, bty = <span class="string">"n"</span>,</span><br><span class="line">                   cex = annotationFontSize, title = names(anno_legend)[i], title.adj = <span class="number">0</span>)</span><br><span class="line">      x_axp = x_axp + lep$rect$w</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">#title()</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/heatmap/" rel="tag"># heatmap</a>
+              <a href="/tags/maftools/" rel="tag"># maftools</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/02/clinical_relevent_analysis/" rel="prev" title="肿瘤临床相关性分析">
+      <i class="fa fa-chevron-left"></i> 肿瘤临床相关性分析
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/09/keyboard_setting/" rel="next" title="键盘键位修改及管理（Windows篇）">
+      键盘键位修改及管理（Windows篇） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Maftools-的一些函数"><span class="nav-number">1.</span> <span class="nav-text">Maftools 的一些函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#print-mat函数解读"><span class="nav-number">1.1.</span> <span class="nav-text">print_mat函数解读</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#coOncoplot"><span class="nav-number">1.2.</span> <span class="nav-text">coOncoplot</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

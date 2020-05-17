@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="配置个人服务器一文就够包括： 硬盘挂载 进程管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="配置个人服务器">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="配置个人服务器一文就够包括： 硬盘挂载 进程管理">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565180003041.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565183251806.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565183995104.png">
+<meta property="og:image" content="https://img-blog.csdn.net/20130809161617015?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb3Blbm4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184423583.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565188675187.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184762497.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184914065.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565185446438.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565186683159.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565188891879.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565193126940.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565193094156.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565366144007.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565366366157.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565367330160.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565410312140.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565415518886.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1566034408702.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565958878762.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565954676136.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1572776738192.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1572776818776.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565953602447.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1573093516491.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1567135050494.png">
+<meta property="article:published_time" content="2019-11-18T02:30:20.000Z">
+<meta property="article:modified_time" content="2019-11-17T16:00:00.000Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="servers">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565180003041.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>配置个人服务器 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          配置个人服务器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-11-18 10:30:20 / Modified: 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-18T10:30:20+08:00">2019-11-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="配置个人服务器一文就够"><a href="#配置个人服务器一文就够" class="headerlink" title="配置个人服务器一文就够"></a>配置个人服务器一文就够</h3><p>包括：</p>
+<p>硬盘挂载</p>
+<p>进程管理</p>
+<a id="more"></a>
+
+<p><a href="https://www.bilibili.com/video/av15976434/?p=11" target="_blank" rel="noopener">安装Linux视频参考</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br><span class="line"></span><br><span class="line">sudo apt install net-tools</span><br></pre></td></tr></table></figure>
+
+<h5 id="了解服务器的局域网"><a href="#了解服务器的局域网" class="headerlink" title="了解服务器的局域网"></a>了解服务器的局域网</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ifconfig</span><br></pre></td></tr></table></figure>
+
+<h5 id="通过SSH-（shell）连接服务器"><a href="#通过SSH-（shell）连接服务器" class="headerlink" title="通过SSH （shell）连接服务器"></a>通过SSH （shell）连接服务器</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser chenyuqiao</span><br><span class="line">sudo adduser -u <span class="number">504</span> -g yuqiao -d /dev5/</span><br></pre></td></tr></table></figure>
+
+<h5 id="管理员身份安装-vim"><a href="#管理员身份安装-vim" class="headerlink" title="管理员身份安装 vim"></a>管理员身份安装 vim</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim</span><br></pre></td></tr></table></figure>
+
+<h5 id="修改服务器颜色"><a href="#修改服务器颜色" class="headerlink" title="修改服务器颜色"></a>修改服务器颜色</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###永久配置酷炫颜色</span></span></span><br><span class="line">cat &gt;&gt; .bashrc</span><br><span class="line"></span><br><span class="line">PS1='\[\e[1;35m\][\[\e[1;33m\]\u@\h \[\e[1;31m\]\w\[\e[1;35m\]]\[\e[1;36m\]\$ \[\e[0m\]'</span><br><span class="line"></span><br><span class="line">source .bashrc</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565180003041.png" alt="1565180003041"></p>
+<h5 id="配置miniconda"><a href="#配置miniconda" class="headerlink" title="配置miniconda"></a>配置miniconda</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">wget -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/miniconda/Miniconda2-4.5.11-Linux-x86_64.sh</span><br><span class="line">bash Miniconda2-4.5.11-Linux-x86_64.sh </span><br><span class="line">source .bashrc #####激活 </span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/</span><br><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud/bioconda/</span><br><span class="line">conda config --set show_channel_urls yes</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="conda-create-enviroment"><a href="#conda-create-enviroment" class="headerlink" title="conda create enviroment"></a>conda create enviroment</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conda create -n rna python=2 ####创建环境变量</span><br><span class="line">source activate rna ####激活环境</span><br><span class="line">conda info --envs  ####查看环境</span><br><span class="line">conda search sra-tools</span><br><span class="line">conda install -y sra-tools</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="关于硬盘挂载"><a href="#关于硬盘挂载" class="headerlink" title="关于硬盘挂载"></a>关于硬盘挂载</h5><p>理解sda与sdb</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ll /dev/sd*</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565183251806.png" alt="1565183251806"></p>
+<p>Linux系统检测到有两块物理硬盘，其中sda为SATA第一接口连接的硬盘，sdb为SATA第二接口连接的硬盘。而sda1，sda2和sd5分别表示sda硬盘的两个分区。</p>
+<h5 id="查看内存的情况"><a href="#查看内存的情况" class="headerlink" title="查看内存的情况"></a>查看内存的情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">free df -lh # 查看内存信息</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这里是8G内存</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565183995104.png" alt="1565183995104"></p>
+<h5 id="用管理员身份查看硬盘的情况"><a href="#用管理员身份查看硬盘的情况" class="headerlink" title="用管理员身份查看硬盘的情况"></a>用管理员身份查看硬盘的情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l # 先查看下是否有磁盘没有分区</span><br></pre></td></tr></table></figure>
+
+
+
+<p>先查看下是否有磁盘没有分区</p>
+<p>示例：</p>
+<p><img src="https://img-blog.csdn.net/20130809161617015?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvb3Blbm4=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="img"></p>
+<blockquote>
+<p>其中第一个框和第二个框，是已经分好区的磁盘，第三个硬盘没有分区。</p>
+</blockquote>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184423583.png" alt="1565184423583"></p>
+<blockquote>
+<p>我们自己的硬盘数据</p>
+</blockquote>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565188675187.png" alt="1565188675187"></p>
+<blockquote>
+<p>其实默认已经将sdb1 分为了3个区，每个区是310G，所以电脑硬盘的总容积只有931G </p>
+</blockquote>
+<h5 id="开始分区"><a href="#开始分区" class="headerlink" title="开始分区"></a>开始分区</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+<p>输入m，可以查看有哪些操作</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184762497.png" alt="1565184762497"></p>
+<p>输入p 查看当前硬盘分区，目前没有分区。</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565184914065.png" alt="1565184914065"></p>
+<blockquote>
+<p>由此可见，这些硬盘都是挂载好的，不需要重新挂载</p>
+</blockquote>
+<p>如果需要重新挂载参考<a href="https://blog.csdn.net/pi9nc/article/details/21740319" target="_blank" rel="noopener">https://blog.csdn.net/pi9nc/article/details/21740319</a></p>
+<h5 id="格式化分区"><a href="#格式化分区" class="headerlink" title="格式化分区"></a>格式化分区</h5><p>格式化命令：mkfs.ext3   /dev/sdb1 是格式化成 ext3</p>
+<pre><code>mkfs.ext2   /dev/sdb1 是格式化成 ext2</code></pre><p>我这里使用了 mkfs.ext3 。</p>
+<p>其实这个时候，建立好的分区还不能用，还需要挂载才可以用。但是挂载之前，必须要格式化，才行。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext3 /dev/sdb5</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565185446438.png" alt="1565185446438"></p>
+<h5 id="挂载分区"><a href="#挂载分区" class="headerlink" title="挂载分区"></a>挂载分区</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /dev5</span><br><span class="line">sudo mount /dev/sdb5 /dev5 </span><br><span class="line">sudo umount /dev/sdb5 <span class="comment"># 卸载了，其实还可以挂载，而且数据还会在的</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="查看硬盘情况"><a href="#查看硬盘情况" class="headerlink" title="查看硬盘情况"></a>查看硬盘情况</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565186683159.png" alt="1565186683159"></p>
+<h5 id="继续挂载"><a href="#继续挂载" class="headerlink" title="继续挂载"></a>继续挂载</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext3 /dev/sdb6</span><br><span class="line">sudo mkdir /dev6</span><br><span class="line">sudo mount /dev/sdb6 /dev6</span><br><span class="line"></span><br><span class="line">sudo mkfs.ext3 /dev/sdb7</span><br><span class="line">sudo mkdir /dev7</span><br><span class="line">sudo mount /dev/sdb7 /dev7</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="硬盘挂载后最终结果"><a href="#硬盘挂载后最终结果" class="headerlink" title="硬盘挂载后最终结果"></a>硬盘挂载后最终结果</h5><h5 id><a href="#" class="headerlink" title></a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565188891879.png" alt="1565188891879"></p>
+<blockquote>
+<p>可以看到60个G的固态硬盘在根目录，而900G的机械硬盘挂载在/dev5和/dev6和dev7 下面‘</p>
+</blockquote>
+<h5 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo shutdown -r now</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="设置权限"><a href="#设置权限" class="headerlink" title="设置权限"></a>设置权限</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 777 /dev5/</span><br></pre></td></tr></table></figure>
+
+<p>其中<br>-R 是指级联应用到目录里的所有子目录和文件<br>777 是所有用户都拥有最高权限</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565193126940.png" alt="1565193126940"></p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565193094156.png" alt="1565193094156"></p>
+<h5 id="开机自动挂载硬盘"><a href="#开机自动挂载硬盘" class="headerlink" title="开机自动挂载硬盘"></a>开机自动挂载硬盘</h5><h6 id="重新分区"><a href="#重新分区" class="headerlink" title="重新分区"></a>重新分区</h6><h5 id="-1"><a href="#-1" class="headerlink" title></a></h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk /dev/sdb</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565366144007.png" alt="1565366144007"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext3 /dev/sdb7</span><br><span class="line">sudo mkdir /home/zhuangwei/Project</span><br><span class="line">sudo mount /dev/sdb6 /home/zhuangwei/Project</span><br><span class="line">sudo umount /dev/sdb5 # 卸载了，其实还可以挂载，而且数据还会在的</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>3dfaab43-2de4-4eb3-be5a-8ae7a7dd1f82</p>
+</blockquote>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565366366157.png" alt="1565366366157"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br><span class="line"><span class="meta">#</span><span class="bash"> UUID=e05f9de3-a795-4e82-bf87-b97431607889 /home/zhuangwei/Project               ext4  defaults  1  1</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>按照这种方法真的可以开机自动挂载成功。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 777 /home/zhuangwei/Project</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565367330160.png" alt="1565367330160"></p>
+<h5 id="这一部分告一段落，我很开心。"><a href="#这一部分告一段落，我很开心。" class="headerlink" title="这一部分告一段落，我很开心。"></a>这一部分告一段落，我很开心。</h5><p>最终结果</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -lh</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565410312140.png" alt="1565410312140"></p>
+<h5 id="查看CPU的info"><a href="#查看CPU的info" class="headerlink" title="查看CPU的info"></a>查看CPU的info</h5><p>【1】 查看CPU的名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo | grep name | cut -f2 -d: | uniq -c</span><br></pre></td></tr></table></figure>
+
+<p>【2】查看物理cpu个数：物理核心数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/cpuinfo | grep "physical id" | sort | uniq|wc -l</span><br></pre></td></tr></table></figure>
+
+<p>【3】查看逻辑cpu的个数：逻辑cpu个数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo | grep &quot;processor&quot; |wc -l</span><br></pre></td></tr></table></figure>
+
+<p>【4】查看cpu是几核：cpu是8核</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;cpuinfo | grep &quot;cores&quot;|uniq</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565415518886.png" alt="1565415518886"></p>
+<blockquote>
+<p>AMD FX-4300</p>
+<p>2核4 线程</p>
+</blockquote>
+<h5 id="查看进程"><a href="#查看进程" class="headerlink" title="查看进程"></a>查看进程</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -ef</span><br><span class="line">kill -s 9 9383</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1566034408702.png" alt="1566034408702"></p>
+<h4 id="U盘挂载"><a href="#U盘挂载" class="headerlink" title="U盘挂载"></a>U盘挂载</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="挂载硬盘实战（家里的AMD电脑挂载2T硬盘）"><a href="#挂载硬盘实战（家里的AMD电脑挂载2T硬盘）" class="headerlink" title="挂载硬盘实战（家里的AMD电脑挂载2T硬盘）"></a>挂载硬盘实战（家里的AMD电脑挂载2T硬盘）</h2><p>2019-11-3 全新挂载一块一盘</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565958878762.png" alt="1565958878762"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l /dev/sda</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565954676136.png" alt="1565954676136"></p>
+<h4 id="关于分区，可参考"><a href="#关于分区，可参考" class="headerlink" title="关于分区，可参考"></a>关于分区，可参考</h4><blockquote>
+<p><a href="https://blog.csdn.net/openn/article/details/9856451" target="_blank" rel="noopener">https://blog.csdn.net/openn/article/details/9856451</a></p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext4 /dev/sda</span><br></pre></td></tr></table></figure>
+
+<p>很奇怪了，为什么又是sda，别的sdb and sdc 都会问句，但是sda会自动运行</p>
+<p>这样还是很恐怖的，很害怕会出错</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1572776738192.png" alt="1572776738192"></p>
+<p>但确实sda是4T的</p>
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1572776818776.png" alt="1572776818776"></p>
+<blockquote>
+<p>这可能是因为,我把硬盘插在了sata1的接口上有关系,他会自动默认读取后,分别会显示sda,sdb,sdc,sdd,一共是四个sata 接口,我现在无从考证.但是应该是这个原因。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/partitions</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1565953602447.png" alt="1565953602447"></p>
+<h5 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo mount /dev/sda /home/chenyuqiao/work_project</span><br><span class="line"><span class="meta">#</span><span class="bash"> 卸载硬盘</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo umount /dev/sda/</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1573093516491.png" alt="1573093516491"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> mkdir my_disk</span></span><br><span class="line"><span class="meta">#</span><span class="bash"> sudo mount /dev/sda /home/chenyuqiao/my_disk</span></span><br><span class="line">sudo chmod -R 777 /home/chenyuqiao/work_project</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="开机自动挂载"><a href="#开机自动挂载" class="headerlink" title="开机自动挂载"></a>开机自动挂载</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo blkid</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/18/%E9%85%8D%E7%BD%AE%E4%B8%AA%E4%BA%BA%E6%9C%8D%E5%8A%A1%E5%99%A8/1567135050494.png" alt="1567135050494"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/fstab</span><br><span class="line"><span class="meta">#</span><span class="bash"> UUID=<span class="string">"bad3b35d-5143-46a9-8b7d-2685a7e19c61"</span> TYPE=<span class="string">"ext4"</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> UUID=bad3b35d-5143-46a9-8b7d-2685a7e19c61 /home/chenyuqiao/my_disk               ext4  defaults  1  1</span></span><br><span class="line">UUID=0af51597-9cb2-4191-8733-7a3798f591d5  /home/chenyuqiao/work_project  ext4 defaults  1  1</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UUID=ef2ac660-3ff7-4eae-8e37-ec60e5a156f7 /               ext4    errors=remount-ro 0       1</span><br><span class="line">UUID=bad3b35d-5143-46a9-8b7d-2685a7e19c61 /home/chenyuqiao/my_disk     ext4  defaults  1  1</span><br><span class="line">UUID=ec0dc026-aba5-4087-b458-45b42c7a7fe1  /home/chenyuqiao/project  ext4 defaults  1  1</span><br><span class="line">UUID=857320dd-8129-44ef-b56f-9bbec2c175df  /home/chenyuqiao/project  ext4 defaults  1  1</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 777 /home/chenyuqiao/my_disk</span><br></pre></td></tr></table></figure>
+
+
+
+<p>树莓派添加用户，并改变文件夹权限</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo adduser chenyuqiao</span><br><span class="line">sudo chown -R chenyuqiao /home/chenyuqiao</span><br></pre></td></tr></table></figure>
+
+
+
+<p>删除树莓派桌面</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get remove abiword abiword-common abiword-plugin-grammar abiword-plugin-mathview bison blueman brltty-x11 catfish elementary-icon-theme exo-utils flex gigolo gimp gimp-data gmusicbrowser gnome-icon-theme-full gnome-system-tools gnome-time-admin gnumeric gnumeric-common gnumeric-doc gstreamer0.10-gnomevfs gthumb gthumb-data gtk2-engines-pixbuf gtk2-engines-xfce indicator-application-gtk2 indicator-messages-gtk2 indicator-sound-gtk2 indicator-status-provider-pidgin leafpad libabiword-2.8 libaiksaurus-1.2-0c2a libaiksaurus-1.2-data libaiksaurusgtk-1.2-0c2a libao-common libao4 libaudio-scrobbler-perl libbabl-0.0-0 libclutter-1.0-0 libclutter-1.0-common libclutter-gtk-1.0-0 libcogl-common libcogl5 libconfig-inifiles-perl libencode-locale-perl libept1 libexo-1-0 libexo-common libfile-listing-perl libfont-afm-perl libgarcon-1-0 libgarcon-common libgdome2-0 libgdome2-cpp-smart0c2a libgegl-0.0-0 libgimp2.0 libglade2-0 libgnomevfs2-extra libgoffice-0.8-8 libgoffice-0.8-8-common libgsf-1-114 libgsf-1-common libgstreamer-perl libgtk2-notify-perl libgtk2-trayicon-perl libgtkmathview0c2a libhtml-form-perl libhtml-format-perl libhtml-parser-perl libhtml-tagset-perl libhtml-tree-perl libhttp-cookies-perl libhttp-daemon-perl libhttp-date-perl libhttp-message-perl libhttp-negotiate-perl libid3tag0 libido-0.1-0 libilmbase6 libio-socket-ssl-perl libjpeg-progs libkeybinder0 liblink-grammar4 libloudmouth1-0 liblwp-mediatypes-perl liblwp-protocol-https-perl libmad0 libmailtools-perl libnet-dbus-perl libnet-http-perl libnet-ssleay-perl liboobs-1-5 libopenexr6 libotr2 libots0 libpolkit-gtk-1-0 libsexy2 libtagc0 libthunarx-2-0 libtie-ixhash-perl libtimedate-perl libtumbler-1-0 liburi-perl libwv-1.2-3 libwww-perl libwww-robotrules-perl libxfce4ui-1-0 libxfce4util-bin libxfce4util-common libxfce4util4 libxfcegui4-4 libxfconf-0-2 libxml-parser-perl libxml-twig-perl libxml-xpath-perl libxss1 lightdm-gtk-greeter link-grammar-dictionaries-en m4 mpg321 murrine-themes orage parole pastebinit pidgin pidgin-data pidgin-libnotify pidgin-microblog pidgin-otr plymouth-theme-xubuntu-logo plymouth-theme-xubuntu-text python-configobj python-glade2 quadrapassel ristretto screensaver-default-images synaptic system-tools-backends tango-icon-theme tango-icon-theme-common tcl8.5 thunar thunar-archive-plugin thunar-data thunar-media-tags-plugin thunar-volman ttf-droid ttf-lyx tumbler tumbler-common xchat xchat-common xfburn xfce-keyboard-shortcuts xfce4-appfinder xfce4-cpugraph-plugin xfce4-dict xfce4-fsguard-plugin xfce4-indicator-plugin xfce4-mailwatch-plugin xfce4-mixer xfce4-mount-plugin xfce4-netload-plugin xfce4-notes xfce4-notes-plugin xfce4-notifyd xfce4-panel xfce4-places-plugin xfce4-power-manager xfce4-power-manager-data xfce4-quicklauncher-plugin xfce4-screenshooter xfce4-session xfce4-settings xfce4-smartbookmark-plugin xfce4-systemload-plugin xfce4-taskmanager xfce4-terminal xfce4-utils xfce4-verve-plugin xfce4-volumed xfce4-weather-plugin xfconf xfdesktop4 xfdesktop4-data xfwm4 xfwm4-themes xscreensaver xscreensaver-data xscreensaver-gl xubuntu-artwork xubuntu-default-settings xubuntu-desktop xubuntu-docs xubuntu-icon-theme xubuntu-wallpapers</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/servers/" rel="tag"># servers</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/18/vim_command/" rel="prev" title="Vim使用笔记">
+      <i class="fa fa-chevron-left"></i> Vim使用笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/22/ESCC_DNA_notes1/" rel="next" title="食管鳞癌的胚系突变和体细胞突变">
+      食管鳞癌的胚系突变和体细胞突变 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#配置个人服务器一文就够"><span class="nav-number">1.</span> <span class="nav-text">配置个人服务器一文就够</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#了解服务器的局域网"><span class="nav-number">1.0.1.</span> <span class="nav-text">了解服务器的局域网</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#通过SSH-（shell）连接服务器"><span class="nav-number">1.0.2.</span> <span class="nav-text">通过SSH （shell）连接服务器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#管理员身份安装-vim"><span class="nav-number">1.0.3.</span> <span class="nav-text">管理员身份安装 vim</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改服务器颜色"><span class="nav-number">1.0.4.</span> <span class="nav-text">修改服务器颜色</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置miniconda"><span class="nav-number">1.0.5.</span> <span class="nav-text">配置miniconda</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#conda-create-enviroment"><span class="nav-number">1.0.6.</span> <span class="nav-text">conda create enviroment</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关于硬盘挂载"><span class="nav-number">1.0.7.</span> <span class="nav-text">关于硬盘挂载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看内存的情况"><span class="nav-number">1.0.8.</span> <span class="nav-text">查看内存的情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用管理员身份查看硬盘的情况"><span class="nav-number">1.0.9.</span> <span class="nav-text">用管理员身份查看硬盘的情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开始分区"><span class="nav-number">1.0.10.</span> <span class="nav-text">开始分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#格式化分区"><span class="nav-number">1.0.11.</span> <span class="nav-text">格式化分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#挂载分区"><span class="nav-number">1.0.12.</span> <span class="nav-text">挂载分区</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看硬盘情况"><span class="nav-number">1.0.13.</span> <span class="nav-text">查看硬盘情况</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#继续挂载"><span class="nav-number">1.0.14.</span> <span class="nav-text">继续挂载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#硬盘挂载后最终结果"><span class="nav-number">1.0.15.</span> <span class="nav-text">硬盘挂载后最终结果</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#"><span class="nav-number">1.0.16.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重启"><span class="nav-number">1.0.17.</span> <span class="nav-text">重启</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#设置权限"><span class="nav-number">1.0.18.</span> <span class="nav-text">设置权限</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#开机自动挂载硬盘"><span class="nav-number">1.0.19.</span> <span class="nav-text">开机自动挂载硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#重新分区"><span class="nav-number">1.0.19.1.</span> <span class="nav-text">重新分区</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#-1"><span class="nav-number">1.0.20.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这一部分告一段落，我很开心。"><span class="nav-number">1.0.21.</span> <span class="nav-text">这一部分告一段落，我很开心。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看CPU的info"><span class="nav-number">1.0.22.</span> <span class="nav-text">查看CPU的info</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查看进程"><span class="nav-number">1.0.23.</span> <span class="nav-text">查看进程</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#U盘挂载"><span class="nav-number">1.1.</span> <span class="nav-text">U盘挂载</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挂载硬盘实战（家里的AMD电脑挂载2T硬盘）"><span class="nav-number"></span> <span class="nav-text">挂载硬盘实战（家里的AMD电脑挂载2T硬盘）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于分区，可参考"><span class="nav-number">0.1.</span> <span class="nav-text">关于分区，可参考</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#挂载"><span class="nav-number">0.1.1.</span> <span class="nav-text">挂载</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开机自动挂载"><span class="nav-number">0.2.</span> <span class="nav-text">开机自动挂载</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

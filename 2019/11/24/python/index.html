@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="123vim 1.txt:wq  ##Esc+ ：wq保存退出python3 # 打开python3    123f &#x3D; open(&#39;.&#x2F;1.txt&#39;,&#39;r&#39;)for i in f:  print (i)    123with open(&#39;.&#x2F;1.txt&#39;) as file_object:  for line in file_object:   print (line)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python_生信分析">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/24/python/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="123vim 1.txt:wq  ##Esc+ ：wq保存退出python3 # 打开python3    123f &#x3D; open(&#39;.&#x2F;1.txt&#39;,&#39;r&#39;)for i in f:  print (i)    123with open(&#39;.&#x2F;1.txt&#39;) as file_object:  for line in file_object:   print (line)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/python%5C1555294324345.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555294295586.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555294990143.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555306718214.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555309340635.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555326558647.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555327055551.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555327544061.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555329068482.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555329082914.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555423217495.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/24/python/1555423298540.png">
+<meta property="article:published_time" content="2019-11-23T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:55.752Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="python语言学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/24/python/python%5C1555294324345.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/24/python/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>python_生信分析 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/24/python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python_生信分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-24 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-24T00:00:00+08:00">2019-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/python/" itemprop="url" rel="index"><span itemprop="name">python</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vim 1.txt</span><br><span class="line">:wq  ##Esc+ ：wq保存退出</span><br><span class="line">python3 # 打开python3</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./1.txt'</span>,<span class="string">'r'</span>)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> f:</span><br><span class="line">  <span class="keyword">print</span> (i)</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">'./1.txt'</span>) <span class="keyword">as</span> file_object:</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> file_object:</span><br><span class="line">   <span class="keyword">print</span> (line)</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p><img src="/2019/11/24/python/python%5C1555294324345.png" alt="1"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">f = open(<span class="string">'./2.txt'</span>,<span class="string">'w'</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./1.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput_f:</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> imput_f:</span><br><span class="line">   line = line.strip()</span><br><span class="line">   result= int(line)+int(line)</span><br><span class="line">   f.write(str(result)+<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line">f.close()![<span class="number">1555294324345</span>](python/<span class="number">1555294324345.</span>png)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/python/1555294295586.png" alt="1555294295586"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">output_file = open(<span class="string">'./2.txt'</span>,<span class="string">'a'</span>)  <span class="comment">## 附加内容</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./1.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput_f:</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> imput_f:</span><br><span class="line">   line = line.strip()</span><br><span class="line">   result= int(line)+int(line)</span><br><span class="line">   output_file.write(str(result)+<span class="string">'\n'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">output_file.close()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/python/1555294990143.png" alt="1555294990143"></p>
+<blockquote>
+<p>完成探索人类基因组GC含量与gene密度的关系；</p>
+<p>提示：</p>
+<p>1.将染色体成分1Mb大小的bin统计GC含量；</p>
+<p>2.将染色体分为1Mb大小的bin统计gene的密度；</p>
+<p>3.使用R将这两者用散点图进行绘图；</p>
+<p>4.使用R的线性回归函数lm()进行回归；</p>
+<p>5.R回归部分，参考资料</p>
+<p>blog.fens.me/r-linear-regression/</p>
+</blockquote>
+<p><a href="https://github.com/menghaowei" target="_blank" rel="noopener">https://github.com/menghaowei</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_abs</span><span class="params">(imput)</span>:</span></span><br><span class="line">     <span class="keyword">if</span> imput &gt;= <span class="number">0</span>:</span><br><span class="line">         <span class="keyword">return</span> imput</span><br><span class="line">     <span class="keyword">else</span>:</span><br><span class="line">         <span class="keyword">return</span> -imput</span><br><span class="line">        </span><br><span class="line">my_abs(<span class="number">-10</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>作业 </p>
+<p>人类的线粒体长度大约为16.7Kb，请读取人类线粒体参考基因组序列信息（fasta格式），统计各种碱基的数量以及人类线粒体参考基因组的总长度。</p>
+</blockquote>
+<h3 id="编程作业"><a href="#编程作业" class="headerlink" title="编程作业"></a>编程作业</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># _*_ coding:UTF-8 _*_</span></span><br><span class="line"><span class="comment">### 保证中文不报错pycharm</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">选取参考基因组hg38作为测试数据1000-1300行 n 和 p是同时出现的</span><br><span class="line">cat ~/reference/UCSC/hg38/hg38.fa| sed -n '1000,1300p' &gt;&gt; ~/project/python/t.txt</span><br><span class="line">cd - # 回到上一个目录</span><br><span class="line">python3</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/python/1555306718214.png" alt="1555306718214"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">chrM_genome = <span class="string">''</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'./t.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput_f:</span><br><span class="line">  <span class="keyword">for</span> line <span class="keyword">in</span> imput_f:</span><br><span class="line">   line = line.strip().upper()  <span class="comment">## 去除前后空格，大写</span></span><br><span class="line">   chrM_genome = chrM_genome + line</span><br><span class="line">    </span><br><span class="line"><span class="keyword">print</span> (len(chrM_genome))</span><br><span class="line"><span class="keyword">print</span> (chrM_genome.count(<span class="string">'A'</span>))</span><br><span class="line"><span class="keyword">print</span> (<span class="string">'the char A count is : &#123;0&#125;'</span>.format(chrM_genome.count(<span class="string">'A'</span>)))  <span class="comment"># format 将其格式化</span></span><br></pre></td></tr></table></figure>
+
+<p>Fastq 格式 四行</p>
+<p><img src="/2019/11/24/python/1555309340635.png" alt="1555309340635"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">with</span> open(<span class="string">r'./fa_q.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput:</span><br><span class="line"><span class="meta">... </span> <span class="keyword">for</span> index,line <span class="keyword">in</span> enumerate(imput):</span><br><span class="line"><span class="meta">... </span>  <span class="keyword">if</span> index % <span class="number">4</span>==<span class="number">0</span>:</span><br><span class="line"><span class="meta">... </span>   <span class="keyword">print</span> (<span class="string">'&gt;'</span>+line.strip()[<span class="number">1</span>:])</span><br><span class="line"><span class="meta">... </span>  <span class="keyword">elif</span> index % <span class="number">4</span> ==<span class="number">1</span>:</span><br><span class="line"><span class="meta">... </span>   <span class="keyword">print</span> (line.strip())</span><br><span class="line"><span class="meta">... </span>  <span class="keyword">elif</span> index % <span class="number">4</span>==<span class="number">2</span>:</span><br><span class="line"><span class="meta">... </span>   <span class="keyword">continue</span></span><br><span class="line"><span class="meta">... </span>  <span class="keyword">elif</span> index %<span class="number">4</span>==<span class="number">3</span>:</span><br><span class="line"><span class="meta">... </span>   <span class="keyword">continue</span></span><br><span class="line"><span class="meta">... </span></span><br><span class="line">&gt;SRR1039512<span class="number">.325</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5657</span>:<span class="number">2438</span> length=<span class="number">63</span></span><br><span class="line">TCAGAAGAAAAGCATATGTCTGCCATGGGACTATTGCAGTGCGTCTCCATCAGTGTTAACACA</span><br><span class="line">&gt;SRR1039512<span class="number">.326</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5550</span>:<span class="number">2446</span> length=<span class="number">63</span></span><br><span class="line">TAAGCAGTGCTTGAATTATTTGGTTTCGGTTGTTTTCTATTAGACTATGGTGAGCTCAGGTGA</span><br><span class="line">&gt;SRR1039512<span class="number">.327</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5908</span>:<span class="number">2367</span> length=<span class="number">63</span></span><br><span class="line">TGGGGAATAGCTTCTCAAGGGCAAGTGCTGTTTCCATACTAGTTCTTTTCCTTGCTCTCTTAT</span><br><span class="line">&gt;SRR1039512<span class="number">.328</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5852</span>:<span class="number">2396</span> length=<span class="number">63</span></span><br><span class="line">GGAGGAAGCCCACGGTGGGATCTGGCACAAAGATGTAGAGCCGTTTCCGCTCATCGGTCTCCA</span><br><span class="line">&gt;SRR1039512<span class="number">.329</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5768</span>:<span class="number">2409</span> length=<span class="number">63</span></span><br><span class="line">ACCTGGCAGTGCTGCAACAGTATCTGCCTCTACAAGTAACATCATACCCCCAAGACACCAGAA</span><br><span class="line">&gt;SRR1039512<span class="number">.330</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5840</span>:<span class="number">2413</span> length=<span class="number">63</span></span><br><span class="line">GCAGAGGTAATTGCCTGAATCCTTCTGTTGTAGACTACGTAGCAGAAGGCCTTGATCTGTCCT</span><br><span class="line">&gt;SRR1039512<span class="number">.331</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5826</span>:<span class="number">2463</span> length=<span class="number">63</span></span><br><span class="line">GAAAGGCAAGGAGGAAGCTTATCTATGAAAAAGCAAAGCACTATCACAAGGAATATAGGC</span><br><span class="line">&gt;SRR1039512<span class="number">.332</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">5888</span>:<span class="number">2477</span> length=<span class="number">63</span></span><br><span class="line">GTCTGTCTCTTGCTTCAACAGTGTTTGGACGGAACAGATCCGGGGACTCTCTTCCAGCCTCCG</span><br><span class="line">&gt;SRR1039512<span class="number">.333</span> HWI-ST177:<span class="number">314</span>:C12K6ACXX:<span class="number">1</span>:<span class="number">1101</span>:<span class="number">6208</span>:<span class="number">2288</span> length=<span class="number">63</span></span><br><span class="line">GTCATAACCACCACCGCTTACACCTGGAGGTCCAGGAGGGCCAGGGGGACCAGGGGGGCCAGC</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##每隔40一行</span></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:\Users\kexin\Desktop\python\fa_q.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput:</span><br><span class="line">  <span class="keyword">for</span> index,line <span class="keyword">in</span> enumerate(imput):</span><br><span class="line">   <span class="keyword">if</span> index % <span class="number">4</span>==<span class="number">0</span>:</span><br><span class="line">    <span class="keyword">print</span> (<span class="string">'&gt;'</span>+line.strip()[<span class="number">1</span>:])</span><br><span class="line">   <span class="keyword">elif</span> index % <span class="number">4</span> ==<span class="number">1</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(line.strip()),<span class="number">40</span>):</span><br><span class="line">     <span class="keyword">print</span> (line.strip()[i:i+<span class="number">40</span>])</span><br><span class="line">   <span class="keyword">elif</span> index % <span class="number">4</span>==<span class="number">2</span>:</span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line">   <span class="keyword">elif</span> index %<span class="number">4</span>==<span class="number">3</span>:</span><br><span class="line">    <span class="keyword">continue</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">output_file = open (<span class="string">r'C:\Users\kexin\Desktop\python\result2.fastq'</span>,<span class="string">'w'</span>)</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:\Users\kexin\Desktop\python\fa_q.txt'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> imput:</span><br><span class="line">  <span class="keyword">for</span> index,line <span class="keyword">in</span> enumerate(imput):</span><br><span class="line">   <span class="keyword">if</span> index % <span class="number">4</span>==<span class="number">0</span>:</span><br><span class="line">    output_file.write((<span class="string">'&gt;'</span>+line.strip()[<span class="number">1</span>:])+<span class="string">'\n'</span>)</span><br><span class="line">   <span class="keyword">elif</span> index % <span class="number">4</span> ==<span class="number">1</span>:</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>,len(line.strip()),<span class="number">40</span>):</span><br><span class="line">     output_file.write(line.strip()[i:i+<span class="number">40</span>]+<span class="string">'\n'</span>)</span><br><span class="line">   <span class="keyword">elif</span> index % <span class="number">4</span>==<span class="number">2</span>:</span><br><span class="line">    <span class="keyword">print</span> (index)</span><br><span class="line">   <span class="keyword">elif</span> index %<span class="number">4</span>==<span class="number">3</span>:</span><br><span class="line">    <span class="keyword">continue</span></span><br><span class="line">output_file.close()</span><br></pre></td></tr></table></figure>
+
+<p>读取fasta文件</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open (<span class="string">r'C:\Users\kexin\Desktop\python\result2.fastq'</span>,<span class="string">'r'</span>) <span class="keyword">as</span> input_file:</span><br><span class="line">    seq=<span class="string">''</span></span><br><span class="line">    header= input_file.readline().strip()[<span class="number">1</span>:]  <span class="comment">## 读取第一行</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_file:</span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">0</span>]!=<span class="string">'&gt;'</span>:</span><br><span class="line">            seq =seq.strip()+line  <span class="comment">### 这里是要确保刚刚被40个一行分隔的seq数据重新叠加</span></span><br><span class="line">        <span class="keyword">elif</span> line[<span class="number">0</span>]==<span class="string">'&gt;'</span>:</span><br><span class="line">            <span class="keyword">print</span> (header)</span><br><span class="line">            <span class="keyword">print</span> (seq)</span><br><span class="line">            header = line.strip()[<span class="number">1</span>:]</span><br><span class="line">            seq = <span class="string">''</span>       <span class="comment">### 一个循环结束将seq清空</span></span><br><span class="line">    <span class="keyword">print</span> (header)</span><br><span class="line">    <span class="keyword">print</span> (seq)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="一个能读取fasta格式的函数（收藏版）"><a href="#一个能读取fasta格式的函数（收藏版）" class="headerlink" title="一个能读取fasta格式的函数（收藏版）"></a>一个能读取fasta格式的函数（收藏版）</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">read_fasta</span><span class="params">(file_path=<span class="string">''</span>)</span>:</span></span><br><span class="line">    line = <span class="string">''</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        fasta_handle=open(file_path,<span class="string">'r'</span>)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        <span class="keyword">raise</span> IOError(<span class="string">'you input FAST file is not right'</span>)</span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        line = fasta_handle.readline()</span><br><span class="line">        <span class="keyword">if</span> line == <span class="string">''</span>:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">0</span>] ==<span class="string">'&gt;'</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line"> <span class="comment">## while the file is not empty, load FASTA file   </span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        <span class="keyword">if</span> line[<span class="number">0</span>] !=<span class="string">'&gt;'</span>:</span><br><span class="line">            <span class="keyword">raise</span> ValueError(<span class="string">"Records in Fasta files should start with '&gt;'"</span>)</span><br><span class="line">        title = line[<span class="number">1</span>:].rstrip()</span><br><span class="line">        lines =[]</span><br><span class="line">        line = fasta_handle.readline()</span><br><span class="line">        <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            <span class="keyword">if</span> line[<span class="number">0</span>] == <span class="string">'&gt;'</span>:</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">            lines.append(line.rstrip())</span><br><span class="line">            line = fasta_handle.readline()</span><br><span class="line">        <span class="keyword">yield</span> title, <span class="string">''</span>.join(lines).replace(<span class="string">''</span>,<span class="string">''</span>).replace(<span class="string">'\r'</span>,<span class="string">''</span>)</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> line:</span><br><span class="line">            <span class="keyword">return</span></span><br><span class="line">    fasta_handle.close()</span><br><span class="line">    <span class="keyword">assert</span> <span class="literal">False</span>, <span class="string">'your input fasta file have format problem'</span></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">read_fasta(file_path=<span class="string">r'C:\Users\kexin\Desktop\python\result2.fastq'</span>)  <span class="comment">## 出现一个报错，在windows里面，要加上r，不然\代表转义:参考https://blog.csdn.net/caibaoH/article/details/78335094</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> header,seq <span class="keyword">in</span> read_fasta(file_path=<span class="string">r'C:\Users\kexin\Desktop\python\result2.fastq'</span>):</span><br><span class="line">    <span class="keyword">print</span> (header)</span><br><span class="line">    <span class="keyword">print</span> (seq)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="计算人类参考基因组的序列长度"><a href="#计算人类参考基因组的序列长度" class="headerlink" title="计算人类参考基因组的序列长度"></a>计算人类参考基因组的序列长度</h3><blockquote>
+<p>分析步骤：</p>
+<p>利用读取fasta的代码读取基因组序列信息</p>
+<p>统计每条序列的长度，并输出</p>
+<p>统计人类参考基因组的总长度，并输出</p>
+<p>统计每条染色体N的长度，并输出</p>
+<p>提取基因组特定区域的序列，并输出（支持+/-链）</p>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hg38_genome=&#123;&#125;</span><br><span class="line"><span class="keyword">for</span> chr_name, chr_seq <span class="keyword">in</span> read_fasta(file_path=<span class="string">r'/four/yqchen/reference/UCSC/hg38/hg38.fa'</span>):</span><br><span class="line">    hg38_genome[chr_name]=chr_seq</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>这里要用绝对路径不然报错</p>
+</blockquote>
+<p><img src="/2019/11/24/python/1555326558647.png" alt="1555326558647"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hg38_genome.keys()</span><br><span class="line"><span class="keyword">for</span> chr_name <span class="keyword">in</span> hg38_genome.keys():</span><br><span class="line">    <span class="keyword">print</span> (chr_name,len(hg38_genome.get(chr_name)))</span><br><span class="line"><span class="comment">## 这里有点不对，但是无所谓了</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/python/1555327055551.png" alt="1555327055551"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hg38_total_len=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range (<span class="number">1</span>,<span class="number">26</span>):</span><br><span class="line">    <span class="keyword">if</span> index&lt;= <span class="number">22</span>:</span><br><span class="line">        chr_name = <span class="string">'chr&#123;0&#125;'</span>.format(index)</span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">23</span>:</span><br><span class="line">        chr_name = <span class="string">'chrX'</span></span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">24</span>:</span><br><span class="line">        chr_name = <span class="string">'chrY'</span></span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">25</span>:</span><br><span class="line">        chr_name = <span class="string">'chrM'</span></span><br><span class="line">    <span class="keyword">print</span> (chr_name,len(hg38_genome.get(chr_name)))</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里结果是正确的，这是为什么？这里没搞明白的。</p>
+</blockquote>
+<p><img src="/2019/11/24/python/1555327544061.png" alt="1555327544061"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">hg38_total_len = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> range (<span class="number">1</span>,<span class="number">26</span>):</span><br><span class="line">    <span class="keyword">if</span> index&lt;= <span class="number">22</span>:</span><br><span class="line">        chr_name = <span class="string">'chr&#123;0&#125;'</span>.format(index)</span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">23</span>:</span><br><span class="line">        chr_name = <span class="string">'chrX'</span></span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">24</span>:</span><br><span class="line">        chr_name = <span class="string">'chrY'</span></span><br><span class="line">    <span class="keyword">elif</span> index == <span class="number">25</span>:</span><br><span class="line">        chr_name = <span class="string">'chrM'</span></span><br><span class="line">    hg38_total_len= hg38_total_len + int(len(hg38_genome.get(chr_name)))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">print</span> (hg38_total_len) <span class="comment">### 和上面那一句分开执行</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/24/python/1555329068482.png" alt="1555329068482"></p>
+<p><img src="/2019/11/24/python/1555329082914.png" alt="1555329082914"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">len(hg38_genome[<span class="string">'chr21'</span>])</span><br><span class="line">hg38_genome[<span class="string">'chr21'</span>].count(<span class="string">'N'</span>)</span><br><span class="line">hg38_genome[<span class="string">'chr22'</span>].count(<span class="string">'N'</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 正负链</span></span><br><span class="line"></span><br><span class="line">chr_name=<span class="string">'chr1'</span></span><br><span class="line">chr_start=<span class="number">10000</span></span><br><span class="line">chr_end=<span class="number">10300</span></span><br><span class="line">hg38_genome[chr_name][chr_start<span class="number">-1</span>:chr_end<span class="number">-1</span>].upper()</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### 反向互补</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line">translate_table=string.maketrans(<span class="string">'ATGC'</span>,<span class="string">'TACG'</span>)</span><br><span class="line">a=hg38_genome[chr_name][chr_start<span class="number">-1</span>:chr_end<span class="number">-1</span>].upper()</span><br><span class="line">a.translate(translate_table)[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##方向互补定义函数</span></span><br><span class="line"><span class="keyword">import</span> string</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">com_rev</span><span class="params">(input)</span>:</span></span><br><span class="line">    translate_table=string.maketrans(<span class="string">'ATGC'</span>,<span class="string">'TACG'</span>)</span><br><span class="line">    <span class="keyword">return</span> input.upper().translate(translate_table)[::<span class="number">-1</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="编码基因长度，从参考基因组注释信息找"><a href="#编码基因长度，从参考基因组注释信息找" class="headerlink" title="编码基因长度，从参考基因组注释信息找"></a>编码基因长度，从参考基因组注释信息找</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="keyword">print</span> (line)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start =line[<span class="number">9</span>].strip(<span class="string">','</span>) <span class="comment">### 去掉最后的逗号</span></span><br><span class="line">        <span class="keyword">print</span> (exon_start)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start =line[<span class="number">9</span>].strip(<span class="string">','</span>)</span><br><span class="line">        exon_end =line[<span class="number">10</span>].strip(<span class="string">','</span>)<span class="comment">### 去掉最后的逗号</span></span><br><span class="line">        <span class="keyword">print</span> (exon_start)</span><br><span class="line">        <span class="keyword">print</span> (exon_end)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">with open(r<span class="string">'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) as input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start = line[<span class="number">9</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>) <span class="comment">### map函数int用于后面的列表</span></span><br><span class="line">        exon_end = line[<span class="number">10</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>)</span><br><span class="line">        print (exon_start)</span><br><span class="line">        print (exon_end)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start = map(int,line[<span class="number">9</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>)) <span class="comment">### map函数int用于后面的列表</span></span><br><span class="line">        exon_end = map(int,line[<span class="number">10</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>))</span><br><span class="line">        <span class="keyword">print</span> (exon_start)</span><br><span class="line">        <span class="keyword">print</span> (exon_end)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_total_len=<span class="number">0</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start = map(int,line[<span class="number">9</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>)) <span class="comment">### map函数int用于后面的列表</span></span><br><span class="line">        exon_end = map(int,line[<span class="number">10</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(exon_count):</span><br><span class="line">            exon_total_len= exon_total_len+exon_end[index]-exon_start[index]</span><br><span class="line">        <span class="keyword">print</span> (exon_total_len)</span><br><span class="line">        <span class="keyword">print</span> (exon_start)</span><br><span class="line">        <span class="keyword">print</span> (exon_end)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="这里python3-会报错"><a href="#这里python3-会报错" class="headerlink" title="这里python3 会报错"></a>这里python3 会报错</h3><p><img src="/2019/11/24/python/1555423217495.png" alt="1555423217495"></p>
+<blockquote>
+<p>解决方案，在map基础上加上list</p>
+<p><a href="https://blog.csdn.net/mingyuli/article/details/81238858" target="_blank" rel="noopener">https://blog.csdn.net/mingyuli/article/details/81238858</a></p>
+</blockquote>
+<p><img src="/2019/11/24/python/1555423298540.png" alt="1555423298540"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_total_len=<span class="number">0</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start = list(map(int, line[<span class="number">9</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>))) <span class="comment">### map函数int用于后面的列表</span></span><br><span class="line">        exon_end = list(map(int, line[<span class="number">10</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>)))</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(exon_count):</span><br><span class="line">            exon_total_len= exon_total_len+exon_end[index]-exon_start[index]</span><br><span class="line">        <span class="keyword">print</span> (exon_total_len)</span><br><span class="line">        <span class="keyword">print</span> (exon_start)</span><br><span class="line">        <span class="keyword">print</span> (exon_end)</span><br><span class="line">        <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="完整计算版："><a href="#完整计算版：" class="headerlink" title="完整计算版："></a>完整计算版：</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">gene_exon_len_dict=&#123;&#125;</span><br><span class="line"><span class="keyword">with</span> open(<span class="string">r'C:/Users/kexin/Desktop/python/hg38_RefSeq_genetable'</span>) <span class="keyword">as</span> input_f:</span><br><span class="line">    header = input_f.readline()   <span class="comment">#### 读一行 不要用readlines</span></span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> input_f:</span><br><span class="line">        line=line.strip().split(<span class="string">'\t'</span>)</span><br><span class="line">        <span class="comment"># print (line)</span></span><br><span class="line">        exon_total_len=<span class="number">0</span></span><br><span class="line">        exon_count = int(line [<span class="number">8</span>])</span><br><span class="line">        exon_start = list(map(int, line[<span class="number">9</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>))) <span class="comment">### map函数int用于后面的列表</span></span><br><span class="line">        exon_end = list(map(int, line[<span class="number">10</span>].strip(<span class="string">','</span>).split(<span class="string">','</span>)))</span><br><span class="line">         </span><br><span class="line">        <span class="keyword">for</span> index <span class="keyword">in</span> range(exon_count):</span><br><span class="line">            exon_total_len= exon_total_len+exon_end[index]-exon_start[index]</span><br><span class="line">        gene_id = line[<span class="number">12</span>]</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> gene_exon_len_dict.get(gene_id) <span class="keyword">is</span> <span class="literal">None</span>: <span class="comment">#如果gene_exon_len_dict字典里没有这个基因，加入这个基因的长度</span></span><br><span class="line">            gene_exon_len_dict[gene_id] = exon_total_len</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            <span class="keyword">if</span> gene_exon_len_dict.get(gene_id) &lt; exon_total_len:</span><br><span class="line">                gene_exon_len_dict[gene_id] = exon_total_len</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">len(gene_exon_len_dict)</span><br><span class="line"></span><br><span class="line">exon_total =<span class="number">0</span> </span><br><span class="line"><span class="keyword">for</span> gene_id <span class="keyword">in</span> gene_exon_len_dict.keys():</span><br><span class="line">    exon_total = exon_total+gene_exon_len_dict[gene_id]</span><br><span class="line">    <span class="comment"># exon_total = exon_total+gene_exon_len_dict.values(gene_id) 这是错误写法</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">print</span> (exon_total)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">exon_rate = <span class="number">111336157</span> / <span class="number">3088286401</span> *<span class="number">100</span></span><br><span class="line">exon_rate</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python%E8%AF%AD%E8%A8%80%E5%AD%A6%E4%B9%A0/" rel="tag"># python语言学习</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/24/python_numpy_pandas/" rel="prev" title="python_numpy_pandas">
+      <i class="fa fa-chevron-left"></i> python_numpy_pandas
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/24/install_R_Packages/" rel="next" title="R包安装">
+      R包安装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#编程作业"><span class="nav-number">1.</span> <span class="nav-text">编程作业</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一个能读取fasta格式的函数（收藏版）"><span class="nav-number">2.</span> <span class="nav-text">一个能读取fasta格式的函数（收藏版）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#计算人类参考基因组的序列长度"><span class="nav-number">3.</span> <span class="nav-text">计算人类参考基因组的序列长度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码基因长度，从参考基因组注释信息找"><span class="nav-number">4.</span> <span class="nav-text">编码基因长度，从参考基因组注释信息找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这里python3-会报错"><span class="nav-number">5.</span> <span class="nav-text">这里python3 会报错</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#完整计算版："><span class="nav-number">5.1.</span> <span class="nav-text">完整计算版：</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

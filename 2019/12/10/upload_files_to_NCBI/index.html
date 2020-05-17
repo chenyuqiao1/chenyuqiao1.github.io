@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="上传SRA数据首先访问SRA的提交界面，https:&#x2F;&#x2F;submit.ncbi.nlm.nih.gov&#x2F;subs&#x2F;sra&#x2F;，在没有登陆NCBI时，网页内容如下所示">
+<meta property="og:type" content="article">
+<meta property="og:title" content="upload_files_to_NCBI">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="上传SRA数据首先访问SRA的提交界面，https:&#x2F;&#x2F;submit.ncbi.nlm.nih.gov&#x2F;subs&#x2F;sra&#x2F;，在没有登陆NCBI时，网页内容如下所示">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973302733.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973314474.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973355342.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973366416.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973380829.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973604766.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575975115829.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575975354140.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973424444.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/Image-20170417-001.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/Image-20170503-001.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977702735.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977735647.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977756445.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977772684.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977788253.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977799540.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977816901.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977839002.png">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/638619-e835d62a928787b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1087/format/webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977925350.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575977978469.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978046770.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978058732.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978075361.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978090921.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978115401.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978137500.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978160392.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978175712.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978214364.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575978241704.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575979858308.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575980296096.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575982147972.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575982851272.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575987455158.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1576043705809.png">
+<meta property="article:published_time" content="2019-12-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:56.821Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="数据上传">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/1575973302733.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>upload_files_to_NCBI | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/10/upload_files_to_NCBI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          upload_files_to_NCBI
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-10 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-10T00:00:00+08:00">2019-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:56" itemprop="dateModified" datetime="2020-05-17T21:54:56+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%8A%E4%BC%A0NCBI/" itemprop="url" rel="index"><span itemprop="name">上传NCBI</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E4%B8%8A%E4%BC%A0NCBI/%E4%B8%8A%E4%BC%A0SRA%E6%95%B0%E6%8D%AE/" itemprop="url" rel="index"><span itemprop="name">上传SRA数据</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="上传SRA数据"><a href="#上传SRA数据" class="headerlink" title="上传SRA数据"></a>上传SRA数据</h2><p>首先访问SRA的提交界面，<a href="https://submit.ncbi.nlm.nih.gov/subs/sra/，在没有登陆NCBI时，网页内容如下所示" target="_blank" rel="noopener">https://submit.ncbi.nlm.nih.gov/subs/sra/，在没有登陆NCBI时，网页内容如下所示</a></p>
+<a id="more"></a>
+
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973302733.png" alt="1575973302733"></p>
+<p>未登录时</p>
+<p>点击Log in, 会进入一个新的网页用于登陆或者创建新的NCBI账户。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973314474.png" alt="1575973314474"></p>
+<p>登陆NCBI</p>
+<p>在创建完账号或者登陆之后，返回之前的SRA上传页面，界面就变成了如下。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973355342.png" alt="1575973355342"></p>
+<p>登陆后</p>
+<p>他提示了有三种方法可以递交：</p>
+<ul>
+<li>Aspera浏览器插件</li>
+<li>Aspera命令行和FTP上传</li>
+<li>Amzon S3方式</li>
+</ul>
+<p>个人比较喜欢用Aspera命令行的方式（FTP对于国内用户或许有点慢）</p>
+<p>在Apeara命令和FPT上传选项中点击如下的蓝色小按钮</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973366416.png" alt="1575973366416"></p>
+<p>预上传文件夹</p>
+<p>点击之后，页面就会发生变化，跳出每个用户专门的预上传地址，还有专门的上传说明文字。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973380829.png" alt="1575973380829"></p>
+<p>上传地址</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973604766.png" alt="1575973604766"></p>
+<p>有了地址之后，下一步就是安装Aspera, 在<a href="https://downloads.asperasoft.com/en/downloads/8?list" target="_blank" rel="noopener">Aspera</a>上选择合适的版本，我装的就是Linux版本。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.asperasoft.com/download/sw/connect/3.8.1/ibm-aspera-connect-3.8.1.161274-linux-g2.12-64.tar.gz</span><br><span class="line">tar xf ibm-aspera-connect-3.8.1.161274-linux-g2.12-64.tar.gz</span><br><span class="line">./ibm-aspera-connect-3.8.1.161274-linux-g2.12-64.sh</span><br></pre></td></tr></table></figure>
+
+<p>安装的内容存放在<code>~/.aspera/connect</code>下。所使用到的命令如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ascp -i &lt;path/to/key_file&gt; -QT -l100m -k1 -d &lt;path/to/folder/containing files&gt; subasp@upload.ncbi.nlm.nih.gov:uploads/每个人都不同</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;path/to/key_file&gt;</code>要点击上图中的<code>Get the key file</code>下载，然后上传到服务器上。<br> <code>&lt;path/to/folder/containing files&gt;</code> 是你需要上传的数据的本地路径。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575975115829.png" alt="1575975115829"></p>
+<blockquote>
+<p>陈宇乔chenyuqiao</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ascp -i ~/project/up_load_to_SRA/aspera.openssh -QT -l100m -k1 -d ~/project/RNA_seq_ESCC/pengxiong_ESCC subasp@upload.ncbi.nlm.nih.gov:uploads/chenyuqiaoxy_163.com_w1XITUG6 &amp;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575975354140.png" alt="1575975354140"></p>
+<p>所有数据上传之后，你可以点击页面的New submission创建一个新的上传任务。</p>
+<p>然后就是一步一步的填写信息，将你预先上传的数据和你的项目进行关联。这里的SUBXXXX是临时的，完成上传后就自动无效，并且还可以反悔中途取消掉。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575973424444.png" alt="1575973424444"></p>
+<h2 id="SRA-metadata-数据填写"><a href="#SRA-metadata-数据填写" class="headerlink" title="SRA metadata 数据填写"></a>SRA metadata 数据填写</h2><hr>
+<h3 id="填写项目信息表单的几个关键点"><a href="#填写项目信息表单的几个关键点" class="headerlink" title="填写项目信息表单的几个关键点"></a>填写项目信息表单的几个关键点</h3><p>上传数据到 SRA 稍微麻烦点的就是填写项目信息表单了，先把数据通过 FTP 上传到 SRA 服务器，然后填好项目信息表单，就成功了。</p>
+<h3 id="数据属性信息格式"><a href="#数据属性信息格式" class="headerlink" title="数据属性信息格式"></a>数据属性信息格式</h3><p>填写 attributes file 时候，每一列都按照文件表头的示例格式来，没有示例格式的可以自己根据实际项目信息填写。<br> 表头绿色代表必须填写的项目（如果没有信息用 ‘not collected’，’not applicable’，’missing’ 其中一个代替 ），蓝色代表至少需要填写一栏的项目（如果没有信息用 ‘not collected’，’not applicable’，’missing’ 其中一个代替 ），黄色是可选项目（可以不填或者删除）。<br> 填写好之后，另存为 TSV 格式文本文件才能上传，否则报错：无法识别文件编码。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/Image-20170417-001.png" alt="不同颜色 column 对应不同的要求"></p>
+<p>不同颜色 column 对应不同的要求</p>
+<h3 id="文件名格式"><a href="#文件名格式" class="headerlink" title="文件名格式"></a>文件名格式</h3><p>填写 SRA_metadata 的时候 sample_name 这一栏要与之前 attributes file 中天的 Biosample name （即上图中绿色的 *sample_name）一致，不是 Biosample 的编号，如果事先申请了 Bioproject 就填写，如果没有申请就空着。<br> 特别注意文件名 filename，filename2，filename3…这些栏目，文件名与需要上传的文件完全相同（包括文件拓展名），例如上传文件 S1_1.fastq.gz，S1_2.fastq.gz 就填写文件名就是 filename:S1_1.fastq.gz,filename2:S1_2.fastq.gz。但是需要注意，如果是 tar 打包的文件则需要填写打包之前的原始文件名（包括拓展名），例如 S1_1.fastq.gz，S1_2.fastq.gz 被打包在一个文件 S1.tar 里面，文件名依然要分开填写 filename:S1_1.fastq.gz,filename2:S1_2.fastq.gz。</p>
+<h3 id="上传数据属性信息文件之前的格式检查"><a href="#上传数据属性信息文件之前的格式检查" class="headerlink" title="上传数据属性信息文件之前的格式检查"></a>上传数据属性信息文件之前的格式检查</h3><p>有些不用的 column 例如下图红色框中的，直接删除，防止报错。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/Image-20170503-001.png" alt="空出来的 column 可以删除"></p>
+<p>空出来的 column 可以删除</p>
+<h1 id="转录组数据上传教程（SRA）"><a href="#转录组数据上传教程（SRA）" class="headerlink" title="转录组数据上传教程（SRA）"></a>转录组数据上传教程（SRA）</h1><h2 id="为什么要上传"><a href="#为什么要上传" class="headerlink" title="为什么要上传"></a>为什么要上传</h2><p>我们在投稿之前都要把数据上传才能发表。但是，数据上传如果不知道一些套路的话，会很麻烦。笔者曾经在博士期间被转录组数据上传弄得焦头烂额，直接被老板鄙视。<br> 那么，转录组数据上传到底要怎么搞呢？<br> 为了让大家不再走我的弯路，把上传的经验整理了一个教程。</p>
+<h2 id="上传数据全流程"><a href="#上传数据全流程" class="headerlink" title="上传数据全流程"></a>上传数据全流程</h2><p>上传的过程比较简单，不包括上传数据的时间，大概一个小时就搞定了。</p>
+<h4 id="注册帐号"><a href="#注册帐号" class="headerlink" title="注册帐号"></a>注册帐号</h4><p>上传之前首先要注册一个NCBI帐号。这个就不教了。</p>
+<h4 id="新建NCBI上传"><a href="#新建NCBI上传" class="headerlink" title="新建NCBI上传"></a>新建NCBI上传</h4><p> 在NCBI的首页点Submit</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977702735.png" alt="1575977702735"></p>
+<p> 然后选择上面的SRA，千万别选错了，选成下面的SRA会很麻烦很麻烦的（别问我是怎么知道的）</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977735647.png" alt="1575977735647"></p>
+<p> 然后点New submission</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977756445.png" alt="1575977756445"></p>
+<p>image</p>
+<h4 id="完成认证"><a href="#完成认证" class="headerlink" title="完成认证"></a>完成认证</h4><p> 然后会提示你完成认证，至少有一个科研单位/大学的email </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977772684.png" alt="1575977772684"></p>
+<h4 id="完善信息"><a href="#完善信息" class="headerlink" title="完善信息"></a>完善信息</h4><p> 这两个都选NO，为了省事。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977788253.png" alt="1575977788253"></p>
+<p> 填写相关项目信息 </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977799540.png" alt="1575977799540"></p>
+<p> 然后选数据类型，这里我选的是plant sample </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977816901.png" alt="1575977816901"></p>
+<p>接下来就是最关键的部分了：填写数据相关表格 </p>
+<p> 填写Attributes </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977839002.png" alt="1575977839002"></p>
+<p>具体方法可以参考我的例子或NCBI的例子，从<a href="https://link.jianshu.com?t=https%3A%2F%2Fpan.baidu.com%2Fs%2F1WtZrnHy753soYMtHwr970Q" target="_blank" rel="noopener">这里</a>下载，密码为kt79。如果不确定可以先参考下面的图片试着填一下，但是一定要注意：<strong>拉丁名</strong>一定要写对，否则可能需要至少2天才能改过来（需要NCBI人工修改）。</p>
+<blockquote>
+<p>chenyuqiao: 这部分已经下载在我的百度云中，文件名NCBI上传SRA</p>
+</blockquote>
+<p> 我的最终版本如下：</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/638619-e835d62a928787b1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1087/format/webp" alt="img"></p>
+<p> 然后是完成metadata的表格填写</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977925350.png" alt="1575977925350"></p>
+<p> 这一步可以参考我的最终版本(右键点开查看大图）：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575977978469.png" alt="1575977978469"></p>
+<h4 id="开始上传数据。"><a href="#开始上传数据。" class="headerlink" title="开始上传数据。"></a>开始上传数据。</h4><p> 如果数据较多就选第一个，较少就用http网页上传就可以了： </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978046770.png" alt="1575978046770"></p>
+<p> 下面介绍如何用aspera批量上传大量数据。选中preload之后，会在下面出现相关的aspera命令和key。下载key到本地。</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978058732.png" alt="1575978058732"></p>
+<p> 以mac系统为例：下载aspera </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978075361.png" alt="1575978075361"></p>
+<p>安装aspera之后，输入以下代码，将aspera加入到环境变量，方便使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~/Applications/Aspera\ Connect.app/Contents/Resources/</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"alias ascp='<span class="variable">$PWD</span>/ascp'"</span> &gt;&gt; ~/.bash_profile</span><br><span class="line"><span class="built_in">source</span> ~/.bash_profile</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p> 使用网页上给出的命令，上传数据（注意，-i后面是之前下载的key的绝对路径）：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978090921.png" alt="1575978090921"></p>
+<p> 上传速度还不错，大概5min能上传2G。上传完所有的数据之后等上10-15min，可以出现下面的选项：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978115401.png" alt="1575978115401"></p>
+<p> 注意，如果少上传了数据，NCBI会提示你继续上传；但是如果上传多了，直接点下一步就可以了，NCBI会自动忽略多余的文件：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978137500.png" alt="1575978137500"></p>
+<h4 id="完成上传："><a href="#完成上传：" class="headerlink" title="完成上传："></a>完成上传：</h4><p> 上传完了之后，会给你一个Overview: </p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978160392.png" alt="1575978160392"></p>
+<p> 大概半小时之后，NCBI会处理你的数据：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978175712.png" alt="1575978175712"></p>
+<h2 id="上传之后"><a href="#上传之后" class="headerlink" title="上传之后"></a>上传之后</h2><h4 id="找NCBI要review-link"><a href="#找NCBI要review-link" class="headerlink" title="找NCBI要review link"></a>找NCBI要review link</h4><p>一般，我们不会把数据上传之后立即release，所以在文章投稿的时候，需要一个review link，可以发邮件给</p>
+<p><a href="mailto:sra@ncbi.nlm.nih.gov">sra@ncbi.nlm.nih.gov</a></p>
+<p>，告知其内容如下(仅供参考）：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978214364.png" alt="1575978214364"></p>
+<p> 大概1-2天之后，NCBI会给你回信：</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575978241704.png" alt="1575978241704"></p>
+<p>chenyuqiao 后续填写metadata的问题</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575979858308.png" alt="1575979858308"></p>
+<blockquote>
+<p>可以先留白</p>
+</blockquote>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575980296096.png" alt="上传完成"></p>
+<p>Each row should have a unique <strong>library_id</strong> that is short and meaningful (like an ID you might use in lab).</p>
+<p><strong>library_id</strong>是可以自己取名字的</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575982147972.png" alt="1575982147972"></p>
+<p>要生成一个TSV格式的文件</p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575982851272.png" alt="1575982851272"></p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1575987455158.png" alt="1575987455158"></p>
+<p><img src="/2019/12/10/upload_files_to_NCBI/1576043705809.png" alt="1576043705809"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E4%B8%8A%E4%BC%A0/" rel="tag"># 数据上传</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/09/keyboard_setting/" rel="prev" title="键盘键位修改及管理（Windows篇）">
+      <i class="fa fa-chevron-left"></i> 键盘键位修改及管理（Windows篇）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/16/download_data_from_NCBI/" rel="next" title="NCBI下载SRA数据">
+      NCBI下载SRA数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#上传SRA数据"><span class="nav-number">1.</span> <span class="nav-text">上传SRA数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SRA-metadata-数据填写"><span class="nav-number">2.</span> <span class="nav-text">SRA metadata 数据填写</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#填写项目信息表单的几个关键点"><span class="nav-number">2.1.</span> <span class="nav-text">填写项目信息表单的几个关键点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据属性信息格式"><span class="nav-number">2.2.</span> <span class="nav-text">数据属性信息格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#文件名格式"><span class="nav-number">2.3.</span> <span class="nav-text">文件名格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上传数据属性信息文件之前的格式检查"><span class="nav-number">2.4.</span> <span class="nav-text">上传数据属性信息文件之前的格式检查</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#转录组数据上传教程（SRA）"><span class="nav-number"></span> <span class="nav-text">转录组数据上传教程（SRA）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么要上传"><span class="nav-number">1.</span> <span class="nav-text">为什么要上传</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传数据全流程"><span class="nav-number">2.</span> <span class="nav-text">上传数据全流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注册帐号"><span class="nav-number">2.0.1.</span> <span class="nav-text">注册帐号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#新建NCBI上传"><span class="nav-number">2.0.2.</span> <span class="nav-text">新建NCBI上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成认证"><span class="nav-number">2.0.3.</span> <span class="nav-text">完成认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完善信息"><span class="nav-number">2.0.4.</span> <span class="nav-text">完善信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#开始上传数据。"><span class="nav-number">2.0.5.</span> <span class="nav-text">开始上传数据。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成上传："><span class="nav-number">2.0.6.</span> <span class="nav-text">完成上传：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上传之后"><span class="nav-number">3.</span> <span class="nav-text">上传之后</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#找NCBI要review-link"><span class="nav-number">3.0.1.</span> <span class="nav-text">找NCBI要review link</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

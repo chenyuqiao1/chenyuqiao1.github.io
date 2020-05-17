@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Vcftools帮助文档的examples： 12345678910111213## EXAMPLES# Output allele frequency for all sites in the input vcf file from chromosome 1vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis#">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vcf_filter工具之一vcftools">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="Vcftools帮助文档的examples： 12345678910111213## EXAMPLES# Output allele frequency for all sites in the input vcf file from chromosome 1vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis#">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574426850037.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574426951485.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574473851897.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574474920413.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574474215684.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574474620966.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574475354566.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574475423079.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574477639094.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574481259791.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574481259808.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574481259824.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574481259840.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215311.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215330.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215340.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215365.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215372.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215392.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215413.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215419.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640-1574470215425.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/640.webp">
+<meta property="article:published_time" content="2019-11-22T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:57.051Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="mutation_filters">
+<meta property="article:tag" content="vcf">
+<meta property="article:tag" content="vcftools">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/11/23/Vcftools/1574426850037.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/11/23/Vcftools/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>vcf_filter工具之一vcftools | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/23/Vcftools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vcf_filter工具之一vcftools
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-23T00:00:00+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DNAseq/" itemprop="url" rel="index"><span itemprop="name">DNAseq</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Vcftools"><a href="#Vcftools" class="headerlink" title="Vcftools"></a>Vcftools</h2><p>帮助文档的examples：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># EXAMPLES</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Output allele frequency <span class="keyword">for</span> all sites <span class="keyword">in</span> the input vcf file from chromosome 1</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file from the input vcf file that removes any indel sites</span></span><br><span class="line">vcftools --vcf input_file.vcf --remove-indels --recode --recode-INFO-all --out SNPs_only</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output file comparing the sites <span class="keyword">in</span> two vcf files</span></span><br><span class="line">vcftools --gzvcf input_file1.vcf.gz --gzdiff input_file2.vcf.gz --diff-site --out in1_v_in2</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file to standard out without any sites that have a filter tag, <span class="keyword">then</span> compress it with gzip</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --remove-filtered-all --recode --stdout | gzip -c &gt; output_PASS_only.vcf.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a Hardy-Weinberg p-value <span class="keyword">for</span> every site <span class="keyword">in</span> the bcf file that does not have any missing genotypes</span></span><br><span class="line">vcftools --bcf input_file.bcf --hardy --max-missing 1.0 --out output_noMissing</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output nucleotide diversity at a list of positions</span></span><br><span class="line">zcat input_file.vcf.gz | vcftools --vcf - --site-pi --positions SNP_list.txt --out nucleotide_diversity</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>能理解这几句很重要,90%的内容就都可以理解了。</p>
+</blockquote>
+<p><a href="https://vcftools.github.io/man_latest.html" target="_blank" rel="noopener">vcftools官方帮助文档</a></p>
+<a id="more"></a>
+
+
+
+<h4 id="下载vcftools"><a href="#下载vcftools" class="headerlink" title="下载vcftools"></a>下载vcftools</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install vcftools</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="查看VCF文件"><a href="#查看VCF文件" class="headerlink" title="查看VCF文件"></a>查看VCF文件</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cat ABC.raw.vcf |grep -v '##' |head -50</span><br><span class="line"><span class="meta">#</span><span class="bash"> DP</span></span><br><span class="line">grep -v '#' ABC.raw.vcf |cut -f 8|cut -d ';' -f 3|head -10</span><br><span class="line">grep -v '#' ABC.raw.vcf |cut -f 8|cut -d ';' -f 6|head -10</span><br><span class="line"><span class="meta">#</span><span class="bash"> QUAL</span></span><br><span class="line">grep -v '#' ABC.raw.vcf |cut -f 8|cut -d ';' -f 12|head -10</span><br><span class="line">grep -v '#' XXX.raw.vcf |cut -f 8|head -10| grep 'insertion'</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="平均测序深度"><a href="#平均测序深度" class="headerlink" title="平均测序深度"></a>平均测序深度</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf ABC.raw.vcf --depth  -c </span><br><span class="line">vcftools --vcf 卜金波_P14592_BC_1.raw.vcf --depth  -c</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="等位基因频率"><a href="#等位基因频率" class="headerlink" title="等位基因频率"></a>等位基因频率</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf ABC.raw.vcf --freq --out output</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Indel-or-SNP"><a href="#Indel-or-SNP" class="headerlink" title="Indel or SNP"></a>Indel or SNP</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf ABC.raw.vcf --remove-indels --recode --recode-INFO-all --out SNPs_only</span><br><span class="line">vcftools --vcf SNPs_only.recode.vcf --depth  -c </span><br><span class="line"></span><br><span class="line">vcftools --vcf ABC.raw.vcf --keep-only-indels --recode --recode-INFO-all --out indel_only</span><br><span class="line">vcftools --vcf indel_only.recode.vcf --depth  -c</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="Output-file-comparing-the-sites-in-two-vcf-files"><a href="#Output-file-comparing-the-sites-in-two-vcf-files" class="headerlink" title="Output file comparing the sites in two vcf files"></a>Output file comparing the sites in two vcf files</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf XXX.raw.vcf --diff XXX_P14592_BC_1.raw.vcf --diff-site --out XXX_P14592_FFG_1_vs_XXX_P14592_BC_1</span><br><span class="line"></span><br><span class="line">cat XXX_P14592_FFG_1_vs_XXX_P14592_BC_1.diff.sites_in_files|head -20</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/1574426850037.png" alt="1574426850037"></p>
+<h4 id="实战二"><a href="#实战二" class="headerlink" title="实战二"></a>实战二</h4><p>tumor vs normal 匹配的数据</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf P174635_LN_filter.vcf --depth  -c</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/1574426951485.png" alt="1574426951485"></p>
+<blockquote>
+<p>同样的语句，可以计算出两个样本独立的测序深度</p>
+</blockquote>
+<p>GATK 后用这种方式去筛选</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">cat $1|while read id</span><br><span class="line">do    </span><br><span class="line">	arr=($&#123;id&#125;)    </span><br><span class="line">	T=$&#123;arr[1]&#125;</span><br><span class="line">	N=$&#123;arr[0]&#125; </span><br><span class="line"><span class="meta">	#</span><span class="bash"> [sample=$(basename <span class="string">"<span class="variable">$T</span>"</span> .sort.bam_bqsr.bam)</span></span><br><span class="line">	sample=$&#123;arr[2]&#125;</span><br><span class="line">	</span><br><span class="line">	gatk SelectVariants \</span><br><span class="line">	-select-type SNP \</span><br><span class="line">	-V $&#123;sample&#125;_filter.vcf  \</span><br><span class="line">	-O $&#123;sample&#125;_filter.snp.vcf</span><br><span class="line">	</span><br><span class="line">	gatk SelectVariants \</span><br><span class="line">	-select-type INDEL \</span><br><span class="line">	-V $&#123;sample&#125;_filter.vcf  \</span><br><span class="line">	-O $&#123;sample&#125;_filter.indel.vcf</span><br><span class="line">	</span><br><span class="line">	gatk VariantFiltration \</span><br><span class="line">	-V $&#123;sample&#125;_filter.snp.vcf \</span><br><span class="line">	--filter-expression "CONTQ&lt;93 || DP &lt; 300 " \</span><br><span class="line">	--filter-name "yuqiao_PASS" \</span><br><span class="line">	-G-filter "AF &lt; 0.02" \</span><br><span class="line">	-G-filter-name "AF_low" \</span><br><span class="line">	-O $&#123;sample&#125;_filter.snp.filter.vcf</span><br><span class="line"></span><br><span class="line">	gatk VariantFiltration \</span><br><span class="line">	-V $&#123;sample&#125;_filter.indel.vcf \</span><br><span class="line">	--filter-expression "CONTQ&lt;93  || DP &lt; 300 " \</span><br><span class="line">	--filter-name "yuqiao_PASS" \</span><br><span class="line">	-G-filter "AF &lt; 0.02" \</span><br><span class="line">	-G-filter-name "AF_low" \</span><br><span class="line">	-O $&#123;sample&#125;_filter.indel.filter.vcf</span><br><span class="line">	</span><br><span class="line">	gatk MergeVcfs       \</span><br><span class="line">	-I $&#123;sample&#125;_filter.snp.filter.vcf \</span><br><span class="line">	-I $&#123;sample&#125;_filter.indel.filter.vcf \</span><br><span class="line">	-O $&#123;sample&#125;_filter.pass.vcf</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/1574473851897.png" alt="1574473851897"></p>
+<blockquote>
+<p>通过有效的帅选就会得到如上的结果，如果gatk variantfilteration 筛选无效，这不会上述的结果，filter那一栏仍然会是只有PASS</p>
+</blockquote>
+<blockquote>
+<p>帮助文档</p>
+</blockquote>
+<p><img src="/2019/11/23/Vcftools/1574474920413.png" alt="1574474920413"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat P174635_LN_filter.pass.vcf|grep -v '##' |head -10</span><br><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --remove-filtered yuqiao_PASS --recode  --out tmp</span><br><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --keep-filtered yuqiao_PASS --recode --out tmp</span><br><span class="line"><span class="meta">#</span><span class="bash"> vcftools --vcf P174635_LN_filter.pass.vcf --remove-filtered-all --recode --out tmp </span></span><br><span class="line"><span class="meta">#</span><span class="bash"> 如果都收PASS这种默认字样就可以使用--remove-filtered-all</span></span><br><span class="line">cat tmp.recode.vcf|grep -v '##' |head -10</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/1574474215684.png" alt="1574474215684"></p>
+<p><img src="/2019/11/23/Vcftools/1574474620966.png" alt="1574474620966"></p>
+<blockquote>
+<p>–recode 也很重要，不然不会出现结果。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --min-meanDP 300 --recode-INFO-all --recode --out tmp</span><br><span class="line"></span><br><span class="line">cat tmp.recode.vcf|grep -v '##' |head -10</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/1574475354566.png" alt="1574475354566"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --min-meanDP 300 --recode-INFO CONTQ --recode --out tmp</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>当然我也可以只保留INFO中的一列</p>
+</blockquote>
+<p><img src="/2019/11/23/Vcftools/1574475423079.png" alt="1574475423079"></p>
+<p>按照AF 进行刷选</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --min-meanDP 300 --recode-INFO-all --recode --out tmp</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/2019/11/23/Vcftools/1574477639094.png" alt="1574477639094"></p>
+<blockquote>
+<p>备注:</p>
+<p>–maf 最小等位基因频率 minor allele frequency</p>
+<p>–max-maf 最大等位基因频率</p>
+<p>–mac 最小等位基因minor allele counts</p>
+<p>–max-mac  最大等位基因counts</p>
+<p>–min-alleles </p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --maf 0.05 --recode-INFO-all --recode --out tmp</span><br><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --maf 0.05 --recode --out tmp</span><br><span class="line"></span><br><span class="line">vcftools --vcf P174635_LN_filter.pass.vcf --non-ref-af-any 0.05 --recode-INFO-all --recode --out tmp</span><br><span class="line">cat tmp.recode.vcf|grep -v '##' |head -10</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>最小等位基因频率0.05</p>
+</blockquote>
+<h4 id="筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要"><a href="#筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要" class="headerlink" title="筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要"></a>筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要</h4><h1 id="VCFtools-官方帮助文档"><a href="#VCFtools-官方帮助文档" class="headerlink" title="VCFtools 官方帮助文档"></a>VCFtools 官方帮助文档</h1><h2 id="NAME"><a href="#NAME" class="headerlink" title="NAME"></a>NAME</h2><p>vcftools v0.1.16 − Utilities for the variant call format (VCF) and binary variant call format (BCF)</p>
+<h2 id="SYNOPSIS"><a href="#SYNOPSIS" class="headerlink" title="SYNOPSIS"></a>SYNOPSIS</h2><p><strong>vcftools</strong> [ <strong>–vcf</strong> FILE | <strong>–gzvcf</strong> FILE | <strong>–bcf</strong> FILE] [ <strong>–out</strong> OUTPUT PREFIX ] [ FILTERING OPTIONS ] [ OUTPUT OPTIONS ]</p>
+<h2 id="DESCRIPTION"><a href="#DESCRIPTION" class="headerlink" title="DESCRIPTION"></a>DESCRIPTION</h2><p>vcftools is a suite of functions for use on genetic variation data in the form of VCF and BCF files. The tools provided will be used mainly to summarize data, run calculations on data, filter out data, and convert data into other useful file formats.</p>
+<h2 id="EXAMPLES"><a href="#EXAMPLES" class="headerlink" title="EXAMPLES"></a>EXAMPLES</h2><p>Output allele frequency for all sites in the input vcf file from chromosome 1</p>
+<p><strong>vcftools</strong> –gzvcf input_file.vcf.gz –freq –chr 1 –out chr1_analysis</p>
+<p>Output a new vcf file from the input vcf file that removes any indel sites</p>
+<p><strong>vcftools</strong> –vcf input_file.vcf –remove-indels –recode –recode-INFO-all –out SNPs_only</p>
+<p>Output file comparing the sites in two vcf files</p>
+<p><strong>vcftools</strong> –gzvcf input_file1.vcf.gz –gzdiff input_file2.vcf.gz –diff-site –out in1_v_in2</p>
+<p>Output a new vcf file to standard out without any sites that have a filter tag, then compress it with gzip</p>
+<p><strong>vcftools</strong> –gzvcf input_file.vcf.gz –remove-filtered-all –recode –stdout | gzip -c &gt; output_PASS_only.vcf.gz</p>
+<p>Output a Hardy-Weinberg p-value for every site in the bcf file that does not have any missing genotypes</p>
+<p><strong>vcftools</strong> –bcf input_file.bcf –hardy –max-missing 1.0 –out output_noMissing</p>
+<p>Output nucleotide diversity at a list of positions</p>
+<p>zcat input_file.vcf.gz | <strong>vcftools</strong> –vcf - –site-pi –positions SNP_list.txt –out nucleotide_diversity</p>
+<h2 id="BASIC-OPTIONS"><a href="#BASIC-OPTIONS" class="headerlink" title="BASIC OPTIONS"></a>BASIC OPTIONS</h2><p>These options are used to specify the input and output files.</p>
+<p><strong>INPUT FILE OPTIONS</strong></p>
+<p><strong>–vcf</strong> *<input_filename>*</input_filename></p>
+<p>This option defines the VCF file to be processed. VCFtools expects files in VCF format v4.0, v4.1 or v4.2. The latter two are supported with some small limitations. If the user provides a dash character ’-’ as a file name, the program expects a VCF file to be piped in through standard in.</p>
+<p><strong>–gzvcf</strong> *<input_filename>*</input_filename></p>
+<p>This option can be used in place of the –vcf option to read compressed (gzipped) VCF files directly.</p>
+<p><strong>–bcf</strong> *<input_filename>*</input_filename></p>
+<p>This option can be used in place of the –vcf option to read BCF2 files directly. You do not need to specify if this file is compressed with BGZF encoding. If the user provides a dash character ’-’ as a file name, the program expects a BCF2 file to be piped in through standard in.</p>
+<p><strong>OUTPUT FILE OPTIONS</strong></p>
+<p><strong>–out</strong> *<output_prefix>*</output_prefix></p>
+<p>This option defines the output filename prefix for all files generated by vcftools. For example, if <prefix> is set to output_filename, then all output files will be of the form output_filename.*** . If this option is omitted, all output files will have the prefix “out.” in the current working directory.</prefix></p>
+<p><strong>–stdout-c</strong></p>
+<p>These options direct the vcftools output to standard out so it can be piped into another program or written directly to a filename of choice. However, a select few output functions cannot be written to standard out.</p>
+<p><strong>–temp</strong> *<temporary_directory>*</temporary_directory></p>
+<p>This option can be used to redirect any temporary files that vcftools creates into a specified directory.</p>
+<h2 id="SITE-FILTERING-OPTIONS"><a href="#SITE-FILTERING-OPTIONS" class="headerlink" title="SITE FILTERING OPTIONS"></a>SITE FILTERING OPTIONS</h2><p>These options are used to include or exclude certain sites from any analysis being performed by the program.</p>
+<p><strong>POSITION FILTERING</strong></p>
+<p><strong>–chr</strong> *<chromosome><strong>*–not-chr</strong> *<chromosome>*</chromosome></chromosome></p>
+<p>Includes or excludes sites with indentifiers matching <chromosome>. These options may be used multiple times to include or exclude more than one chromosome.</chromosome></p>
+<p><strong>–from-bp</strong> *<integer><strong>*–to-bp</strong> *<integer>*</integer></integer></p>
+<p>These options specify a lower bound and upper bound for a range of sites to be processed. Sites with positions less than or greater than these values will be excluded. These options can only be used in conjunction with a single usage of –chr. Using one of these does not require use of the other.</p>
+<p><strong>–positions</strong> *<filename><strong>*–exclude-positions</strong> *<filename>*</filename></filename></p>
+<p>Include or exclude a set of sites on the basis of a list of positions in a file. Each line of the input file should contain a (tab-separated) chromosome and position. The file can have comment lines that start with a “#”, they will be ignored.</p>
+<p><strong>–positions-overlap</strong> *<filename><strong>*–exclude-positions-overlap</strong> *<filename>*</filename></filename></p>
+<p>Include or exclude a set of sites on the basis of the reference allele overlapping with a list of positions in a file. Each line of the input file should contain a (tab-separated) chromosome and position. The file can have comment lines that start with a “#”, they will be ignored.</p>
+<p><strong>–bed</strong> *<filename><strong>*–exclude-bed</strong> *<filename>*</filename></filename></p>
+<p>Include or exclude a set of sites on the basis of a BED file. Only the first three columns (chrom, chromStart and chromEnd) are required. The BED file is expected to have a header line. A site will be kept or excluded if any part of any allele (REF or ALT) at a site is within the range of one of the BED entries.</p>
+<p><strong>–thin</strong> *<integer>*</integer></p>
+<p>Thin sites so that no two sites are within the specified distance from one another.</p>
+<p><strong>–mask</strong> *<filename><strong>*–invert-mask</strong> *<filename><strong>*–mask-min</strong> *<integer>*</integer></filename></filename></p>
+<p>These options are used to specify a FASTA-like mask file to filter with. The mask file contains a sequence of integer digits (between 0 and 9) for each position on a chromosome that specify if a site at that position should be filtered or not.<br>An example mask file would look like:</p>
+<p><em>&gt;10000011111222…&gt;22222211111000…</em></p>
+<p>In this example, sites in the VCF file located within the first 5 bases of the start of chromosome 1 would be kept, whereas sites at position 6 onwards would be filtered out. And sites after the 11th position on chromosome 2 would be filtered out as well.<br>The “–invert-mask” option takes the same format mask file as the “–mask” option, however it inverts the mask file before filtering with it.<br>And the “–mask-min” option specifies a threshold mask value between 0 and 9 to filter positions by. The default threshold is 0, meaning only sites with that value or lower will be kept.</p>
+<p><strong>SITE ID FILTERING</strong></p>
+<p><strong>–snp</strong> *<string>*</string></p>
+<p>Include SNP(s) with matching ID (e.g. a dbSNP rsID). This command can be used multiple times in order to include more than one SNP.</p>
+<p><strong>–snps</strong> *<filename><strong>*–exclude</strong> *<filename>*</filename></filename></p>
+<p>Include or exclude a list of SNPs given in a file. The file should contain a list of SNP IDs (e.g. dbSNP rsIDs), with one ID per line. No header line is expected.</p>
+<p><strong>VARIANT TYPE FILTERING</strong></p>
+<p><strong>–keep-only-indels–remove-indels</strong></p>
+<p>Include or exclude sites that contain an indel. For these options “indel” means any variant that alters the length of the REF allele.</p>
+<p><strong>FILTER FLAG FILTERING</strong></p>
+<p><strong>–remove-filtered-all</strong></p>
+<p>Removes all sites with a FILTER flag other than PASS.</p>
+<p><strong>–keep-filtered</strong> *<string>*</string></p>
+<p><strong>–remove-filtered</strong> *<string>*</string></p>
+<p>Includes or excludes all sites marked with a specific FILTER flag. These options may be used more than once to specify multiple FILTER flags.</p>
+<p><strong>INFO FIELD FILTERING</strong></p>
+<p><strong>–keep-INFO</strong> *<string>*</string></p>
+<p><strong>–remove-INFO</strong> *<string>*</string></p>
+<p>Includes or excludes all sites with a specific INFO flag. These options only filter on the presence of the flag and not its value. These options can be used multiple times to specify multiple INFO flags.</p>
+<p><strong>ALLELE FILTERING</strong></p>
+<p><strong>–maf</strong> *<float><strong>*–max-maf</strong> *<float>*</float></float></p>
+<p>Include only sites with a Minor Allele Frequency greater than or equal to the “–maf” value and less than or equal to the “–max-maf” value. One of these options may be used without the other. Allele frequency is defined as the number of times an allele appears over all individuals at that site, divided by the total number of non-missing alleles at that site.</p>
+<p><strong>–non-ref-af</strong> *<float><strong>*–max-non-ref-af</strong> *<float><strong>*–non-ref-ac</strong> *<integer><strong>*–max-non-ref-ac</strong> *<integer>*</integer></integer></float></float></p>
+<p><strong>–non-ref-af-any</strong> *<float><strong>*–max-non-ref-af-any</strong> *<float><strong>*–non-ref-ac-any</strong> *<integer><strong>*–max-non-ref-ac-any</strong> *<integer>*</integer></integer></float></float></p>
+<p>Include only sites with all Non-Reference (ALT) Allele Frequencies (af) or Counts (ac) within the range specified, and including the specified value. The default options require <strong>all</strong> alleles to meet the specified criteria, whereas the options appended with “any” require only one allele to meet the criteria. The Allele frequency is defined as the number of times an allele appears over all individuals at that site, divided by the total number of non-missing alleles at that site.</p>
+<p><strong>–mac</strong> *<integer><strong>*–max-mac</strong> *<integer>*</integer></integer></p>
+<p>Include only sites with Minor Allele Count greater than or equal to the “–mac” value and less than or equal to the “–max-mac” value. One of these options may be used without the other. Allele count is simply the number of times that allele appears over all individuals at that site.</p>
+<p><strong>–min-alleles</strong> *<integer><strong>*–max-alleles</strong> *<integer>*</integer></integer></p>
+<p>Include only sites with a number of alleles greater than or equal to the “–min-alleles” value and less than or equal to the “–max-alleles” value. One of these options may be used without the other.<br>For example, to include only bi-allelic sites, one could use:</p>
+<p><strong>vcftools</strong> –vcf file1.vcf –min-alleles 2 –max-alleles 2</p>
+<p><strong>GENOTYPE VALUE FILTERING</strong></p>
+<p><strong>–min-meanDP</strong> *<float><strong>*–max-meanDP</strong> *<float>*</float></float></p>
+<p>Includes only sites with mean depth values (over all included individuals) greater than or equal to the “–min-meanDP” value and less than or equal to the “–max-meanDP” value. One of these options may be used without the other. These options require that the “DP” FORMAT tag is included for each site.</p>
+<p><strong>–hwe</strong> *<float>*</float></p>
+<p>Assesses sites for Hardy-Weinberg Equilibrium using an exact test, as defined by Wigginton, Cutler and Abecasis (2005). Sites with a p-value below the threshold defined by this option are taken to be out of HWE, and therefore excluded.</p>
+<p><strong>–max-missing</strong> *<float>*</float></p>
+<p>Exclude sites on the basis of the proportion of missing data (defined to be between 0 and 1, where 0 allows sites that are completely missing and 1 indicates no missing data allowed).</p>
+<p><strong>–max-missing-count</strong> *<integer>*</integer></p>
+<p>Exclude sites with more than this number of missing genotypes over all individuals.</p>
+<p><strong>–phased</strong></p>
+<p>Excludes all sites that contain unphased genotypes.</p>
+<p><strong>MISCELLANEOUS FILTERING</strong></p>
+<p><strong>–minQ</strong> *<float>*</float></p>
+<p>Includes only sites with Quality value above this threshold.</p>
+<h2 id="INDIVIDUAL-FILTERING-OPTIONS"><a href="#INDIVIDUAL-FILTERING-OPTIONS" class="headerlink" title="INDIVIDUAL FILTERING OPTIONS"></a>INDIVIDUAL FILTERING OPTIONS</h2><p>These options are used to include or exclude certain individuals from any analysis being performed by the program.</p>
+<p><strong>–indv</strong> *<string><strong>*–remove-indv</strong> *<string>*</string></string></p>
+<p>Specify an individual to be kept or removed from the analysis. This option can be used multiple times to specify multiple individuals. If both options are specified, then the “–indv” option is executed before the “–remove-indv option”.</p>
+<p><strong>–keep</strong> *<filename><strong>*–remove</strong> *<filename>*</filename></filename></p>
+<p>Provide files containing a list of individuals to either include or exclude in subsequent analysis. Each individual ID (as defined in the VCF headerline) should be included on a separate line. If both options are used, then the “–keep” option is executed before the “–remove” option. When multiple files are provided, the union of individuals from all keep files subtracted by the union of individuals from all remove files are kept. No header line is expected.</p>
+<p><strong>–max-indv</strong> *<integer>*</integer></p>
+<p>Randomly thins individuals so that only the specified number are retained.</p>
+<h2 id="GENOTYPE-FILTERING-OPTIONS"><a href="#GENOTYPE-FILTERING-OPTIONS" class="headerlink" title="GENOTYPE FILTERING OPTIONS"></a>GENOTYPE FILTERING OPTIONS</h2><p>These options are used to exclude genotypes from any analysis being performed by the program. If excluded, these values will be treated as missing.</p>
+<p><strong>–remove-filtered-geno-all</strong></p>
+<p>Excludes all genotypes with a FILTER flag not equal to “.” (a missing value) or PASS.</p>
+<p><strong>–remove-filtered-geno</strong> *<string>*</string></p>
+<p>Excludes genotypes with a specific FILTER flag.</p>
+<p><strong>–minGQ</strong> *<float>*</float></p>
+<p>Exclude all genotypes with a quality below the threshold specified. This option requires that the “GQ” FORMAT tag is specified for all sites.</p>
+<p><strong>–minDP</strong> *<float><strong>*–maxDP</strong> *<float>*</float></float></p>
+<p>Includes only genotypes greater than or equal to the “–minDP” value and less than or equal to the “–maxDP” value. This option requires that the “DP” FORMAT tag is specified for all sites.</p>
+<h2 id="OUTPUT-OPTIONS"><a href="#OUTPUT-OPTIONS" class="headerlink" title="OUTPUT OPTIONS"></a>OUTPUT OPTIONS</h2><p>These options specify which analyses or conversions to perform on the data that passed through all specified filters.</p>
+<p><strong>OUTPUT ALLELE STATISTICS</strong></p>
+<p><strong>–freq–freq2</strong></p>
+<p>Outputs the allele frequency for each site in a file with the suffix “.frq”. The second option is used to suppress output of any information about the alleles.</p>
+<p><strong>–counts–counts2</strong></p>
+<p>Outputs the raw allele counts for each site in a file with the suffix “.frq.count”. The second option is used to suppress output of any information about the alleles.</p>
+<p><strong>–derived</strong></p>
+<p>For use with the previous four frequency and count options only. Re-orders the output file columns so that the ancestral allele appears first. This option relies on the ancestral allele being specified in the VCF file using the AA tag in the INFO field.</p>
+<p><strong>OUTPUT DEPTH STATISTICS</strong></p>
+<p><strong>–depth</strong></p>
+<p>Generates a file containing the mean depth per individual. This file has the suffix “.idepth”.</p>
+<p><strong>–site-depth</strong></p>
+<p>Generates a file containing the depth per site summed across all individuals. This output file has the suffix “.ldepth”.</p>
+<p><strong>–site-mean-depth</strong></p>
+<p>Generates a file containing the mean depth per site averaged across all individuals. This output file has the suffix “.ldepth.mean”.</p>
+<p><strong>–geno-depth</strong></p>
+<p>Generates a (possibly very large) file containing the depth for each genotype in the VCF file. Missing entries are given the value -1. The file has the suffix “.gdepth”.</p>
+<p><strong>OUTPUT LD STATISTICS</strong></p>
+<p><strong>–hap-r2</strong></p>
+<p>Outputs a file reporting the r2, D, and D’ statistics using phased haplotypes. These are the traditional measures of LD often reported in the population genetics literature. The output file has the suffix “.hap.ld”. This option assumes that the VCF input file has phased haplotypes.</p>
+<p><strong>–geno-r2</strong></p>
+<p>Calculates the squared correlation coefficient between genotypes encoded as 0, 1 and 2 to represent the number of non-reference alleles in each individual. This is the same as the LD measure reported by PLINK. The D and D’ statistics are only available for phased genotypes. The output file has the suffix “.geno.ld”.</p>
+<p><strong>–geno-chisq</strong></p>
+<p>If your data contains sites with more than two alleles, then this option can be used to test for genotype independence via the chi-squared statistic. The output file has the suffix “.geno.chisq”.</p>
+<p><strong>–hap-r2-positions</strong> *<positions list file><strong>*–geno-r2-positions</strong> *<positions list file>*</positions></positions></p>
+<p>Outputs a file reporting the r2 statistics of the sites contained in the provided file verses all other sites. The output files have the suffix “.list.hap.ld” or “.list.geno.ld”, depending on which option is used.</p>
+<p><strong>–ld-window</strong> *<integer>*</integer></p>
+<p>This optional parameter defines the maximum number of SNPs between the SNPs being tested for LD in the “–hap-r2”, “–geno-r2”, and “–geno-chisq” functions.</p>
+<p><strong>–ld-window-bp</strong> *<integer>*</integer></p>
+<p>This optional parameter defines the maximum number of physical bases between the SNPs being tested for LD in the “–hap-r2”, “–geno-r2”, and “–geno-chisq” functions.</p>
+<p><strong>–ld-window-min</strong> *<integer>*</integer></p>
+<p>This optional parameter defines the minimum number of SNPs between the SNPs being tested for LD in the “–hap-r2”, “–geno-r2”, and “–geno-chisq” functions.</p>
+<p><strong>–ld-window-bp-min</strong> *<integer>*</integer></p>
+<p>This optional parameter defines the minimum number of physical bases between the SNPs being tested for LD in the “–hap-r2”, “–geno-r2”, and “–geno-chisq” functions.</p>
+<p><strong>–min-r2</strong> *<float>*</float></p>
+<p>This optional parameter sets a minimum value for r2, below which the LD statistic is not reported by the “–hap-r2”, “–geno-r2”, and “–geno-chisq” functions.</p>
+<p><strong>–interchrom-hap-r2–interchrom-geno-r2</strong></p>
+<p>Outputs a file reporting the r2 statistics for sites on different chromosomes. The output files have the suffix “.interchrom.hap.ld” or “.interchrom.geno.ld”, depending on the option used.</p>
+<p><strong>OUTPUT TRANSITION/TRANSVERSION STATISTICS</strong></p>
+<p><strong>–TsTv</strong> *<integer>*</integer></p>
+<p>Calculates the Transition / Transversion ratio in bins of size defined by this option. Only uses bi-allelic SNPs. The resulting output file has the suffix “.TsTv”.</p>
+<p><strong>–TsTv-summary</strong></p>
+<p>Calculates a simple summary of all Transitions and Transversions. The output file has the suffix “.TsTv.summary”.</p>
+<p><strong>–TsTv-by-count</strong></p>
+<p>Calculates the Transition / Transversion ratio as a function of alternative allele count. Only uses bi-allelic SNPs. The resulting output file has the suffix “.TsTv.count”.</p>
+<p><strong>–TsTv-by-qual</strong></p>
+<p>Calculates the Transition / Transversion ratio as a function of SNP quality threshold. Only uses bi-allelic SNPs. The resulting output file has the suffix “.TsTv.qual”.</p>
+<p><strong>–FILTER-summary</strong></p>
+<p>Generates a summary of the number of SNPs and Ts/Tv ratio for each FILTER category. The output file has the suffix “.FILTER.summary”.</p>
+<p><strong>OUTPUT NUCLEOTIDE DIVERGENCE STATISTICS</strong></p>
+<p><strong>–site-pi</strong></p>
+<p>Measures nucleotide divergency on a per-site basis. The output file has the suffix “.sites.pi”.</p>
+<p><strong>–window-pi</strong> *<integer><strong>*–window-pi-step</strong> *<integer>*</integer></integer></p>
+<p>Measures the nucleotide diversity in windows, with the number provided as the window size. The output file has the suffix “.windowed.pi”. The latter is an optional argument used to specify the step size in between windows.</p>
+<p><strong>OUTPUT FST STATISTICS</strong></p>
+<p><strong>–weir-fst-pop</strong> *<filename>*</filename></p>
+<p>This option is used to calculate an Fst estimate from Weir and Cockerham’s 1984 paper. This is the preferred calculation of Fst. The provided file must contain a list of individuals (one individual per line) from the VCF file that correspond to one population. This option can be used multiple times to calculate Fst for more than two populations. These files will also be included as “–keep” options. By default, calculations are done on a per-site basis. The output file has the suffix “.weir.fst”.</p>
+<p><strong>–fst-window-size</strong> *<integer><strong>*–fst-window-step</strong> *<integer>*</integer></integer></p>
+<p>These options can be used with “–weir-fst-pop” to do the Fst calculations on a windowed basis instead of a per-site basis. These arguments specify the desired window size and the desired step size between windows.</p>
+<p><strong>OUTPUT OTHER STATISTICS</strong></p>
+<p><strong>–het</strong></p>
+<p>Calculates a measure of heterozygosity on a per-individual basis. Specfically, the inbreeding coefficient, F, is estimated for each individual using a method of moments. The resulting file has the suffix “.het”.</p>
+<p><strong>–hardy</strong></p>
+<p>Reports a p-value for each site from a Hardy-Weinberg Equilibrium test (as defined by Wigginton, Cutler and Abecasis (2005)). The resulting file (with suffix “.hwe”) also contains the Observed numbers of Homozygotes and Heterozygotes and the corresponding Expected numbers under HWE.</p>
+<p><strong>–TajimaD</strong> *<integer>*</integer></p>
+<p>Outputs Tajima’s D statistic in bins with size of the specified number. The output file has the suffix “.Tajima.D”.</p>
+<p><strong>–indv-freq-burden</strong></p>
+<p>This option calculates the number of variants within each individual of a specific frequency. The resulting file has the suffix “.ifreqburden”.</p>
+<p><strong>–LROH</strong></p>
+<p>This option will identify and output Long Runs of Homozygosity. The output file has the suffix “.LROH”. This function is experimental, and will use a lot of memory if applied to large datasets.</p>
+<p><strong>–relatedness</strong></p>
+<p>This option is used to calculate and output a relatedness statistic based on the method of Yang et al, Nature Genetics 2010 (doi:10.1038/ng.608). Specifically, calculate the unadjusted Ajk statistic. Expectation of Ajk is zero for individuals within a populations, and one for an individual with themselves. The output file has the suffix “.relatedness”.</p>
+<p><strong>–relatedness2</strong></p>
+<p>This option is used to calculate and output a relatedness statistic based on the method of Manichaikul et al., BIOINFORMATICS 2010 (doi:10.1093/bioinformatics/btq559). The output file has the suffix “.relatedness2”.</p>
+<p><strong>–site-quality</strong></p>
+<p>Generates a file containing the per-site SNP quality, as found in the QUAL column of the VCF file. This file has the suffix “.lqual”.</p>
+<p><strong>–missing-indv</strong></p>
+<p>Generates a file reporting the missingness on a per-individual basis. The file has the suffix “.imiss”.</p>
+<p><strong>–missing-site</strong></p>
+<p>Generates a file reporting the missingness on a per-site basis. The file has the suffix “.lmiss”.</p>
+<p><strong>–SNPdensity</strong> *<integer>*</integer></p>
+<p>Calculates the number and density of SNPs in bins of size defined by this option. The resulting output file has the suffix “.snpden”.</p>
+<p><strong>–kept-sites</strong></p>
+<p>Creates a file listing all sites that have been kept after filtering. The file has the suffix “.kept.sites”.</p>
+<p><strong>–removed-sites</strong></p>
+<p>Creates a file listing all sites that have been removed after filtering. The file has the suffix “.removed.sites”.</p>
+<p><strong>–singletons</strong></p>
+<p>This option will generate a file detailing the location of singletons, and the individual they occur in. The file reports both true singletons, and private doubletons (i.e. SNPs where the minor allele only occurs in a single individual and that individual is homozygotic for that allele). The output file has the suffix “.singletons”.</p>
+<p><strong>–hist-indel-len</strong></p>
+<p>This option will generate a histogram file of the length of all indels (including SNPs). It shows both the count and the percentage of all indels for indel lengths that occur at least once in the input file. SNPs are considered indels with length zero. The output file has the suffix “.indel.hist”.</p>
+<p><strong>–hapcount</strong> *<BED file>*</BED></p>
+<p>This option will output the number of unique haplotypes within user specified bins, as defined by the BED file. The output file has the suffix “.hapcount”.</p>
+<p><strong>–mendel</strong> *<PED file>*</PED></p>
+<p>This option is use to report mendel errors identified in trios. The command requires a PLINK-style PED file, with the first four columns specifying a family ID, the child ID, the father ID, and the mother ID. The output of this command has the suffix “.mendel”.</p>
+<p><strong>–extract-FORMAT-info</strong> *<string>*</string></p>
+<p>Extract information from the genotype fields in the VCF file relating to a specfied FORMAT identifier. The resulting output file has the suffix “.<FORMAT_ID>.FORMAT”. For example, the following command would extract the all of the GT (i.e. Genotype) entries:</FORMAT_ID></p>
+<p><strong>vcftools</strong> –vcf file1.vcf –extract-FORMAT-info GT</p>
+<p><strong>–get-INFO</strong> *<string>*</string></p>
+<p>This option is used to extract information from the INFO field in the VCF file. The <string> argument specifies the INFO tag to be extracted, and the option can be used multiple times in order to extract multiple INFO entries. The resulting file, with suffix “.INFO”, contains the required INFO information in a tab-separated table. For example, to extract the NS and DB flags, one would use the command:</string></p>
+<p><strong>vcftools</strong> –vcf file1.vcf –get-INFO NS –get-INFO DB</p>
+<p><strong>OUTPUT VCF FORMAT</strong></p>
+<p><strong>–recode–recode-bcf</strong></p>
+<p>These options are used to generate a new file in either VCF or BCF from the input VCF or BCF file after applying the filtering options specified by the user. The output file has the suffix “.recode.vcf” or “.recode.bcf”. By default, the INFO fields are removed from the output file, as the INFO values may be invalidated by the recoding (e.g. the total depth may need to be recalculated if individuals are removed). This behavior may be overriden by the following options. By default, BCF files are written out as BGZF compressed files.</p>
+<p><strong>–recode-INFO</strong> *<string><strong>*–recode-INFO-all</strong></string></p>
+<p>These options can be used with the above recode options to define an INFO key name to keep in the output file. This option can be used multiple times to keep more of the INFO fields. The second option is used to keep all INFO values in the original file.</p>
+<p><strong>–contigs</strong> *<string>*</string></p>
+<p>This option can be used in conjuction with the –recode-bcf when the input file does not have any contig declarations. This option expects a file name with one contig header per line. These lines are included in the output file.</p>
+<p><strong>OUTPUT OTHER FORMATS</strong></p>
+<p><strong>–012</strong></p>
+<p>This option outputs the genotypes as a large matrix. Three files are produced. The first, with suffix “.012”, contains the genotypes of each individual on a separate line. Genotypes are represented as 0, 1 and 2, where the number represent that number of non-reference alleles. Missing genotypes are represented by -1. The second file, with suffix “.012.indv” details the individuals included in the main file. The third file, with suffix “.012.pos” details the site locations included in the main file.</p>
+<p><strong>–IMPUTE</strong></p>
+<p>This option outputs phased haplotypes in IMPUTE reference-panel format. As IMPUTE requires phased data, using this option also implies –phased. Unphased individuals and genotypes are therefore excluded. Only bi-allelic sites are included in the output. Using this option generates three files. The IMPUTE haplotype file has the suffix “.impute.hap”, and the IMPUTE legend file has the suffix “.impute.hap.legend”. The third file, with suffix “.impute.hap.indv”, details the individuals included in the haplotype file, although this file is not needed by IMPUTE.</p>
+<p><strong>–ldhat–ldhat-geno</strong></p>
+<p>These options output data in LDhat format. This option requires the “–chr” filter option to also be used. The first option outputs phased data only, and therefore also implies “–phased” be used, leading to unphased individuals and genotypes being excluded. The second option treats all of the data as unphased, and therefore outputs LDhat files in genotype/unphased format. Two output files are generated with the suffixes “.ldhat.sites” and “.ldhat.locs”, which correspond to the LDhat “sites” and “locs” input files respectively.</p>
+<p><strong>–BEAGLE-GL–BEAGLE-PL</strong></p>
+<p>These options output genotype likelihood information for input into the BEAGLE program. The VCF file is required to contain FORMAT fields with “GL” or “PL” tags, which can generally be output by SNP callers such as the GATK. Use of this option requires a chromosome to be specified via the “–chr” option. The resulting output file has the suffix “.BEAGLE.GL” or “.BEAGLE.PL” and contains genotype likelihoods for biallelic sites. This file is suitable for input into BEAGLE via the “like=” argument.</p>
+<p><strong>–plink–plink-tped–chrom-map</strong></p>
+<p>These options output the genotype data in PLINK PED format. With the first option, two files are generated, with suffixes “.ped” and “.map”. Note that only bi-allelic loci will be output. Further details of these files can be found in the PLINK documentation.<br>Note: The first option can be very slow on large datasets. Using the –chr option to divide up the dataset is advised, or alternatively use the –plink-tped option which outputs the files in the PLINK transposed format with suffixes “.tped” and “.tfam”.<br>For usage with variant sites in species other than humans, the –chrom-map option may be used to specify a file name that has a tab-delimited mapping of chromosome name to a desired integer value with one line per chromosome. This file must contain a mapping for every chromosome value found in the file.</p>
+<h2 id="COMPARISON-OPTIONS-注释：两个vcf文档比较"><a href="#COMPARISON-OPTIONS-注释：两个vcf文档比较" class="headerlink" title="COMPARISON OPTIONS(注释：两个vcf文档比较)"></a>COMPARISON OPTIONS(注释：两个vcf文档比较)</h2><p>These options are used to compare the original variant file to another variant file and output the results. All of the diff functions require both files to contain the same chromosomes and that the files be sorted in the same order. If one of the files contains chromosomes that the other file does not, use the –not-chr filter to remove them from the analysis.</p>
+<p><strong>DIFF VCF FILE</strong></p>
+<p><strong>–diff</strong> *<filename><strong>*–gzdiff</strong> *<filename><strong>*–diff-bcf</strong> *<filename>*</filename></filename></filename></p>
+<p>These options compare the original input file to this specified VCF, gzipped VCF, or BCF file. These options must be specified with one additional option described below in order to specify what type of comparison is to be performed. See the examples section for typical usage.</p>
+<p><strong>DIFF OPTIONS</strong></p>
+<p><strong>–diff-site</strong></p>
+<p>Outputs the sites that are common / unique to each file. The output file has the suffix “.diff.sites_in_files”.</p>
+<p><strong>–diff-indv</strong></p>
+<p>Outputs the individuals that are common / unique to each file. The output file has the suffix “.diff.indv_in_files”.</p>
+<p><strong>–diff-site-discordance</strong></p>
+<p>This option calculates discordance on a site by site basis. The resulting output file has the suffix “.diff.sites”.</p>
+<p><strong>–diff-indv-discordance</strong></p>
+<p>This option calculates discordance on a per-individual basis. The resulting output file has the suffix “.diff.indv”.</p>
+<p><strong>–diff-indv-map</strong> *<filename>*</filename></p>
+<p>This option allows the user to specify a mapping of individual IDs in the second file to those in the first file. The program expects the file to contain a tab-delimited line containing an individual’s name in file one followed by that same individual’s name in file two with one mapping per line.</p>
+<p><strong>–diff-discordance-matrix</strong></p>
+<p>This option calculates a discordance matrix. This option only works with bi-allelic loci with matching alleles that are present in both files. The resulting output file has the suffix “.diff.discordance.matrix”.</p>
+<p><strong>–diff-switch-error</strong></p>
+<p>This option calculates phasing errors (specifically “switch errors”). This option creates an output file describing switch errors found between sites, with suffix “.diff.switch”.</p>
+<h2 id="vcf文件与vcftools（一）"><a href="#vcf文件与vcftools（一）" class="headerlink" title="vcf文件与vcftools（一）"></a>vcf文件与vcftools（一）</h2><p>在用于存储reads比对结果的SAM/BAM格式提出之后（2009年），用于存储变异检测结果的格式VCF( variant call format )也被提出（2010年），与此同时作者还提供了配套的处理工具——vcftools。</p>
+<h3 id="1-vcf文件"><a href="#1-vcf文件" class="headerlink" title="1. vcf文件"></a>1. vcf文件</h3><p>vcf主要包括两部分，以 <code>##</code>和 <code>#</code>开头的header信息，以及主体variation信息。</p>
+<h5 id="1-1-header部分"><a href="#1-1-header部分" class="headerlink" title="1.1 header部分"></a>1.1 header部分</h5><p><img src="/2019/11/23/Vcftools/640-1574481259791.webp" alt="img"></p>
+<p><img src="/2019/11/23/Vcftools/640-1574481259808.webp" alt="img"></p>
+<p>以 <code>#</code>开头的一行（header部分的最后一行）是主体部分的列名，以 <code>##</code>开头的行是一些描述解释信息，比如主体中的”FILTER”, “FORMAT”, “INFO”都是什么意思，另外还能看到一些历史命令，通过这些命令可以知道这个vcf文件是如何得到的，比如，通过上面的图片可知，这个vcf是GATK和bcftools分别call variation之后取交集得到。</p>
+<p>要完全理解vcf的每一列，每一个英文大写的缩写名词其实挺困难的，仅INFO就有很多名词，有的可能还需要高深的统计学知识，所以目前我只掌握的一些简单的。</p>
+<p>下面我以我的vcf文件为例，尽可能多的理解一下vcf中字段的含义。</p>
+<h5 id="1-2-variation部分"><a href="#1-2-variation部分" class="headerlink" title="1.2 variation部分"></a>1.2 variation部分</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#CHROM  POS     ID      REF     ALT     QUAL    FILTER  INFO    FORMAT  sample1  sample2  sample3  sample4  sample5  sample6  sample7  sample8chrA01  895     .       T       A       101.53  PASS    AC&#x3D;2;AF&#x3D;0.125;AN&#x3D;16;BaseQRankSum&#x3D;-2.261;ClippingRankSum&#x3D;0;DP&#x3D;239;ExcessHet&#x3D;3.3099;FS&#x3D;4.905;MLEAC&#x3D;2;MLEAF&#x3D;0.125;MQ&#x3D;80.42;MQRankSum&#x3D;0;QD&#x3D;2.21;ReadPosRankSum&#x3D;-0.033;SOR&#x3D;1.609  GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;0:22,0:22:66:0|1:895_T_A:0,66,1689    0&#x2F;0:36,2:38:65:.:.:0,65,1576    0&#x2F;1:10,3:13:67:.:.:67,0,396  0&#x2F;0:19,0:19:51:.:.:0,51,765     0&#x2F;0:31,0:31:84:.:.:0,84,1260    0&#x2F;1:28,5:33:74:.:.:74,0,1087    0&#x2F;0:29,0:29:81:.:.:0,81,1215    0&#x2F;0:32,0:32:90:.:.:0,90,1350chrA01  912     .       G       A       181.85  PASS    AC&#x3D;3;AF&#x3D;0.188;AN&#x3D;16;BaseQRankSum&#x3D;-1.042;ClippingRankSum&#x3D;0;DP&#x3D;234;ExcessHet&#x3D;3.9794;FS&#x3D;2.43;MLEAC&#x3D;3;MLEAF&#x3D;0.188;MQ&#x3D;74.43;MQRankSum&#x3D;0;QD&#x3D;2.64;ReadPosRankSum&#x3D;-0.339;SOR&#x3D;0.857   GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;0:20,0:20:60:0|1:895_T_A:0,60,1619    0&#x2F;0:36,1:37:66:.:.:0,66,1496    0&#x2F;1:10,3:13:41:.:.:41,0,385  0&#x2F;0:16,0:16:42:.:.:0,42,630     0&#x2F;0:33,0:33:90:.:.:0,90,1350    0&#x2F;1:27,5:32:82:.:.:82,0,1046    0&#x2F;1:19,5:24:99:.:.:102,0,631    0&#x2F;0:35,0:35:99:.:.:0,99,1485chrA01  921     .       T       C       2635.31 PASS    AC&#x3D;6;AF&#x3D;0.375;AN&#x3D;16;BaseQRankSum&#x3D;1.9;ClippingRankSum&#x3D;0;DP&#x3D;221;ExcessHet&#x3D;2.98;FS&#x3D;0;MLEAC&#x3D;6;MLEAF&#x3D;0.375;MQ&#x3D;59.33;MQRankSum&#x3D;0;QD&#x3D;24.86;ReadPosRankSum&#x3D;1.15;SOR&#x3D;0.73     GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:10,7:17:99:1|0:895_T_A:264,0,724    0&#x2F;0:36,0:36:99:.:.:0,99,1485    0&#x2F;1:3,9:12:73:.:.:314,0,73   0&#x2F;1:10,7:17:99:0|1:921_T_C:286,0,361    1&#x2F;1:0,39:39:99:1|1:921_T_C:1751,117,0   0&#x2F;0:28,0:28:75:.:.:0,75,1125    0&#x2F;1:18,3:21:72:.:.:72,0,1015    0&#x2F;0:35,0:35:99:.:.:0,99,1485chrA01  931     .       A       G       3003.26 PASS    AC&#x3D;8;AF&#x3D;0.5;AN&#x3D;16;BaseQRankSum&#x3D;0.645;ClippingRankSum&#x3D;0;DP&#x3D;219;ExcessHet&#x3D;2.5225;FS&#x3D;2.735;MLEAC&#x3D;8;MLEAF&#x3D;0.5;MQ&#x3D;66.13;MQRankSum&#x3D;0;QD&#x3D;22.75;ReadPosRankSum&#x3D;-0.772;SOR&#x3D;0.929      GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:10,7:17:99:0|1:895_T_A:261,0,767    0&#x2F;0:34,1:35:60:.:.:0,60,1399    1&#x2F;1:0,11:11:33:.:.:464,33,0  0&#x2F;1:9,7:16:99:0|1:921_T_C:267,0,357     1&#x2F;1:0,41:41:99:1|1:921_T_C:1867,126,0   0&#x2F;1:24,3:27:54:.:.:54,0,974     0&#x2F;1:15,5:20:99:.:.:144,0,4730&#x2F;0:35,0:35:90:.:.:0,90,1350chrA01  1093    .       A       G       1117.16 PASS    AC&#x3D;3;AF&#x3D;0.188;AN&#x3D;16;BaseQRankSum&#x3D;-1.18;ClippingRankSum&#x3D;0;DP&#x3D;163;ExcessHet&#x3D;0.4576;FS&#x3D;11.522;MLEAC&#x3D;3;MLEAF&#x3D;0.188;MQ&#x3D;49.72;MQRankSum&#x3D;-1.559;QD&#x3D;29.67;ReadPosRankSum&#x3D;0.015;SOR&#x3D;1.008     GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:3,6:9:99:0|1:1093_A_G:243,0,108     0&#x2F;0:32,0:32:90:.:.:0,90,13500&#x2F;0:9,0:9:27:.:.:0,27,405        0&#x2F;0:13,0:13:36:.:.:0,36,540     1&#x2F;1:0,21:21:63:1|1:1093_A_G:923,63,0    0&#x2F;0:34,0:34:90:.:.:0,90,1350    0&#x2F;0:17,0:17:9:.:.:0,9,527   0&#x2F;0:25,0:25:72:.:.:0,72,1080chrA01  1103    .       C       T       1122.24 PASS    AC&#x3D;3;AF&#x3D;0.188;AN&#x3D;16;BaseQRankSum&#x3D;0.903;ClippingRankSum&#x3D;0;DP&#x3D;164;ExcessHet&#x3D;0.4576;FS&#x3D;10.474;MLEAC&#x3D;3;MLEAF&#x3D;0.188;MQ&#x3D;51.31;MQRankSum&#x3D;-1.383;QD&#x3D;34.04;ReadPosRankSum&#x3D;-0.319;SOR&#x3D;0.727    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:3,7:10:99:0|1:1093_A_G:285,0,105    0&#x2F;0:29,0:29:81:.:.:0,81,12150&#x2F;0:11,0:11:33:.:.:0,33,456      0&#x2F;0:12,0:12:33:.:.:0,33,495     1&#x2F;1:0,20:20:60:1|1:1093_A_G:886,60,0    0&#x2F;0:35,0:35:99:.:.:0,99,1485    0&#x2F;0:18,0:18:8:.:.:0,8,557   0&#x2F;0:26,0:26:66:.:.:0,66,990</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/640-1574481259824.webp" alt="img"></p>
+<h6 id="1-2-1-INFO"><a href="#1-2-1-INFO" class="headerlink" title="1.2.1 INFO"></a>1.2.1 INFO</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AC&#x3D;3;AF&#x3D;0.188;AN&#x3D;16;BaseQRankSum&#x3D;-0.601;ClippingRankSum&#x3D;0;DP&#x3D;209;ExcessHet&#x3D;0.4576;FS&#x3D;0;MLEAC&#x3D;3;MLEAF&#x3D;0.188;MQ&#x3D;56.28;MQRankSum&#x3D;0.319;QD&#x3D;34.04;ReadPosRankSum&#x3D;1.67;SOR&#x3D;0.569</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/11/23/Vcftools/640-1574481259840.webp" alt="img"></p>
+<h6 id="1-2-2-FORMAT"><a href="#1-2-2-FORMAT" class="headerlink" title="1.2.2 FORMAT"></a>1.2.2 FORMAT</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#CHROM  POS     ID      REF     ALT     QUAL    FILTER  FORMAT  sample1</span><br><span class="line">chrA01  895     .       T       A       101.53  PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;0:22,0:22:66:0|1:895_T_A:0,66,1689chrA01  912     .       G       A       181.85  PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;0:20,0:20:60:0|1:895_T_A:0,60,1619</span><br><span class="line">chrA01  921     .       T       C       2635.31 PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:10,7:17:99:1|0:895_T_A:264,0,724</span><br><span class="line">chrA01  931     .       A       G       3003.26 PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:10,7:17:99:0|1:895_T_A:261,0,767</span><br><span class="line">chrA01  1093    .       A       G       1117.16 PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:3,6:9:99:0|1:1093_A_G:243,0,108</span><br><span class="line">chrA01  1103    .       C       T       1122.24 PASS    GT:AD:DP:GQ:PGT:PID:PL  0&#x2F;1:3,7:10:99:0|1:1093_A_G:285,0,105</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>GT: Genotype, /分隔表示未定相, |表示已定相 PGT: phased Genotype, 邻近的位点是如何定相排列的，以最后两列为例：</p>
+<p>chrA01 1093 A G 0|1 chrA01 1103 C T 0|1 竖线左边的碱基来源于一条染色体，竖线右边的碱基来源于另一条染色体，即A,C来自相同的染色体；G,T来源于另一条染色体。定相这一步需要结合多个样本的信息！</p>
+<p>PID: 一个phasing group会有一个共用的group ID，并且这个ID是以第一个phased位点来定义的，比如上面两个phased位点组成的group的ID是1093AG。</p>
+<p>AD: 每一个allele的深度 DP: 所有allele的总深度 GQ: Genotype Quality, -10*log10(基因型错误的概率) PL: 每种基因型的似然值，越小越可信，比如最后一列285,0,105，分别对应基因型0/0,0/1,1/1，说明0/1为可能的基因型。</p>
+</blockquote>
+<hr>
+<h3 id="reference"><a href="#reference" class="headerlink" title="reference"></a>reference</h3><p>The variant call format and VCFtools: <a href="https://academic.oup.com/bioinformatics/article/27/15/2156/402296" target="_blank" rel="noopener">https://academic.oup.com/bioinformatics/article/27/15/2156/402296</a> VCFtools–A set of tools written in Perl and C++ for working with VCF files: <a href="https://vcftools.github.io/man_latest.html#EXAMPLES" target="_blank" rel="noopener">https://vcftools.github.io/man_latest.html#EXAMPLES</a> VCFv4.2详解（英文版） <a href="https://samtools.github.io/hts-specs/VCFv4.2.pdf" target="_blank" rel="noopener">https://samtools.github.io/hts-specs/VCFv4.2.pdf</a></p>
+<h2 id="vcf文件与vcftools（二）"><a href="#vcf文件与vcftools（二）" class="headerlink" title="vcf文件与vcftools（二）"></a>vcf文件与vcftools（二）</h2><p>vcftools是用来处理vcf和bcf文件的工具集，功能涵盖了过滤，数据格式转换，一些指标的统计计算，vcf文件之间变异信息的差异比较等等。这一篇重点讲几个基本使用示例以及如何过滤，剩下的遗传指标的计算后面有时间再写。</p>
+<h5 id="1-基本用法"><a href="#1-基本用法" class="headerlink" title="1.基本用法"></a>1.基本用法</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcftools [ --vcf FILE | --gzvcf FILE | --bcf FILE] \</span><br><span class="line">[ --out OUTPUT PREFIX ] [ FILTERING OPTIONS ] [ OUTPUT OPTIONS ]</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-使用"><a href="#2-使用" class="headerlink" title="2.使用"></a>2.使用</h5><p>官网提供了几个常用示例，下面用我的vcf文件测试一下，我的vcf文件共249个样本，27012个SNP标记</p>
+<h6 id="2-1-对来自chr1的每一个位点统计其基因频率"><a href="#2-1-对来自chr1的每一个位点统计其基因频率" class="headerlink" title="2.1 对来自chr1的每一个位点统计其基因频率"></a>2.1 对来自chr1的每一个位点统计其基因频率</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --freq --chr chr1 --out chr1_analysis</span><br></pre></td></tr></table></figure>
+
+<p>因为没有加任何过滤选项，所以没有过滤任何记录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> less chr1_analysis.log | tail -n 4</span></span><br><span class="line">After filtering, kept 3453 out of a possible 27012 Sites </span><br><span class="line"><span class="meta">#</span><span class="bash">chr1上原本就有3453个SNP位点Run Time = 44.00 seconds</span></span><br></pre></td></tr></table></figure>
+
+<p>第三列表示在所有样本中，该位点出现了几种碱基，大多数情况下为2，也可能是3、4；第四列表示该位点出现的碱基总数，一个样本贡献2个。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> head -n 5 chr1_analysis.frq</span></span><br><span class="line">CHROM    POS N_ALLELES   N_CHR   &#123;ALLELE:FREQ&#125;</span><br><span class="line">chr1    1146710 2   494 G:0.983806  A:0.0161943chr1    1146714 2   494 G:0.989879  A:0.0101215chr1    1146763 2   494 G:0.995951  A:0.00404858chr1    1146783 2   494 C:0.995951  T:0.00404858</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-2-过滤掉vcf文件中的InDel记录，只保留SNP记录"><a href="#2-2-过滤掉vcf文件中的InDel记录，只保留SNP记录" class="headerlink" title="2.2 过滤掉vcf文件中的InDel记录，只保留SNP记录"></a>2.2 过滤掉vcf文件中的InDel记录，只保留SNP记录</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --remove-indels --recode --recode-INFO-all --out SNPs_only--recode</span><br><span class="line">表示过滤之后会生成一个新文件，以.recode.vcf为后缀--recode-INFO-all因为在过滤之后，原先存在的INFO列的注释信息可能不对，比如剔除了一些样本，那么AN就需要重新计算。所以过滤之后默认情况下是不含有INFO列的。该选项表示将原来vcf文件中所有INFO信息保留下来。--recode-INFO &lt;string&gt; 比如--recode-INFO AC表示只将AC保留--keep-only-indels和--remove-indels作用相反</span><br></pre></td></tr></table></figure>
+
+
+
+<p>根据vcf文件的FILTER列来过滤**</p>
+<p>–remove-filtered-all 过滤掉FILTER列不是“PASS”的记录，这一步grep也能做。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf combined3000_head3k.vcf --remove-filtered-all --recode --out SNPs_filter</span><br></pre></td></tr></table></figure>
+
+<p><strong>–max-missing</strong></p>
+<p>–max-missing的取值是0-1，为1时表示某个位点上所有的样本必须都有基因型，一个样本的基因型都不能缺。所以这个选项可以理解为：能分型的样本占总样本的比例至少为多少。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --max-missing 0.99 --recode --out output_noMissing</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>有过滤操作都要加上–recode</p>
+</blockquote>
+<h6 id="2-3-比较两个vcf文件的变异位点"><a href="#2-3-比较两个vcf文件的变异位点" class="headerlink" title="2.3 比较两个vcf文件的变异位点"></a>2.3 比较两个vcf文件的变异位点</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --diff output_noMissing.recode.vcf --diff-site --out in1_v_in2</span><br></pre></td></tr></table></figure>
+
+<p>下面的表头的1、2分别表示文件1、文件2，第4列1或2表示仅文件1或文件2有，B表示都有</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ head in1_v_in2.diff.sites_in_files</span><br><span class="line">CHROM    POS1    POS2    IN_FILE REF1    REF2    ALT1    ALT2chr1    1146710 1146710 B   G   G   A   A</span><br><span class="line">chr1    1146714 1146714 B   G   G   A   Achr1    1146763 1146763 B   G   G   A   Achr1    1146783 1146783 B   C   C   T   T</span><br><span class="line">chr1    1146785 1146785 B   G   G   C   Cchr1    1146852 1146852 B   C   C   T   Tchr1    1146853 1146853 B   G   G   A   Achr1    1147062 .   1   G   .   A   .chr1    1147243 .   1   A   .   C   .</span><br></pre></td></tr></table></figure>
+
+<h6 id="2-4-结合管道操作符"><a href="#2-4-结合管道操作符" class="headerlink" title="2.4 结合管道操作符"></a>2.4 结合管道操作符</h6><p>用–stdout代替–out即可结合管道进行其他处理</p>
+<h6 id="2-5-计算Hardy-Weinberg-p-value"><a href="#2-5-计算Hardy-Weinberg-p-value" class="headerlink" title="2.5 计算Hardy-Weinberg p-value"></a>2.5 计算Hardy-Weinberg p-value</h6><p>Hardy-Weinberg遗传平衡检验用到的统计方法是卡方测验，详细过程参考：<a href="http://www.dxy.cn/bbs/thread/223387#223387以及https://wenku.baidu.com/view/9820fc2258fb770bf78a5571.html" target="_blank" rel="noopener">http://www.dxy.cn/bbs/thread/223387#223387以及https://wenku.baidu.com/view/9820fc2258fb770bf78a5571.html</a></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --hardy --out each_site_hardy</span><br><span class="line"><span class="meta">#</span><span class="bash"> Only using biallelic SNPs</span></span><br></pre></td></tr></table></figure>
+
+<p>第6列即为所求</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">$</span><span class="bash"> lsx each_site_hardy.hwe | head -n 2</span></span><br><span class="line">CHR    POS OBS(HOM1/HET/HOM2)  E(HOM1/HET/HOM2)    ChiSq_HWE   P_HWE   P_HET_DEFICIT   P_HET_EXCESSchr1    1146710 239/8/0 239.06/7.87/0.06    6.692747e-02    1.000000e+00    1.000000e+00    9.440689e-01</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-其它参数说明"><a href="#3-其它参数说明" class="headerlink" title="3.其它参数说明"></a>3.其它参数说明</h5><h6 id="3-1-基本选项"><a href="#3-1-基本选项" class="headerlink" title="3.1 基本选项"></a>3.1 基本选项</h6><p>–vcf | –gzvcf | –bcf 输入格式，三选一即可 –out &lt;输出文件前缀&gt; –stdout 和 -c 输出到标准输出，能通过管道与其它命令结合</p>
+<h6 id="3-2-过滤SNP的选项"><a href="#3-2-过滤SNP的选项" class="headerlink" title="3.2 过滤SNP的选项"></a>3.2 过滤SNP的选项</h6><p><strong>POSITION FILTERING</strong> </p>
+<p>可以提供一些位置信息，或是能表示位置的文件，具体参数见官方文档</p>
+<p><strong>ALLELE FILTERING</strong> </p>
+<p>–maf 和 –max-maf用来限定最小等位基因频率(MAF)的范围 –mac 和 –max-mac和上面类似，用来限定最小等位基因的数量 –min-alleles 和 –max-alleles用来限定等位基因的数量，比如这条命令只会保留vcf文件ALT列只有一种碱基的情况。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --min-alleles 2 --max-alleles 2</span><br></pre></td></tr></table></figure>
+
+<p><strong>GENOTYPE VALUE FILTERING</strong></p>
+<p>–min-meanDP 和 –max-meanDP用来限定所有样本DP的平均值，DP表示某一个样本某一位点所有allele的总深度 –hwe <code>2.5计算Hardy-Weinbergp-value</code>讲到如何求p值，这个参数就是根据p值来过滤的，小于阈值则被过滤掉 –max-missing 前面已经举例；–max-missing-count 某个位点缺失样本个数多于某个阈值则过滤掉 –phased 某个位点如果含有未定相的基因型则过滤 –minQ 根据vcf文件的QUAL列来过滤，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf combined200.vcf.gz --minQ 100 --recode --out minQ_100</span><br></pre></td></tr></table></figure>
+
+<h6 id="3-3-过滤样本的选项"><a href="#3-3-过滤样本的选项" class="headerlink" title="3.3 过滤样本的选项"></a>3.3 过滤样本的选项</h6><p>–indv 和 –remove-indv保留或去除哪一个样本，后接样本ID –keep 和 –remove保留或去除哪些样本，后接文件名，文件中一行一个样本ID</p>
+<h6 id="3-4-输出选项"><a href="#3-4-输出选项" class="headerlink" title="3.4 输出选项"></a>3.4 输出选项</h6><p><strong>等位基因统计</strong></p>
+<p>–freq 和 –counts用于统计等位基因的频率和数量</p>
+<p><strong>深度统计</strong></p>
+<p>每个样本所有位点的平均深度、单个位点所有样本的深度加和（或平均）、每个样本每个位点基因型的深度。感觉没什么用</p>
+<p><strong>LD统计</strong></p>
+<p><strong>Ti/Tv统计</strong></p>
+<p><strong>NUCLEOTIDE DIVERGENCE STATISTICS</strong></p>
+<p><strong>FST STATISTICS</strong></p>
+<p><strong>OTHER STATISTICS</strong></p>
+<p><strong>格式转换</strong></p>
+<h6 id="3-5-比较选项"><a href="#3-5-比较选项" class="headerlink" title="3.5 比较选项"></a>3.5 比较选项</h6><hr>
+<h3 id="reference-1"><a href="#reference-1" class="headerlink" title="reference"></a>reference</h3><p>The variant call format and VCFtools: <a href="https://academic.oup.com/bioinformatics/article/27/15/2156/402296" target="_blank" rel="noopener">https://academic.oup.com/bioinformatics/article/27/15/2156/402296</a> VCFtools–A set of tools written in Perl and C++ for working with VCF files: <a href="https://vcftools.github.io/man_latest.html#EXAMPLES" target="_blank" rel="noopener">https://vcftools.github.io/man_latest.html#EXAMPLES</a></p>
+<h2 id="Vcftools——小工具，大应用"><a href="#Vcftools——小工具，大应用" class="headerlink" title="Vcftools——小工具，大应用"></a>Vcftools——小工具，大应用</h2><p><a href="https://mp.weixin.qq.com/s?src=11&timestamp=1574470116&ver=1991&signature=pk*E4WbHgk76FEbz-DfWAr5hJ*q6ijOELydLYbCa9IDxJrAiBaZNkX*V34UVWwl7bzXC1AdDntlR7qE-iQiwnrknOpxLdPBSP5n*mzzAIk1SEwnIdWdFofSEn6Fj9xht&new=1" target="_blank" rel="noopener">参考链接</a></p>
+<p><strong>Vcftools</strong>是处理vcf文件格式的一款软件，主要功能是对遗传变异数据进行筛选、过滤、统计和数据格式转换等，此外还为群体遗传的分析提供了非常丰富的参数选择，极大地便捷了群体遗传多样性参数的计算。</p>
+<p>下面从<strong>Vcftools的输入输出</strong>、<strong>数据过滤</strong>和<strong>具体应用</strong>三个方面进行介绍。</p>
+<p><strong>01</strong></p>
+<p><strong>Vcftools的输入和输出</strong></p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215311.webp" alt="img"></p>
+<p><strong>使用示例：</strong></p>
+<p>##提取一号染色体上的变异信息到filename.文件</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215330.webp" alt="img"></p>
+<p>##将一号染色体上的变异信息输出到屏幕</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215340.webp" alt="img"></p>
+<p>02</p>
+<p><strong>Vcftools对SNP数据过滤</strong></p>
+<p>在群体分析中，得到所有群体的SNP数据之后，首先要做的是数据的过滤。</p>
+<p><strong>使用示例：</strong></p>
+<p>##深度设置为2，SNP完整度设置为0.7，最小等位基因频率设置为0.05</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215365.webp" alt="img"></p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215372.webp" alt="img"></p>
+<p><strong>使用示例：</strong></p>
+<p>##从所有样品中提取S1和S2</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215392.webp" alt="img"></p>
+<p>##从所有样品中批量提取样品</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215413.webp" alt="img"></p>
+<p>03</p>
+<p><strong>Vcftools在群体遗传学中的应用</strong></p>
+<p>在群体遗传学中，遗传多样性参数是衡量群体遗传多样性的重要指标，比如Fst、π、Tajima’s D等。</p>
+<p><strong>1、Fst计算</strong></p>
+<p>Fst是衡量群体间分化程度的重要参数，Fst越大，表明群体分化程度越高，受选择程度越高。基于Fst可以进行选择性消除分析。</p>
+<p><strong>示例：</strong></p>
+<p>##计算两个群体间fst值，S1.txt和S2.txt是包含了各群体的样品名</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215419.webp" alt="img"></p>
+<p><strong>2、核苷酸多态性统计</strong></p>
+<p>核苷酸多样性π反映了群体的多态性。一般来说受选择程度越高的群体，遗传多样性越单一；野生群体遗传多样性较高。基于π可以进行选择性消除分析。</p>
+<p><strong>示例：</strong></p>
+<p>##计算核苷酸多态性</p>
+<p><img src="/2019/11/23/Vcftools/640-1574470215425.webp" alt="img"></p>
+<p>##计算单点的核苷酸多态性</p>
+<p><img src="/2019/11/23/Vcftools/640.webp" alt="img"></p>
+<p><strong>3、Tajima’s D计算</strong></p>
+<p>Tajima’s D衡量群体中性进化理论的指标，越偏离0，受选择程度越高。</p>
+<p><strong>示例：</strong></p>
+<p>##计算Tajima’s D</p>
+<p><img src="/2019/11/23/Vcftools/640.webp" alt="img"></p>
+<p><img src="/2019/11/23/Vcftools/640.webp" alt="img"></p>
+<p><strong>Vcftools作为一款强大的遗传变异分析工具，不仅在下机数据的质控、过滤、格式的转换过程中发挥作用，在群体的选择、分化方面也是强有力的助手。</strong>更多的参数选择，可以查看Vcftools使用文档或在linux命令行输入man vcftools查看使用文档。</p>
+<p><strong>详细信息可见</strong></p>
+<p>vcftools官网：<a href="https://vcftools.github.io/index.html" target="_blank" rel="noopener">https://vcftools.github.io/index.html</a></p>
+<p>vcftools下载地址：<a href="https://github.com/vcftools/vcftools" target="_blank" rel="noopener">https://github.com/vcftools/vcftools</a></p>
+<p>vcftools使用说明：<a href="https://vcftools.github.io/examples.html" target="_blank" rel="noopener">https://vcftools.github.io/examples.html</a></p>
+<p><strong>引用</strong></p>
+<p>1.The Variant Call Format and VCFtools, Petr Danecek, Adam Auton, Goncalo Abecasis, Cornelis A. Albers, Eric Banks, Mark A. DePristo, Robert Handsaker, Gerton Lunter, Gabor Marth, Stephen T. Sherry, Gilean McVean, Richard Durbin and 1000 Genomes Project Analysis Group, Bioinformatics, 2011</p>
+<p>2.<a href="http://vcftools.github.io/" target="_blank" rel="noopener">http://vcftools.github.io/</a></p>
+<p>3.<a href="https://github.com/vcftools/vcftools" target="_blank" rel="noopener">https://github.com/vcftools/vcftools</a></p>
+<h1 id="基本参数"><a href="#基本参数" class="headerlink" title="基本参数"></a>基本参数</h1><h2 id="输入参数"><a href="#输入参数" class="headerlink" title="输入参数"></a>输入参数</h2><blockquote>
+<ul>
+<li>–vcf <input_filename> 支持v4.0、v4.1或者v4.2版本的VCF文件</input_filename></li>
+<li>–gzvcf <input_filename> 通过gzipped压缩过的VCF文件</input_filename></li>
+<li>–bcf <input_filename> BCF2文件</input_filename></li>
+</ul>
+</blockquote>
+<h2 id="输出参数"><a href="#输出参数" class="headerlink" title="输出参数"></a>输出参数</h2><blockquote>
+<ul>
+<li>–out <output_prefix> 输出文件，后面直接对输出文件命名</output_prefix></li>
+<li>–stdout 可接管道符对输出结果进行重新定向</li>
+<li>–temp <temporary_directory> 指定结果的输出目录</temporary_directory></li>
+</ul>
+</blockquote>
+<h2 id="过滤参数"><a href="#过滤参数" class="headerlink" title="过滤参数"></a>过滤参数</h2><h3 id="根据位置过滤"><a href="#根据位置过滤" class="headerlink" title="根据位置过滤"></a>根据位置过滤</h3><blockquote>
+<ul>
+<li>–chr <chromosome></chromosome></li>
+<li>–not-chr <chromosome><br>包含或排除匹配的染色体位点</chromosome></li>
+<li>–from-bp</li>
+<li>–to-bp<br>这两个参数需要和–chr一起使用<br>指定要处理的一系列站点的下限和上限</li>
+<li>–positions<filename></filename></li>
+<li>–exclude-positions <filename><br>根据文件中的位置列表包括或排除一组位点。输入文件的每一行应包含（制表符分隔的）染色体和位置<br>······</filename></li>
+</ul>
+</blockquote>
+<h3 id="根据位点过滤"><a href="#根据位点过滤" class="headerlink" title="根据位点过滤"></a>根据位点过滤</h3><blockquote>
+<ul>
+<li>–snp <string>字符串的名称可以匹配dbSNP的数据，适合人类基因组，该指令可多次使用</string></li>
+<li>–snps<filename></filename></li>
+<li>-exclude <filename><br>包括或排除文件中给出的SNP列表</filename></li>
+</ul>
+</blockquote>
+<h3 id="变异类型过滤"><a href="#变异类型过滤" class="headerlink" title="变异类型过滤"></a>变异类型过滤</h3><blockquote>
+<ul>
+<li>–keep-only-indels 只保留indel标记</li>
+<li>–remove-indels 删除indel标记</li>
+</ul>
+</blockquote>
+<h3 id="根据flag过滤"><a href="#根据flag过滤" class="headerlink" title="根据flag过滤"></a>根据flag过滤</h3><blockquote>
+<ul>
+<li>–remove-filtered-all Removes all sites with a FILTER flag other than PASS.</li>
+<li>–keep-filtered</li>
+<li>–remove-filtered</li>
+</ul>
+</blockquote>
+<h3 id="根据INFO过滤"><a href="#根据INFO过滤" class="headerlink" title="根据INFO过滤"></a>根据INFO过滤</h3><blockquote>
+<ul>
+<li>–keep-INFO<string></string></li>
+<li>–remove-INFO<string></string></li>
+</ul>
+</blockquote>
+<h3 id="根据ALLELE过滤"><a href="#根据ALLELE过滤" class="headerlink" title="根据ALLELE过滤"></a>根据ALLELE过滤</h3><blockquote>
+<ul>
+<li>–maf <float> MAF最小值过滤</float></li>
+<li>–max-maf <float> MAF最大值过滤</float></li>
+</ul>
+</blockquote>
+<p>此处省去很多参数，具体参见<a href="http://vcftools.sourceforge.net/man_latest.html" target="_blank" rel="noopener">vcftools官网</a></p>
+<h3 id="根据基因型数值过滤"><a href="#根据基因型数值过滤" class="headerlink" title="根据基因型数值过滤"></a>根据基因型数值过滤</h3><blockquote>
+<ul>
+<li>–min-meanDP<float></float></li>
+<li>–max-meanDP <float>根据测序深度进行过滤</float></li>
+<li>–hwe<float></float></li>
+<li>–max-missing <float>完整度，该参数介于0，1之间</float></li>
+</ul>
+</blockquote>
+<h3 id="根据材料过滤"><a href="#根据材料过滤" class="headerlink" title="根据材料过滤"></a>根据材料过滤</h3><blockquote>
+<ul>
+<li>–indv</li>
+<li>–remove-indv</li>
+<li>–keep<filename></filename></li>
+<li>–remove<filename></filename></li>
+<li>–max-indv</li>
+</ul>
+</blockquote>
+<h3 id="基因型过滤参数"><a href="#基因型过滤参数" class="headerlink" title="基因型过滤参数"></a>基因型过滤参数</h3><blockquote>
+<ul>
+<li>–remove-filtered-geno-all 排除flag不为’.’和’PASS’的基因型</li>
+<li>–remove-filtered-geno <string>排除flag为string的基因型</string></li>
+<li>–minGQ <float>排除GQ低于这个参数的基因型</float></li>
+<li>–minDP<float></float></li>
+<li>–maxDP<float></float></li>
+</ul>
+</blockquote>
+<h2 id="计算统计"><a href="#计算统计" class="headerlink" title="计算统计"></a>计算统计</h2><h3 id="核算多样性统计"><a href="#核算多样性统计" class="headerlink" title="核算多样性统计"></a>核算多样性统计</h3><blockquote>
+<ul>
+<li>–site-pi 计算所有SNP</li>
+<li>–window-pi</li>
+<li>–window-pi-step</li>
+</ul>
+</blockquote>
+<h3 id="FST计算"><a href="#FST计算" class="headerlink" title="FST计算"></a>FST计算</h3><blockquote>
+<ul>
+<li>–weir-fst-pop<filename></filename></li>
+<li>–fst-window-size</li>
+<li>–fst-window-step</li>
+</ul>
+</blockquote>
+<h3 id="其它计算"><a href="#其它计算" class="headerlink" title="其它计算"></a>其它计算</h3><blockquote>
+<ul>
+<li>–het</li>
+<li>–hardy</li>
+<li>–site-quality 主要用于提取VCF文件中每个位点的QUAL信```</li>
+<li>–missing-indv</li>
+<li>–missing-site 计算每个位点的缺失率</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf test.recode.vcf --missing-site  --out ms</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>–SNPdensity <integer>计算SNP在设定bin内的密度</integer></li>
+</ul>
+</blockquote>
+<blockquote>
+<p>…太多了详情见参考手册</p>
+</blockquote>
+<h2 id="输出格式"><a href="#输出格式" class="headerlink" title="输出格式"></a>输出格式</h2><blockquote>
+<ul>
+<li>–recode</li>
+<li>–recode-bcf</li>
+<li>–recode-INFO</li>
+<li>–recode-INFO-all</li>
+<li>–contigs</li>
+</ul>
+</blockquote>
+<h2 id="格式转换"><a href="#格式转换" class="headerlink" title="格式转换"></a>格式转换</h2><blockquote>
+<ul>
+<li>–012</li>
+<li>–IMPUTE</li>
+<li>–ldhat</li>
+<li>–ldhat-geno</li>
+<li>–BEAGLE-GL</li>
+<li>–BEAGLE-PL</li>
+<li>–plink</li>
+</ul>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf all.filter.vcf --plink --out aa ;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>–plink-tped</li>
+<li>–chrom-map</li>
+</ul>
+</blockquote>
+<h2 id="比较选项"><a href="#比较选项" class="headerlink" title="比较选项"></a>比较选项</h2><blockquote>
+<ul>
+<li>DIFF VCF FILE</li>
+<li>–diff<filename></filename></li>
+<li>–gzdiff<filename></filename></li>
+<li>–diff-bcf<filename></filename></li>
+<li>–diff-site</li>
+<li>–diff-indv</li>
+<li>–diff-site-discordance</li>
+<li>–diff-indv-discordance</li>
+<li>–diff-indv-map<filename></filename></li>
+<li>–diff-discordance-matrix</li>
+<li>–diff-switch-error</li>
+</ul>
+</blockquote>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>1.输出来自染色体1的输入vcf文件中所有位点的等位基因频率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis</span><br></pre></td></tr></table></figure>
+
+<p>2.从输入vcf文件输出新的vcf文件，该文件删除任何indel位点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vcftools --vcf input_file.vcf --remove-indels --recode --recode-INFO-all --out SNPs_only</span><br><span class="line">vcftools --vcf input_file.vcf --keep-only-indels --recode --recode-INFO-all --out indel_only</span><br></pre></td></tr></table></figure>
+
+<p>3.输出文件比较两个vcf文件中的站点</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf input_file1.vcf.gz --gzdiff input_file2.vcf.gz --diff-site --out in1_v_in2</span><br></pre></td></tr></table></figure>
+
+<p>4.将新的vcf文件输出到标准输出，没有任何具有过滤器标记的位点，然后使用gzip压缩它</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --gzvcf input_file.vcf.gz --remove-filtered-all --recode --stdout | gzip -c &gt; output_PASS_only.vcf.gz</span><br></pre></td></tr></table></figure>
+
+<p>5.为bcf文件中的每个站点输出Hardy-Weinberg p值，该站点没有任何缺失的基因型</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vcftools --bcf input_file.bcf --hardy --max-missing 1.0 --out output_noMissing</span><br></pre></td></tr></table></figure>
+
+<p>6.在一系列位置输出核苷酸多样性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">zcat input_file.vcf.gz | vcftools --vcf - --site-pi --positions SNP_list.txt --out nucleotide_diversity</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/mutation-filters/" rel="tag"># mutation_filters</a>
+              <a href="/tags/vcf/" rel="tag"># vcf</a>
+              <a href="/tags/vcftools/" rel="tag"># vcftools</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/23/vcf_filter/" rel="prev" title="vcf_filter工具之二——vcffilter">
+      <i class="fa fa-chevron-left"></i> vcf_filter工具之二——vcffilter
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/11/23/GATK_Filter/" rel="next" title="GATK mutation filter的工具">
+      GATK mutation filter的工具 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Vcftools"><span class="nav-number">1.</span> <span class="nav-text">Vcftools</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载vcftools"><span class="nav-number">1.0.1.</span> <span class="nav-text">下载vcftools</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看VCF文件"><span class="nav-number">1.0.2.</span> <span class="nav-text">查看VCF文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#平均测序深度"><span class="nav-number">1.0.3.</span> <span class="nav-text">平均测序深度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#等位基因频率"><span class="nav-number">1.0.4.</span> <span class="nav-text">等位基因频率</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Indel-or-SNP"><span class="nav-number">1.0.5.</span> <span class="nav-text">Indel or SNP</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Output-file-comparing-the-sites-in-two-vcf-files"><span class="nav-number">1.0.6.</span> <span class="nav-text">Output file comparing the sites in two vcf files</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实战二"><span class="nav-number">1.0.7.</span> <span class="nav-text">实战二</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要"><span class="nav-number">1.0.8.</span> <span class="nav-text">筛选很多都是自己编写程序做的，很多开源的工具通用型没那么好。所以，我觉得这时候可能需要我自己写一些代码解决我的时间需要</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VCFtools-官方帮助文档"><span class="nav-number"></span> <span class="nav-text">VCFtools 官方帮助文档</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#NAME"><span class="nav-number">1.</span> <span class="nav-text">NAME</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SYNOPSIS"><span class="nav-number">2.</span> <span class="nav-text">SYNOPSIS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DESCRIPTION"><span class="nav-number">3.</span> <span class="nav-text">DESCRIPTION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EXAMPLES"><span class="nav-number">4.</span> <span class="nav-text">EXAMPLES</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BASIC-OPTIONS"><span class="nav-number">5.</span> <span class="nav-text">BASIC OPTIONS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SITE-FILTERING-OPTIONS"><span class="nav-number">6.</span> <span class="nav-text">SITE FILTERING OPTIONS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#INDIVIDUAL-FILTERING-OPTIONS"><span class="nav-number">7.</span> <span class="nav-text">INDIVIDUAL FILTERING OPTIONS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GENOTYPE-FILTERING-OPTIONS"><span class="nav-number">8.</span> <span class="nav-text">GENOTYPE FILTERING OPTIONS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OUTPUT-OPTIONS"><span class="nav-number">9.</span> <span class="nav-text">OUTPUT OPTIONS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#COMPARISON-OPTIONS-注释：两个vcf文档比较"><span class="nav-number">10.</span> <span class="nav-text">COMPARISON OPTIONS(注释：两个vcf文档比较)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vcf文件与vcftools（一）"><span class="nav-number">11.</span> <span class="nav-text">vcf文件与vcftools（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-vcf文件"><span class="nav-number">11.1.</span> <span class="nav-text">1. vcf文件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-header部分"><span class="nav-number">11.1.0.1.</span> <span class="nav-text">1.1 header部分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-variation部分"><span class="nav-number">11.1.0.2.</span> <span class="nav-text">1.2 variation部分</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-2-1-INFO"><span class="nav-number">11.1.0.2.1.</span> <span class="nav-text">1.2.1 INFO</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-2-2-FORMAT"><span class="nav-number">11.1.0.2.2.</span> <span class="nav-text">1.2.2 FORMAT</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference"><span class="nav-number">11.2.</span> <span class="nav-text">reference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vcf文件与vcftools（二）"><span class="nav-number">12.</span> <span class="nav-text">vcf文件与vcftools（二）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-基本用法"><span class="nav-number">12.0.0.1.</span> <span class="nav-text">1.基本用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-使用"><span class="nav-number">12.0.0.2.</span> <span class="nav-text">2.使用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-对来自chr1的每一个位点统计其基因频率"><span class="nav-number">12.0.0.2.1.</span> <span class="nav-text">2.1 对来自chr1的每一个位点统计其基因频率</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-过滤掉vcf文件中的InDel记录，只保留SNP记录"><span class="nav-number">12.0.0.2.2.</span> <span class="nav-text">2.2 过滤掉vcf文件中的InDel记录，只保留SNP记录</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-3-比较两个vcf文件的变异位点"><span class="nav-number">12.0.0.2.3.</span> <span class="nav-text">2.3 比较两个vcf文件的变异位点</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-4-结合管道操作符"><span class="nav-number">12.0.0.2.4.</span> <span class="nav-text">2.4 结合管道操作符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-5-计算Hardy-Weinberg-p-value"><span class="nav-number">12.0.0.2.5.</span> <span class="nav-text">2.5 计算Hardy-Weinberg p-value</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-其它参数说明"><span class="nav-number">12.0.0.3.</span> <span class="nav-text">3.其它参数说明</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#3-1-基本选项"><span class="nav-number">12.0.0.3.1.</span> <span class="nav-text">3.1 基本选项</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-2-过滤SNP的选项"><span class="nav-number">12.0.0.3.2.</span> <span class="nav-text">3.2 过滤SNP的选项</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-3-过滤样本的选项"><span class="nav-number">12.0.0.3.3.</span> <span class="nav-text">3.3 过滤样本的选项</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-4-输出选项"><span class="nav-number">12.0.0.3.4.</span> <span class="nav-text">3.4 输出选项</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#3-5-比较选项"><span class="nav-number">12.0.0.3.5.</span> <span class="nav-text">3.5 比较选项</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reference-1"><span class="nav-number">12.1.</span> <span class="nav-text">reference</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Vcftools——小工具，大应用"><span class="nav-number">13.</span> <span class="nav-text">Vcftools——小工具，大应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本参数"><span class="nav-number"></span> <span class="nav-text">基本参数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入参数"><span class="nav-number">1.</span> <span class="nav-text">输入参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出参数"><span class="nav-number">2.</span> <span class="nav-text">输出参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤参数"><span class="nav-number">3.</span> <span class="nav-text">过滤参数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#根据位置过滤"><span class="nav-number">3.1.</span> <span class="nav-text">根据位置过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据位点过滤"><span class="nav-number">3.2.</span> <span class="nav-text">根据位点过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变异类型过滤"><span class="nav-number">3.3.</span> <span class="nav-text">变异类型过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据flag过滤"><span class="nav-number">3.4.</span> <span class="nav-text">根据flag过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据INFO过滤"><span class="nav-number">3.5.</span> <span class="nav-text">根据INFO过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据ALLELE过滤"><span class="nav-number">3.6.</span> <span class="nav-text">根据ALLELE过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据基因型数值过滤"><span class="nav-number">3.7.</span> <span class="nav-text">根据基因型数值过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根据材料过滤"><span class="nav-number">3.8.</span> <span class="nav-text">根据材料过滤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基因型过滤参数"><span class="nav-number">3.9.</span> <span class="nav-text">基因型过滤参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算统计"><span class="nav-number">4.</span> <span class="nav-text">计算统计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#核算多样性统计"><span class="nav-number">4.1.</span> <span class="nav-text">核算多样性统计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FST计算"><span class="nav-number">4.2.</span> <span class="nav-text">FST计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其它计算"><span class="nav-number">4.3.</span> <span class="nav-text">其它计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#输出格式"><span class="nav-number">5.</span> <span class="nav-text">输出格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#格式转换"><span class="nav-number">6.</span> <span class="nav-text">格式转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比较选项"><span class="nav-number">7.</span> <span class="nav-text">比较选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">8.</span> <span class="nav-text">实例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

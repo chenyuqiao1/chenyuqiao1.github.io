@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="step1 下载数据12######可以使用循环下载cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&amp;#123;id&amp;#125; -O .&#x2F;original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done  step2 sra2fastq123456789101112131415161718">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RNA-seq全流程数据分析精简版">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="step1 下载数据12######可以使用循环下载cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&amp;#123;id&amp;#125; -O .&#x2F;original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done  step2 sra2fastq123456789101112131415161718">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/1567921966164.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/1567929925567.png">
+<meta property="article:published_time" content="2019-12-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-17T13:54:55.443Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="RNA-seq">
+<meta property="article:tag" content="NCBI数据下载">
+<meta property="article:tag" content="featurecount">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/1567921966164.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>RNA-seq全流程数据分析精简版 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RNA-seq全流程数据分析精简版
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-17T00:00:00+08:00">2019-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RNA-seq/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####可以使用循环下载</span></span></span><br><span class="line">cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&#123;id&#125; -O ./original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done</span><br></pre></td></tr></table></figure>
+
+<h4 id="step2-sra2fastq"><a href="#step2-sra2fastq" class="headerlink" title="step2 sra2fastq"></a>step2 sra2fastq</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 处理SRP219564</span></span></span><br><span class="line"></span><br><span class="line">cd ~/project/SRP219564/</span><br><span class="line">cat SraRunTable.txt |awk '&#123;print $12,$14&#125;'|sed '1d'  &gt;sra2case.txt</span><br><span class="line">cd ~/project/SRP219564/original_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim multi_sra2fastq.sh</span><br><span class="line"></span><br><span class="line">cat ../sra2case.txt | while read id;</span><br><span class="line">do 	</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	sra=$&#123;file&#125;.sra</span><br><span class="line">	nohup fastq-dump --gzip --split-3 -O ../fastq/ $&#123;sra&#125; 1&gt;log.txt 2&gt;&amp;1 &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">bash multi_sra2fastq.sh</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h4 id="step3-trim-galore"><a href="#step3-trim-galore" class="headerlink" title="step3 trim_galore"></a>step3 trim_galore</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/project/SRP219564/3.clean</span><br><span class="line">cd ~/project/SRP219564/fastq</span><br><span class="line">vim trim_galore.sh</span><br><span class="line"></span><br><span class="line">cat $1 | while read id; </span><br><span class="line">do</span><br><span class="line">	arr=($id)</span><br><span class="line">	sample_id=$&#123;arr[0]&#125;</span><br><span class="line">	fq1=$&#123;sample_id&#125;_1.fastq.gz    </span><br><span class="line">	fq2=$&#123;sample_id&#125;_2.fastq.gz    </span><br><span class="line">	nohup trim_galore  --paired -q 28 --phred33 --length 30 --stringency 3 --gzip -o ../3.clean  $fq1  $fq2 &gt;&gt; trimgalore.log 2&gt;&amp;1 &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">bash trim_galore.sh ../sra2case.txt</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h4 id="step4-下载NCBI参考基因组"><a href="#step4-下载NCBI参考基因组" class="headerlink" title="step4 下载NCBI参考基因组"></a>step4 下载NCBI参考基因组</h4><p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/</a></p>
+<p><img src="/2019/12/17/Project_RNA_seq_SRP219564/1567921966164.png" alt="1567921966164"></p>
+<h5 id="构建索引"><a href="#构建索引" class="headerlink" title="构建索引"></a>构建索引</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 先解压</span></span><br><span class="line">gzip -d GCA_000001405.15_GRCh38_full_analysis_set.fna.gz</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">nohup hisat2-build -p 11 ~/my_disk/reference/NCBI/GCA/GCA_000001405.15_GRCh38_full_analysis_set.fna ~/my_disk/reference/NCBI/GCA/index/hisat2/hg38 &amp;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>构建索引的时候回反复退出，多次运行同一个代码，可以完成构建。</p>
+</blockquote>
+<p>或者下载索引文件</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup wget ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_full_analysis_set.fna.hisat2_index.tar.gz &amp;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>windows 容易下载失败，但linux 就可以解决这个问题</p>
+</blockquote>
+<p><img src="/2019/12/17/Project_RNA_seq_SRP219564/1567929925567.png" alt="1567929925567"></p>
+<h4 id="step5-mapping"><a href="#step5-mapping" class="headerlink" title="step5 mapping"></a>step5 mapping</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">cd ~/project/SRP219564/3.clean</span><br><span class="line"></span><br><span class="line">vim NCBI_mapping.sh</span><br><span class="line"></span><br><span class="line">cat $1 |while read id</span><br><span class="line">do</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	fq1=$&#123;file&#125;_1_val_1.fq.gz         </span><br><span class="line">	fq2=$&#123;file&#125;_2_val_2.fq.gz </span><br><span class="line"><span class="meta">	#</span><span class="bash"> fq1=<span class="variable">$&#123;id&#125;</span>.read1_val_1.fq.gz         </span></span><br><span class="line"><span class="meta">	#</span><span class="bash"> fq2=<span class="variable">$&#123;id&#125;</span>.read2_val_2.fq.gz</span></span><br><span class="line">	ref='~/my_disk/reference/NCBI/GCA/index/hisat2/GCA_000001405.15_GRCh38_full_analysis_set'</span><br><span class="line">	hisat2 -p 8 -x $ref \</span><br><span class="line">	-1 $fq1 \</span><br><span class="line">	-2 $fq2 2&gt;$&#123;file&#125;.log \</span><br><span class="line">	| samtools sort -@ 4 -m 3G  -o ../4.align/$&#123;sample&#125;.bam - 1&gt;$&#123;sample&#125;_bam.log</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">nohup bash NCBI_mapping.sh ../sra2case.txt &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="step6-Featurecounts"><a href="#step6-Featurecounts" class="headerlink" title="step6 Featurecounts"></a>step6 Featurecounts</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">cd ~/project/SRP219564/</span><br><span class="line"></span><br><span class="line">mkdir ~/project/SRP219564/featurecounts</span><br><span class="line"></span><br><span class="line">vim ncbi_feature_counts.sh</span><br><span class="line"></span><br><span class="line">cat $1 |while read id</span><br><span class="line">do</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	featureCounts -T 11 -p -t exon -g gene \</span><br><span class="line">	-a ~/my_disk/reference/NCBI/GCA/GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gff.gz \</span><br><span class="line">	-o ../featurecounts/$&#123;sample&#125;.counts.txt \</span><br><span class="line">	./$&#123;sample&#125;.bam \</span><br><span class="line"><span class="meta">	2&gt;</span><span class="bash">./<span class="variable">$&#123;sample&#125;</span>.featurecounts.log</span></span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">nohup bash ncbi_feature_counts.sh ../sra2case.txt &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">vim expr_Counts.sh </span><br><span class="line">cat $1 |while read id</span><br><span class="line">do</span><br><span class="line">	arr=($id)</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	echo $id</span><br><span class="line">	cat $&#123;sample&#125;.counts.txt|cut -f 1,7 &gt; $&#123;sample&#125;.txt</span><br><span class="line">	echo 'OK'</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">bash expr_Counts.sh ../sra2case.txt &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="last-step-整理好注释信息"><a href="#last-step-整理好注释信息" class="headerlink" title="last step: 整理好注释信息"></a>last step: 整理好注释信息</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">zcat GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gff.gz |grep -v '#'|cut -f 9|awk '/gene_biotype/&#123;print $0&#125;'|awk -F ';' '&#123;for(i=1;i&lt;=NF;i++)&#123;if($i ~/^gene_biotype=/)&#123;print $i&#125;&#125;&#125;' |awk -F '=' '&#123;print$2&#125;'  &gt;gene_type</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 找到有gene_biotype的行，并将这一行中的以gene_biotype=为开头的列找出来</span></span></span><br><span class="line">zcat GCA_000001405.15_GRCh38_full_analysis_set.refseq_annotation.gff.gz |grep -v '#'|cut -f 9|awk '/gene_biotype/&#123;print $0&#125;'|awk -F ';' '&#123;for(i=1;i&lt;=NF;i++)&#123;if($i ~/^gene=/)&#123;print $i&#125;&#125;&#125;' |awk -F '=' '&#123;print$2&#125;'  &gt;gene_name</span><br><span class="line">paste gene_name gene_type &gt;NCBI_ID_trans.txt</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>awk 玩转NCBI下载下来的gff文件</p>
+</blockquote>
+<h3 id="ID-trans-ID-转换"><a href="#ID-trans-ID-转换" class="headerlink" title="ID_trans ID 转换"></a>ID_trans ID 转换</h3><h4 id="导入数据-运用lapply-和-do-call"><a href="#导入数据-运用lapply-和-do-call" class="headerlink" title="导入数据 运用lapply 和 do.call"></a>导入数据 运用lapply 和 do.call</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line">dir=<span class="string">'./Rdata/'</span></span><br><span class="line">options(stringsAsFactors = <span class="literal">F</span>)</span><br><span class="line"><span class="comment"># library(data.table) </span></span><br><span class="line">all_fiels=list.files(path = dir ,pattern=<span class="string">'*.txt$'</span>,recursive=<span class="literal">T</span>)</span><br><span class="line">cl = lapply(all_fiels, <span class="keyword">function</span>(x)&#123;</span><br><span class="line">              tmp &lt;- read.table(file = file.path(dir,x), comment.char=<span class="string">"#"</span>)[,<span class="number">1</span>:<span class="number">2</span>]</span><br><span class="line">              <span class="keyword">return</span>(tmp)</span><br><span class="line">            &#125;)</span><br><span class="line">expr&lt;- as.data.frame(t(do.call(cbind,cl)))</span><br><span class="line">expr[<span class="number">1</span>:<span class="number">10</span>,<span class="number">1</span>:<span class="number">20</span>]</span><br><span class="line">colnames(expr)&lt;- expr[<span class="number">1</span>,]</span><br><span class="line">expr&lt;- expr[seq(<span class="number">2</span>,nrow(expr),by = <span class="number">2</span>),]</span><br><span class="line">expr[<span class="number">1</span>:<span class="number">6</span>,<span class="number">1</span>:<span class="number">20</span>]</span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line"></span><br><span class="line">rownames(expr)&lt;- all_fiels</span><br><span class="line">expr&lt;- expr[,-<span class="number">1</span>]</span><br><span class="line">expr[<span class="number">1</span>:<span class="number">6</span>,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">class(expr)</span><br><span class="line">class(expr[<span class="number">2</span>,<span class="number">2</span>])</span><br><span class="line">expr&lt;- apply(noquote(expr),<span class="number">2</span>,as.numeric)</span><br><span class="line">expr[<span class="number">1</span>:<span class="number">6</span>,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line"><span class="comment"># 这里就把rownames 删除掉了，并且数据格式变为了matrix</span></span><br><span class="line"></span><br><span class="line">class(expr)</span><br><span class="line">expr&lt;- as.data.frame(t(expr))</span><br><span class="line">colnames(expr)&lt;- all_fiels</span><br><span class="line">save(expr,file = <span class="string">'./Rdata/expr.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="ID-转换"><a href="#ID-转换" class="headerlink" title="ID 转换"></a>ID 转换</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">##### 下面的代码是将gene_symbol 从ID_trans 这个文件转到expr</span></span><br><span class="line">rm(list=ls())</span><br><span class="line">load(file=<span class="string">'./Rdata/expr.Rdata'</span>)</span><br><span class="line">ID_trans &lt;- read.delim(<span class="string">"D:/annotation/ID_trans.txt"</span>, header=<span class="literal">FALSE</span>)</span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">ENSG&lt;- str_split(ID_trans$V1,pattern = <span class="string">'ENSG'</span>, simplify = <span class="literal">T</span>)[,<span class="number">2</span>]</span><br><span class="line"><span class="comment"># ENSG&lt;- str_split(ENSG,pattern = '\\.', simplify = T)[,1]</span></span><br><span class="line">head(ENSG)</span><br><span class="line">ENSG&lt;- str_c(<span class="string">'ENSG'</span>,ENSG)</span><br><span class="line">ID&lt;- data.frame(ensg=ENSG,SYMBOL=ID_trans$V2)</span><br><span class="line"></span><br><span class="line">expr&lt;- expr[row.names(expr)%<span class="keyword">in</span>%ID$ensg,]</span><br><span class="line">ID&lt;- ID[ID$ensg%<span class="keyword">in</span>%row.names(expr),]</span><br><span class="line">ID&lt;- ID[match(row.names(expr),ID$ensg),]</span><br><span class="line">match(ID$ensg,row.names(expr))</span><br><span class="line">expr&lt;- cbind(ID,expr)</span><br><span class="line">expr[<span class="number">1</span>:<span class="number">6</span>,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">expr$SYMBOL&lt;- str_split(expr$SYMBOL,pattern = <span class="string">'\\-'</span>, simplify = <span class="literal">T</span>)[,<span class="number">1</span>]</span><br><span class="line">expr&lt;- expr[,-c(<span class="number">1</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### 实在是不会基础代码，下方的代码我也没有能力理解，所以，我这里将行号看做是probe_id 然后expr$SYMBOL看做是symbol</span></span><br><span class="line">probe_id&lt;- as.character(<span class="number">1</span>:nrow(expr))</span><br><span class="line">ids&lt;- data.frame(probe_id=probe_id,symbol=expr[,<span class="number">1</span>])</span><br><span class="line">expr&lt;- expr[,-<span class="number">1</span>]</span><br><span class="line">exprSet&lt;- expr</span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">6</span>,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">row.names(exprSet)&lt;-  as.character(<span class="number">1</span>:nrow(exprSet))</span><br><span class="line">exprSet&lt;- as.data.frame(exprSet)</span><br><span class="line"></span><br><span class="line">str(ids)</span><br><span class="line">str(rownames(exprSet))</span><br><span class="line">match(rownames(exprSet),ids$probe_id)</span><br><span class="line"></span><br><span class="line"><span class="comment">### 下面这些话是理解这个by 函数具体做了什么</span></span><br><span class="line"><span class="comment"># exprSet[ids[,2]=='A2M',]</span></span><br><span class="line"><span class="comment"># x= exprSet[ids[,2]=='A2M',]</span></span><br><span class="line"><span class="comment"># row.names(x)</span></span><br><span class="line"><span class="comment"># rowMeans(x)</span></span><br><span class="line"><span class="comment"># which.max(rowMeans(x))</span></span><br><span class="line"><span class="comment"># 按照ids 分类</span></span><br><span class="line"><span class="comment"># by是分类汇总，这步求的是基因表达量的均值</span></span><br><span class="line">tmp= by(exprSet,ids$symbol,<span class="keyword">function</span>(x)rownames(x)[which.max(rowMeans(x))])</span><br><span class="line">probes&lt;- as.character(tmp)</span><br><span class="line">dim(exprSet)</span><br><span class="line">exprSet= exprSet[rownames(exprSet)%<span class="keyword">in</span>%probes,]</span><br><span class="line">dim(exprSet)</span><br><span class="line">exprSet$probe_id&lt;- row.names(exprSet)</span><br><span class="line">new_exprSet&lt;- merge(ids,exprSet,by=<span class="string">'probe_id'</span>)</span><br><span class="line">rownames(new_exprSet)&lt;- new_exprSet[,<span class="number">2</span>]</span><br><span class="line">new_exprSet[<span class="number">1</span>:<span class="number">8</span>,<span class="number">1</span>:<span class="number">8</span>]</span><br><span class="line">new_exprSet&lt;- new_exprSet[,-c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## 去掉sample2 和 sample3 表达量为0 的gene</span></span><br><span class="line">tmp&lt;- new_exprSet[rowMeans(new_exprSet)&gt;<span class="number">10</span>,]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">save(tmp,new_exprSet,file = <span class="string">'./Rdata/step0_idtransed.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>DEGs 如果只有两个sample 没法做统计</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">### ---------------</span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"><span class="comment">### Firstly run DESeq2 </span></span><br><span class="line"><span class="comment">###</span></span><br><span class="line"><span class="comment">### ---------------</span></span><br><span class="line">load(file = <span class="string">'./Rdata/step0_idtransed.Rdata'</span>)</span><br><span class="line">exprSet&lt;- new_exprSet</span><br><span class="line">group_list&lt;- c(<span class="string">"control1"</span>,<span class="string">"control1"</span>,<span class="string">"control2"</span>,<span class="string">"control2"</span>,<span class="string">"resistance"</span>,<span class="string">"resistance"</span>)</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line">  <span class="keyword">library</span>(DESeq2)</span><br><span class="line">  </span><br><span class="line">  (colData &lt;- data.frame(row.names=colnames(exprSet), </span><br><span class="line">                         group_list=group_list) )</span><br><span class="line">  dds &lt;- DESeqDataSetFromMatrix(countData = exprSet,</span><br><span class="line">                                colData = colData,</span><br><span class="line">                                design = ~ group_list)</span><br><span class="line">  dds &lt;- DESeq(dds)</span><br><span class="line">  resultsNames(dds)</span><br><span class="line">  <span class="comment"># save(dds,file = './Rdata/tmp_f')</span></span><br><span class="line">  <span class="comment"># load(file = './Rdata/tmp_f')</span></span><br><span class="line">  res1 &lt;- results(dds, </span><br><span class="line">                 contrast=c(<span class="string">"group_list"</span>,<span class="string">"control1"</span>,<span class="string">"resistance"</span>))</span><br><span class="line">  res2 &lt;- results(dds, </span><br><span class="line">                 contrast=c(<span class="string">"group_list"</span>,<span class="string">"control2"</span>,<span class="string">"resistance"</span>))</span><br><span class="line"><span class="comment">##############</span></span><br><span class="line"><span class="comment">##  </span></span><br><span class="line"><span class="comment">#请在此处调整分组信息</span></span><br><span class="line"><span class="comment">## </span></span><br><span class="line"><span class="comment">##############</span></span><br><span class="line">  res&lt;- res1</span><br><span class="line">  resOrdered &lt;- res[order(res$padj),]</span><br><span class="line">  head(resOrdered)</span><br><span class="line">  DEG =as.data.frame(resOrdered)</span><br><span class="line">  DESeq2_DEG = na.omit(DEG)</span><br><span class="line">  </span><br><span class="line">  nrDEG=DESeq2_DEG[,c(<span class="number">2</span>,<span class="number">6</span>)]</span><br><span class="line">  colnames(nrDEG)=c(<span class="string">'log2FoldChange'</span>,<span class="string">'pvalue'</span>)  </span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="作图"><a href="#作图" class="headerlink" title="作图"></a>作图</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">draw_h_v &lt;- <span class="keyword">function</span>(exprSet,need_DEG,n=<span class="string">'DEseq2'</span>,group_list,logFC_cutoff)&#123;</span><br><span class="line">  <span class="comment">## we only need two columns of DEG, which are log2FoldChange and pvalue</span></span><br><span class="line">  <span class="comment">## heatmap</span></span><br><span class="line">  </span><br><span class="line">  <span class="keyword">library</span>(pheatmap)</span><br><span class="line">  choose_gene=head(rownames(need_DEG),<span class="number">50</span>) <span class="comment">## 50 maybe better</span></span><br><span class="line">  choose_matrix=exprSet[choose_gene,]</span><br><span class="line">  choose_matrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">  choose_matrix=t(scale(t(log2(choose_matrix+<span class="number">1</span>)))) </span><br><span class="line">  <span class="comment">## http://www.bio-info-trainee.com/1980.html</span></span><br><span class="line">  annotation_col = data.frame( group_list=group_list  )</span><br><span class="line">  rownames(annotation_col)=colnames(exprSet)</span><br><span class="line">  pheatmap(choose_matrix,show_colnames = <span class="literal">F</span>,annotation_col = annotation_col,</span><br><span class="line">           filename = paste0(n,<span class="string">'_need_DEG_top50_heatmap.png'</span>))</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">library</span>(ggfortify)</span><br><span class="line">  df=as.data.frame(t(choose_matrix))</span><br><span class="line">  df$group=group_list</span><br><span class="line">  png(paste0(n,<span class="string">'_DEG_top50_pca.png'</span>),res=<span class="number">120</span>)</span><br><span class="line">  p=autoplot(prcomp( df[,<span class="number">1</span>:(ncol(df)-<span class="number">1</span>)] ), data=df,colour = <span class="string">'group'</span>)+theme_bw()</span><br><span class="line">  print(p)</span><br><span class="line">  dev.off()</span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">  <span class="keyword">if</span>(! logFC_cutoff)&#123;</span><br><span class="line">    logFC_cutoff &lt;- with(need_DEG,mean(abs( log2FoldChange)) + <span class="number">2</span>*sd(abs( log2FoldChange)) )</span><br><span class="line">    </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment"># logFC_cutoff=1</span></span><br><span class="line">  </span><br><span class="line">  need_DEG$change = as.factor(ifelse(need_DEG$pvalue &lt; <span class="number">0.05</span> &amp; abs(need_DEG$log2FoldChange) &gt; logFC_cutoff,</span><br><span class="line">                                     ifelse(need_DEG$log2FoldChange &gt; logFC_cutoff ,<span class="string">'UP'</span>,<span class="string">'DOWN'</span>),<span class="string">'NOT'</span>)</span><br><span class="line">  )</span><br><span class="line">  this_tile &lt;- paste0(<span class="string">'Cutoff for logFC is '</span>,round(logFC_cutoff,<span class="number">3</span>),</span><br><span class="line">                      <span class="string">'\nThe number of up gene is '</span>,nrow(need_DEG[need_DEG$change ==<span class="string">'UP'</span>,]) ,</span><br><span class="line">                      <span class="string">'\nThe number of down gene is '</span>,nrow(need_DEG[need_DEG$change ==<span class="string">'DOWN'</span>,])</span><br><span class="line">  )</span><br><span class="line">  <span class="keyword">library</span>(ggplot2)</span><br><span class="line">  g = ggplot(data=need_DEG, </span><br><span class="line">             aes(x=log2FoldChange, y=-log10(pvalue), </span><br><span class="line">                 color=change)) +</span><br><span class="line">    geom_point(alpha=<span class="number">0.4</span>, size=<span class="number">1.75</span>) +</span><br><span class="line">    theme_set(theme_set(theme_bw(base_size=<span class="number">20</span>)))+</span><br><span class="line">    xlab(<span class="string">"log2 fold change"</span>) + ylab(<span class="string">"-log10 p-value"</span>) +</span><br><span class="line">    ggtitle( this_tile ) + theme(plot.title = element_text(size=<span class="number">15</span>,hjust = <span class="number">0.5</span>))+</span><br><span class="line">    scale_colour_manual(values = c(<span class="string">'blue'</span>,<span class="string">'black'</span>,<span class="string">'red'</span>)) <span class="comment">## corresponding to the levels(res$change)</span></span><br><span class="line">  print(g)</span><br><span class="line">  ggsave(g,filename = paste0(n,<span class="string">'_volcano.png'</span>))</span><br><span class="line">  dev.off()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"> draw_h_v(exprSet,nrDEG,<span class="string">'DEseq2'</span>,group_list,<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RNA-seq/" rel="tag"># RNA-seq</a>
+              <a href="/tags/NCBI%E6%95%B0%E6%8D%AE%E4%B8%8B%E8%BD%BD/" rel="tag"># NCBI数据下载</a>
+              <a href="/tags/featurecount/" rel="tag"># featurecount</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/12/17/proteomics/" rel="prev" title="肿瘤蛋白质组学学习资料">
+      <i class="fa fa-chevron-left"></i> 肿瘤蛋白质组学学习资料
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/19/reading_note_m6A/" rel="next" title="RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail">
+      RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-下载数据"><span class="nav-number">1.</span> <span class="nav-text">step1 下载数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-sra2fastq"><span class="nav-number">2.</span> <span class="nav-text">step2 sra2fastq</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-trim-galore"><span class="nav-number">3.</span> <span class="nav-text">step3 trim_galore</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-下载NCBI参考基因组"><span class="nav-number">4.</span> <span class="nav-text">step4 下载NCBI参考基因组</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#构建索引"><span class="nav-number">4.1.</span> <span class="nav-text">构建索引</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step5-mapping"><span class="nav-number">5.</span> <span class="nav-text">step5 mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step6-Featurecounts"><span class="nav-number">6.</span> <span class="nav-text">step6 Featurecounts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#last-step-整理好注释信息"><span class="nav-number">7.</span> <span class="nav-text">last step: 整理好注释信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ID-trans-ID-转换"><span class="nav-number"></span> <span class="nav-text">ID_trans ID 转换</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#导入数据-运用lapply-和-do-call"><span class="nav-number">1.</span> <span class="nav-text">导入数据 运用lapply 和 do.call</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID-转换"><span class="nav-number">2.</span> <span class="nav-text">ID 转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#作图"><span class="nav-number">3.</span> <span class="nav-text">作图</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
