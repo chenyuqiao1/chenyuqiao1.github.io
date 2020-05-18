@@ -20,13 +20,16 @@
     var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="关于hexo进阶篇第一章：将hexo部署到我的github上思路可以使用windows进行hexo搭建， 将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中 第一步：在windows 上安装nodejs和git第二步：安装hexo：12sudo apt-get install nodejs">
+  <meta name="description" content="关于hexo进阶篇hexo  重新配置服务器 安装nginx 1sudo apt-get install nginx    配置 Nginx 网站目录和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var&#x2F;www&#x2F;html’，所以我建议你使用’var&#x2F;www&#x2F;hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是 网站存放文件的目录，用于Nginx">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于hexo进阶篇 （将hexo部署到我的github上）">
 <meta property="og:url" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/index.html">
 <meta property="og:site_name" content="Bio_info_bridge">
-<meta property="og:description" content="关于hexo进阶篇第一章：将hexo部署到我的github上思路可以使用windows进行hexo搭建， 将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中 第一步：在windows 上安装nodejs和git第二步：安装hexo：12sudo apt-get install nodejs">
+<meta property="og:description" content="关于hexo进阶篇hexo  重新配置服务器 安装nginx 1sudo apt-get install nginx    配置 Nginx 网站目录和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var&#x2F;www&#x2F;html’，所以我建议你使用’var&#x2F;www&#x2F;hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是 网站存放文件的目录，用于Nginx">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849-1589798986461.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175720877.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175832713.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574038739081.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574039263666.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517165616157.png">
@@ -42,7 +45,7 @@
 <meta property="article:author" content="yuqiao chen">
 <meta property="article:tag" content="blog">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1574038739081.png">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849-1589798986461.png">
 
 <link rel="canonical" href="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/">
 
@@ -247,7 +250,76 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><h2 id="第一章：将hexo部署到我的github上"><a href="#第一章：将hexo部署到我的github上" class="headerlink" title="第一章：将hexo部署到我的github上"></a>第一章：将hexo部署到我的github上</h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>可以使用windows进行hexo搭建，</p>
+        <h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><p>hexo  重新配置服务器</p>
+<p>安装nginx</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置-Nginx-网站目录"><a href="#配置-Nginx-网站目录" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h4><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
+<p>网站存放文件的目录，用于Nginx托管</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+<p>修改目录的权限，让所有用户都能访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $USER:$USER &#x2F;var&#x2F;www&#x2F;hexo</span><br><span class="line">sudo chmod -R 755 &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c修改 Nginx设置，打开<code>/etc/nginx/sites-available/default</code>文件，</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+
+<p>修改：将root设置为上述目录</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root /var/www/hexo</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置图片-文件路径"><a href="#配置图片-文件路径" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h4><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
+<blockquote>
+<p>比如我由于是从wordpress服务器上转到阿里云的ECS服务器，之前文章的图片链接都是跟着域名走的，因此我需要在现在服务器上专门再建个相同路径的文件夹来存在文件和图片</p>
+</blockquote>
+<p>具体教程在网上搜：nginx访问静态文件，或者参考：<a href="https://cloud.tencent.com/developer/article/1340455" target="_blank" rel="noopener">Nginx 入门教程</a></p>
+<p>大致步骤如下：</p>
+<p>创建文件夹目录，分别是存放文件和图片的路径，可供网站访问</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data</span><br><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data&#x2F;photo</span><br></pre></td></tr></table></figure>
+
+<p>修改Nginx配置文件，加上下面一段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;default</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;data&#x2F;photo&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br><span class="line">location &#x2F;data&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849-1589798986461.png" alt="1573970957849"></p>
+<h4 id="创建私有Git仓库"><a href="#创建私有Git仓库" class="headerlink" title="创建私有Git仓库"></a>创建私有Git仓库</h4><p>创建Git仓库，搭配后续的Git钩子使用；创建目录并修改权限</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /var/repo/</span><br><span class="line">sudo chown -R $USER:$USER /var/repo/</span><br><span class="line">sudo chmod -R 755 /var/repo/</span><br><span class="line">cd /var/repo/</span><br></pre></td></tr></table></figure>
+
+<p>并用Git命令初始化仓库</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo git init --bare hexo_static.git</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 这里的前缀hexo要和创建的文件名一致</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置Git钩子"><a href="#配置Git钩子" class="headerlink" title="配置Git钩子"></a>配置Git钩子</h4><blockquote>
+<p>什么是Git钩子：Git能在特定的重要动作发生时触发自定义脚本，即我们可以通过Github远程仓库自动更新文章到我们服务器的目录下</p>
+</blockquote>
+<p>创建钩子文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+<p>并在文件中添加命令（主要用checkout切换分支，所以如果仓库目录跟上面写的不一样，记得同样修改下述代码中的路径）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">git --work-tree&#x3D;&#x2F;var&#x2F;www&#x2F;hexo --git-dir&#x3D;&#x2F;var&#x2F;repo&#x2F;hexo_static.git checkout -f</span><br></pre></td></tr></table></figure>
+
+<p>将上述钩子文件赋予执行权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置本地部署"><a href="#配置本地部署" class="headerlink" title="配置本地部署"></a>配置本地部署</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;myblog&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用这种方式部署的博客，无法进行搜索</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175720877.png" alt="image-20200518175720877"></p>
+<p>但是同样的东西在localhost启动或者部署在github上，都可以正常运行。</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175832713.png" alt="image-20200518175832713"></p>
+<p>随缘了</p>
+<h2 id="第一章：将hexo部署到我的github上"><a href="#第一章：将hexo部署到我的github上" class="headerlink" title="第一章：将hexo部署到我的github上"></a>第一章：将hexo部署到我的github上</h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>可以使用windows进行hexo搭建，</p>
 <p>将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中</p>
 <h4 id="第一步：在windows-上安装nodejs和git"><a href="#第一步：在windows-上安装nodejs和git" class="headerlink" title="第一步：在windows 上安装nodejs和git"></a>第一步：在windows 上安装nodejs和git</h4><h4 id="第二步：安装hexo："><a href="#第二步：安装hexo：" class="headerlink" title="第二步：安装hexo："></a>第二步：安装hexo：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nodejs-legacy</span><br><span class="line">sudo npm install hexo-cli hexo-server hexo-deployer-git -g</span><br></pre></td></tr></table></figure>
 
@@ -290,7 +362,7 @@
 
 
 <p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981843703.png" alt="1573981843703"></p>
-<h5 id="配置-Nginx-网站目录"><a href="#配置-Nginx-网站目录" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h5><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
+<h5 id="配置-Nginx-网站目录-1"><a href="#配置-Nginx-网站目录-1" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h5><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
 <p>网站存放文件的目录，用于Nginx托管</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
 
@@ -303,7 +375,7 @@
 <p>修改：将root设置为上述目录</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
 
-<h5 id="配置图片-文件路径"><a href="#配置图片-文件路径" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h5><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
+<h5 id="配置图片-文件路径-1"><a href="#配置图片-文件路径-1" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h5><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
 <blockquote>
 <p>比如我由于是从wordpress服务器上转到阿里云的ECS服务器，之前文章的图片链接都是跟着域名走的，因此我需要在现在服务器上专门再建个相同路径的文件夹来存在文件和图片</p>
 </blockquote>
@@ -362,6 +434,14 @@
 
 <p>Make sure <code>post_asset_folder: true</code> in your <code>_config.yml</code>.</p>
 <p>Just use <code>![logo](logo.jpg)</code> to insert <code>logo.jpg</code>.</p>
+<h4 id="将markdown格式中的-assets删掉，的代码"><a href="#将markdown格式中的-assets删掉，的代码" class="headerlink" title="将markdown格式中的.assets删掉，的代码"></a>将markdown格式中的.assets删掉，的代码</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd /d/SynologyDrive/Document/myblog2</span><br><span class="line">ls *.md|while read id</span><br><span class="line">do</span><br><span class="line">        title=$&#123;id%%.*&#125;</span><br><span class="line">        sed -i "s/\.assets//g" /d/SynologyDrive/Document/myblog2/$id</span><br><span class="line">        mv $&#123;title&#125;.assets $&#123;title&#125;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 <h1 id="History"><a href="#History" class="headerlink" title="History"></a>History</h1><p>成功：</p>
 <p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214041568.png" alt="image-20200517214041568"></p>
 <p>这里图1和图2 同时显示了</p>
@@ -496,10 +576,7 @@
     <a href="/2020/04/08/correlation-analysis/" rel="prev" title="相关性分析">
       <i class="fa fa-chevron-left"></i> 相关性分析
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/05/17/11/" rel="next" title="11">
-      11 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -558,7 +635,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于hexo进阶篇"><span class="nav-number">1.</span> <span class="nav-text">关于hexo进阶篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章：将hexo部署到我的github上"><span class="nav-number">1.1.</span> <span class="nav-text">第一章：将hexo部署到我的github上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：在windows-上安装nodejs和git"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">第一步：在windows 上安装nodejs和git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：安装hexo："><span class="nav-number">1.1.0.3.</span> <span class="nav-text">第二步：安装hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：建站，初始化Hexo："><span class="nav-number">1.1.0.4.</span> <span class="nav-text">第三步：建站，初始化Hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置git，和ssh秘钥"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">第四步：配置git，和ssh秘钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五步：在github下创建自己的网站"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">第五步：在github下创建自己的网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六步完成部署"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">第六步完成部署</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章：将hexo部署到我的服务器上"><span class="nav-number">1.2.</span> <span class="nav-text">第二章：将hexo部署到我的服务器上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备：和之前一样，在window下部署博客"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">准备：和之前一样，在window下部署博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步-域名解析"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">第一步: 域名解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二：服务器配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">第二：服务器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装nginx"><span class="nav-number">1.2.1.0.1.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置-Nginx-网站目录"><span class="nav-number">1.2.1.0.2.</span> <span class="nav-text">配置 Nginx 网站目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置图片-文件路径"><span class="nav-number">1.2.1.0.3.</span> <span class="nav-text">配置图片&#x2F;文件路径</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：创建私有Git仓库"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">第三步：创建私有Git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置Git钩子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">第四步：配置Git钩子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-一个主题可以搜索同时可以对图片进行简单管理"><span class="nav-number">1.3.</span> <span class="nav-text">第三章 一个主题可以搜索同时可以对图片进行简单管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#尝试next"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">尝试next</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Usege"><span class="nav-number">2.</span> <span class="nav-text">Usege</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#History"><span class="nav-number">4.</span> <span class="nav-text">History</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考一下博文"><span class="nav-number">5.</span> <span class="nav-text">参考一下博文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-引用本地图片以及引用本地任意位置图片的一点思路"><span class="nav-number">5.1.</span> <span class="nav-text">Hexo 引用本地图片以及引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">5.2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用本地图片与插件-hexo-asset-image"><span class="nav-number">5.3.</span> <span class="nav-text">引用本地图片与插件 hexo-asset-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用本地图片"><span class="nav-number">5.3.1.</span> <span class="nav-text">引用本地图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-hexo-asset-image"><span class="nav-number">5.3.2.</span> <span class="nav-text">关于 hexo-asset-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-hexo-asset-image"><span class="nav-number">5.3.3.</span> <span class="nav-text">安装 hexo-asset-image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-asset-image-的说明与问题"><span class="nav-number">5.4.</span> <span class="nav-text">hexo-asset-image 的说明与问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-asset-image-与-懒加载的冲突"><span class="nav-number">5.4.1.</span> <span class="nav-text">hexo-asset-image 与 懒加载的冲突</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【与正文无关】引用本地任意位置图片的一点思路"><span class="nav-number">5.5.</span> <span class="nav-text">【与正文无关】引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeLog"><span class="nav-number">5.6.</span> <span class="nav-text">ChangeLog</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关于hexo进阶篇"><span class="nav-number">1.</span> <span class="nav-text">关于hexo进阶篇</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置-Nginx-网站目录"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">配置 Nginx 网站目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置图片-文件路径"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">配置图片&#x2F;文件路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建私有Git仓库"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">创建私有Git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置Git钩子"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">配置Git钩子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置本地部署"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">配置本地部署</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第一章：将hexo部署到我的github上"><span class="nav-number">1.1.</span> <span class="nav-text">第一章：将hexo部署到我的github上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#思路"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">思路</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：在windows-上安装nodejs和git"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">第一步：在windows 上安装nodejs和git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：安装hexo："><span class="nav-number">1.1.0.3.</span> <span class="nav-text">第二步：安装hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：建站，初始化Hexo："><span class="nav-number">1.1.0.4.</span> <span class="nav-text">第三步：建站，初始化Hexo：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置git，和ssh秘钥"><span class="nav-number">1.1.0.5.</span> <span class="nav-text">第四步：配置git，和ssh秘钥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五步：在github下创建自己的网站"><span class="nav-number">1.1.0.6.</span> <span class="nav-text">第五步：在github下创建自己的网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六步完成部署"><span class="nav-number">1.1.0.7.</span> <span class="nav-text">第六步完成部署</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二章：将hexo部署到我的服务器上"><span class="nav-number">1.2.</span> <span class="nav-text">第二章：将hexo部署到我的服务器上</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#准备：和之前一样，在window下部署博客"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">准备：和之前一样，在window下部署博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步-域名解析"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">第一步: 域名解析</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二：服务器配置"><span class="nav-number">1.2.1.</span> <span class="nav-text">第二：服务器配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#安装nginx"><span class="nav-number">1.2.1.0.1.</span> <span class="nav-text">安装nginx</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置-Nginx-网站目录-1"><span class="nav-number">1.2.1.0.2.</span> <span class="nav-text">配置 Nginx 网站目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置图片-文件路径-1"><span class="nav-number">1.2.1.0.3.</span> <span class="nav-text">配置图片&#x2F;文件路径</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：创建私有Git仓库"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">第三步：创建私有Git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：配置Git钩子"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">第四步：配置Git钩子</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三章-一个主题可以搜索同时可以对图片进行简单管理"><span class="nav-number">1.3.</span> <span class="nav-text">第三章 一个主题可以搜索同时可以对图片进行简单管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#尝试next"><span class="nav-number">1.3.0.1.</span> <span class="nav-text">尝试next</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Usege"><span class="nav-number">2.</span> <span class="nav-text">Usege</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Example"><span class="nav-number">3.</span> <span class="nav-text">Example</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#将markdown格式中的-assets删掉，的代码"><span class="nav-number">3.0.0.1.</span> <span class="nav-text">将markdown格式中的.assets删掉，的代码</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#History"><span class="nav-number">4.</span> <span class="nav-text">History</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考一下博文"><span class="nav-number">5.</span> <span class="nav-text">参考一下博文</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hexo-引用本地图片以及引用本地任意位置图片的一点思路"><span class="nav-number">5.1.</span> <span class="nav-text">Hexo 引用本地图片以及引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">5.2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用本地图片与插件-hexo-asset-image"><span class="nav-number">5.3.</span> <span class="nav-text">引用本地图片与插件 hexo-asset-image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用本地图片"><span class="nav-number">5.3.1.</span> <span class="nav-text">引用本地图片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于-hexo-asset-image"><span class="nav-number">5.3.2.</span> <span class="nav-text">关于 hexo-asset-image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-hexo-asset-image"><span class="nav-number">5.3.3.</span> <span class="nav-text">安装 hexo-asset-image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#hexo-asset-image-的说明与问题"><span class="nav-number">5.4.</span> <span class="nav-text">hexo-asset-image 的说明与问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#hexo-asset-image-与-懒加载的冲突"><span class="nav-number">5.4.1.</span> <span class="nav-text">hexo-asset-image 与 懒加载的冲突</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#【与正文无关】引用本地任意位置图片的一点思路"><span class="nav-number">5.5.</span> <span class="nav-text">【与正文无关】引用本地任意位置图片的一点思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ChangeLog"><span class="nav-number">5.6.</span> <span class="nav-text">ChangeLog</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -572,7 +649,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>

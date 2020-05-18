@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>11</title>
-    <url>/2020/05/17/11/</url>
-    <content><![CDATA[<p><img src="/2020/05/17/11/image-20200517181518131.png" alt="image-20200517181518131"></p>
-<p>链接</p>
-<p>我</p>
-<p>这这里</p>
-]]></content>
-  </entry>
-  <entry>
     <title>食管鳞癌的胚系突变和体细胞突变</title>
     <url>/2019/11/22/ESCC_DNA_notes1/</url>
     <content><![CDATA[<h3 id="食管鳞癌的胚系突变和体细胞突变–阅读笔记"><a href="#食管鳞癌的胚系突变和体细胞突变–阅读笔记" class="headerlink" title="食管鳞癌的胚系突变和体细胞突变–阅读笔记"></a>食管鳞癌的胚系突变和体细胞突变–阅读笔记</h3><p>参考文献</p>
@@ -1634,12 +1625,6 @@
       <tags>
         <tag>批量下载数据</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>fortest</title>
-    <url>/2020/05/17/fortest/</url>
-    <content><![CDATA[<p><img src="/2020/05/17/fortest/image-20200517220622544.png" alt="image-20200517220622544"></p>
-]]></content>
   </entry>
   <entry>
     <title>R包安装</title>
@@ -5402,7 +5387,76 @@
   <entry>
     <title>关于hexo进阶篇 （将hexo部署到我的github上）</title>
     <url>/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/</url>
-    <content><![CDATA[<h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><h2 id="第一章：将hexo部署到我的github上"><a href="#第一章：将hexo部署到我的github上" class="headerlink" title="第一章：将hexo部署到我的github上"></a>第一章：将hexo部署到我的github上</h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>可以使用windows进行hexo搭建，</p>
+    <content><![CDATA[<h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><p>hexo  重新配置服务器</p>
+<p>安装nginx</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置-Nginx-网站目录"><a href="#配置-Nginx-网站目录" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h4><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
+<p>网站存放文件的目录，用于Nginx托管</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+<p>修改目录的权限，让所有用户都能访问</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo chown -R $USER:$USER &#x2F;var&#x2F;www&#x2F;hexo</span><br><span class="line">sudo chmod -R 755 &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
+
+
+
+<p>c修改 Nginx设置，打开<code>/etc/nginx/sites-available/default</code>文件，</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo vim /etc/nginx/sites-available/default</span><br></pre></td></tr></table></figure>
+
+<p>修改：将root设置为上述目录</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root /var/www/hexo</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置图片-文件路径"><a href="#配置图片-文件路径" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h4><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
+<blockquote>
+<p>比如我由于是从wordpress服务器上转到阿里云的ECS服务器，之前文章的图片链接都是跟着域名走的，因此我需要在现在服务器上专门再建个相同路径的文件夹来存在文件和图片</p>
+</blockquote>
+<p>具体教程在网上搜：nginx访问静态文件，或者参考：<a href="https://cloud.tencent.com/developer/article/1340455" target="_blank" rel="noopener">Nginx 入门教程</a></p>
+<p>大致步骤如下：</p>
+<p>创建文件夹目录，分别是存放文件和图片的路径，可供网站访问</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data</span><br><span class="line">mkdir -p &#x2F;var&#x2F;www&#x2F;hexo&#x2F;data&#x2F;photo</span><br></pre></td></tr></table></figure>
+
+<p>修改Nginx配置文件，加上下面一段：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;default</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">location &#x2F;data&#x2F;photo&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br><span class="line">location &#x2F;data&#x2F; &#123;</span><br><span class="line">        root &#x2F;var&#x2F;www&#x2F;hexo&#x2F;;</span><br><span class="line">        autoindex on;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849-1589798986461.png" alt="1573970957849"></p>
+<h4 id="创建私有Git仓库"><a href="#创建私有Git仓库" class="headerlink" title="创建私有Git仓库"></a>创建私有Git仓库</h4><p>创建Git仓库，搭配后续的Git钩子使用；创建目录并修改权限</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo mkdir /var/repo/</span><br><span class="line">sudo chown -R $USER:$USER /var/repo/</span><br><span class="line">sudo chmod -R 755 /var/repo/</span><br><span class="line">cd /var/repo/</span><br></pre></td></tr></table></figure>
+
+<p>并用Git命令初始化仓库</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">sudo git init --bare hexo_static.git</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 这里的前缀hexo要和创建的文件名一致</span></span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="配置Git钩子"><a href="#配置Git钩子" class="headerlink" title="配置Git钩子"></a>配置Git钩子</h4><blockquote>
+<p>什么是Git钩子：Git能在特定的重要动作发生时触发自定义脚本，即我们可以通过Github远程仓库自动更新文章到我们服务器的目录下</p>
+</blockquote>
+<p>创建钩子文件</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">vim &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+<p>并在文件中添加命令（主要用checkout切换分支，所以如果仓库目录跟上面写的不一样，记得同样修改下述代码中的路径）</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">git --work-tree&#x3D;&#x2F;var&#x2F;www&#x2F;hexo --git-dir&#x3D;&#x2F;var&#x2F;repo&#x2F;hexo_static.git checkout -f</span><br></pre></td></tr></table></figure>
+
+<p>将上述钩子文件赋予执行权限</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo chmod +x &#x2F;var&#x2F;repo&#x2F;hexo_static.git&#x2F;hooks&#x2F;post-receive</span><br></pre></td></tr></table></figure>
+
+<h4 id="配置本地部署"><a href="#配置本地部署" class="headerlink" title="配置本地部署"></a>配置本地部署</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">cd ~&#x2F;myblog&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>使用这种方式部署的博客，无法进行搜索</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175720877.png" alt="image-20200518175720877"></p>
+<p>但是同样的东西在localhost启动或者部署在github上，都可以正常运行。</p>
+<p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175832713.png" alt="image-20200518175832713"></p>
+<p>随缘了</p>
+<h2 id="第一章：将hexo部署到我的github上"><a href="#第一章：将hexo部署到我的github上" class="headerlink" title="第一章：将hexo部署到我的github上"></a>第一章：将hexo部署到我的github上</h2><h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><p>可以使用windows进行hexo搭建，</p>
 <p>将搭建好的博客部署到github给用户提供的网页服务上，比如我的github网页就是chenyuqiao1.github.io，也可以将博客部署到自己的服务器中</p>
 <h4 id="第一步：在windows-上安装nodejs和git"><a href="#第一步：在windows-上安装nodejs和git" class="headerlink" title="第一步：在windows 上安装nodejs和git"></a>第一步：在windows 上安装nodejs和git</h4><h4 id="第二步：安装hexo："><a href="#第二步：安装hexo：" class="headerlink" title="第二步：安装hexo："></a>第二步：安装hexo：</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo apt-get install nodejs-legacy</span><br><span class="line">sudo npm install hexo-cli hexo-server hexo-deployer-git -g</span><br></pre></td></tr></table></figure>
 
@@ -5445,7 +5499,7 @@
 
 
 <p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573981843703.png" alt="1573981843703"></p>
-<h5 id="配置-Nginx-网站目录"><a href="#配置-Nginx-网站目录" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h5><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
+<h5 id="配置-Nginx-网站目录-1"><a href="#配置-Nginx-网站目录-1" class="headerlink" title="配置 Nginx 网站目录"></a>配置 Nginx 网站目录</h5><p>和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var/www/html’，所以我建议你使用’var/www/hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是</p>
 <p>网站存放文件的目录，用于Nginx托管</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">sudo mkdir -p &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
 
@@ -5458,7 +5512,7 @@
 <p>修改：将root设置为上述目录</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">root &#x2F;var&#x2F;www&#x2F;hexo</span><br></pre></td></tr></table></figure>
 
-<h5 id="配置图片-文件路径"><a href="#配置图片-文件路径" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h5><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
+<h5 id="配置图片-文件路径-1"><a href="#配置图片-文件路径-1" class="headerlink" title="配置图片/文件路径"></a>配置图片/文件路径</h5><p>以上为常规操作，但如果还想设置一个专门放文件/图片（的目录（也就是说在服务上建个“图床”，方便在文章中链接；文件也类似，方便下载），还需要接着配置nginx</p>
 <blockquote>
 <p>比如我由于是从wordpress服务器上转到阿里云的ECS服务器，之前文章的图片链接都是跟着域名走的，因此我需要在现在服务器上专门再建个相同路径的文件夹来存在文件和图片</p>
 </blockquote>
@@ -5517,6 +5571,14 @@
 
 <p>Make sure <code>post_asset_folder: true</code> in your <code>_config.yml</code>.</p>
 <p>Just use <code>![logo](logo.jpg)</code> to insert <code>logo.jpg</code>.</p>
+<h4 id="将markdown格式中的-assets删掉，的代码"><a href="#将markdown格式中的-assets删掉，的代码" class="headerlink" title="将markdown格式中的.assets删掉，的代码"></a>将markdown格式中的.assets删掉，的代码</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /d/SynologyDrive/Document/myblog2</span><br><span class="line">ls *.md|while read id</span><br><span class="line">do</span><br><span class="line">        title=$&#123;id%%.*&#125;</span><br><span class="line">        sed -i "s/\.assets//g" /d/SynologyDrive/Document/myblog2/$id</span><br><span class="line">        mv $&#123;title&#125;.assets $&#123;title&#125;</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
 <h1 id="History"><a href="#History" class="headerlink" title="History"></a>History</h1><p>成功：</p>
 <p><img src="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200517214041568.png" alt="image-20200517214041568"></p>
 <p>这里图1和图2 同时显示了</p>
@@ -6746,11 +6808,5 @@
         <tag>maftools</tag>
         <tag>annovar</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>fortest</title>
-    <url>/2020/05/18/fortest-1/</url>
-    <content><![CDATA[<p><img src="/2020/05/18/fortest-1/image-20200518162724673.png" alt="image-20200518162724673"></p>
-]]></content>
   </entry>
 </search>
