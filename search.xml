@@ -6809,4 +6809,43 @@
         <tag>annovar</tag>
       </tags>
   </entry>
+  <entry>
+    <title>结直肠癌数据库整理</title>
+    <url>/2020/05/18/dataset-colorectal-cancer/</url>
+    <content><![CDATA[<a id="more"></a>
+
+
+
+<p>关于肠道菌群</p>
+<p>关键字： microbiome</p>
+<p>通过关键字搜索，一共有11 篇文献</p>
+<p>colorectal cancer microbiome </p>
+<p><a href="https://www.ncbi.nlm.nih.gov/gds/?term=colorectal+cancer+microbiome" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/gds/?term=colorectal+cancer+microbiome</a></p>
+<p>第一个结果</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE141458" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE141458</a></p>
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Public on Feb 06, 2020</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Title</td>
+<td>The intestinal microbiota programs DNA methylation to control tissue homeostasis and inflammation [ATAC-Seq]</td>
+</tr>
+<tr>
+<td>Organism</td>
+<td><a href="https://www.ncbi.nlm.nih.gov/Taxonomy/Browser/wwwtax.cgi?mode=Info&id=10090" target="_blank" rel="noopener">Mus musculus</a></td>
+</tr>
+</tbody></table>
+<p>最新上传的数据，但是</p>
+]]></content>
+      <tags>
+        <tag>research</tag>
+        <tag>colorectal cancer</tag>
+        <tag>datasets</tag>
+        <tag>microbiome</tag>
+      </tags>
+  </entry>
 </search>
