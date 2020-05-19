@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp   在服务器安装 下载上述版本进行解压 1234567# 下载到一个文件夹下，解压mkdir ~&#x2F;frptar -xvf frp_0.32.1_linux_amd64.tar.gz# 修改文件frps.ini # 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;loca">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wakeonlan_内网穿透">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp   在服务器安装 下载上述版本进行解压 1234567# 下载到一个文件夹下，解压mkdir ~&#x2F;frptar -xvf frp_0.32.1_linux_amd64.tar.gz# 修改文件frps.ini # 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;loca">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212810840.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519213812865.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519214039830.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112359964.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112712140.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112740672.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112802345.png">
+<meta property="article:published_time" content="2020-05-19T13:19:35.000Z">
+<meta property="article:modified_time" content="2020-05-19T13:55:42.566Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="servers">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="wakeonlan">
+<meta property="article:tag" content="内网穿透">
+<meta property="article:tag" content="frp">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>wakeonlan_内网穿透 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wakeonlan_内网穿透
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-19 21:19:35 / Modified: 21:55:42" itemprop="dateCreated datePublished" datetime="2020-05-19T21:19:35+08:00">2020-05-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="第一章：内网穿透"><a href="#第一章：内网穿透" class="headerlink" title="第一章：内网穿透"></a>第一章：内网穿透</h3><p>参考</p>
+<p><a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png" alt="image-20200519212733456"></p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212810840.png" alt="image-20200519212810840"></p>
+<p>在服务器安装</p>
+<p>下载上述版本进行解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">mkdir ~&#x2F;frp</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 修改文件frps.ini </span><br><span class="line"># 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519213812865.png" alt="image-20200519213812865"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup .&#x2F;frps -c .&#x2F;frps.ini &amp; </span><br><span class="line"># 直接打开，后台运行</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>本地电脑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 我自定义放在这个文件夹下</span><br><span class="line">sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br><span class="line">sudo mv frp_0.32.1_linux_amd64&#x2F;* &#x2F;usr&#x2F;local&#x2F;frp&#x2F;</span><br><span class="line"># vim frpc.ini</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519214039830.png" alt="image-20200519214039830"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup .&#x2F;frpc -c .&#x2F;frpc.ini &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643"><a href="#就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643" class="headerlink" title="就完成了可参考https://blog.csdn.net/u013144287/article/details/78589643"></a>就完成了可参考<a href="https://blog.csdn.net/u013144287/article/details/78589643" target="_blank" rel="noopener">https://blog.csdn.net/u013144287/article/details/78589643</a></h4><h3 id="第二章：wakeonlan"><a href="#第二章：wakeonlan" class="headerlink" title="第二章：wakeonlan"></a>第二章：wakeonlan</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wakeonlan</span><br><span class="line">sudo apt install ethtool</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="这里主要是针对ubuntu系统的说明"><a href="#这里主要是针对ubuntu系统的说明" class="headerlink" title="这里主要是针对ubuntu系统的说明"></a>这里主要是针对ubuntu系统的说明</h4><p>1.检查计算机硬件是否支持WOL(wake on lan)功能。<br>1.1.检查主板和电源是否支持WOL:<br>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
+<p>1.2.检查网卡是否支持WOL。<br>安装ethtool，并执行以下命令：</p>
+<blockquote>
+<p>sudo apt-get install ethtool<br>sudo ethtool eth0 |grep Wake-on</p>
+</blockquote>
+<p>如果显示结果为下面这样，就表示网卡支持WOL：</p>
+<blockquote>
+<p>Supports Wake-on:pumbg<br>Wake-on : g</p>
+</blockquote>
+<p>2.远程控制计算机进入深度休眠或完全关机状态</p>
+<p>这里主要应用了SSH连接远程计算机，并提交命令请求来达到目的。<br>2.1.使用ubuntu终端登陆远程计算机</p>
+<p>关于这一步可以参考ubuntu终端连接远程计算机<br>2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机</p>
+<p><strong>深度休眠</strong><br>sudo pm-hibernate</p>
+<p><strong>关机</strong><br>sudo shutdown 0</p>
+<p>3.唤醒远程计算机<br>3.1.准备工作<br>知道远程计算机的ip地址或域名和MAC地址，在路由上绑定局域网ip地址和MAC地址。如果没有静态ip，可以使用花生壳。详细操作可以google，在这里就不详述了。<br>在本地计算机上安装远程唤醒工具wakeonlan:</p>
+<blockquote>
+<p>sudo apt-get install wakeonlan</p>
+</blockquote>
+<p>3.2.唤醒远程计算机</p>
+<p>执行下面的命令就可以唤醒远程的计算机了：</p>
+<p>#host_address为远程计算机的域名或ip地址，mac_address为远程计算机的mac地址,mac地址是’:’间隔的形式<br><code>wakeonlan -i host_address mac_address</code></p>
+<h1 id="centos的情况"><a href="#centos的情况" class="headerlink" title="centos的情况"></a>centos的情况</h1><p>环境说明：<br>两台局域网内的linux主机，本环境的系统为centos 5.3 X86_64<br>控制主机 为：192.168.10.149<br>被控制主机为：192.168.10.150</p>
+<p>一，在控制主机上安装远程开机需要的 软件<br>[root@tomcat2 ~]#yum -y install wol<br>或者安装rpm包<br>[root@tomcat2 ~]#rpm -ivh wol-0.7.1-2.1.el3.dag.x86_64.rpm</p>
+<p>二，开启被控制主机的远程网卡唤醒功能<br>第一步：登录到被控制服务器192.168.10.150，用ethtool这个命令打印出网卡的信息<br>[root@tomcat1 ~]# ethtool eth0<br>clip_image002 可以看到，ethtool把网卡的信息全部列出，我们只关心其中的这两项:<br>clip_image004<br>如果 wake-on 一项值为 d,表示禁用wake on lan<br>值为 g,表示启用 wake on lan</p>
+<p>第二步：用下面的命令来启用wake on lan<br>[root@tomcat1 ~]# ethtool -s eth0 wol g</p>
+<p>第三步：确认是否开启了wake on lan功能<br>[root@tomcat1 ~]# ethtool eth0<br>clip_image006<br>clip_image008<br>OK，目标机器的网卡已经支持了远程开机了</p>
+<p>三． 获取被控制主机的MAC地址<br>[root@tomcat1 ~]#ifconfig eth0<br>clip_image010 把clip_image012这一项记录下来即可</p>
+<p>四．关闭被控制主机 192.168.10.150的系统，然后再控制主机192.168.10.149上远程开机<br>[root@tomcat2 ~]#wol 00:0C:29:5D:06:24<br>稍后就会发现，192.168.10.150已经启动了<br>备注：<br>1,ethtool的 -s 参数是修改指定以太网设备的设置<br>2,wol的取值默认是d,含义是disable<br>修 改后的值为g,含义是Wake on MagicPacket(tm)<br>它还有几个取值，分别是：<br>p Wake on phy activity<br>u Wake on unicast messages<br>m Wake on multicast messages<br>b Wake on broadcast messages<br>a Wake on ARP</p>
+<p>3,当机器重启后，eth0的设置又会回复到Wake-on: d 状态,<br>这个问题怎么解决？<br>两个办法：第一个，也是我们的惯性思维;<br>把/sbin/ethtool -s eth0 wol g 这条命令附加到/etc/rc.local这个文件中，<br>则下次开机后会自动执行</p>
+<p>第二个: 编辑/etc/sysconfig/network-scripts/ifcfg-eth0<br>（eth0网卡的配置文件），添加上一行：<br>ETHTOOL_OPTS=”wol g”</p>
+<p>4,网络唤醒的局限性：<br>它只能在局域网中应用，而不能通过互联 网运行，为什么？<br>因为机器关闭后，完全是靠网卡唤醒机器，此时的机器是关闭的，没有操作系统运行也就谈不上支持tcp/ip协议，当然 也就不能通过互联网运行了.也就是说：如果我们在某个局域网中只有一台机器，就不能使用此功能了.我们必须能登录到局域网中的一台机器上，在此机器上运行 wake on lan 去唤醒目标机器前提条件就是：目标机器和我们登录的机器在同一局域网中</p>
+<p>测试网卡WOL在Linux上的功能的步骤：</p>
+<p>1.运行ethtool命令查看网卡是否支持Wake On Lan</p>
+<p>Supports Wake-on: pumbg<br>Wake-on: d</p>
+<p>若Wake-on为d，表示禁用Wake On LAN，需要启用它。<br>如果已经是g就说明目标机器的网卡已经支持Wake On LAN.</p>
+<p>2.执行命令：</p>
+<p>ethtool -s eth0 wol g   //启用wol</p>
+<p>3.使用wol唤醒主机<br>用法：</p>
+<p>wol 目标主机MAC</p>
+<p>参考 <a href="https://blog.csdn.net/yu132563/article/details/97705307" target="_blank" rel="noopener">在Linux下通过Wake On LAN实现网络唤醒远程开机</a></p>
+<p>可以通过一台已经启动的机器通过Wake<br> On LAN去开启唤醒另外一台机器。<br>现在介绍通过一台已经启动的linux机器通过Wake<br> On LAN去唤醒开期另外一台机器。<br>前置条件：<br>操作机器与目标机器在同一局域网内<br>目标机器电源和网线已插好<br>目标机器网卡和主板均支持远程唤醒并在BIOS里已经设置了网络唤醒(WOL)开机。<br>目前一般的机器网卡和主板都支持远程唤醒开机，需要在BIOS里设置将网络唤醒开机开启。<br>开机时进入BIOS，查看CMOS中的“Power<br> Management Setup”，通常里面会有Power On by Onborad Lan，将其设置为“Enable”。<br>如下图，在电源管理中开启Power On by Onborad Lan。不同的主板BIOS设置不太一样。具体根据自己机器实际情况进行设置。<br><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112359964.png" alt="img"></p>
+<p>如何在Linux下通过Wake<br> On LAN远程唤醒，具体操作步骤如下：<br>1.在本机安装Wake On LAN。可从官方网站下载。<br>CentOS可以用yum命令安装:<br>yum install wol<br>也可以下载wol的rpm包通过rpm安装。点击这里下载</p>
+<p> <img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112712140.png" alt="img"><br>2.登录需要远程唤醒开机的目标机器，运行ethtool命令查看网卡是否支持WakeOn Lan</p>
+<p>[root@localhost]# ethtool eth0</p>
+<p>看这两行</p>
+<p>Supports Wake-on: pumbg</p>
+<p>Wake-on: d</p>
+<p>若Wake-on为d，表示禁用Wake On LAN，需要启用它。</p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112740672.png" alt="img"></p>
+<p>[root@localhost]# ethtool -s eth0 wol g</p>
+<p>如果已经是g就说明目标机器的网卡已经支持Wake On LAN。</p>
+<p>3.查看目标机器网卡的MAC地址</p>
+<p>[root@localhost]# ifconfig</p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112802345.png" alt="img"></p>
+<p>4.关闭目标机器，在主机运行wol命令<br>wol 00:17:a4:ad:c3:a8<br>这时，目标机器这时就会开启了。可以通过ping命令验证机器是否已经启动了。<br>如果记不住mac地址可以写个简单的shell脚本，直接执行这个脚本就可以了。</p>
+<p>#!/bin/bash<br>wol 目标mac地址</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/servers/" rel="tag"># servers</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/wakeonlan/" rel="tag"># wakeonlan</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag"># 内网穿透</a>
+              <a href="/tags/frp/" rel="tag"># frp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/19/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="frp内网穿透">
+      <i class="fa fa-chevron-left"></i> frp内网穿透
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章：内网穿透"><span class="nav-number">1.</span> <span class="nav-text">第一章：内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643"><span class="nav-number">1.1.</span> <span class="nav-text">就完成了可参考https:&#x2F;&#x2F;blog.csdn.net&#x2F;u013144287&#x2F;article&#x2F;details&#x2F;78589643</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章：wakeonlan"><span class="nav-number">2.</span> <span class="nav-text">第二章：wakeonlan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里主要是针对ubuntu系统的说明"><span class="nav-number">2.1.</span> <span class="nav-text">这里主要是针对ubuntu系统的说明</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#centos的情况"><span class="nav-number"></span> <span class="nav-text">centos的情况</span></a></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

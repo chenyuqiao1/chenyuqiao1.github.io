@@ -173,6 +173,160 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" class="post-title-link" itemprop="url">wakeonlan_内网穿透</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-19 21:19:35 / Modified: 21:55:42" itemprop="dateCreated datePublished" datetime="2020-05-19T21:19:35+08:00">2020-05-19</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="第一章：内网穿透"><a href="#第一章：内网穿透" class="headerlink" title="第一章：内网穿透"></a>第一章：内网穿透</h3><p>参考</p>
+<p><a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png" alt="image-20200519212733456"></p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212810840.png" alt="image-20200519212810840"></p>
+<p>在服务器安装</p>
+<p>下载上述版本进行解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">mkdir ~&#x2F;frp</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 修改文件frps.ini </span><br><span class="line"># 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519213812865.png" alt="image-20200519213812865"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup .&#x2F;frps -c .&#x2F;frps.ini &amp; </span><br><span class="line"># 直接打开，后台运行</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>本地电脑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 我自定义放在这个文件夹下</span><br><span class="line">sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br><span class="line">sudo mv frp_0.32.1_linux_amd64&#x2F;* &#x2F;usr&#x2F;local&#x2F;frp&#x2F;</span><br><span class="line"># vim frpc.ini</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519214039830.png" alt="image-20200519214039830"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup .&#x2F;frpc -c .&#x2F;frpc.ini &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643"><a href="#就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643" class="headerlink" title="就完成了可参考https://blog.csdn.net/u013144287/article/details/78589643"></a>就完成了可参考<a href="https://blog.csdn.net/u013144287/article/details/78589643" target="_blank" rel="noopener">https://blog.csdn.net/u013144287/article/details/78589643</a></h4><h3 id="第二章：wakeonlan"><a href="#第二章：wakeonlan" class="headerlink" title="第二章：wakeonlan"></a>第二章：wakeonlan</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wakeonlan</span><br><span class="line">sudo apt install ethtool</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="这里主要是针对ubuntu系统的说明"><a href="#这里主要是针对ubuntu系统的说明" class="headerlink" title="这里主要是针对ubuntu系统的说明"></a>这里主要是针对ubuntu系统的说明</h4><p>1.检查计算机硬件是否支持WOL(wake on lan)功能。<br>1.1.检查主板和电源是否支持WOL:<br>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
+<p>1.2.检查网卡是否支持WOL。<br>安装ethtool，并执行以下命令：</p>
+<blockquote>
+<p>sudo apt-get install ethtool<br>sudo ethtool eth0 |grep Wake-on</p>
+</blockquote>
+<p>如果显示结果为下面这样，就表示网卡支持WOL：</p>
+<blockquote>
+<p>Supports Wake-on:pumbg<br>Wake-on : g</p>
+</blockquote>
+<p>2.远程控制计算机进入深度休眠或完全关机状态</p>
+<p>这里主要应用了SSH连接远程计算机，并提交命令请求来达到目的。<br>2.1.使用ubuntu终端登陆远程计算机</p>
+<p>关于这一步可以参考ubuntu终端连接远程计算机<br>2.2.登陆远程计算机后，使用如下命令实现深度休眠或关机</p>
+<p><strong>深度休眠</strong><br>sudo pm-hibernate</p>
+<p><strong>关机</strong><br>sudo shutdown 0</p>
+<p>3.唤醒远程计算机<br>3.1.准备工作<br>知道远程计算机的ip地址或域名和MAC地址，在路由上绑定局域网ip地址和MAC地址。如果没有静态ip，可以使用花生壳。详细操作可以google，在这里就不详述了。<br>在本地计算机上安装远程唤醒工具wakeonlan:</p>
+<blockquote>
+<p>sudo apt-get install wakeonlan</p>
+</blockquote>
+<p>3.2.唤醒远程计算机</p>
+<p>执行下面的命令就可以唤醒远程的计算机了：</p>
+<p>#host_address为远程计算机的域名或ip地址，mac_address为远程计算机的mac地址,mac地址是’:’间隔的形式<br><code>wakeonlan -i host_address mac_address</code></p>
+<h1 id="centos的情况"><a href="#centos的情况" class="headerlink" title="centos的情况"></a>centos的情况</h1><p>环境说明：<br>两台局域网内的linux主机，本环境的系统为centos 5.3 X86_64<br>控制主机 为：192.168.10.149<br>被控制主机为：192.168.10.150</p>
+<p>一，在控制主机上安装远程开机需要的 软件<br>[root@tomcat2 ~]#yum -y install wol<br>或者安装rpm包<br>[root@tomcat2 ~]#rpm -ivh wol-0.7.1-2.1.el3.dag.x86_64.rpm</p>
+<p>二，开启被控制主机的远程网卡唤醒功能<br>第一步：登录到被控制服务器192.168.10.150，用ethtool这个命令打印出网卡的信息<br>[root@tomcat1 ~]# ethtool eth0<br>clip_image002 可以看到，ethtool把网卡的信息全部列出，我们只关心其中的这两项:<br>clip_image004<br>如果 wake-on 一项值为 d,表示禁用wake on lan<br>值为 g,表示启用 wake on lan</p>
+<p>第二步：用下面的命令来启用wake on lan<br>[root@tomcat1 ~]# ethtool -s eth0 wol g</p>
+<p>第三步：确认是否开启了wake on lan功能<br>[root@tomcat1 ~]# ethtool eth0<br>clip_image006<br>clip_image008<br>OK，目标机器的网卡已经支持了远程开机了</p>
+<p>三． 获取被控制主机的MAC地址<br>[root@tomcat1 ~]#ifconfig eth0<br>clip_image010 把clip_image012这一项记录下来即可</p>
+<p>四．关闭被控制主机 192.168.10.150的系统，然后再控制主机192.168.10.149上远程开机<br>[root@tomcat2 ~]#wol 00:0C:29:5D:06:24<br>稍后就会发现，192.168.10.150已经启动了<br>备注：<br>1,ethtool的 -s 参数是修改指定以太网设备的设置<br>2,wol的取值默认是d,含义是disable<br>修 改后的值为g,含义是Wake on MagicPacket(tm)<br>它还有几个取值，分别是：<br>p Wake on phy activity<br>u Wake on unicast messages<br>m Wake on multicast messages<br>b Wake on broadcast messages<br>a Wake on ARP</p>
+<p>3,当机器重启后，eth0的设置又会回复到Wake-on: d 状态,<br>这个问题怎么解决？<br>两个办法：第一个，也是我们的惯性思维;<br>把/sbin/ethtool -s eth0 wol g 这条命令附加到/etc/rc.local这个文件中，<br>则下次开机后会自动执行</p>
+<p>第二个: 编辑/etc/sysconfig/network-scripts/ifcfg-eth0<br>（eth0网卡的配置文件），添加上一行：<br>ETHTOOL_OPTS=”wol g”</p>
+<p>4,网络唤醒的局限性：<br>它只能在局域网中应用，而不能通过互联 网运行，为什么？<br>因为机器关闭后，完全是靠网卡唤醒机器，此时的机器是关闭的，没有操作系统运行也就谈不上支持tcp/ip协议，当然 也就不能通过互联网运行了.也就是说：如果我们在某个局域网中只有一台机器，就不能使用此功能了.我们必须能登录到局域网中的一台机器上，在此机器上运行 wake on lan 去唤醒目标机器前提条件就是：目标机器和我们登录的机器在同一局域网中</p>
+<p>测试网卡WOL在Linux上的功能的步骤：</p>
+<p>1.运行ethtool命令查看网卡是否支持Wake On Lan</p>
+<p>Supports Wake-on: pumbg<br>Wake-on: d</p>
+<p>若Wake-on为d，表示禁用Wake On LAN，需要启用它。<br>如果已经是g就说明目标机器的网卡已经支持Wake On LAN.</p>
+<p>2.执行命令：</p>
+<p>ethtool -s eth0 wol g   //启用wol</p>
+<p>3.使用wol唤醒主机<br>用法：</p>
+<p>wol 目标主机MAC</p>
+<p>参考 <a href="https://blog.csdn.net/yu132563/article/details/97705307" target="_blank" rel="noopener">在Linux下通过Wake On LAN实现网络唤醒远程开机</a></p>
+<p>可以通过一台已经启动的机器通过Wake<br> On LAN去开启唤醒另外一台机器。<br>现在介绍通过一台已经启动的linux机器通过Wake<br> On LAN去唤醒开期另外一台机器。<br>前置条件：<br>操作机器与目标机器在同一局域网内<br>目标机器电源和网线已插好<br>目标机器网卡和主板均支持远程唤醒并在BIOS里已经设置了网络唤醒(WOL)开机。<br>目前一般的机器网卡和主板都支持远程唤醒开机，需要在BIOS里设置将网络唤醒开机开启。<br>开机时进入BIOS，查看CMOS中的“Power<br> Management Setup”，通常里面会有Power On by Onborad Lan，将其设置为“Enable”。<br>如下图，在电源管理中开启Power On by Onborad Lan。不同的主板BIOS设置不太一样。具体根据自己机器实际情况进行设置。<br><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112359964.png" alt="img"></p>
+<p>如何在Linux下通过Wake<br> On LAN远程唤醒，具体操作步骤如下：<br>1.在本机安装Wake On LAN。可从官方网站下载。<br>CentOS可以用yum命令安装:<br>yum install wol<br>也可以下载wol的rpm包通过rpm安装。点击这里下载</p>
+<p> <img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112712140.png" alt="img"><br>2.登录需要远程唤醒开机的目标机器，运行ethtool命令查看网卡是否支持WakeOn Lan</p>
+<p>[root@localhost]# ethtool eth0</p>
+<p>看这两行</p>
+<p>Supports Wake-on: pumbg</p>
+<p>Wake-on: d</p>
+<p>若Wake-on为d，表示禁用Wake On LAN，需要启用它。</p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112740672.png" alt="img"></p>
+<p>[root@localhost]# ethtool -s eth0 wol g</p>
+<p>如果已经是g就说明目标机器的网卡已经支持Wake On LAN。</p>
+<p>3.查看目标机器网卡的MAC地址</p>
+<p>[root@localhost]# ifconfig</p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112802345.png" alt="img"></p>
+<p>4.关闭目标机器，在主机运行wol命令<br>wol 00:17:a4:ad:c3:a8<br>这时，目标机器这时就会开启了。可以通过ping命令验证机器是否已经启动了。<br>如果记不住mac地址可以写个简单的shell脚本，直接执行这个脚本就可以了。</p>
+<p>#!/bin/bash<br>wol 目标mac地址</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/19/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -927,93 +1081,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/17/Project_RNA_seq_SRP219564/" class="post-title-link" itemprop="url">RNA-seq全流程数据分析精简版</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-17T00:00:00+08:00">2019-12-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RNA-seq/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####可以使用循环下载</span></span></span><br><span class="line">cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&#123;id&#125; -O ./original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done</span><br></pre></td></tr></table></figure>
-
-<h4 id="step2-sra2fastq"><a href="#step2-sra2fastq" class="headerlink" title="step2 sra2fastq"></a>step2 sra2fastq</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 处理SRP219564</span></span></span><br><span class="line"></span><br><span class="line">cd ~/project/SRP219564/</span><br><span class="line">cat SraRunTable.txt |awk '&#123;print $12,$14&#125;'|sed '1d'  &gt;sra2case.txt</span><br><span class="line">cd ~/project/SRP219564/original_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim multi_sra2fastq.sh</span><br><span class="line"></span><br><span class="line">cat ../sra2case.txt | while read id;</span><br><span class="line">do 	</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	sra=$&#123;file&#125;.sra</span><br><span class="line">	nohup fastq-dump --gzip --split-3 -O ../fastq/ $&#123;sra&#125; 1&gt;log.txt 2&gt;&amp;1 &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">bash multi_sra2fastq.sh</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/17/Project_RNA_seq_SRP219564/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1083,18 +1150,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">71</span>
+        <span class="site-state-item-count">75</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
