@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="关于hexo进阶篇hexo  重新配置服务器 安装nginx 1sudo apt-get install nginx    配置 Nginx 网站目录和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var&#x2F;www&#x2F;html’，所以我建议你使用’var&#x2F;www&#x2F;hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是 网站存放文件的目录，用于Nginx">
+  <meta name="description" content="关于hexo进阶篇hexo  重新配置服务器">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于hexo进阶篇 （将hexo部署到我的github上）">
 <meta property="og:url" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/index.html">
 <meta property="og:site_name" content="Bio_info_bridge">
-<meta property="og:description" content="关于hexo进阶篇hexo  重新配置服务器 安装nginx 1sudo apt-get install nginx    配置 Nginx 网站目录和本地一样，网站也要有一个放东西的文件夹，由于nginx默认的目录是’var&#x2F;www&#x2F;html’，所以我建议你使用’var&#x2F;www&#x2F;hexo’，当然，你用别的也可以，就请自己记住目录，下文也替换成你自定义的目录便是 网站存放文件的目录，用于Nginx">
+<meta property="og:description" content="关于hexo进阶篇hexo  重新配置服务器">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/1573970957849-1589798986461.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/image-20200518175720877.png">
@@ -251,6 +251,8 @@
 
       
         <h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><p>hexo  重新配置服务器</p>
+<a id="more"></a>
+
 <p>安装nginx</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nginx</span><br></pre></td></tr></table></figure>
 
@@ -657,8 +659,9 @@
         </a>
       </div>
       <div class="site-state-item site-state-categories">
+            <a href="/categories/">
         <span class="site-state-item-count">19</span>
-        <span class="site-state-item-name">categories</span>
+        <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
