@@ -20,15 +20,16 @@
     var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp   在服务器安装 下载上述版本进行解压 1234567# 下载到一个文件夹下，解压mkdir ~&#x2F;frptar -xvf frp_0.32.1_linux_amd64.tar.gz# 修改文件frps.ini # 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;loca">
+  <meta name="description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="wakeonlan_内网穿透">
 <meta property="og:url" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/index.html">
 <meta property="og:site_name" content="Bio_info_bridge">
-<meta property="og:description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp   在服务器安装 下载上述版本进行解压 1234567# 下载到一个文件夹下，解压mkdir ~&#x2F;frptar -xvf frp_0.32.1_linux_amd64.tar.gz# 修改文件frps.ini # 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;loca">
+<meta property="og:description" content="第一章：内网穿透参考 https:&#x2F;&#x2F;github.com&#x2F;fatedier&#x2F;frp">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212810840.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/Snipaste_2020-05-20_16-21-25.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519213812865.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519214039830.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520082300778.png">
@@ -42,13 +43,12 @@
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520102652009.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/wola.jpg">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520092109799.png">
-<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520091436294.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112359964.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112712140.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112740672.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/20161117112802345.png">
 <meta property="article:published_time" content="2020-05-19T13:19:35.000Z">
-<meta property="article:modified_time" content="2020-05-20T04:44:49.586Z">
+<meta property="article:modified_time" content="2020-05-20T12:09:51.121Z">
 <meta property="article:author" content="yuqiao chen">
 <meta property="article:tag" content="servers">
 <meta property="article:tag" content="linux">
@@ -234,7 +234,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-20 12:44:49" itemprop="dateModified" datetime="2020-05-20T12:44:49+08:00">2020-05-20</time>
+                <time title="Modified: 2020-05-20 20:09:51" itemprop="dateModified" datetime="2020-05-20T20:09:51+08:00">2020-05-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,10 +267,15 @@
         <h3 id="第一章：内网穿透"><a href="#第一章：内网穿透" class="headerlink" title="第一章：内网穿透"></a>第一章：内网穿透</h3><p>参考</p>
 <p><a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
 <p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png" alt="image-20200519212733456"></p>
+<a id="more"></a>
+
+
+
 <p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212810840.png" alt="image-20200519212810840"></p>
-<p>在服务器安装</p>
-<p>下载上述版本进行解压</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">mkdir ~&#x2F;frp</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 修改文件frps.ini </span><br><span class="line"># 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br><span class="line">#</span><br></pre></td></tr></table></figure>
+<p><strong>特别注意：树莓派是arm 结构，因此需要使用arm64版本</strong></p>
+<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/Snipaste_2020-05-20_16-21-25.png" alt="Snipaste_2020-05-20_16-21-25"></p>
+<h4 id="在服务器安装"><a href="#在服务器安装" class="headerlink" title="在服务器安装"></a>在服务器安装</h4><p>下载上述版本进行解压</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 下载到一个文件夹下，解压</span><br><span class="line">mkdir ~&#x2F;frp</span><br><span class="line">tar -xvf frp_0.32.1_linux_amd64.tar.gz</span><br><span class="line"># 修改文件frps.ini </span><br><span class="line"># 建议以后放在这个文件夹下sudo mkdir -p &#x2F;usr&#x2F;local&#x2F;frp</span><br><span class="line"># 解压后存放到这个文件夹内</span><br></pre></td></tr></table></figure>
 
 
 
@@ -312,19 +317,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">我的树莓派</span><br><span class="line">sudo ethtool -s eth0 wol g  # 开启</span><br><span class="line">sudo ethtool eth0 |grep Wake-on</span><br><span class="line">wakeonlan -i 192.168.0.101  dc:a6:32:61:2f:1b </span><br><span class="line">sudo etherwake dc:a6:32:61:2f:1b</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520083213589.png" alt="image-20200520083213589"></p>
-<h2 id="但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"><a href="#但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）" class="headerlink" title="但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"></a>但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）</h2><p>都是操作系统不允许</p>
+<h4 id="第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"><a href="#第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）" class="headerlink" title="第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"></a>第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）</h4><p>都是操作系统不允许</p>
 <p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520102652009.png" alt="image-20200520102652009"></p>
-<h4 id="看了很久找到了解决方式"><a href="#看了很久找到了解决方式" class="headerlink" title="看了很久找到了解决方式"></a>看了很久找到了解决方式</h4><p><a href="https://www.techrepublic.com/article/how-to-enable-wake-on-lan-in-ubuntu-server-18-04/" target="_blank" rel="noopener">https://www.techrepublic.com/article/how-to-enable-wake-on-lan-in-ubuntu-server-18-04/</a></p>
-<h5 id="How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04"><a href="#How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04" class="headerlink" title="How to enable Wake On LAN in Ubuntu Server 18.04"></a>How to enable Wake On LAN in Ubuntu Server 18.04</h5><h2 id="What-you’ll-need"><a href="#What-you’ll-need" class="headerlink" title="What you’ll need"></a>What you’ll need</h2><p>The only things you’ll need to make this work are:</p>
+<h3 id="第三章：具体解决方案"><a href="#第三章：具体解决方案" class="headerlink" title="第三章：具体解决方案"></a>第三章：具体解决方案</h3><h4 id="看了很久找到了解决方式"><a href="#看了很久找到了解决方式" class="headerlink" title="看了很久找到了解决方式"></a>看了很久找到了解决方式</h4><p><a href="https://www.techrepublic.com/article/how-to-enable-wake-on-lan-in-ubuntu-server-18-04/" target="_blank" rel="noopener">https://www.techrepublic.com/article/how-to-enable-wake-on-lan-in-ubuntu-server-18-04/</a></p>
+<h5 id="How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04"><a href="#How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04" class="headerlink" title="How to enable Wake On LAN in Ubuntu Server 18.04"></a>How to enable Wake On LAN in Ubuntu Server 18.04</h5><h4 id="What-you’ll-need"><a href="#What-you’ll-need" class="headerlink" title="What you’ll need"></a>What you’ll need</h4><p>The only things you’ll need to make this work are:</p>
 <ul>
 <li>An instance of Ubuntu Server 18.04</li>
 <li>A user account with sudo privileges</li>
 <li>A network interface that supports WOL</li>
 </ul>
-<h2 id="How-to-install-ethtool"><a href="#How-to-install-ethtool" class="headerlink" title="How to install ethtool"></a>How to install ethtool</h2><p>The tool that makes this possible is ethtool. Chances are, it’s already installed on your server. However, on the off-chance it’s not, let’s install it. Open a terminal window and issue the following command:</p>
+<h4 id="How-to-install-ethtool"><a href="#How-to-install-ethtool" class="headerlink" title="How to install ethtool"></a>How to install ethtool</h4><p>The tool that makes this possible is ethtool. Chances are, it’s already installed on your server. However, on the off-chance it’s not, let’s install it. Open a terminal window and issue the following command:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install ethtool -y</span><br></pre></td></tr></table></figure>
 
-<h2 id="How-to-locate-the-interface-name"><a href="#How-to-locate-the-interface-name" class="headerlink" title="How to locate the interface name"></a>How to locate the interface name</h2><p>The next thing you need to do is locate the interface name you want listening for the magic packet. If your machine has both WAN and LAN interfaces, you’ll probably only want to enable this on the LAN side. </p>
+<h4 id="How-to-locate-the-interface-name"><a href="#How-to-locate-the-interface-name" class="headerlink" title="How to locate the interface name"></a>How to locate the interface name</h4><p>The next thing you need to do is locate the interface name you want listening for the magic packet. If your machine has both WAN and LAN interfaces, you’ll probably only want to enable this on the LAN side. </p>
 <p>To find the interface name, issue the command:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip a</span><br></pre></td></tr></table></figure>
 
@@ -338,14 +343,14 @@
 <p>Where INTERFACE is the name of the interface to be used.</p>
 <p>The command will report nothing back–unless it turns out your network interface doesn’t support WOL, at which point it will inform you as such.</p>
 <p>Finally, you must know the MAC address of the interface. This can be discovered with the same command used to find the interface name (ip a). </p>
-<h2 id="How-to-install-WOL-and-send-the-magic-packet"><a href="#How-to-install-WOL-and-send-the-magic-packet" class="headerlink" title="How to install WOL and send the magic packet"></a>How to install WOL and send the magic packet</h2><p>The easiest way to send the magic packet (from Linux to Linux) is by using another tool, called wakeonlan. Install this with the command:</p>
+<h4 id="How-to-install-WOL-and-send-the-magic-packet"><a href="#How-to-install-WOL-and-send-the-magic-packet" class="headerlink" title="How to install WOL and send the magic packet"></a>How to install WOL and send the magic packet</h4><p>The easiest way to send the magic packet (from Linux to Linux) is by using another tool, called wakeonlan. Install this with the command:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install wakeonlan -y</span><br></pre></td></tr></table></figure>
 
 <p>Once that application is installed, you can then send the magic packet to the listening interface with the command:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wakeonlan MAC</span><br></pre></td></tr></table></figure>
 
 <p>Where MAC is the MAC address of the LAN interface with WOL enabled. The command will report that it has sent the magic packet to the MAC address and your remote server should now be awake, allowing you to log in remotely.</p>
-<h2 id="Making-it-stick（解决方案，让计算机记住设置）"><a href="#Making-it-stick（解决方案，让计算机记住设置）" class="headerlink" title="Making it stick（解决方案，让计算机记住设置）"></a>Making it stick（解决方案，让计算机记住设置）</h2><p>The problem with this method is that the enabling of WOL on the interface will not stick after a reboot. To make this persistent on Ubuntu Server 18.04, you must write a systemd file. To do this, issue the command:</p>
+<h4 id="Making-it-stick（解决方案，让计算机记住设置）"><a href="#Making-it-stick（解决方案，让计算机记住设置）" class="headerlink" title="Making it stick（解决方案，让计算机记住设置）"></a>Making it stick（解决方案，让计算机记住设置）</h4><p>The problem with this method is that the enabling of WOL on the interface will not stick after a reboot. To make this persistent on Ubuntu Server 18.04, you must write a systemd file. To do this, issue the command:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;wol.service</span><br></pre></td></tr></table></figure>
 
 <p>In that file, paste the following:</p>
@@ -362,30 +367,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl start wol.service</span><br></pre></td></tr></table></figure>
 
 <p>And that’s it. Wake On LAN is now available for the LAN interface. You can wake that server without having to trudge all the way to your data center. Just remember, you have to know the MAC address of the target LAN interface, you cannot do this via IP address. Happy waking.</p>
-<p>[ubuntu@ubuntu ~]$ arp -n<br>Address                  HWtype  HWaddress           Flags Mask            Iface<br>192.168.0.1              ether   60:3a:7c:0c:70:2b   C                     eth0<br>192.168.0.102            ether   3c:91:80:24:f0:7b   C                     eth0<br>192.168.0.106            ether   d4:61:da:49:29:7f   C                     eth0<br>192.168.0.108            ether   00:d8:61:71:17:96   C                     eth0<br>192.168.0.105            ether   00:be:3b:a9:e0:b8   C                     eth0</p>
-<p><a href="https://www.cyberciti.biz/tips/linux-send-wake-on-lan-wol-magic-packets.html" target="_blank" rel="noopener">https://www.cyberciti.biz/tips/linux-send-wake-on-lan-wol-magic-packets.html</a></p>
+<h2 id="参考1"><a href="#参考1" class="headerlink" title="参考1"></a>参考1</h2><p><a href="https://www.cyberciti.biz/tips/linux-send-wake-on-lan-wol-magic-packets.html" target="_blank" rel="noopener">https://www.cyberciti.biz/tips/linux-send-wake-on-lan-wol-magic-packets.html</a></p>
 <p>Save and close the file. If you are using Debian / Ubuntu Linux, edit /etc/network/interfaces:<br><code># vi /etc/network/interfaces</code><br>Append the following to eth0:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">auto eth0 </span><br><span class="line">iface eth0 inet static </span><br><span class="line">address 192.168.1.1 </span><br><span class="line">netmask 255.255.255.0 </span><br><span class="line">gateway 192.168.1.254        </span><br><span class="line">post-up &#x2F;sbin&#x2F;ethtool -s eth0 wol g        </span><br><span class="line">post-down &#x2F;sbin&#x2F;ethtool -s eth0 wol g</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">auto enp24s0 </span><br><span class="line">iface enp24s0 inet static </span><br><span class="line">address 192.168.0.108 </span><br><span class="line">netmask 255.255.255.0 </span><br><span class="line">gateway 192.168.0.255        </span><br><span class="line">post-up &#x2F;sbin&#x2F;ethtool -s enp24s0 wol g        </span><br><span class="line">post-down &#x2F;sbin&#x2F;ethtool -s enp24s0 wol g</span><br></pre></td></tr></table></figure>
 
 
 
 <p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520092109799.png" alt="image-20200520092109799"></p>
-<h4 id="第三步：登录树莓派安装wakeonlan"><a href="#第三步：登录树莓派安装wakeonlan" class="headerlink" title="第三步：登录树莓派安装wakeonlan"></a>第三步：登录树莓派安装wakeonlan</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install wakeonlan</span><br><span class="line">sudo aptitude install etherwake</span><br><span class="line"># mac地址是’:’间隔的形式&#96;wakeonlan -i host_address mac_address&#96;</span><br><span class="line">wakeonlan -i 192.168.0.101 dc:a6:32:61:2f:1b </span><br><span class="line"> </span><br><span class="line">sudo apt-get remove wakeonlan</span><br></pre></td></tr></table></figure>
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install etherwake</span><br><span class="line">etherwake -i 192.168.0.108 00:d8:61:71:17:96</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arp -n</span><br></pre></td></tr></table></figure>
-
-
-
-<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200520091436294.png" alt="image-20200520091436294"></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><h4 id="这里主要是针对ubuntu系统的说明"><a href="#这里主要是针对ubuntu系统的说明" class="headerlink" title="这里主要是针对ubuntu系统的说明"></a>这里主要是针对ubuntu系统的说明</h4><p>1.检查计算机硬件是否支持WOL(wake on lan)功能。<br>1.1.检查主板和电源是否支持WOL:<br>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
+<h2 id="参考2"><a href="#参考2" class="headerlink" title="参考2"></a>参考2</h2><h4 id="这里主要是针对ubuntu系统的说明"><a href="#这里主要是针对ubuntu系统的说明" class="headerlink" title="这里主要是针对ubuntu系统的说明"></a>这里主要是针对ubuntu系统的说明</h4><p>1.检查计算机硬件是否支持WOL(wake on lan)功能。<br>1.1.检查主板和电源是否支持WOL:<br>进入BIOS的Power Management Setup，设置PME Event Wake Up(这其实是一种Wake On PCI Card模式)为 Enabled。注意，有些机器可能为Wake On Lan或Wake On PCI Card。Wake On Lan模式可以在完全关机状态下唤醒，而Wake On PCI Card模式要在深度休眠状态下唤醒。造成这样的区别主要是因为主板的设计不一样，现在的计算机一般都是Wake On PCI Card模式的。</p>
 <p>1.2.检查网卡是否支持WOL。<br>安装ethtool，并执行以下命令：</p>
 <blockquote>
 <p>sudo apt-get install ethtool<br>sudo ethtool eth0 |grep Wake-on</p>
@@ -463,8 +452,8 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/05/19/frp%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="frp内网穿透">
-      <i class="fa fa-chevron-left"></i> frp内网穿透
+    <a href="/2020/05/18/dataset-colorectal-cancer/" rel="prev" title="结直肠癌数据库整理">
+      <i class="fa fa-chevron-left"></i> 结直肠癌数据库整理
     </a></div>
       <div class="post-nav-item"></div>
     </div>
@@ -525,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章：内网穿透"><span class="nav-number">1.</span> <span class="nav-text">第一章：内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643"><span class="nav-number">1.1.</span> <span class="nav-text">就完成了可参考https:&#x2F;&#x2F;blog.csdn.net&#x2F;u013144287&#x2F;article&#x2F;details&#x2F;78589643</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章：wakeonlan"><span class="nav-number">2.</span> <span class="nav-text">第二章：wakeonlan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：设置bios"><span class="nav-number">2.1.</span> <span class="nav-text">第一步：设置bios</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：安装ethtool"><span class="nav-number">2.2.</span> <span class="nav-text">第二步：安装ethtool</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"><span class="nav-number"></span> <span class="nav-text">但有个重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#看了很久找到了解决方式"><span class="nav-number">0.1.</span> <span class="nav-text">看了很久找到了解决方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04"><span class="nav-number">0.1.1.</span> <span class="nav-text">How to enable Wake On LAN in Ubuntu Server 18.04</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What-you’ll-need"><span class="nav-number"></span> <span class="nav-text">What you’ll need</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-install-ethtool"><span class="nav-number"></span> <span class="nav-text">How to install ethtool</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-locate-the-interface-name"><span class="nav-number"></span> <span class="nav-text">How to locate the interface name</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-to-install-WOL-and-send-the-magic-packet"><span class="nav-number"></span> <span class="nav-text">How to install WOL and send the magic packet</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Making-it-stick（解决方案，让计算机记住设置）"><span class="nav-number"></span> <span class="nav-text">Making it stick（解决方案，让计算机记住设置）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：登录树莓派安装wakeonlan"><span class="nav-number">0.1.</span> <span class="nav-text">第三步：登录树莓派安装wakeonlan</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number"></span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里主要是针对ubuntu系统的说明"><span class="nav-number">0.1.</span> <span class="nav-text">这里主要是针对ubuntu系统的说明</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#centos的情况"><span class="nav-number"></span> <span class="nav-text">centos的情况</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#第一章：内网穿透"><span class="nav-number">1.</span> <span class="nav-text">第一章：内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在服务器安装"><span class="nav-number">1.1.</span> <span class="nav-text">在服务器安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#就完成了可参考https-blog-csdn-net-u013144287-article-details-78589643"><span class="nav-number">1.2.</span> <span class="nav-text">就完成了可参考https:&#x2F;&#x2F;blog.csdn.net&#x2F;u013144287&#x2F;article&#x2F;details&#x2F;78589643</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第二章：wakeonlan"><span class="nav-number">2.</span> <span class="nav-text">第二章：wakeonlan</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：设置bios"><span class="nav-number">2.1.</span> <span class="nav-text">第一步：设置bios</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：安装ethtool"><span class="nav-number">2.2.</span> <span class="nav-text">第二步：安装ethtool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）"><span class="nav-number">2.3.</span> <span class="nav-text">第三步：解决重大问题（关机后，无法保存设置，也就是wake-on设置会自动消失）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第三章：具体解决方案"><span class="nav-number">3.</span> <span class="nav-text">第三章：具体解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#看了很久找到了解决方式"><span class="nav-number">3.1.</span> <span class="nav-text">看了很久找到了解决方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#How-to-enable-Wake-On-LAN-in-Ubuntu-Server-18-04"><span class="nav-number">3.1.1.</span> <span class="nav-text">How to enable Wake On LAN in Ubuntu Server 18.04</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#What-you’ll-need"><span class="nav-number">3.2.</span> <span class="nav-text">What you’ll need</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-install-ethtool"><span class="nav-number">3.3.</span> <span class="nav-text">How to install ethtool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-locate-the-interface-name"><span class="nav-number">3.4.</span> <span class="nav-text">How to locate the interface name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-install-WOL-and-send-the-magic-packet"><span class="nav-number">3.5.</span> <span class="nav-text">How to install WOL and send the magic packet</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Making-it-stick（解决方案，让计算机记住设置）"><span class="nav-number">3.6.</span> <span class="nav-text">Making it stick（解决方案，让计算机记住设置）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考1"><span class="nav-number"></span> <span class="nav-text">参考1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考2"><span class="nav-number"></span> <span class="nav-text">参考2</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里主要是针对ubuntu系统的说明"><span class="nav-number">0.1.</span> <span class="nav-text">这里主要是针对ubuntu系统的说明</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#centos的情况"><span class="nav-number"></span> <span class="nav-text">centos的情况</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -539,7 +528,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
