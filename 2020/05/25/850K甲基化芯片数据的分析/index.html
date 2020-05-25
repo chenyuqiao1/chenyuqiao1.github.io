@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="850K甲基化芯片数据的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="850K甲基化芯片数据的分析">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="850K甲基化芯片数据的分析">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/686wuwgod7.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/zijoinxts0.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ebx0k3lleg.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/9zwlyzdno1.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/14f35yzrse.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/43ufxq3kvt.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/8beqq4ncfj.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/yezc3fahi8.png?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/r04w41xpkj.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/3g9bwctuer.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/4hbz9h6znt.jpeg?imageView2/2/w/1620">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:33:40.674Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="ChAMP">
+<meta property="article:tag" content="850K">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/686wuwgod7.jpeg?imageView2/2/w/1620">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>850K甲基化芯片数据的分析 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          850K甲基化芯片数据的分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:40" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="850K甲基化芯片数据的分析"><a href="#850K甲基化芯片数据的分析" class="headerlink" title="850K甲基化芯片数据的分析"></a>850K甲基化芯片数据的分析</h1><a id="more"></a>
+
+<p>本文是看到生信技能树有个<a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247484987&idx=2&sn=e861ae6ae2f1b9662af2616089b9a351&chksm=9b484680ac3fcf968907d97614d0e1662816da1ea4aff54ca3b9cc8914421e847d3d1644a93e&scene=21#wechat_redirect" target="_blank" rel="noopener">450K甲基化芯片数据处理传送门</a>，我呢，恰好不久前用一个集成度很高的ChAMP包分析过<strong>850K的甲基化芯片数据</strong>。所以，就想着把自己的笔记整理下，可以和更多的小伙伴学习交流，还有个原因可能是因为这是四月份打算学生信时，接手的第一个任务，曲曲折折好几个月才跑通流程，遇到的坑也比较多，想记录下来。</p>
+<p>我之前分析时是参考ChAMP包的源文档，非常详细的整个流程的介绍，但是，在笔记快整理完时突然发现作者的博客也写过一篇介绍的文章，博客里写的不像源文档很官方，这里面有很多作者很直白的解释和补充，还有作者一些很深刻的思考。看了之后发现自己对很多分析理解的还不是很深刻。所以如果想学甲基化芯片数据分析的小伙伴可以以官方源文档和作者的博客为主，这篇笔记仅仅作为额外的参考吧。</p>
+<p>Illumina甲基化芯片目前仍是很多实验室做甲基化项目的首选，尤其是对于大样本研究而言，其性价比相当高；目前在临床上应用还是很广的。这种芯片的发展主要经历了27K、450K以及850K（27K，450K，850K指能测到的CpG甲基化位点），目前积累的数据主要是450K芯片的，之后850K可能会成为甲基化芯片的主流。楼主之前写过一篇450K芯片预处理的帖子，其中很详细介绍了这种芯片的基础知识以及流程图和代码，大家可以先看看。芯片的处理流程一般就是：<strong>数据读入——数据过滤——数据校正——下游分析</strong>。</p>
+<p>数据处理一种时基于GenomeStudio（illumina开发的软件），但是只对于小样本，另一种基于R的各种package，如lumi、<strong>minfi</strong>、wateRmelon、<strong>ChAMP</strong>等。</p>
+<p>与测序相比，芯片的处理可能对计算资源的要求不算高，主要使用的工具就是R，但是R的使用比较耗内存，尤其是处理大批量数据的时候。</p>
+<h2 id="Step1-基础知识的补充"><a href="#Step1-基础知识的补充" class="headerlink" title="Step1: 基础知识的补充"></a>Step1: 基础知识的补充</h2><p>在正式分析前，我结合作业先将有关甲基化和芯片的基础知识整理了一下。</p>
+<h3 id="Illumina-甲基化芯片的原理及探针的设计（I型探针和II型探针"><a href="#Illumina-甲基化芯片的原理及探针的设计（I型探针和II型探针" class="headerlink" title="Illumina 甲基化芯片的原理及探针的设计（I型探针和II型探针)"></a>Illumina 甲基化芯片的原理及探针的设计（I型探针和II型探针)</h3><p>原理：简而言之，基于亚硫酸盐处理后的DNA序列杂交的信号探测。亚硫酸盐是甲基化探测的“金标准”，不管是芯片或者甲基化测序，都要先对DNA样品进行亚硫酸盐处理，使非甲基化的C变成U，而甲基化的C保持不变，从而在后续的测序或者杂交后区分出来。</p>
+<p>450K和850K采用了两种探针Infinium Ⅰ 和Infinium Ⅱ对甲基化进行测定，Infinium I采用了两种bead（甲基化M和非甲基化U，如图显示），而II只有一种bead（即甲基化和非甲基化在一起），这也导致了它们在后续荧光探测的不同，450K采用了两种荧光探测信号（红光和绿光）（图1）。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/686wuwgod7.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>甲基化概述：</p>
+<p>DNA甲基化被认为是表观遗传调控的一种方式，如Cytosine methylation (5-mC)是研究最多的，被认为是哺乳动物中常见的甲基化方式, 最近有一些研究也发现了其他形式的甲基化，如2016年Nature上发表了一篇关于鼠的胚胎干细胞的m6A（N6-methyladenine）形式的甲基化。DAN甲基化被认为对基因表达，染色质重塑，细胞分化，疾病等都有重要影响（图2）。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/zijoinxts0.jpeg?imageView2/2/w/1620" alt="img"></p>
+<h3 id="甲基化的检测方法："><a href="#甲基化的检测方法：" class="headerlink" title="甲基化的检测方法："></a>甲基化的检测方法：</h3><p>目前甲基化检测的方法可以概括为三种：芯片、测序、免疫沉淀。具体选择何种方法主要还是根据实验目的和实验室条件了。但目前来说，甲基化芯片技术从覆盖度，检测灵敏度和价格综合考虑，还是性价比相对高的（图3）。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ebx0k3lleg.jpeg?imageView2/2/w/1620" alt="img"></p>
+<h3 id="关于甲基化芯片常见的Glossary"><a href="#关于甲基化芯片常见的Glossary" class="headerlink" title="关于甲基化芯片常见的Glossary:"></a>关于甲基化芯片常见的Glossary:</h3><p><strong>CpG island:</strong> Defned as regions 500 bp, 55% GC and expected/observed CpG ratio of 0.65. 40% of gene promoters contain islands.</p>
+<p><strong>CpG shelves:</strong> ~4Kb from islands.</p>
+<p><strong>CpG shores:</strong> ~2Kb from islands, 75% of tissuespecifc differentially methylated regions found in shores. Methylation in shores shows higher correlation with gene expression than CpG islands.</p>
+<p><strong>Differentially methylated regions (DMR):</strong> Cell-, tissue-, and condition- specifc differences in methylation.</p>
+<p><strong>Enhancer:</strong> A short region of DNA that can activate transcription and is often regulated by methylation.</p>
+<p><strong>Hypermethylation:</strong> Most cytosines are methylated. </p>
+<p><strong>Hypomethylation:</strong> Most cytosines do not have 5-mC. Euchromatin and active gene promoters are hypomethylated.</p>
+<p><strong>Beta value:</strong>通常的甲基化衡量方法被称为“Beta”值; 等于甲基化百分比，并定义为“Meth”除以“Meth + Unmeth”。</p>
+<p><strong>CGI:</strong> CpG island 即甲基化岛。</p>
+<p>因为手头的数据是850K的甲基化数据，之前也只接触过ChAMP包，所以这里就以ChAMP包介绍850K甲基化数据分析。ChAMP包是一个集成度很高的包，它包括450K和<strong>EPIC(即通常所说的850K)</strong>两套分析流程，完整的包括了数据的载入，标准化，矫正，差异甲基化和富集分析等功能（图4）。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/9zwlyzdno1.jpeg?imageView2/2/w/1620" alt="img"></p>
+<h2 id="Step2-计算机资源的准备"><a href="#Step2-计算机资源的准备" class="headerlink" title="Step2:计算机资源的准备"></a>Step2:计算机资源的准备</h2><p>作业1 安装好R软件及相应的包，下载R包的说明书，整理它们的官网链接。</p>
+<p>R的使用真的很耗内存，我有28个样本（14个control, 14个case), 之前4G内存的电脑，本地分析总时半路电脑就卡死了。所以最好配置高一点，或者在服务器上下载安装R和Rstudio（这里最好安装Rstudio, 因为ChAMP包中有很多的GUI图形功能，Rstudio可以更好实现，或者含有X11功能的linux系统）。</p>
+<h3 id="软件的安装："><a href="#软件的安装：" class="headerlink" title="软件的安装："></a>软件的安装：</h3><p>R和Rstudio 的本地安装很简单，直接到官网下载，只要注意安装时的路径不要有中文，Rstudio安装前要先安装R。</p>
+<p>服务器版本的Rstudio安装好后，在网页地址栏输入访问地址：&lt;服务器IP:8787，用户名和密码为Linux用户的用户名和密码。</p>
+<p>具体安装方法可以参考生信宝典陈老师的一篇文章<a href="http://www.biotrainee.com/thread-1808-1-1.html。" target="_blank" rel="noopener">http://www.biotrainee.com/thread-1808-1-1.html。</a></p>
+<h3 id="下载R包："><a href="#下载R包：" class="headerlink" title="下载R包："></a>下载R包：</h3><p>下载ChAMP 包，官网给出了很详细的流程说明（<a href="https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html）。" target="_blank" rel="noopener">https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html）。</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())   </span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)</span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">BiocManager::install(<span class="string">'ChAMP'</span>)</span><br></pre></td></tr></table></figure>
+
+<p><strong>NOTE:</strong> ChAMP有很多依赖包，安装时，若报错有哪个包没有，就继续安装 biocLite(“YourErrorPackage”)，可能3-4次就可以安装成功。</p>
+<h3 id="导入ChAMP包并测试："><a href="#导入ChAMP包并测试：" class="headerlink" title="导入ChAMP包并测试："></a>导入ChAMP包并测试：</h3><p>导入ChAMP包后，根据是450K的数据或者是850K的数据，导入测试数据集，走一下分析流程，检测包是否正常工作，更重要的是看该包的文档，理解每一步流程的意义。该包的文档很详细，建议大家看原文档，下面给出的啰啰嗦嗦的介绍基本上都来自官网的文档说明（<a href="https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html）。" target="_blank" rel="noopener">https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html）。</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(<span class="string">"ChAMP"</span>)<span class="comment">#450K的数据导入：</span></span><br><span class="line">testDir=system.file(<span class="string">"extdata"</span>,package=<span class="string">"ChAMPdata"</span>)</span><br><span class="line">myLoad &lt;- champ.load(testDir,arraytype=<span class="string">"450K"</span>)<span class="comment">#850K的数据</span></span><br><span class="line">data(EPICSimData)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Step-3-数据读入"><a href="#Step-3-数据读入" class="headerlink" title="Step 3: 数据读入"></a>Step 3: 数据读入</h2><p>数据的读入这里可能坑最多，首先450K 和850K甲基化芯片的原始数据格式都是IDAT, 因为数组是用两种不同的颜色来测量的，所以每个样本都有两个文件，通常是扩展名Grn.idat和Red.idat。数据在载入时还需要一个<strong>SampleSheet.csv</strong>文件（图5）（也称做pd file）, 这个文件很重要，它包含了样本的信息，可以对照测试数据的csv文件和自己的csv文件，对信息不全的地方进行补充。尤其要注意<strong>*SampleGroup</strong> 这一列信息是否有，这一列信息代表你想比较的表型类型，比如癌和癌旁。另一个我遇到过的一个隐形坑在<strong>Sentrix_ID</strong>，这一列数因为数字串很长，在Excel中可能以科学计数法显示，然后本来是长数字串后两位不一样的数字串都变为一样的，在读入时就会报重复字符的错误，所以这里一定要核查下长数字串的信息，如果有错误，自己重新输入时以文档格式输入，或者前面加右单引‘。csv文件准备好后，将csv文件与所有样本的芯片数据（即IDAT文件）放在一个文件下，然后就可以正常读入了。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/14f35yzrse.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p> <strong>图5 Sample_Sheet.csv fiel</strong></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(<span class="string">"ChAMP"</span>)</span><br><span class="line">myLoad &lt;- champ.load(<span class="string">"F:/850K Methylation Chip/biotree_850K/methy_rawData"</span>,arraytype = <span class="string">"EPIC"</span>) <span class="comment">#450K和**EPIC(即通常所说的850K)**</span></span><br><span class="line">save(myLoad,file=<span class="string">"myLoad.rda"</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>champ.load()包含了 champ.import() 和champ.filter()，这里会自动过滤p值0.01; probes beadcount &lt;3 in at least 5% of samples; NoCG; probes with SNPs;  MultiHit;  probes located on X,Y chromosome。</p>
+</blockquote>
+<p>在读入数据之后，最好保存，后续重复读入时会加快速度。</p>
+<h2 id="Step-4-质控和标准化"><a href="#Step-4-质控和标准化" class="headerlink" title="Step 4: 质控和标准化"></a>Step 4: 质控和标准化</h2><h3 id="CpG-overview"><a href="#CpG-overview" class="headerlink" title="CpG overview:"></a>CpG overview:</h3><p>质控前可以先看看CpG的分布，包括在染色体上的分布；CpG岛附近的 open sea, shelf,shore (参考图2，理解具体意思) ; UTR,TSS; I 型探针和II探针上的分布（图6），这个信息对后续DMP的分析有帮助。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CpG.GUI(arraytype=<span class="string">"EPIC"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/43ufxq3kvt.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>质控: </p>
+<p>然后进行质控，有两种方式：champ.QC() 和 QC.GUI()。champ.QC会产生三种类型的图（点图，beta 分布图，聚类图）以pdf格式输出，QC.GUI产生5个图，多了一个I型、II型探针图和热图（图7）。所有的GUI功能都比较耗内存，且产生的是网页交互式的图片，每幅图的右上角给的都有保存按钮，要注意的是保存时文件名要加上.png的后缀（图7）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#champ.QC()</span></span><br><span class="line">QC.GUI(arraytype=<span class="string">"EPIC"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/8beqq4ncfj.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p> <strong>图7 QC Overview</strong></p>
+<h3 id="标准化"><a href="#标准化" class="headerlink" title="标准化:"></a>标准化:</h3><p>champ.norm 提供了四种方法：BMIQ, SWAN1, PBC2 and FunctionalNormliazation4。默认的方法是BMIQ, 且BMIQ对850K的标准化方法更好一点，所以这里我选择的是BMIQ的标准化方法，没有尝试其他的标准化方法。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myNorm &lt;- champ.norm(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">QC.GUI(myNorm,arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">save(myNorm,file=<span class="string">"myNorm.rda"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="SVD-plot-和批次效应："><a href="#SVD-plot-和批次效应：" class="headerlink" title="SVD plot 和批次效应："></a>SVD plot 和批次效应：</h3><p>SVD(singular value decomposition) 这里用于评估数据集中变量的主要成分。这种成分可能确实是你感兴趣的生物因素，也可能是技术来源的一些变量成分（称为批次效应）（图8）。如果存在批次效应，就进行批次效应的矫正，矫正完之后可以再看看SVD plot。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">champ.SVD()</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/yezc3fahi8.png?imageView2/2/w/1620" alt="img"></p>
+<p> <strong>图8 SVD Plot</strong></p>
+<h2 id="Step-5-差异甲基化分析（DMP-amp-DMR-amp-DMB"><a href="#Step-5-差异甲基化分析（DMP-amp-DMR-amp-DMB" class="headerlink" title="Step 5: 差异甲基化分析（DMP &amp; DMR &amp; DMB)"></a>Step 5: 差异甲基化分析（DMP &amp; DMR &amp; DMB)</h2><p>差异分析是多数研究都要分析的，这里包括三种方法：DMP，DMR，DMB。DMP代表找出Differential Methylation Probe（差异化CpG位点），DMR代表找出Differential Methylation Region（差异化CpG区域），Block代表Differential Methylation Block（更大范围的差异化region区域）</p>
+<p>简单来说，DMP是找出一个一个的差异甲基化CpG位点，DMR就是一个连续不断都比较长的差异片段，科学家们觉得，这样的连续差异片段，对于基因的影响会更加明显，只找这样的片段，可以使得计算生物学的打击精度更为准确，也可以让最终找出来的结论数据更少，便于实验人员筛选。另外一个类似的东西就是DMB，那个东西出现的原因是，有的科学家觉得，DMR这样的区域还不够显著，DNA上的甲基化出现变化，可能是绵延几千位点的！而且只会在基因以外的区域，但是这些基因以外的区域发生变化，却会导致基因的表达发生变化。你可以想象成，北京周边的河北在大炼钢铁，然后北京也跟着雾霾了，大概就是这意思。</p>
+<p>DMP,DMR,DMB的结果都是基于的shiny的交互页面，左栏上方是 P-value 和 abs(logFC) ，可以选择想看的值，然后点submit, 右栏可以生成差异甲基化表，热图，feature&amp;cgi, 左栏下方还有基因，CpG按钮，选择你想看的结果，submit, 右栏就会生成相应gene,CpG结果（图9）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">myDMP &lt;- champ.DMP(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">save(myDMP,file=<span class="string">"myDMP.rda"</span>)</span><br><span class="line">DMP.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR(arraytype = <span class="string">"EPIC"</span>,method=<span class="string">"DMRcate"</span>,cores=<span class="number">1</span>)</span><br><span class="line">save(myDMR,file=<span class="string">"myDMR.rda"</span>)</span><br><span class="line">DMR.GUI(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line"><span class="comment">#myBlock &lt;- champ.Block(arraytype = "EPIC")</span></span><br><span class="line"><span class="comment">#Block.GUI(arraytype="EPIC",compare.group=c("PrEC_cells","LNCaP_cells"))</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/r04w41xpkj.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p> <strong>图9 DMP Overview</strong></p>
+<h2 id="Step-6-基因富集和网络分析（GSEA-amp-EpiMod）"><a href="#Step-6-基因富集和网络分析（GSEA-amp-EpiMod）" class="headerlink" title="Step 6: 基因富集和网络分析（GSEA &amp; EpiMod）"></a>Step 6: 基因富集和网络分析（GSEA &amp; EpiMod）</h2><p>差异甲基化分析后，你可能想知道DMP,DMR中涉及到的基因是否可以富集到某个生物功能或通路，GSEA(Gene Set Enrichment Analysis)和EpiMod（Differential Methylated Interaction Hotspots）提供了可以寻找作用通路网络中的疾病关联小网络的功能 （图 10）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myGSEA &lt;- champ.GSEA(arraytype = <span class="string">"EPIC"</span>)</span><br><span class="line">save(myGSEA,file=<span class="string">"myGSEA.rda"</span>)</span><br><span class="line">myEpiMod &lt;- champ.EpiMod(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">save(myEpiMod,file=<span class="string">"myEpiMod.rda"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/3g9bwctuer.jpeg?imageView2/2/w/1620" alt="img"></p>
+<h2 id="Step-7-拷贝数变异分析（CNA"><a href="#Step-7-拷贝数变异分析（CNA" class="headerlink" title="Step 7: 拷贝数变异分析（CNA)"></a>Step 7: 拷贝数变异分析（CNA)</h2><p>拷贝数变异，也就是有些基因片段被复制的此处过多或者过少，从而导致某些疾病。但是这个函数作者觉得有点粗糙，精度还不够。我试着跑了一下，时间超长（图11）。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myCNA &lt;- champ.CNA(control = <span class="literal">F</span>,arraytype = <span class="string">"EPIC"</span>)</span><br><span class="line">save(myCNA,file=myCNA)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/4hbz9h6znt.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p> <strong>图11 Frequency Plot of Cancer Sample</strong></p>
+<p><strong>小结：</strong>如果用ChAMP包对450K或850K甲基化数据进行分析时，一是最好有个配置高一点的电脑；二是初始数据导入时，注意csv文件的格式，且要和IDAT文件放在一个文件下；其余的流程很少会遇到bug, 但最关键的是理解每一步的意义，能够根据分析的结果挖掘出想要的东西。</p>
+<p>ps: 这次作业提供的公共数据，有IDAT文件，也有个csv文件，但是这里的csv文件和我的csv文件差别很大，不是很明白这里的csv文件是什么，有什么作用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/ChAMP/" rel="tag"># ChAMP</a>
+              <a href="/tags/850K/" rel="tag"># 850K</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/" rel="prev" title="GEO数据库甲基化芯片挖掘">
+      <i class="fa fa-chevron-left"></i> GEO数据库甲基化芯片挖掘
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/EpiDISH/" rel="next" title="EpiDISH包的使用解读">
+      EpiDISH包的使用解读 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#850K甲基化芯片数据的分析"><span class="nav-number">1.</span> <span class="nav-text">850K甲基化芯片数据的分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Step1-基础知识的补充"><span class="nav-number">1.1.</span> <span class="nav-text">Step1: 基础知识的补充</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Illumina-甲基化芯片的原理及探针的设计（I型探针和II型探针"><span class="nav-number">1.1.1.</span> <span class="nav-text">Illumina 甲基化芯片的原理及探针的设计（I型探针和II型探针)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#甲基化的检测方法："><span class="nav-number">1.1.2.</span> <span class="nav-text">甲基化的检测方法：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于甲基化芯片常见的Glossary"><span class="nav-number">1.1.3.</span> <span class="nav-text">关于甲基化芯片常见的Glossary:</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step2-计算机资源的准备"><span class="nav-number">1.2.</span> <span class="nav-text">Step2:计算机资源的准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件的安装："><span class="nav-number">1.2.1.</span> <span class="nav-text">软件的安装：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载R包："><span class="nav-number">1.2.2.</span> <span class="nav-text">下载R包：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导入ChAMP包并测试："><span class="nav-number">1.2.3.</span> <span class="nav-text">导入ChAMP包并测试：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-3-数据读入"><span class="nav-number">1.3.</span> <span class="nav-text">Step 3: 数据读入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-4-质控和标准化"><span class="nav-number">1.4.</span> <span class="nav-text">Step 4: 质控和标准化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CpG-overview"><span class="nav-number">1.4.1.</span> <span class="nav-text">CpG overview:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标准化"><span class="nav-number">1.4.2.</span> <span class="nav-text">标准化:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SVD-plot-和批次效应："><span class="nav-number">1.4.3.</span> <span class="nav-text">SVD plot 和批次效应：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-5-差异甲基化分析（DMP-amp-DMR-amp-DMB"><span class="nav-number">1.5.</span> <span class="nav-text">Step 5: 差异甲基化分析（DMP &amp; DMR &amp; DMB)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-6-基因富集和网络分析（GSEA-amp-EpiMod）"><span class="nav-number">1.6.</span> <span class="nav-text">Step 6: 基因富集和网络分析（GSEA &amp; EpiMod）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Step-7-拷贝数变异分析（CNA"><span class="nav-number">1.7.</span> <span class="nav-text">Step 7: 拷贝数变异分析（CNA)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

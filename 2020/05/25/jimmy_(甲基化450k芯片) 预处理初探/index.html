@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="一、Illumina HumanMethylation450 BeadChip （甲基化450k芯片）简介Illumina最早的甲基化芯片是27K（K代表1000，表示大概可以测到的CpG位点数）的数据，后来增加到了450K（主流的甲基化芯片），而目前illumina已经出了新一代产品EPIC（我习惯称之为850K），但是技术核心在450K已经成熟了，所以分析流程这里以450K为主（也是目前数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jimmy_(甲基化450k芯片) 预处理初探">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="一、Illumina HumanMethylation450 BeadChip （甲基化450k芯片）简介Illumina最早的甲基化芯片是27K（K代表1000，表示大概可以测到的CpG位点数）的数据，后来增加到了450K（主流的甲基化芯片），而目前illumina已经出了新一代产品EPIC（我习惯称之为850K），但是技术核心在450K已经成熟了，所以分析流程这里以450K为主（也是目前数">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-25T04:04:44.160Z">
+<meta property="article:modified_time" content="2019-07-27T14:58:50.232Z">
+<meta property="article:author" content="yuqiao chen">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>jimmy_(甲基化450k芯片) 预处理初探 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          jimmy_(甲基化450k芯片) 预处理初探
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-25 12:04:44" itemprop="dateCreated datePublished" datetime="2020-05-25T12:04:44+08:00">2020-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-07-27 22:58:50" itemprop="dateModified" datetime="2019-07-27T22:58:50+08:00">2019-07-27</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>  一、Illumina HumanMethylation450 BeadChip （甲基化450k芯片）简介<br>Illumina最早的甲基化芯片是27K（K代表1000，表示大概可以测到的CpG位点数）的数据，后来增加到了450K（主流的甲基化芯片），而目前illumina已经出了新一代产品EPIC（我习惯称之为850K），但是技术核心在450K已经成熟了，所以分析流程这里以450K为主（也是目前数据库主流的甲基化芯片数据）。<br>450K芯片的芯片图形及其原理可以以下图（来源于illumina.com）展示</p>
+<p>1、芯片：一张芯片包括12个array（如图显示），也就是一张芯片可以做12个sample，一台机子一次可以跑8张芯片，也就是一共96个sample，每个样本可以测到超过450，000个CpG位点的甲基化信息（大概人所有的1%，但是覆盖了多数CpG岛和启动子区），芯片本身包含一些控制探针可以做质控。<br>2、原理：简而言之，基于亚硫酸盐处理后的DNA序列杂交的信号探测。亚硫酸盐是甲基化探测的“金标准”，不管是芯片或者甲基化测序，都要先对DNA样品进行亚硫酸盐处理，使非甲基化的C变成U，而甲基化的C保持不变，从而在后续的测序或者杂交后区分出来。450K采用了两种探针对甲基化进行测定，Infinium I采用了两种bead（甲基化M和非甲基化U，如图显示），而II只有一种bead（即甲基化和非甲基化在一起），这也导致了它们在后续荧光探测的不同，450K采用了两种荧光探测信号（红光和绿光）。<br>更多信息可以在官网查看 <a href="http://www.illumina.com/products/methylation_450_beadchip_kits.html" target="_blank" rel="noopener">http://www.illumina.com/products … _beadchip_kits.html</a></p>
+<p>二、分析需要考虑的问题<br>1、背景校正<br>2、红光和绿光的校正<br>3、控制芯片的使用（illumina450K本身有一些控制芯片，可以用来做质控，如亚硫酸盐处理效率）<br>4、探针类型（I型和II型）的校正（不同探针类型产生的数据不同）<br>这个问题我们之前关注很多，这里附上两篇文献供大家参考，最终我们选择BMIQ的方法（基于ebayes的原理将II型探针的甲基化水平拉伸到I型水平，如下图显示）来做矫正。<br>文献1： <a href="http://bioinformatics.oxfordjournals.org/content/29/2/189.short" target="_blank" rel="noopener">http://bioinformatics.oxfordjournals.org/content/29/2/189.short</a><br>文献2： <a href="http://www.tandfonline.com/doi/abs/10.4161/epi.24008" target="_blank" rel="noopener">http://www.tandfonline.com/doi/abs/10.4161/epi.24008</a><br>图片来源于第1篇文献</p>
+<p>5、位置的校正（芯片上的不同位置产生的数据可能会有偏差）<br>6、批次的校正（不同的批次做的数据会有偏差）<br>7、探针序列本身是否可靠（有些探针本身位于repeat区或者包含snp等就会影响杂交及最后的结果，应该去除，附上一片参考文献，里边有list可以用来去除不好的探针）<br>文献：<a href="http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-51" target="_blank" rel="noopener">http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-51</a> </p>
+<p>三、数据处理<br>1、GenomeStudio<br>GS是illumina开发的软件，基于图形界面的操作处理，适合于没有R及编程基础的人使用，但是使用GS需要权限，本人试过挺难破解的，如果有人可以破解，可以提供给论坛小伙伴使用。<br>2、基于R和bioconductor的pipeline<br>bioconductor里开发了很多package供大家使用，如果你会R，那么处理这个甲基化芯片的数据将变得简单。<br>可以处理450K芯片的package有lumi、minfi、wateRmelon、ChAMP等，没有哪一种就特别好，大家都在不断改进，所以只要你知道大概的流程和需要注意的问题，那么你也可以自己写代码处理，只是package可以帮你省很多事情。下边我会附上我的处理流程图和详解，还有我的代码，<strong>我的代码是基于minfi的，我再次强调，代码只是手段，你可以用其他的package（例如我的同事很多使用ChAMP）</strong>，也许会更好。</p>
+<h4 id="流程图："><a href="#流程图：" class="headerlink" title="流程图："></a>流程图：</h4><p>流程图详解：</p>
+<p>我们一般下载或者iscan后的原始数据格式为Idat，首先可以得到每个sample的每个probe的p值和bead数，根据p值和bead数可以进行样本和探针的过滤，过滤之后需要用BMIQ的方法进行I和II型探针的校正，矫正之后去掉那些包含snp之类的不好的探针，最后对数据做batch的校正。校正之后的数据就是预处理后的数据了，可以用于更下游的分析，如差异甲基化和甲基化与表达的关联分析等。<br>我的代码： <a href="https://github.com/wkl1990/illumina-450K-analysis" target="_blank" rel="noopener">https://github.com/wkl1990/Illumina450K-methylation</a>，再次强调，我的代码并不完美，如果有bug，请告诉我修改，构建你自己的代码，让自己敲起来。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/" rel="prev" title="甲基化基本概念">
+      <i class="fa fa-chevron-left"></i> 甲基化基本概念
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程图："><span class="nav-number">1.</span> <span class="nav-text">流程图：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

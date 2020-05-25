@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="450k甲基化基础（一）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="甲基化基本概念">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="450k甲基化基础（一）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-03e9e75a5e2b3561.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/1564223557753.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-b4a968473d6b2c3f.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-a4d02691275b53ba.webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:35:43.996Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="基础">
+<meta property="article:tag" content="methylation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-03e9e75a5e2b3561.webp">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>甲基化基本概念 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          甲基化基本概念
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:43" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="450k甲基化基础（一）"><a href="#450k甲基化基础（一）" class="headerlink" title="450k甲基化基础（一）"></a>450k甲基化基础（一）</h1><a id="more"></a>
+
+<ul>
+<li><strong>基本概念</strong></li>
+</ul>
+<h6 id="1-什么是DNA甲基化"><a href="#1-什么是DNA甲基化" class="headerlink" title="1. 什么是DNA甲基化"></a>1. 什么是DNA甲基化</h6><p>DNA甲基化是表观遗传学的中最为常见的一种修饰，其主要形式包括：5-甲基胞嘧啶 (5-mC)、少量的N6-甲基腺嘌呤 (N6-mA) 以及7-甲基鸟嘌呤(7-mG)。</p>
+<p>目前常说的DNA甲基化一般指<code>CpG岛甲基化</code>，即在<code>DNA甲基化转移酶（DNMTs）</code>的作用下使CpG二核苷酸5’端的<code>胞嘧啶</code>转变为<code>5’甲基胞嘧啶</code>。</p>
+<p>哺乳动物体细胞的DNA胞嘧啶甲基化主要发生在<code>CpG岛</code><br><code>CpG岛（CpG islands）</code>:指CpG序列密度相比整个基因组来说是特别高的富集区域，一般位于<code>启动子附近</code>，<code>5’端非翻译区</code>或<code>第一个外显子</code>；一般CpG岛序列长度在<code>500bp</code>以上，<code>GC含量高于55%以及CpG出现比率大于0.65</code>，40%的启动子区域含有CpG岛。</p>
+<p><code>CpG shores</code>指距CpG岛边缘<code>2kb</code>的区域<br><code>CpG shelves</code>是指距CpG岛边缘<code>4kb</code>的区域</p>
+<p>哺乳动物中的非CpG甲基化主要是发生在胚胎发育阶段和脑组织中</p>
+<p>基因组中60%-90%的CpG都被甲基化，未甲基化的CpG形成CpG岛，位于<code>结构基因启动子的核心序列和转录起始点</code></p>
+<ul>
+<li><strong>DNA甲基化的作用</strong></li>
+</ul>
+<p>一般来说，DNA甲基化主要作用在于调控基因的表达，即<code>基因启动子区域CpG岛的甲基化水平越高</code>，<code>其对应基因的表达水平就相对越低</code>；DNA甲基化受到<code>甲基化酶</code>（如DNMT3A）和<code>去甲基化酶</code>（TET2）的调控。</p>
+<blockquote>
+<p>在转录水平的抑制机制一般存在以下几点：</p>
+<ul>
+<li>DNA胞嘧啶甲基化后改变了DNA的空间构想，导致转录因子无法正常地与DNA结合，从而导致转录水平下降</li>
+<li>甲基化DNA与MeCP家族结合，改变了染色质的结构，抑制基因转录的发生<br>CpG岛的异常甲基化导致一些组蛋白发生去乙酰化，从而改变了染色质的结构（使空间高度螺旋化），失去转录活性<br>-除了对转录水平抑制外，在一些肿瘤研究中发现DNA甲基化会导致一些癌基因表达量的上升；</li>
+<li><strong>在正常人基因组中，CpG岛中的CpG通常是非甲基化的</strong>，而<strong>CpG岛外的CpG则一般是甲基化的</strong>；当<code>肿瘤</code>发生后，<strong>CpG岛局部发生高甲基化</strong>以及<strong>基因组则呈现DNA低甲基化</strong>；前者会导致<strong>抑癌基因表达量下降</strong>，从而使得<code>癌细胞形成以及存活效率上升</code>，后者则会导致<strong>癌基因甲基化水平降低而活化</strong>，以及<code>一些转座子的活化进而导致染色体稳定性下降</code>，最终导致恶性肿瘤的发生。</li>
+</ul>
+</blockquote>
+<p><strong>除了CpG岛的甲基化水平的变化会导致肿瘤的发生外，CpG shores and shelves的异常甲基化也会导致其基因转录水平的抑制</strong></p>
+<blockquote>
+<p><strong>甲基化芯片原理</strong></p>
+</blockquote>
+<p>甲基化芯片的原理是<strong>基于亚硫酸盐处理后的DNA序列杂交的信号探测</strong>，亚硫酸盐处理是将<code>非甲基化的胞嘧啶变成尿嘧啶</code>，而<code>甲基化的胞嘧啶则保持不变</code>，然后<code>再将尿嘧啶转化为胸腺嘧啶</code>，最后进行<code>芯片杂交</code>；<br>Illumina的450K芯片采用两种assay：Infinium I和Infinium Ⅱ，前者有两种bead（微珠），分别是甲基化M和非甲基化U，后者则是一种bead（不区分甲基化和非甲基化）。<br>以及下面这张图，注：左边一列是非甲基化的GpC locus，右边是甲基化的GpC locus，上下分别是Infinium I 和Infinium Ⅱ</p>
+<blockquote>
+<p>如上方图：Infinium I，在未甲基化的GpC locus，U型bead尾部为A，与未甲基化CpG位点相匹配，能够成功进行单核苷酸延伸并被检测到（U型磁珠发光），而M型bead尾部为G，与未甲基化位点不能匹配，没有信号产生；在甲基化的GpC locus，M型bead能与甲基化CpG位点相匹配，单核苷酸延伸并产生信号（M型磁珠发光），而U型bead则不匹配，不产生信号<br>如下方图：Infinium Ⅱ探针则不区分M和U，探针尾部为C，配对后只加入单个碱基（ddNTP-BioT， ddNTP-DNP），然后根据荧光颜色判断加入碱基的类型，进而确定该位点是否被甲基化<br>探针长度为50bp，基于假设在50bp内的CpG位点具有相同的甲基化状态，具有区域相关性<br>通过计算甲基化和非甲基化位点的荧光信号比例，可确定某位点的甲基化水平（Beta值=M/(M+UM)）</p>
+</blockquote>
+<p><strong>探针是以甲基化位点为单位的，每个探针对应检测一个甲基化位点。为了能够区分甲基化位点和非甲基化位点，在450K 和 850K中，有两种类型的探针，分别叫做I 型探针和 II 型探针</strong></p>
+<p><img src="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-03e9e75a5e2b3561.webp" alt="img"></p>
+<blockquote>
+<p>1)：如图A：Infinium I，在未甲基化的GpC locus，U型bead尾部为A，与未甲基化CpG位点相匹配，能够成功进行单核苷酸延伸并被检测到（U型磁珠发光），而M型bead尾部为G，与未甲基化位点不能匹配，没有信号产生；在甲基化的GpC locus，M型bead能与甲基化CpG位点相匹配，单核苷酸延伸并产生信号（M型磁珠发光），而U型bead则不匹配，不产生信号。<br>2)：如图B：Infinium Ⅱ探针则不区分M和U，探针尾部为C，配对后只加入单个碱基（ddNTP-BioT， ddNTP-DNP），<strong>然后根据荧光颜色判断加入碱基的类型</strong>，进而确定该位点是否被甲基化<br>3)：最后，通过计算甲基化和非甲基化位点的荧光信号比例，可确定某位点的甲基化水平（Beta值=M/(M+UM)）</p>
+</blockquote>
+<p><img src="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/1564223557753.png" alt="1564223557753"></p>
+<p>对于human 来说，目前主流的DNA甲基化芯片有450K 和 850K 两种，都是illumina 公司研发的。这里的450K 和 850K 指的是芯片上探针的数量，对应可以检测的甲基化位点个数。</p>
+<p><img src="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-b4a968473d6b2c3f.webp" alt="img"></p>
+<p>image.png</p>
+<p>—————————————————————————————————————</p>
+<p><strong>对于亚硫酸氢盐处理的DNA ，非甲基化的C会变成T , 而甲基化的C不会变。</strong><br><strong>对于I 型探针而言，有两种序列，专业名词叫做bead type， 其中Unmethylated bead type 用来和非甲基化的C杂交，Methylated bead type 用来和甲基化的C杂交。</strong></p>
+<h5 id="下面是450K-上一个-I-型探针的示例："><a href="#下面是450K-上一个-I-型探针的示例：" class="headerlink" title="下面是450K 上一个 I 型探针的示例："></a>下面是450K 上一个 I 型探针的示例：</h5><blockquote>
+<p>ID cg00050873<br>AlleleA_ProbeSeq ACAAAAAAACAACACACAACTATAATAATTTTTAAAATAAATAAACCCCA<br>AlleleB_ProbeSeq ACGAAAAAACAACGCACAACTATAATAATTTTTAAAATAAATAAACCCCG</p>
+</blockquote>
+<h6 id="可以看到两种bead-type-只有末端最后1个碱基不同，A-碱基用来杂交非甲基化的C-G碱基用来杂交甲基化的C。"><a href="#可以看到两种bead-type-只有末端最后1个碱基不同，A-碱基用来杂交非甲基化的C-G碱基用来杂交甲基化的C。" class="headerlink" title="可以看到两种bead type 只有末端最后1个碱基不同，A 碱基用来杂交非甲基化的C, G碱基用来杂交甲基化的C。"></a>可以看到两种bead type 只有末端最后1个碱基不同，A 碱基用来杂交非甲基化的C, G碱基用来杂交甲基化的C。</h6><h6 id="对于II-型探针而言，设计的比较巧妙，它只需要1个bead-type-探针只涉及到甲基化位点的前一个碱基，在DNA-链的延伸阶段，根据延伸的碱基是A-还是-G-从而判断是甲基化的C-还是非甲基化的C。"><a href="#对于II-型探针而言，设计的比较巧妙，它只需要1个bead-type-探针只涉及到甲基化位点的前一个碱基，在DNA-链的延伸阶段，根据延伸的碱基是A-还是-G-从而判断是甲基化的C-还是非甲基化的C。" class="headerlink" title="对于II 型探针而言，设计的比较巧妙，它只需要1个bead type, 探针只涉及到甲基化位点的前一个碱基，在DNA 链的延伸阶段，根据延伸的碱基是A 还是 G , 从而判断是甲基化的C 还是非甲基化的C。"></a>对于II 型探针而言，设计的比较巧妙，它只需要1个bead type, 探针只涉及到甲基化位点的前一个碱基，在DNA 链的延伸阶段，根据延伸的碱基是A 还是 G , 从而判断是甲基化的C 还是非甲基化的C。</h6><h4 id="下面是450K-上一个II-型探针的示例："><a href="#下面是450K-上一个II-型探针的示例：" class="headerlink" title="下面是450K 上一个II 型探针的示例："></a>下面是450K 上一个II 型探针的示例：</h4><blockquote>
+<p>ID cg00035864<br>AlleleA_ProbeSeq AAAACACTAACAATCTTATCCACATAAACCCTTAAATTTATCTCAAATT</p>
+</blockquote>
+<h5 id="可以看到只有1种bead-type。"><a href="#可以看到只有1种bead-type。" class="headerlink" title="可以看到只有1种bead type。"></a>可以看到只有1种bead type。</h5><h5 id="总结"><a href="#总结" class="headerlink" title="总结"></a><em>总结</em></h5><p>对于human而言，主流的DNA甲基化芯片有450K和850K两种，这两个数字代表覆盖到的甲基化位点的个数，是一个约数；<br>甲基化芯片上混合使用了I 型探针和II 型探针，I 型探针通过两个bead type 分别识别甲基化的C和非甲基化的C，II 型探针通过1个bead type 就可以区分甲基化的C和非甲基化的C。</p>
+<hr>
+<p>一、Illumina HumanMethylation450 BeadChip （甲基化450k芯片）简介</p>
+<p>450K芯片的芯片图形及其原理可以以下图展示</p>
+<p><img src="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/7406296-a4d02691275b53ba.webp" alt="img"></p>
+<p>image.png</p>
+<p>1、芯片：一张芯片包括12个array（如图显示），也就是一张芯片可以做12个sample，一台机子一次可以跑8张芯片，也就是一共96个sample，每个样本可以测到超过450，000个CpG位点的甲基化信息（大概人所有的1%，但是覆盖了多数CpG岛和启动子区），芯片本身包含一些控制探针可以做质控。<br>2、原理：简而言之，基于亚硫酸盐处理后的DNA序列杂交的信号探测。亚硫酸盐是甲基化探测的“金标准”，不管是芯片或者甲基化测序，都要先对DNA样品进行亚硫酸盐处理，使非甲基化的C变成U，而甲基化的C保持不变，从而在后续的测序或者杂交后区分出来。450K采用了两种探针对甲基化进行测定，Infinium I采用了两种bead（甲基化M和非甲基化U，如图显示），而II只有一种bead（即甲基化和非甲基化在一起），这也导致了它们在后续荧光探测的不同，450K采用了两种荧光探测信号（红光和绿光）。</p>
+<p>二、分析需要考虑的问题<br>1、背景校正<br>2、红光和绿光的校正<br>3、控制芯片的使用（illumina450K本身有一些控制芯片，可以用来做质控，如亚硫酸盐处理效率）<br>4、探针类型（I型和II型）的校正（不同探针类型产生的数据不同）<br>最终我们选择BMIQ的方法（基于ebayes的原理将II型探针的甲基化水平拉伸到I型水平）来做矫正。<br>5、位置的校正（芯片上的不同位置产生的数据可能会有偏差）<br>6、批次的校正（不同的批次做的数据会有偏差）<br>7、探针序列本身是否可靠（有些探针本身位于repeat区或者包含snp等就会影响杂交及最后的结果，应该去除，附上一片参考文献，里边有list可以用来去除不好的探针）</p>
+<p>平均β=信号B /(信号A +信号B + 100)<br>通过计算甲基化（信号A）和未甲基化（信号B）等位基因之间的强度比来确定DNA甲基化水平（β值）。<br>具体地，β值是由甲基化（M对应于信号A）和未甲基化（U对应于信号B）等位基因的强度计算的，荧光信号的比率β= Max（M，0）/ [Max（ M，0）+ Max（U，0）+ 100]。<br>因此，β值的范围从0（完全未甲基化）到1（完全甲基化）</p>
+<p>具体的β值的意义是：</p>
+<p>任何等于或大于0.6的β值都被认为是完全甲基化的。<br>任何等于或小于0.2的β值被认为是完全未甲基化的。<br>β值在0.2和0.6之间被认为是部分甲基化的。</p>
+<p>参考：<br><a href="http://www.biotrainee.com/thread-237-1-1.html" target="_blank" rel="noopener">http://www.biotrainee.com/thread-237-1-1.html</a><br><a href="http://www.bioinfo-scrounger.com/archives/430" target="_blank" rel="noopener">http://www.bioinfo-scrounger.com/archives/430</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag"># 基础</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/ChAMP%20%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8B%E7%AF%87/" rel="prev" title="ChAMP 分析甲基化芯片数据">
+      <i class="fa fa-chevron-left"></i> ChAMP 分析甲基化芯片数据
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/" rel="next" title="jimmy_(甲基化450k芯片) 预处理初探">
+      jimmy_(甲基化450k芯片) 预处理初探 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#450k甲基化基础（一）"><span class="nav-number">1.</span> <span class="nav-text">450k甲基化基础（一）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-什么是DNA甲基化"><span class="nav-number">1.0.0.0.0.1.</span> <span class="nav-text">1. 什么是DNA甲基化</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下面是450K-上一个-I-型探针的示例："><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">下面是450K 上一个 I 型探针的示例：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#可以看到两种bead-type-只有末端最后1个碱基不同，A-碱基用来杂交非甲基化的C-G碱基用来杂交甲基化的C。"><span class="nav-number">1.0.0.0.1.1.</span> <span class="nav-text">可以看到两种bead type 只有末端最后1个碱基不同，A 碱基用来杂交非甲基化的C, G碱基用来杂交甲基化的C。</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#对于II-型探针而言，设计的比较巧妙，它只需要1个bead-type-探针只涉及到甲基化位点的前一个碱基，在DNA-链的延伸阶段，根据延伸的碱基是A-还是-G-从而判断是甲基化的C-还是非甲基化的C。"><span class="nav-number">1.0.0.0.1.2.</span> <span class="nav-text">对于II 型探针而言，设计的比较巧妙，它只需要1个bead type, 探针只涉及到甲基化位点的前一个碱基，在DNA 链的延伸阶段，根据延伸的碱基是A 还是 G , 从而判断是甲基化的C 还是非甲基化的C。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面是450K-上一个II-型探针的示例："><span class="nav-number">1.0.0.1.</span> <span class="nav-text">下面是450K 上一个II 型探针的示例：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#可以看到只有1种bead-type。"><span class="nav-number">1.0.0.1.1.</span> <span class="nav-text">可以看到只有1种bead type。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结"><span class="nav-number">1.0.0.1.2.</span> <span class="nav-text">总结</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

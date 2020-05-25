@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="EpiDISH实战示例123456789# 示例data(centEpiFibIC.m)data(DummyBeta.m)out.l &lt;- epidish(DummyBeta.m, centEpiFibIC.m, method &#x3D; &#39;RPC&#39;)frac.m &lt;- out.l$estFpheno.v &lt;- rep(c(0, 1), each &#x3D; 5)celldmc.o &lt;-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCGA甲基化实战">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="EpiDISH实战示例123456789# 示例data(centEpiFibIC.m)data(DummyBeta.m)out.l &lt;- epidish(DummyBeta.m, centEpiFibIC.m, method &#x3D; &#39;RPC&#39;)frac.m &lt;- out.l$estFpheno.v &lt;- rep(c(0, 1), each &#x3D; 5)celldmc.o &lt;-">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565102377273.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103589896.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565232069032.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103926003.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103950294.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565104026668.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565243201278.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565248437505.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565248994954.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565249063806.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/13817032-62098409dd8f820e.webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:36:26.642Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="TCGA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565102377273.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCGA甲基化实战 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCGA甲基化实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:36:26" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="EpiDISH实战"><a href="#EpiDISH实战" class="headerlink" title="EpiDISH实战"></a>EpiDISH实战</h2><h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line">data(centEpiFibIC.m)</span><br><span class="line">data(DummyBeta.m)</span><br><span class="line">out.l &lt;- epidish(DummyBeta.m, centEpiFibIC.m, method = <span class="string">'RPC'</span>)</span><br><span class="line">frac.m &lt;- out.l$estF</span><br><span class="line">pheno.v &lt;- rep(c(<span class="number">0</span>, <span class="number">1</span>), each = <span class="number">5</span>)</span><br><span class="line">celldmc.o &lt;- CellDMC(DummyBeta.m, pheno.v, frac.m)</span><br><span class="line">celldmc.o$dmct</span><br><span class="line">celldmc.o$coe</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565102377273.png" alt="1565102377273"></p>
+<a id="more"></a>
+
+
+
+<h4 id="载入数据"><a href="#载入数据" class="headerlink" title="载入数据"></a>载入数据</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">load(file = <span class="string">'./Rdata/step0_GDC_data.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/anno_450K.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/step1_methylation.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="第一次跑成功，但结果不理想"><a href="#第一次跑成功，但结果不理想" class="headerlink" title="第一次跑成功，但结果不理想"></a>第一次跑成功，但结果不理想</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># BiocManager::install('EpiDISH')</span></span><br><span class="line"><span class="keyword">library</span>(EpiDISH)</span><br><span class="line"><span class="comment"># 载入ref.m</span></span><br><span class="line">data(centDHSbloodDMC.m)</span><br><span class="line">data(centEpiFibIC.m)</span><br><span class="line">data(DummyBeta.m)</span><br><span class="line"><span class="comment"># 载入数据</span></span><br><span class="line">clinical_data&lt;- clinical_data[match(colnames(methylation_final),clinical_data$tcag_barcode),]</span><br><span class="line">match(colnames(methylation_final),clinical_data$tcag_barcode)</span><br><span class="line">Beta.m&lt;- as.matrix(methylation_final)</span><br><span class="line"><span class="comment"># 如果为了节约时间，只作为示例，载入的矩阵和示例矩阵的行数是一致的。</span></span><br><span class="line"><span class="comment"># Beta.m&lt;- as.matrix(methylation_final[row.names(methylation_final)%in%rownames(DummyBeta.m),])</span></span><br><span class="line">Beta.m&lt;- na.omit(Beta.m)</span><br><span class="line"><span class="comment">### 计算 frac.m 此处可以换着不同的method 参数</span></span><br><span class="line"><span class="comment"># out.l &lt;- epidish(Beta.m, centEpiFibIC.m, method = 'RPC')</span></span><br><span class="line"><span class="comment"># frac.m &lt;- out.l$estF</span></span><br><span class="line"><span class="comment">### 这里也可以使用hepidish函数</span></span><br><span class="line">frac.m &lt;- hepidish(beta.m = Beta.m, ref1.m = centEpiFibIC.m,</span><br><span class="line">                   ref2.m = centBloodSub.m, h.CT.idx = <span class="number">3</span>, method = <span class="string">'RPC'</span>)</span><br><span class="line"></span><br><span class="line">pheno.v&lt;- clinical_data$gender</span><br><span class="line">pheno.v&lt;- na.omit(pheno.v)</span><br><span class="line">table(pheno.v)</span><br><span class="line">celldmc.o &lt;- CellDMC(Beta.m, pheno.v, frac.m, adjPMethod = <span class="string">"fdr"</span>, adjPThresh = <span class="number">0.05</span>,</span><br><span class="line">        cov.mod = <span class="literal">NULL</span>, sort = <span class="literal">FALSE</span>, mc.cores = <span class="number">1</span>) <span class="comment"># 这一步很耗时</span></span><br><span class="line">tmp1&lt;- celldmc.o$dmct</span><br><span class="line">tmp2&lt;- celldmc.o$coe</span><br><span class="line">tmp3&lt;- tmp2$Epi</span><br><span class="line">save(celldmc.o,pheno.v,clinical_data,file = <span class="string">'ESCCC_methylation_EpiDISH.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>特别需要注意的事项是 pheno.v不可以是NA</p>
+<p>Beta.m不可以是NA</p>
+<p> <strong>还有就是Beta.m 的甲基化位点要求和示例数据 DummyBeta.m 保持一致？？？？</strong></p>
+</blockquote>
+<p>CellDMC（differentially methylated cell-types）**</p>
+<p>结果1 dmct</p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103589896.png" alt></p>
+<blockquote>
+<p>此处应该理解成cg01956624 这个甲基化位点是DMC，女性患者较男性患者的CD4T要低甲基化？</p>
+</blockquote>
+<h5 id="结果解读"><a href="#结果解读" class="headerlink" title="结果解读"></a>结果解读</h5><p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565232069032.png" alt="1565232069032"></p>
+<p>结果2 coe</p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103926003.png" alt="1565103926003"></p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565103950294.png" alt="1565103950294"></p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565104026668.png" alt="1565104026668"></p>
+<blockquote>
+<p>Beta.m 的甲基化位点必须要求和示例数据 DummyBeta.m 保持一致才能成功？</p>
+<p>结果的解读？</p>
+</blockquote>
+<h4 id="For-annotation"><a href="#For-annotation" class="headerlink" title="For annotation"></a>For annotation</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cg24497541</span></span><br><span class="line">tmp4&lt;- anno_450K[anno_450K$`Composite Element REF`==<span class="string">'cg08336733'</span>,]</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h5 id="热图"><a href="#热图" class="headerlink" title="热图"></a>热图</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">dat=as.data.frame(frac.m)</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">group_list&lt;- pheno.v</span><br><span class="line">table(group_list)</span><br><span class="line"></span><br><span class="line"><span class="comment"># deg=nrDEG</span></span><br><span class="line"><span class="comment"># x=deg$logFC</span></span><br><span class="line"><span class="comment"># names(x)=rownames(deg)</span></span><br><span class="line"><span class="comment"># class(x)</span></span><br><span class="line"><span class="comment"># x</span></span><br><span class="line"><span class="comment"># cg=c(names(head(sort(x),1000)),names(tail(sort(x),1000)))</span></span><br><span class="line"><span class="comment"># head(cg)</span></span><br><span class="line"><span class="keyword">library</span>(pheatmap)</span><br><span class="line">n&lt;- as.data.frame(t(dat))</span><br><span class="line">n&lt;- n[<span class="number">2</span>,]</span><br><span class="line"><span class="comment"># pheatmap(dat[cg,],show_colnames =F,show_rownames = F)</span></span><br><span class="line"><span class="comment"># n=t(scale(t(dat[cg,])))</span></span><br><span class="line"><span class="comment"># n[n&gt;2]=2</span></span><br><span class="line"><span class="comment"># n[n&lt; -2]= -2</span></span><br><span class="line"><span class="comment"># n[1:4,1:4]</span></span><br><span class="line"><span class="comment"># pheatmap(n,show_colnames =F,show_rownames = F)</span></span><br><span class="line">ac=data.frame(group=group_list)</span><br><span class="line">rownames(ac)=colnames(n)</span><br><span class="line"><span class="comment">### 设置颜色</span></span><br><span class="line">ann_colors = list(group = c(MALE = <span class="string">"#1B9E77"</span>, FEMALE = <span class="string">"#D95F02"</span>))</span><br><span class="line"><span class="comment"># pheatmap(n,cluster_rows = T,cluster_cols = F,show_colnames =T,show_rownames = F,filename = "./pheatmap_group.png")</span></span><br><span class="line"><span class="comment"># png(filename = './pheatmap.png',width = 1200, height = 500)</span></span><br><span class="line">pdf(file = <span class="string">'./pheatmap.pdf'</span>,width = <span class="number">7</span>,height = <span class="number">2</span>)</span><br><span class="line">pheatmap(n,show_colnames =<span class="literal">F</span>,show_rownames = <span class="literal">T</span>, cluster_cols = <span class="literal">T</span>,cluster_rows = <span class="literal">F</span>,</span><br><span class="line">         annotation_col=ac,</span><br><span class="line">         <span class="comment"># filename = "./pheatmap_group.png",</span></span><br><span class="line">         <span class="comment"># annotation_col=ac,filename = "/Users/kexin/Desktop/ESCC-Manuscript/01 Manuscript/figure1.pdf",</span></span><br><span class="line">         annotation_colors  = ann_colors,</span><br><span class="line">         color = colorRampPalette(c(<span class="string">"navy"</span>, <span class="string">"white"</span>, <span class="string">"firebrick3"</span>))(<span class="number">50</span>))</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565243201278.png" alt="1565243201278"></p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565248437505.png" alt="1565248437505"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">n&lt;- n[<span class="number">3</span>,]</span><br><span class="line">n&lt;- log10(n)</span><br><span class="line">n[n&gt; -<span class="number">1</span>]=-<span class="number">1</span></span><br><span class="line">n[n&lt; -<span class="number">1.6</span>]=  -<span class="number">1.6</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565248994954.png" alt="1565248994954"></p>
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565249063806.png" alt="1565249063806"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">exprSet&lt;- as.data.frame(t(frac.m))</span><br><span class="line">group_list=ifelse(as.numeric(substr(colnames(exprSet),<span class="number">14</span>,<span class="number">15</span>)) &lt; <span class="number">10</span>,<span class="string">'tumor'</span>,<span class="string">'normal'</span>)</span><br><span class="line"></span><br><span class="line">exprSet&lt;- exprSet[,group_list==<span class="string">'tumor'</span>]</span><br><span class="line">phe&lt;- clinical_data[clinical_data$tcag_barcode%<span class="keyword">in</span>%colnames(exprSet),]</span><br><span class="line">phe$days_to_death[phe$days_to_death==<span class="string">''</span>]=<span class="number">0</span></span><br><span class="line">phe$days_to_last_followup[phe$days_to_last_followup==<span class="string">''</span>]=<span class="number">0</span></span><br><span class="line">phe$days_to_death&lt;- as.numeric(as.character(phe$days_to_death))</span><br><span class="line">phe$days_to_last_followup&lt;- as.numeric(as.character(phe$days_to_last_followup))</span><br><span class="line">phe$time&lt;- ifelse(phe$days_to_death!= <span class="number">0</span>,phe$days_to_death,phe$days_to_last_followup)</span><br><span class="line">phe$event&lt;- as.numeric(phe$vital_status)</span><br><span class="line"><span class="comment"># phe$time[phe$time==0]&lt;- NA 这一句话有没有结果都一样，所以time==0 和time ==NA 效果是一样的</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line">match(colnames(exprSet),phe$tcag_barcode)</span><br><span class="line"><span class="comment">#########################单基因生存分析</span></span><br><span class="line">exprSet&lt;- as.data.frame(t(exprSet))</span><br><span class="line">colnames(exprSet)</span><br><span class="line">cell_name&lt;- <span class="string">'Neutro'</span></span><br><span class="line"><span class="comment"># gene_name&lt;- 'PAX1'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># dev.off()</span></span><br><span class="line"><span class="keyword">if</span>(cell_name%<span class="keyword">in</span>%colnames(exprSet))&#123;</span><br><span class="line">  phe$group=ifelse(exprSet[,cell_name]&gt;quantile(exprSet[,cell_name],<span class="number">0.5</span>),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  table(phe$group)</span><br><span class="line">  ggsurvplot(survfit(Surv(time, event)~group, data=phe), conf.int=<span class="literal">F</span>, pval=<span class="literal">TRUE</span>,legend.title = cell_name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">cell_name&lt;- colnames(exprSet)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (x <span class="keyword">in</span> cell_name) &#123;</span><br><span class="line">  phe$group=ifelse(exprSet[,x]&gt;quantile(exprSet[,x],<span class="number">0.5</span>),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  table(phe$group)</span><br><span class="line">  pp&lt;- ggsurvplot(survfit(Surv(time, event)~group, data=phe), conf.int=<span class="literal">F</span>, pval=<span class="literal">TRUE</span>,legend.title = cell_name)</span><br><span class="line">  ggsave(filename = paste(<span class="string">"plot_"</span>,x,<span class="string">".pdf"</span>,sep = <span class="string">""</span>))</span><br><span class="line">  print(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/13817032-62098409dd8f820e.webp" alt="img"></p>
+<blockquote>
+<p>因为这是一个比例，不是绝对值，所以没有特别好看的结果可以提供使用。</p>
+</blockquote>
+<h3 id="EpiDISH-就暂时到此为止。。。待续"><a href="#EpiDISH-就暂时到此为止。。。待续" class="headerlink" title="EpiDISH 就暂时到此为止。。。待续"></a>EpiDISH 就暂时到此为止。。。待续</h3>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/TCGA/" rel="tag"># TCGA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/" rel="prev" title="TCGA甲基化数据实战">
+      <i class="fa fa-chevron-left"></i> TCGA甲基化数据实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/Rscript_%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98DSS%E5%8C%85/" rel="next" title="甲基化测序数据实战DSS包">
+      甲基化测序数据实战DSS包 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#EpiDISH实战"><span class="nav-number">1.</span> <span class="nav-text">EpiDISH实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">1.0.1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#载入数据"><span class="nav-number">1.0.2.</span> <span class="nav-text">载入数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#第一次跑成功，但结果不理想"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">第一次跑成功，但结果不理想</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果解读"><span class="nav-number">1.0.2.2.</span> <span class="nav-text">结果解读</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#For-annotation"><span class="nav-number">1.0.3.</span> <span class="nav-text">For annotation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#热图"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">热图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EpiDISH-就暂时到此为止。。。待续"><span class="nav-number">1.1.</span> <span class="nav-text">EpiDISH 就暂时到此为止。。。待续</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

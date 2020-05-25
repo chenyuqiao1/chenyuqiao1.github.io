@@ -173,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -187,7 +187,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" class="post-title-link" itemprop="url">wakeonlan_内网穿透</a>
+            <a href="/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">jimmy_(甲基化450k芯片) 预处理初探</a>
         </h2>
 
         <div class="post-meta">
@@ -197,24 +197,15 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 2020-05-19 21:19:35" itemprop="dateCreated datePublished" datetime="2020-05-19T21:19:35+08:00">2020-05-19</time>
+              <time title="Created: 2020-05-25 12:04:44" itemprop="dateCreated datePublished" datetime="2020-05-25T12:04:44+08:00">2020-05-25</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-20 20:09:51" itemprop="dateModified" datetime="2020-05-20T20:09:51+08:00">2020-05-20</time>
+                <time title="Modified: 2019-07-27 22:58:50" itemprop="dateModified" datetime="2019-07-27T22:58:50+08:00">2019-07-27</time>
               </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
-                </span>
-            </span>
 
           
 
@@ -227,17 +218,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="第一章：内网穿透"><a href="#第一章：内网穿透" class="headerlink" title="第一章：内网穿透"></a>第一章：内网穿透</h3><p>参考</p>
-<p><a href="https://github.com/fatedier/frp" target="_blank" rel="noopener">https://github.com/fatedier/frp</a></p>
-<p><img src="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/image-20200519212733456.png" alt="image-20200519212733456"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/19/wakeonlan-%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
+          <p>  一、Illumina HumanMethylation450 BeadChip （甲基化450k芯片）简介<br>Illumina最早的甲基化芯片是27K（K代表1000，表示大概可以测到的CpG位点数）的数据，后来增加到了450K（主流的甲基化芯片），而目前illumina已经出了新一代产品EPIC（我习惯称之为850K），但是技术核心在450K已经成熟了，所以分析流程这里以450K为主（也是目前数据库主流的甲基化芯片数据）。<br>450K芯片的芯片图形及其原理可以以下图（来源于illumina.com）展示</p>
+<p>1、芯片：一张芯片包括12个array（如图显示），也就是一张芯片可以做12个sample，一台机子一次可以跑8张芯片，也就是一共96个sample，每个样本可以测到超过450，000个CpG位点的甲基化信息（大概人所有的1%，但是覆盖了多数CpG岛和启动子区），芯片本身包含一些控制探针可以做质控。<br>2、原理：简而言之，基于亚硫酸盐处理后的DNA序列杂交的信号探测。亚硫酸盐是甲基化探测的“金标准”，不管是芯片或者甲基化测序，都要先对DNA样品进行亚硫酸盐处理，使非甲基化的C变成U，而甲基化的C保持不变，从而在后续的测序或者杂交后区分出来。450K采用了两种探针对甲基化进行测定，Infinium I采用了两种bead（甲基化M和非甲基化U，如图显示），而II只有一种bead（即甲基化和非甲基化在一起），这也导致了它们在后续荧光探测的不同，450K采用了两种荧光探测信号（红光和绿光）。<br>更多信息可以在官网查看 <a href="http://www.illumina.com/products/methylation_450_beadchip_kits.html" target="_blank" rel="noopener">http://www.illumina.com/products … _beadchip_kits.html</a></p>
+<p>二、分析需要考虑的问题<br>1、背景校正<br>2、红光和绿光的校正<br>3、控制芯片的使用（illumina450K本身有一些控制芯片，可以用来做质控，如亚硫酸盐处理效率）<br>4、探针类型（I型和II型）的校正（不同探针类型产生的数据不同）<br>这个问题我们之前关注很多，这里附上两篇文献供大家参考，最终我们选择BMIQ的方法（基于ebayes的原理将II型探针的甲基化水平拉伸到I型水平，如下图显示）来做矫正。<br>文献1： <a href="http://bioinformatics.oxfordjournals.org/content/29/2/189.short" target="_blank" rel="noopener">http://bioinformatics.oxfordjournals.org/content/29/2/189.short</a><br>文献2： <a href="http://www.tandfonline.com/doi/abs/10.4161/epi.24008" target="_blank" rel="noopener">http://www.tandfonline.com/doi/abs/10.4161/epi.24008</a><br>图片来源于第1篇文献</p>
+<p>5、位置的校正（芯片上的不同位置产生的数据可能会有偏差）<br>6、批次的校正（不同的批次做的数据会有偏差）<br>7、探针序列本身是否可靠（有些探针本身位于repeat区或者包含snp等就会影响杂交及最后的结果，应该去除，附上一片参考文献，里边有list可以用来去除不好的探针）<br>文献：<a href="http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-51" target="_blank" rel="noopener">http://bmcgenomics.biomedcentral.com/articles/10.1186/1471-2164-15-51</a> </p>
+<p>三、数据处理<br>1、GenomeStudio<br>GS是illumina开发的软件，基于图形界面的操作处理，适合于没有R及编程基础的人使用，但是使用GS需要权限，本人试过挺难破解的，如果有人可以破解，可以提供给论坛小伙伴使用。<br>2、基于R和bioconductor的pipeline<br>bioconductor里开发了很多package供大家使用，如果你会R，那么处理这个甲基化芯片的数据将变得简单。<br>可以处理450K芯片的package有lumi、minfi、wateRmelon、ChAMP等，没有哪一种就特别好，大家都在不断改进，所以只要你知道大概的流程和需要注意的问题，那么你也可以自己写代码处理，只是package可以帮你省很多事情。下边我会附上我的处理流程图和详解，还有我的代码，<strong>我的代码是基于minfi的，我再次强调，代码只是手段，你可以用其他的package（例如我的同事很多使用ChAMP）</strong>，也许会更好。</p>
+<h4 id="流程图："><a href="#流程图：" class="headerlink" title="流程图："></a>流程图：</h4><p>流程图详解：</p>
+<p>我们一般下载或者iscan后的原始数据格式为Idat，首先可以得到每个sample的每个probe的p值和bead数，根据p值和bead数可以进行样本和探针的过滤，过滤之后需要用BMIQ的方法进行I和II型探针的校正，矫正之后去掉那些包含snp之类的不好的探针，最后对数据做batch的校正。校正之后的数据就是预处理后的数据了，可以用于更下游的分析，如差异甲基化和甲基化与表达的关联分析等。<br>我的代码： <a href="https://github.com/wkl1990/illumina-450K-analysis" target="_blank" rel="noopener">https://github.com/wkl1990/Illumina450K-methylation</a>，再次强调，我的代码并不完美，如果有bug，请告诉我修改，构建你自己的代码，让自己敲起来。</p>
+
       
     </div>
 
@@ -256,7 +244,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/18/dataset-colorectal-cancer/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -270,7 +258,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/05/18/dataset-colorectal-cancer/" class="post-title-link" itemprop="url">结直肠癌数据库整理</a>
+            <a href="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/" class="post-title-link" itemprop="url">甲基化基本概念</a>
         </h2>
 
         <div class="post-meta">
@@ -279,172 +267,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2020-05-18 20:09:05" itemprop="dateCreated datePublished" datetime="2020-05-18T20:09:05+08:00">2020-05-18</time>
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:43" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-19 15:14:05" itemprop="dateModified" datetime="2020-05-19T15:14:05+08:00">2020-05-19</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="关于肠道菌群"><a href="#关于肠道菌群" class="headerlink" title="关于肠道菌群"></a>关于肠道菌群</h2><p><a href="https://www.nature.com/articles/d41586-020-00194-2" target="_blank" rel="noopener">https://www.nature.com/articles/d41586-020-00194-2</a></p>
-<p>这是nature关于肠道菌群的outlook</p>
-<p><a href="https://www.nature.com/articles/d41586-020-00199-x" target="_blank" rel="noopener">https://www.nature.com/articles/d41586-020-00199-x</a></p>
-<p>这是肠道菌群和癌症相关的研究的outlook</p>
-<p>通过关键字搜索，一共有11 篇文献</p>
-<p>colorectal cancer microbiome </p>
-<p><a href="https://www.ncbi.nlm.nih.gov/gds/?term=colorectal+cancer+microbiome" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/gds/?term=colorectal+cancer+microbiome</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/18/dataset-colorectal-cancer/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/" class="post-title-link" itemprop="url">关于hexo进阶篇 （将hexo部署到我的github上）</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-05-17 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-17T00:00:00+08:00">2020-05-17</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/blog/" itemprop="url" rel="index"><span itemprop="name">blog</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="关于hexo进阶篇"><a href="#关于hexo进阶篇" class="headerlink" title="关于hexo进阶篇"></a>关于hexo进阶篇</h1><p>hexo  重新配置服务器</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/17/%E5%85%B3%E4%BA%8Ehexo%E8%BF%9B%E9%98%B6%E7%AF%87/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/04/08/correlation-analysis/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/04/08/correlation-analysis/" class="post-title-link" itemprop="url">相关性分析</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-04-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-04-08T00:00:00+08:00">2020-04-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-19 10:13:34" itemprop="dateModified" datetime="2020-05-19T10:13:34+08:00">2020-05-19</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -453,178 +279,9 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
                 </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>文件名-correlation analysis</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/04/08/correlation-analysis/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/27/Listary/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/27/Listary/" class="post-title-link" itemprop="url">黑科技软件之快速搜索工具——Listary_and_Quick_eye</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-27 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-27T00:00:00+08:00">2019-12-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:54" itemprop="dateModified" datetime="2020-05-17T21:54:54+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/windows/" itemprop="url" rel="index"><span itemprop="name">windows</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="quick-eye"><a href="#quick-eye" class="headerlink" title="quick_eye"></a>quick_eye</h2><h4 id="需要翻墙才能下载"><a href="#需要翻墙才能下载" class="headerlink" title="需要翻墙才能下载"></a>需要翻墙才能下载</h4><p><img src="/2019/12/27/Listary/1577461061572.png" alt="1577461061572"></p>
-<h1 id="黑科技软件之快速搜索工具——Listary"><a href="#黑科技软件之快速搜索工具——Listary" class="headerlink" title="黑科技软件之快速搜索工具——Listary"></a>黑科技软件之快速搜索工具——Listary</h1><p>Listary是一款适用于Windows的革命性搜索工具，可以为休闲和高级用户提供快速查找文件和快速启动应用程序的功能！</p>
-<h1 id="1-下载"><a href="#1-下载" class="headerlink" title="1.下载"></a>1.下载</h1><p>Listary 官网下载：<a href="https://www.listary.com/download" target="_blank" rel="noopener">https://www.listary.com/download</a></p>
-<h1 id="2-入门使用"><a href="#2-入门使用" class="headerlink" title="2.入门使用"></a><strong>2.入门使用</strong></h1><ul>
-<li><strong>启动应用</strong></li>
-</ul>
-<p>您可以随时<strong>按Ctrl或者Alt + Q</strong>两次以激活Listary以搜索所有应用和文件。</p>
-<p>当您的搜索查询<strong>不包含空格时</strong>，Listary会首先列出应用程序。如果您只想搜索文件，只需在搜索查询中的任意位置<strong>添加空格</strong>即可。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/27/Listary/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">chip-seq实战</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-23T00:00:00+08:00">2019-12-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
-                </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/chip-seq/" itemprop="url" rel="index"><span itemprop="name">chip-seq</span></a>
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
                 </span>
             </span>
 
@@ -639,16 +296,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><p>需要用rna 环境下，否则需要中心配置下载设置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/project/ZNF582_chip_seq/original_data</span><br><span class="line">source activate rna</span><br><span class="line">nohup prefetch SRR5197188 &amp;</span><br><span class="line"></span><br><span class="line">nohup prefetch SRR5197033 &amp; ### control</span><br><span class="line">mv SRR5197188.sra ~/project/ZNF582_chip_seq/original_data/</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>/home/chenyuqiao/ncbi/public/sra</p>
-<p>默认下载地址</p>
-</blockquote>
+          <h1 id="450k甲基化基础（一）"><a href="#450k甲基化基础（一）" class="headerlink" title="450k甲基化基础（一）"></a>450k甲基化基础（一）</h1>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/#more" rel="contents">
+              <a class="btn" href="/2020/05/25/(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%E7%94%B2%E5%9F%BA%E5%8C%96%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B52/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -672,7 +323,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/23/meRIP-seq/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%20%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8B%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -686,7 +337,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/23/meRIP-seq/" class="post-title-link" itemprop="url">MeRIP</a>
+            <a href="/2020/05/25/ChAMP%20%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8B%E7%AF%87/" class="post-title-link" itemprop="url">ChAMP 分析甲基化芯片数据</a>
         </h2>
 
         <div class="post-meta">
@@ -695,101 +346,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2019-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-23T00:00:00+08:00">2019-12-23</time>
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:40" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/MeRIP-seq/" itemprop="url" rel="index"><span itemprop="name">MeRIP-seq</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="MeRIP-ChIP-seq分析流程"><a href="#MeRIP-ChIP-seq分析流程" class="headerlink" title="MeRIP/ChIP-seq分析流程"></a>MeRIP/ChIP-seq分析流程</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/23/meRIP-seq/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/19/R_error/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/19/R_error/" class="post-title-link" itemprop="url">R语言基础补足</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-19T00:00:00+08:00">2019-12-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:56" itemprop="dateModified" datetime="2020-05-17T21:54:56+08:00">2020-05-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -798,6 +358,10 @@
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
                   <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
                 </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
             </span>
 
           
@@ -811,21 +375,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>将dataframe的chr改为numberic报错</p>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">options(stringsAsFactors = <span class="literal">F</span>)</span><br><span class="line">a&lt;- c(<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>)</span><br><span class="line">b&lt;- c(<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>)</span><br><span class="line">c&lt;- data.frame(a=a,b=b)</span><br><span class="line">d&lt;- as.numeric(c)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>报错：错误: (串列)对象不能强制改变成’double’种类</p>
-</blockquote>
-<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">options(stringsAsFactors = <span class="literal">F</span>)</span><br><span class="line">a&lt;- c(<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>)</span><br><span class="line">b&lt;- c(<span class="string">'1'</span>,<span class="string">'2'</span>,<span class="string">'3'</span>)</span><br><span class="line">c&lt;- data.frame(a=a,b=b)</span><br><span class="line">d&lt;- as.matrix(c)</span><br><span class="line">d&lt;- as.numeric(d)</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>如果先转为matrix进行计算，就会导致d为一个数列，而不是一个数据框。</p>
-</blockquote>
-<blockquote>
-<p><img src="/2019/12/19/R_error/1577515271454.png" alt="1577515271454"></p>
-</blockquote>
-
+          <h1 id="ChAMP-分析甲基化芯片数据-差异分析下篇"><a href="#ChAMP-分析甲基化芯片数据-差异分析下篇" class="headerlink" title="ChAMP 分析甲基化芯片数据-差异分析下篇"></a>ChAMP 分析甲基化芯片数据-差异分析下篇</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/ChAMP%20%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8B%E7%AF%87/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -844,7 +402,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/19/reading_note_m6A/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -858,7 +416,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2019/12/19/reading_note_m6A/" class="post-title-link" itemprop="url">RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail</a>
+            <a href="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/" class="post-title-link" itemprop="url">ChAMP分析甲基化芯片数据-差异分析上篇</a>
         </h2>
 
         <div class="post-meta">
@@ -867,138 +425,21 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
+              
 
-              <time title="Created: 2019-12-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-19T00:00:00+08:00">2019-12-19</time>
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:12" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:56" itemprop="dateModified" datetime="2020-05-17T21:54:56+08:00">2020-05-17</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">In</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">阅读笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RNA-m6A-methylation-regulates-the-epithelial-mesenchymal-transition-of-cancer-cells-and-translation-of-Snail"><a href="#RNA-m6A-methylation-regulates-the-epithelial-mesenchymal-transition-of-cancer-cells-and-translation-of-Snail" class="headerlink" title="RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail"></a>RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail</h2><p>几个知识点：</p>
-<ol>
-<li><p>writers: Methyltransferase-like 3 (METTL3), METTL14, and Wilm’s tumor-1-associated protein (WTAP) have been proved to act as m6A methyltransferases (“writers”) in mammalian cells </p>
-</li>
-<li><p>readers: m6A-binding proteins with YTH domain, including cytoplasmic protein YTHDF1, YTHDF2, YTHDF3, and nuclear protein YTHDC1, have been identified to be the “readers” of m6A and modulate mRNA stability and translation to mediate downstream effects.</p>
-</li>
-<li><p>m6A demethylase, ALKBH5 </p>
-</li>
-</ol>
-<p>几种药物的使用</p>
-<ol>
-<li><p>actinomycin D : Act-D, 抑制转录</p>
-</li>
-<li><p>MG132: 抑制蛋白酶体的活性，抑制蛋白质的降解</p>
-</li>
-<li><p>CHX：放线菌酮，抑制蛋白质的翻译。</p>
-</li>
-</ol>
-<p><img src="/2019/12/19/reading_note_m6A/1576760902675.png" alt="1576760902675"></p>
-<p>TGF-β处理细胞可以诱导EMT，<strong>补充材料</strong>证明可TGF-β确实可以增加EMT，细胞功能实验和FN1 and CDH1的mRNA qPCR验证。EMT marker WB。</p>
-<p>a: LC–MS/MS assay.  TGF-β处理后m6A比例增多.</p>
-<p>This was further confirmed by the results obtained in dot-blot analysis</p>
-<p><img src="/2019/12/19/reading_note_m6A/1576761297331.png" alt="1576761297331"></p>
-<p>Mettl3Mut/- HeLa cells (Supplementary Fig. 2C) generated in our previous study35 by using the CRISPR/Cas9 editing system according to the published protocol35,36. </p>
-<p><strong>CDH1 (E-Cad) mRNA</strong> </p>
-<p><img src="/2019/12/19/reading_note_m6A/1576764282685.png" alt="1576764282685"></p>
-<p>ribosome profiling ：</p>
-<p>RNA fractions: </p>
-<ol>
-<li><p>non-translating fraction (&lt; 40 S), </p>
-</li>
-<li><p>translation initiation fraction (including 40S ribosomes, 60S ribosomes, 80S monosomes, and &lt; 80S) </p>
-</li>
-<li><p>translation active polysomes (&gt; 80S) .</p>
-</li>
-</ol>
-<p><img src="/2019/12/19/reading_note_m6A/1576764643127.png" alt="1576764643127"></p>
-<p>Another identified m6A demethylase, ALKBH5 </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/17/Project_RNA_seq_SRP219564/" class="post-title-link" itemprop="url">RNA-seq全流程数据分析精简版</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-17T00:00:00+08:00">2019-12-17</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
                 </span>
                   , 
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/RNA-seq/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
                 </span>
             </span>
 
@@ -1013,12 +454,491 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####可以使用循环下载</span></span></span><br><span class="line">cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&#123;id&#125; -O ./original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done</span><br></pre></td></tr></table></figure>
-
-<h4 id="step2-sra2fastq"><a href="#step2-sra2fastq" class="headerlink" title="step2 sra2fastq"></a>step2 sra2fastq</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 处理SRP219564</span></span></span><br><span class="line"></span><br><span class="line">cd ~/project/SRP219564/</span><br><span class="line">cat SraRunTable.txt |awk '&#123;print $12,$14&#125;'|sed '1d'  &gt;sra2case.txt</span><br><span class="line">cd ~/project/SRP219564/original_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim multi_sra2fastq.sh</span><br><span class="line"></span><br><span class="line">cat ../sra2case.txt | while read id;</span><br><span class="line">do 	</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	sra=$&#123;file&#125;.sra</span><br><span class="line">	nohup fastq-dump --gzip --split-3 -O ../fastq/ $&#123;sra&#125; 1&gt;log.txt 2&gt;&amp;1 &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">bash multi_sra2fastq.sh</span><br></pre></td></tr></table></figure>
+          <h1 id="ChAMP分析甲基化芯片数据-差异分析上篇"><a href="#ChAMP分析甲基化芯片数据-差异分析上篇" class="headerlink" title="ChAMP分析甲基化芯片数据-差异分析上篇"></a>ChAMP分析甲基化芯片数据-差异分析上篇</h1><p>经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析</p>
+<ol>
+<li>DMP 差异甲基化探针</li>
+<li>DMR 差异甲基化区域</li>
+</ol>
+<p>在<code>ChAMP</code>包中，<code>champ.DMP</code>函数用于分析差异甲基化探针，<code>champ.DMR</code>函数用于分析差异甲基化区域。本章我们先看下差异探针的分析</p>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2019/12/17/Project_RNA_seq_SRP219564/#more" rel="contents">
+              <a class="btn" href="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/EpiDISH/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/EpiDISH/" class="post-title-link" itemprop="url">EpiDISH包的使用解读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:05" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="EpiDISH包的使用解读-Eipgenetic-Dissection-of-intrasample-heterogentiy"><a href="#EpiDISH包的使用解读-Eipgenetic-Dissection-of-intrasample-heterogentiy" class="headerlink" title="EpiDISH包的使用解读 Eipgenetic Dissection of intrasample heterogentiy"></a>EpiDISH包的使用解读 Eipgenetic Dissection of intrasample heterogentiy</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/EpiDISH/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">850K甲基化芯片数据的分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:40" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="850K甲基化芯片数据的分析"><a href="#850K甲基化芯片数据的分析" class="headerlink" title="850K甲基化芯片数据的分析"></a>850K甲基化芯片数据的分析</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/" class="post-title-link" itemprop="url">GEO数据库甲基化芯片挖掘</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:01" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="GEO甲基化数据芯片挖掘"><a href="#GEO甲基化数据芯片挖掘" class="headerlink" title="GEO甲基化数据芯片挖掘"></a>GEO甲基化数据芯片挖掘</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/Rscript_ChAMP%E7%94%B2%E5%9F%BA%E5%8C%96%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AE%9E%E6%88%98850k/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/Rscript_ChAMP%E7%94%B2%E5%9F%BA%E5%8C%96%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AE%9E%E6%88%98850k/" class="post-title-link" itemprop="url">TCGA甲基化实战</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:36:20" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="TCGA甲基化实战"><a href="#TCGA甲基化实战" class="headerlink" title="TCGA甲基化实战"></a>TCGA甲基化实战</h3><h4 id="安装ChAMP，这个包很大，所以必须改镜像"><a href="#安装ChAMP，这个包很大，所以必须改镜像" class="headerlink" title="安装ChAMP，这个包很大，所以必须改镜像"></a>安装ChAMP，这个包很大，所以必须改镜像</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/Rscript_ChAMP%E7%94%B2%E5%9F%BA%E5%8C%96%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AE%9E%E6%88%98850k/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/Rscript_%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98DSS%E5%8C%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/Rscript_%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98DSS%E5%8C%85/" class="post-title-link" itemprop="url">甲基化测序数据实战DSS包</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:32:22" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="甲基化测序数据实战DSS包实战"><a href="#甲基化测序数据实战DSS包实战" class="headerlink" title="甲基化测序数据实战DSS包实战"></a>甲基化测序数据实战DSS包实战</h3><h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><h4 id="step2"><a href="#step2" class="headerlink" title="step2"></a>step2</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/Rscript_%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F%E6%95%B0%E6%8D%AE%E5%AE%9E%E6%88%98DSS%E5%8C%85/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">TCGA甲基化实战</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:36:26" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="EpiDISH实战"><a href="#EpiDISH实战" class="headerlink" title="EpiDISH实战"></a>EpiDISH实战</h2><h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 示例</span></span><br><span class="line">data(centEpiFibIC.m)</span><br><span class="line">data(DummyBeta.m)</span><br><span class="line">out.l &lt;- epidish(DummyBeta.m, centEpiFibIC.m, method = <span class="string">'RPC'</span>)</span><br><span class="line">frac.m &lt;- out.l$estF</span><br><span class="line">pheno.v &lt;- rep(c(<span class="number">0</span>, <span class="number">1</span>), each = <span class="number">5</span>)</span><br><span class="line">celldmc.o &lt;- CellDMC(DummyBeta.m, pheno.v, frac.m)</span><br><span class="line">celldmc.o$dmct</span><br><span class="line">celldmc.o$coe</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/1565102377273.png" alt="1565102377273"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -1041,7 +961,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1107,18 +1027,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">42</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-count">98</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

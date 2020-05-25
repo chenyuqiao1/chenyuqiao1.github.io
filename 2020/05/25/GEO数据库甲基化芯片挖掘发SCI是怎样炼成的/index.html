@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GEO甲基化数据芯片挖掘">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GEO数据库甲基化芯片挖掘">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="GEO甲基化数据芯片挖掘">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-a64f4b94f7aaf61b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-32f75f122c0f5871?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-6167755e4cb15530?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-62a2a3689d9f8cc9?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-f8ea2942b6792cf3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-74fce65dbfe39be9?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-57141d52bb07b7e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/800/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-e2f4eb200c4d5a64?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-150e388730c2bf27?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-f16a7395ce57ba1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-8cd5e6d38e539208?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-d6d8920cc7fd349e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:33:01.652Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="GEO">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/16435116-a64f4b94f7aaf61b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>GEO数据库甲基化芯片挖掘 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/GEO%E6%95%B0%E6%8D%AE%E5%BA%93%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%8C%96%E6%8E%98%E5%8F%91SCI%E6%98%AF%E6%80%8E%E6%A0%B7%E7%82%BC%E6%88%90%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GEO数据库甲基化芯片挖掘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:01" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="GEO甲基化数据芯片挖掘"><a href="#GEO甲基化数据芯片挖掘" class="headerlink" title="GEO甲基化数据芯片挖掘"></a>GEO甲基化数据芯片挖掘</h3><a id="more"></a>
+
+<p>今天，我将为大家解读一篇3.96分的SCI，借此来学习GEO数据库甲基化芯片发SCI的套路，文章的题目是：Aberrantly  methylated-diferentially expressed genes and  pathways in colorectal cancer。</p>
+<p>首先简单介绍一下，GEO数据库(GENE EXPRESSION OMNIBUS)是NCBI旗下主打基因表达芯片的数据库，它的网址是<a href="http://www.ncbi.nlm.nih.gov/geo，或者直接通过PUBMED的菜单栏进入。" target="_blank" rel="noopener">http://www.ncbi.nlm.nih.gov/geo，或者直接通过PUBMED的菜单栏进入。</a></p>
+<p>小硕在此申明，GEO数据库的芯片数据是不花钱的！而且数据海量，更新较快！小伙伴们迫不及待了吧,Let´s go!</p>
+<p> 1、摘要 </p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-a64f4b94f7aaf61b?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>全文思路明确，从GEO数据库中下载4张芯片，其中2张基因表达芯片(GSE68468, GSE44076)和2张甲基化的芯片(GSE29490, GSE17648)，是不是感觉芯片在手，天下我有？</p>
+<p>接着利用GEO2R工具找出甲基化的差异基因(methylated-DEGs)，DAVID网站做功能和富集分析，STRING网站做蛋白互作网络图(PPI)，利用Cytoscape软件的MCODEapp构建PPI聚类功能模块。</p>
+<p>最终，找出了异常甲基化的差异表达基因和通路，这些Hub基因可能作为异常甲基化的生物标志物，以此服务于结肠癌的精准治疗。</p>
+<p> 2、芯片数据下载及预处理  </p>
+<p>“Totally 186 CRC and 55normal mucosa specimens were enrolled in GSE68468 (platform: GPL96 AfymetrixHuman Genome U133A Array) while 98 CRC and 50 normal mucosa specimens wereenrolled in GSE44076 (platform: GPL13667 Afym[1]etrix Human Genome U219 Array).”这句来源于原文中，咋一看，不了解GEO的小伙伴可能有点懵，一会GSE,一会GPL?请看下面表格内容。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-32f75f122c0f5871?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>总结一下，GEO数据库的表达谱信息主要储存在DataSets和Profiles中，而数据下载说到底就是要得到表达矩阵，即“基因在行，样本在列”的矩阵。</p>
+<p>在下图的GEO DataSets输入研究的癌症，然后就可以选择自己需要的芯片，里面关于芯片的信息非常详细，下载原始文件，整理后即可得到需要的表达矩阵。哈哈，还是挺容易实现的。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-6167755e4cb15530?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p> 3、数据处理 </p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-62a2a3689d9f8cc9?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>利用GEO数据库自带的GEO2R工具将样本分为正常组和病例组，设定cut-off值(P &lt; 0.05and |t| &gt; 2),寻找出差异表达基因(DEGs)和差异甲基化基因(DMGs)。</p>
+<p>再利用EXCEL中的MATCH函数进行匹配，去除重叠的基因，同时获得甲基化芯片和表达谱芯片的交集，最终得到低甲基化-高表达基因411个，高甲基化-低表达基因239个，利用R软件代码实现韦恩图制作，文中的韦恩图确实不错哈。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-f8ea2942b6792cf3?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>选取典型的芯片的TOP100基因(包括50高表达和50低表达基因)做差异基因的热图，可通过R代码实现热图的制作。微信公众号回复“<strong>热图</strong>”，可获得R软件热图制作代码。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-74fce65dbfe39be9?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p> 4、GO功能富集分析  </p>
+<p>DAVID网站(网址<a href="https://david.ncifcrf.gov/)实现GO功能富集分析，这个还是比较简单的，直接上图了。分别从生物学过程(BP)，细胞组成(CC)，分子功能(MF)对低甲基化-高表达基因、高甲基化-低表达基因功能注释，选取排名前5的富集分析制成下表。" target="_blank" rel="noopener">https://david.ncifcrf.gov/)实现GO功能富集分析，这个还是比较简单的，直接上图了。分别从生物学过程(BP)，细胞组成(CC)，分子功能(MF)对低甲基化-高表达基因、高甲基化-低表达基因功能注释，选取排名前5的富集分析制成下表。</a></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-57141d52bb07b7e1?imageMogr2/auto-orient/strip%7CimageView2/2/w/800/format/webp" alt="img"></p>
+<p> 5、KEGG通路分析 </p>
+<p>同样，利用DAVID网站进行KEGG通路分析，分别预测了低甲基化-高表达基因、高甲基化-低表达基因富集的通路。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-e2f4eb200c4d5a64?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>6、PPI网络构建、模块分析和Hub基因选择</p>
+<p>蛋白互作网络图(PPI)通过STRING网站来制作(网址<a href="https://string-db.org/)，PPI聚类功能模块则用Cytoscape软件的MCODEapp制作。其中PPI网络图，以Interactionscore＞0.4作为cut-off值；利用Cytoscape软件，筛选出MCODE评分＞3、节点数＞4的PPI网络中的模块制作聚类模块分析图。筛选出节点degree大于10的即为Hub基因。" target="_blank" rel="noopener">https://string-db.org/)，PPI聚类功能模块则用Cytoscape软件的MCODEapp制作。其中PPI网络图，以Interactionscore＞0.4作为cut-off值；利用Cytoscape软件，筛选出MCODE评分＞3、节点数＞4的PPI网络中的模块制作聚类模块分析图。筛选出节点degree大于10的即为Hub基因。</a></p>
+<p>最终分别筛选出低甲基化-高表达基因排名前五的Hub基因：CAD,CCND1, ATM, RB1 and MET；高甲基化-低表达基因排名前五的Hub基因：EGFR,ACTA1, SST, ESR1 and DNM2。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-150e388730c2bf27?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-f16a7395ce57ba1f?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-8cd5e6d38e539208?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p> 7、Hub基因在TCGA数据库中验证 </p>
+<p>分别将低甲基化-高表达的Hub基因和高甲基化-低表达的Hub基因在TCGA中观察Hub基因的甲基化状态和表达差异，最终结果如下表，大部分Hub基因在TCGA中和GEO数据库中的甲基化状态和表达差异是一致的，这对作者的GEO数据库分析加强了说服力。</p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/16435116-d6d8920cc7fd349e?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp" alt="img"></p>
+<p>综上，可以看出本文甲基化数据挖掘步骤：</p>
+<p>(1)<strong>GEO**</strong>芯片下载和预处理：**GEO数据库直接下载原始数据；R软件的GEOquery包(上bioconductor官网搜索)。预处理一般就是将原始文件整理成我们需要的表达矩阵。</p>
+<p>(2)<strong>差异基因和甲基化基因的筛选：</strong>本文采用的是GEO在线工具GEO2R分组后设定cut-off值P &lt; 0.05and |t| &gt; 2，分别可以筛选出高、低表达基因，高、低甲基化基因，利用EXCEL中的MATCH函数去除重叠的基因，同时对低甲基化高表达的基因求交集，对高甲基化低表达基因求交集。制作韦恩图，选取典型芯片做热图。当然，这一步也可以用R软件跑，最终结果是一致的。</p>
+<p>(3)<strong>GO**</strong>和KEGG分析：**DAVID网站直接实现。</p>
+<p>(4)<strong>PPI**</strong>网络构建、模块分析和Hub基因选择：**STRING网站做蛋白互作网络图，利用Cytoscape软件的MCOD app构建PPI聚类功能模块。通过cut-off值设定，节点degree大于10的即为Hub基因。</p>
+<p>(5)<strong>TCGA**</strong>数据库验证：**利用TCGA数据库分析Hub基因的甲基化状态和表达差异，看是否与GEO数据库一致，以增强说服力。</p>
+<p>做到这里，已经3.96分了，小硕设想，如果继续把Hub基因进行共表达或预后分析，是不是影响因子又得上涨呢！当然，前面这些步骤都不用花经费！假如你的老板经费充足，继续来个小样本的实验验证吧，估计小伙伴们手已痒痒，赶紧准备发文吧！我们明天将手把手教你R语言实操分析GEO数据库甲基化芯片。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/GEO/" rel="tag"># GEO</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/Rscript_ChAMP%E7%94%B2%E5%9F%BA%E5%8C%96%E5%85%A8%E8%87%AA%E5%8A%A8%E5%AE%9E%E6%88%98850k/" rel="prev" title="TCGA甲基化实战">
+      <i class="fa fa-chevron-left"></i> TCGA甲基化实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/" rel="next" title="850K甲基化芯片数据的分析">
+      850K甲基化芯片数据的分析 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GEO甲基化数据芯片挖掘"><span class="nav-number">1.</span> <span class="nav-text">GEO甲基化数据芯片挖掘</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

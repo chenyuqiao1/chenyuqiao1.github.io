@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Bioconductor的DNA甲基化芯片分析流程一次偶然的搜索中发现biocondutor有个甲基化芯片的分析流程，刚好可以学习下，写的真的很棒。 Bioconductor的DNA methylation workflow可以在http:&#x2F;&#x2F;www.bioconductor.org&#x2F;help&#x2F;workflows&#x2F;methylationArrayAnalysis&#x2F;中查看，教程开头先对DNA甲基化芯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Bioconductor的DNA甲基化芯片分析流程">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="Bioconductor的DNA甲基化芯片分析流程一次偶然的搜索中发现biocondutor有个甲基化芯片的分析流程，刚好可以学习下，写的真的很棒。 Bioconductor的DNA methylation workflow可以在http:&#x2F;&#x2F;www.bioconductor.org&#x2F;help&#x2F;workflows&#x2F;methylationArrayAnalysis&#x2F;中查看，教程开头先对DNA甲基化芯">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i0.wp.com/www.bioinfo-scrounger.com/data/photo/beta_density_plot.png?zoom=1.25&w=600">
+<meta property="og:image" content="https://i1.wp.com/www.bioinfo-scrounger.com/data/photo/MDS.png?zoom=1.25&w=600">
+<meta property="og:image" content="https://i1.wp.com/www.bioinfo-scrounger.com/data/photo/M-Beta_values_density.png?zoom=1.25&w=600">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:34:42.126Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="教程">
+<meta property="article:tag" content="甲基化芯片">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i0.wp.com/www.bioinfo-scrounger.com/data/photo/beta_density_plot.png?zoom=1.25&w=600">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E5%A4%84%E7%90%86/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Bioconductor的DNA甲基化芯片分析流程 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Bioconductor的DNA甲基化芯片分析流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:34:42" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="Bioconductor的DNA甲基化芯片分析流程"><a href="#Bioconductor的DNA甲基化芯片分析流程" class="headerlink" title="Bioconductor的DNA甲基化芯片分析流程"></a>Bioconductor的DNA甲基化芯片分析流程</h2><p>一次偶然的搜索中发现biocondutor有个甲基化芯片的分析流程，刚好可以学习下，写的真的很棒。 Bioconductor的DNA methylation workflow可以在<a href="http://www.bioconductor.org/help/workflows/methylationArrayAnalysis/" target="_blank" rel="noopener">http://www.bioconductor.org/help/workflows/methylationArrayAnalysis/</a>中查看，教程开头先对DNA甲基化芯片及其原理做了简单的介绍，包括一些常见的术语：比如β value和M value，后面就正式进入DNA甲基化的分析方法的讲解了。</p>
+<a id="more"></a>
+
+<h4 id="下载测试数据"><a href="#下载测试数据" class="headerlink" title="下载测试数据"></a>下载测试数据</h4><p>测试数据是放在<code>methylationArrayAnalysis</code>中的，安装官网的方法安装下即可（PS.如果安装时卡住，可以用Rstudio的Tools来安装）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;http:&#x2F;&#x2F;bioconductor.org&#x2F;workflows.R&quot;)</span><br><span class="line">workflowInstall(&quot;methylationArrayAnalysis&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>安装后，比如我R包是默认安装的R文件夹中的，所以我的数据路径是<code>E:/R-3.4.1/library/methylationArrayAnalysis/extdata/</code>，那么可以列出该目录下有哪些文件看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">list.files(&quot;E:&#x2F;R-3.4.1&#x2F;library&#x2F;methylationArrayAnalysis&#x2F;extdata&#x2F;&quot;, recursive &#x3D; TRUE)</span><br></pre></td></tr></table></figure>
+
+<p>测试数据总共有两套数据（<a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE49667" target="_blank" rel="noopener">GSE49667</a>和<a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE51180" target="_blank" rel="noopener">GSE51180</a>），前者总共包括10个样本，作为主要的测试数据；后者则只用了其一个样本，作为测试数据中的异常样本。样本分组信息：从3个体（M28, M29, M30）中取4种不同的T-cell types（naive, rTreg, act_naive, act_rTreg），act_naive、act_rTreg是指对应经anti-CD3、anti-CD28 antibodies处理的naive、rTreg，以上分组信息也可以看数据目录下的<code>SampleSheet.csv</code>文件</p>
+<p>作者提了最近几年常见的DNA甲基化芯片分析的软件，如<code>minfi</code>，<code>methylumi</code>，<code>wateRmelon</code>，<code>missMethyl</code>，<code>ChAMP</code>和<code>charm</code>，最后还提到了用<code>limma</code>来做差异甲基化位点分析</p>
+<h4 id="读入数据"><a href="#读入数据" class="headerlink" title="读入数据"></a>读入数据</h4><p>先按照教程加载其所会用到的R包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">library(limma)</span><br><span class="line">library(minfi)</span><br><span class="line">library(IlluminaHumanMethylation450kanno.ilmn12.hg19)</span><br><span class="line">library(IlluminaHumanMethylation450kmanifest)</span><br><span class="line">library(RColorBrewer)</span><br><span class="line">library(missMethyl)</span><br><span class="line">library(matrixStats)</span><br><span class="line">library(minfiData)</span><br><span class="line">library(Gviz)</span><br><span class="line">library(DMRcate)</span><br><span class="line">library(stringr)</span><br></pre></td></tr></table></figure>
+
+<p>其中<code>minfi</code>，<code>IlluminaHumanMethylation450kanno.ilmn12.hg19</code>，<code>IlluminaHumanMethylation450kmanifest</code>，<code>missMethyl</code>，<code>DMRcate</code>是DNA甲基化分析专用R包，<code>RColorBrewer</code>，<code>Gviz</code>是用于可视化的R包，<code>stringr</code>，<code>matrixStats</code>是用于一些数据处理的，<code>limma</code>则是用于差异甲基化分析的</p>
+<p>用<code>minfi</code>包的<code>read.metharray.sheet</code>函数读入IDAT格式的数据，其中<code>SampleSheet.csv</code>文件是必须的，不然最后数据集中会缺少样本信息；其产生的targets向量中包含了样本信息外，还有IDAT格式数据的所在路径，方便<code>read.metharray.exp</code>函数读入数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">targets &lt;- read.metharray.sheet(&quot;E:&#x2F;R-3.4.1&#x2F;library&#x2F;methylationArrayAnalysis&#x2F;extdata&quot;, pattern&#x3D;&quot;SampleSheet.csv&quot;)</span><br><span class="line">rgSet &lt;- read.metharray.exp(targets&#x3D;targets)</span><br></pre></td></tr></table></figure>
+
+<h4 id="质控"><a href="#质控" class="headerlink" title="质控"></a>质控</h4><p>以detection p-values评估每样本中的每个CpG位点的质量，当p-values &gt; 0.01时则说明该探针信号数据质量较低，需要去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">detP &lt;- detectionP(rgSet)</span><br></pre></td></tr></table></figure>
+
+<p>将平均detection p-values &gt; 0.05的样本认为是低质量的样本；从结果中可以看出最后一个样本的平均detection p-values远远大于0.05，因此从<code>rgSet</code>中去除（从<code>rgSet</code>的结构中看出，其数据分布是按照每列一个样本来的）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">keep &lt;- col</span><br><span class="line">Means(detP) &lt; 0.05</span><br><span class="line">keep</span><br><span class="line">rgSet &lt;- rgSet[,keep]</span><br></pre></td></tr></table></figure>
+
+<h4 id="标准化"><a href="#标准化" class="headerlink" title="标准化"></a>标准化</h4><p>现在有很多用于DNA甲基化芯片数据的标准化方法，其中一些方法已经整合在<code>minfi</code>包中了；现在为止没有一种标准化方法被认为是最好的方法，但是一些标准化方法在某些情况下是比较好的选择，作者总结了如下几点：</p>
+<blockquote>
+<ol>
+<li>对于用于cancer/normal or vastly different tissue types的差异比较的话，可以用<code>preprocessFunnorm</code>函数（Functional normalization）</li>
+<li>对于不需要进行差异比较的单样本数据，如单个组织样本，那么可以用<code>preprocessQuantile</code>函数</li>
+<li>更多的标准化方法的比较，作者推荐看A Data-Driven Approach to Guide the Choice of an Appropriate Normalization Method</li>
+</ol>
+</blockquote>
+<p>除了上述提的2个标准化方法外，<code>minfi</code>包还支持<code>preprocessIllumina</code>（类似于Illumina的Genome Studio的标准化方法），<code>preprocessSWAN</code>（Subset-quantile within array normalisation）以及<code>preprocessNoob</code>（normal-exponential out-of-band）</p>
+<p>作者比较了这些标准化方法后，发现对于这次的测试数据，这几种标准化结果都大体上相似的，所以作者最终选择了用<code>preprocessQuantile</code>，标准化为rgSet从<code>RGChannelSet</code>对象变成了mSetSq的<code>GenomicRatioSet</code>对象，表示从探针的信号强度转化到了beta value/M value，并且已mapping to Genome</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mSetSq &lt;- preprocessQuantile(rgSet)</span><br></pre></td></tr></table></figure>
+
+<p>我们也可以不做任何标准化处理，只为获得<code>GenomicRatioSet</code>对象用于下游分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mSetRaw &lt;- preprocessRaw(rgSet)</span><br></pre></td></tr></table></figure>
+
+<p>然后用<code>minfi</code>包内置的<code>densityPlot</code>函数，看看标准化前后的beta value的密度曲线</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">targets &lt;- targets[keep,]  <span class="comment">##在样本信息中也去掉异常样本</span></span><br><span class="line">par(mfrow=c(<span class="number">1</span>,<span class="number">2</span>))</span><br><span class="line">densityPlot(rgSet, sampGroups=targets$Sample_Group,main=<span class="string">"Raw"</span>, legend=<span class="literal">FALSE</span>)</span><br><span class="line">legend(<span class="string">"top"</span>, legend = levels(factor(targets$Sample_Group)), text.col=brewer.pal(<span class="number">8</span>,<span class="string">"Dark2"</span>), cex = <span class="number">0.6</span>)</span><br><span class="line">densityPlot(getBeta(mSetSq), sampGroups=targets$Sample_Group, main=<span class="string">"Normalized"</span>, legend=<span class="literal">FALSE</span>)</span><br><span class="line">legend(<span class="string">"top"</span>, legend = levels(factor(targets$Sample_Group)), text.col=brewer.pal(<span class="number">8</span>,<span class="string">"Dark2"</span>), cex = <span class="number">0.6</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i0.wp.com/www.bioinfo-scrounger.com/data/photo/beta_density_plot.png?zoom=1.25&w=600" alt="beta_density_plot.png"></p>
+<h4 id="Data-exploration"><a href="#Data-exploration" class="headerlink" title="Data exploration"></a>Data exploration</h4><p>作者建议可以先做个主成分分析，如Multi-dimensional scaling (MDS) plots来看下样本分布情况，可以根据情况自行选择<code>target</code>向量中的分组，如看下<code>targets$Sample_Group</code>下的MDS plot，PS.这里是用M value来作图的</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pal &lt;- brewer.pal(<span class="number">8</span>,<span class="string">"Dark2"</span>)</span><br><span class="line">plotMDS(getM(mSetSq), top=<span class="number">1000</span>, gene.selection=<span class="string">"common"</span>, col=pal[factor(targets$Sample_Group)])</span><br><span class="line">legend(<span class="string">"top"</span>, legend=levels(factor(targets$Sample_Group)), text.col=pal, bg=<span class="string">"white"</span>, cex=<span class="number">0.7</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i1.wp.com/www.bioinfo-scrounger.com/data/photo/MDS.png?zoom=1.25&w=600" alt="MDS.png"></p>
+<h4 id="数据过滤"><a href="#数据过滤" class="headerlink" title="数据过滤"></a>数据过滤</h4><p>一些质量较差的探针需要在下游差异分析之前去除，之前的质控作者是用detection p-value去除了异常样本，在这里则需要去除在一些样本中质量较差的探针</p>
+<ol>
+<li><p>因为前面质控时获得的<code>detP</code>中的探针顺序已经和<code>mSetSq</code>中的探针不一致了，所以先将前者的顺序调整为和后者一致</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">detP &lt;- detP[match(featureNames(mSetSq),rownames(detP)),]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>作者以remove any probes that have failed in one or more samples为标准去除不满足detection p-value阈值（0.01）的探针，也就是说，一个探针只要detection p-value &gt; 0.01就去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">keep &lt;- rowSums(detP &lt; 0.01) &#x3D;&#x3D; ncol(mSetSq) </span><br><span class="line">table(keep)</span><br><span class="line">mSetSqFlt &lt;- mSetSq[keep,]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>过滤掉X,Y染色体上的探针（一般数据都要做这一步，只要还需进行下游差异分析的话），但这个测试数据都是男性样本，所以就没必要去除了，但作者还是给出了该怎么去除在X,Y染色体上探针的代码，原理就是根据<code>ann450k = getAnnotation(IlluminaHumanMethylation450kanno.ilmn12.hg19)</code>这个注释文件的数据集，里面标注了那些探针出现在哪个染色体上的信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">keep &lt;- !(featureNames(mSetSqFlt) %in% ann450k$Name[ann450k$chr %in% c(&quot;chrX&quot;,&quot;chrY&quot;)])</span><br><span class="line">table(keep)</span><br><span class="line">mSetSqFlt &lt;- mSetSqFlt[keep,]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>过滤掉所有SNP相关的探针，作者建议用<code>minfi</code>包的<code>dropLociWithSnps</code>函数，除了去除默认的SNPs位点外，还可以去除那些minor allele frequencies高于阈值的位点；注：该函数是默认去除SNPs出现在CpG or single base extension (SBE) site的探针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mSetSqFlt &lt;- dropLociWithSnps(mSetSqFlt, snps &#x3D; c(&quot;CpG&quot;, &quot;SBE&quot;))</span><br><span class="line">mSetSqFlt</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>去除cross-reactive的探针，也就是multi-hit探针，即映射到多个位置的；这探针list是<a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=Discovery+of+cross-reactive+probes+and+polymorphic+CpGs+in+the+Illumina+Infinium+HumanMethylation450+microarray" target="_blank" rel="noopener">Chen et al.(2013)</a>发表的，所以只要出现在这list上面的探针都可以去除了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dataDirectory &lt;- &quot;E:&#x2F;R-3.4.1&#x2F;library&#x2F;methylationArrayAnalysis&#x2F;extdata&#x2F;&quot;</span><br><span class="line">xReactiveProbes &lt;- read.csv(file&#x3D;paste(dataDirectory, &quot;48639-non-specific-probes-Illumina450k.csv&quot;, sep&#x3D;&quot;&#x2F;&quot;), stringsAsFactors&#x3D;FALSE)</span><br><span class="line">keep &lt;- !(featureNames(mSetSqFlt) %in% xReactiveProbes$TargetID)</span><br><span class="line">mSetSqFlt &lt;- mSetSqFlt[keep,] </span><br><span class="line">mSetSqFlt</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<blockquote>
+<p>做完上述过滤和标准化后，作者建议再看下MDS plot，看看样本之间的联系是否发生了改变。对这个测试数据而言，第一个主成分上样本不像之前那么集中了，作者怀疑是由于去除了SNP关联的探针的缘故</p>
+</blockquote>
+<p>作者使用<code>minfi</code>包的<code>getM</code>和<code>getBeta</code>来分别计算M-values和Beta-values，作者认为M-values具有更好的统计特性，更适合用于进行下游的统计分析（差异分析等）；而Beta-values更加容易解释，更能说明生物学上的意义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mVals &lt;- getM(mSetSqFlt)</span><br><span class="line">bVals &lt;- getBeta(mSetSqFlt)</span><br></pre></td></tr></table></figure>
+
+<p>并对两者分别做了密度分布图</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">par(mfrow&#x3D;c(1,2))</span><br><span class="line">densityPlot(bVals, sampGroups&#x3D;targets$Sample_Group, main&#x3D;&quot;Beta values&quot;, legend&#x3D;FALSE, xlab&#x3D;&quot;Beta values&quot;)</span><br><span class="line">legend(&quot;top&quot;, legend &#x3D; levels(factor(targets$Sample_Group)), text.col&#x3D;brewer.pal(8,&quot;Dark2&quot;))</span><br><span class="line">densityPlot(mVals, sampGroups&#x3D;targets$Sample_Group, main&#x3D;&quot;M-values&quot;, legend&#x3D;FALSE, xlab&#x3D;&quot;M values&quot;)</span><br><span class="line">legend(&quot;topleft&quot;, legend &#x3D; levels(factor(targets$Sample_Group)), text.col&#x3D;brewer.pal(8,&quot;Dark2&quot;))</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i1.wp.com/www.bioinfo-scrounger.com/data/photo/M-Beta_values_density.png?zoom=1.25&w=600" alt="M-Beta_values_density.png"></p>
+<h4 id="差异甲基化分析"><a href="#差异甲基化分析" class="headerlink" title="差异甲基化分析"></a>差异甲基化分析</h4><p>作者选了M-values作为后续分析的矩阵，对于差异甲基化位点的分析，作者没有用<code>minfi</code>包的<code>dmpFinder</code>函数，而是用了<code>limma</code>包的linear model来分析。所以按照<code>limma</code>的分析思路：</p>
+<ol>
+<li><p>构建分组矩阵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cellType &lt;- factor(targets$Sample_Group)</span><br><span class="line">individual &lt;- factor(targets$Sample_Source)</span><br><span class="line">design &lt;- model.matrix(~0+cellType+individual, data&#x3D;targets)</span><br><span class="line">colnames(design) &lt;- c(levels(cellType),levels(individual)[-1])</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>构建两两比较矩阵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">contMatrix &lt;- makeContrasts(naive-rTreg,</span><br><span class="line">                    naive-act_naive,</span><br><span class="line">                    rTreg-act_rTreg,</span><br><span class="line">                    act_naive-act_rTreg,</span><br><span class="line">                    levels&#x3D;design)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>差异分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fit &lt;- lmFit(mVals, design)</span><br><span class="line">fit2 &lt;- contrasts.fit(fit, contMatrix)</span><br><span class="line">fit2 &lt;- eBayes(fit2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将位点信息和<code>limma</code>差异分析的结果合并在一起，这里以naive – rTreg为例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ann450kSub &lt;- ann450k[match(rownames(mVals),ann450k$Name), c(1:4,12:19,24:ncol(ann450k))]</span><br><span class="line">DMPs &lt;- topTable(fit2, num&#x3D;Inf, coef&#x3D;1, genelist&#x3D;ann450kSub)</span><br><span class="line">head(DMPs)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<p>除了差异甲基化位点分析，作者还提了怎么进行DMR（Differential Methylation Regions）分析；作者总结了几个可用来DMR分析的bioconductor包，如：<code>minfi</code>包的<code>bumphunter</code>函数，<code>DMRcate</code>包的<code>dmrcate</code>函数。由于作者觉得<code>bumphunter</code>函数运算速度过慢，除非使用多线程并行运算（如<code>doParallel</code>包），所以选择用<code>dmrcate</code>函数；并且由于这个函数也是基于<code>limma</code>，所以可以直接使用上面的<code>design</code>和<code>contMatrix</code></p>
+<ol>
+<li><p>先用<code>DMRcate</code>包的<code>cpg.annotate</code>函数做单个甲基化位点的差异分析以及注释</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myAnnotation &lt;- cpg.annotate(object &#x3D; mVals, datatype &#x3D; &quot;array&quot;, what &#x3D; &quot;M&quot;, </span><br><span class="line">                     analysis.type &#x3D; &quot;differential&quot;, design &#x3D; design, </span><br><span class="line">                     contrasts &#x3D; TRUE, cont.matrix &#x3D; contMatrix, </span><br><span class="line">                     coef &#x3D; &quot;naive - rTreg&quot;, arraytype &#x3D; &quot;450K&quot;)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>接着用<code>dmrcate</code>函数在上面单个甲基化位点分析的基础上进行合并，从而识别出DMR（Differential Methylation Regions）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DMRs &lt;- dmrcate(myAnnotation, lambda&#x3D;1000, C&#x3D;2)</span><br><span class="line">head(DMRs$results)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>用<code>DMR.plot</code>函数进行可视化，看看这些DMRs在基因组上的展现形式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># convert the regions to annotated genomic ranges</span><br><span class="line">data(dmrcatedata)</span><br><span class="line">results.ranges &lt;- extractRanges(DMRs, genome &#x3D; &quot;hg19&quot;)</span><br><span class="line"></span><br><span class="line"># set up the grouping variables and colours</span><br><span class="line">groups &lt;- pal[1:length(unique(targets$Sample_Group))]</span><br><span class="line">names(groups) &lt;- levels(factor(targets$Sample_Group))</span><br><span class="line">cols &lt;- groups[as.character(factor(targets$Sample_Group))]</span><br><span class="line">samps &lt;- 1:nrow(targets)</span><br><span class="line"></span><br><span class="line"># draw the plot for the top DMR</span><br><span class="line">par(mfrow&#x3D;c(1,1))</span><br><span class="line">DMR.plot(ranges&#x3D;results.ranges, dmr&#x3D;1, CpGs&#x3D;bVals, phen.col&#x3D;cols, what &#x3D; &quot;Beta&quot;,</span><br><span class="line">         arraytype &#x3D; &quot;450K&quot;, pch&#x3D;16, toscale&#x3D;TRUE, plotmedians&#x3D;TRUE, </span><br><span class="line">         genome&#x3D;&quot;hg19&quot;, samps&#x3D;samps)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h4 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h4><p>我这只介绍了这篇Bioconductor workflow for analysing methylation array的部分内容，后续还有讲如何用<code>Gviz</code>包定制化展示甲基化数据，如何用<code>missMethyl</code>包做后续的GO/KEGG分析，还以一个肿瘤甲基化研究的文章为例，展示如何用甲基化来分析肿瘤样本的整个流程（整体上与上述的测试例子类似，但也有点不同）。总之，是一篇值得从头到尾好好看的DNA甲基化分析流程的文章！</p>
+<p>注：上述文字和代码均来自bioconductor的文章，我只以自己的理解再次记录下，可能有理解不到的地方，所以还是推荐看原文！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87/" rel="tag"># 甲基化芯片</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98/" rel="prev" title="甲基化芯片下游分析实战">
+      <i class="fa fa-chevron-left"></i> 甲基化芯片下游分析实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E5%AE%9E%E6%88%98450K_minfi/" rel="next" title="甲基化芯片实战450k">
+      甲基化芯片实战450k <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Bioconductor的DNA甲基化芯片分析流程"><span class="nav-number">1.</span> <span class="nav-text">Bioconductor的DNA甲基化芯片分析流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下载测试数据"><span class="nav-number">1.0.1.</span> <span class="nav-text">下载测试数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读入数据"><span class="nav-number">1.0.2.</span> <span class="nav-text">读入数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#质控"><span class="nav-number">1.0.3.</span> <span class="nav-text">质控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#标准化"><span class="nav-number">1.0.4.</span> <span class="nav-text">标准化</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Data-exploration"><span class="nav-number">1.0.5.</span> <span class="nav-text">Data exploration</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据过滤"><span class="nav-number">1.0.6.</span> <span class="nav-text">数据过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#差异甲基化分析"><span class="nav-number">1.0.7.</span> <span class="nav-text">差异甲基化分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Summary"><span class="nav-number">1.0.8.</span> <span class="nav-text">Summary</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="TCGA甲基化数据实战step0 gdc 下载数据参考简书中GDC下载数据: 分为两部分：下载甲基化数据以及下载clinical 数据 需要在 TCGA GDC 中下载三个文件，本别是两个manifest的txt格式的文件，还有一个是metadata.cart开头的JSON文件。  step0.1下载 manifest文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCGA甲基化数据实战">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="TCGA甲基化数据实战step0 gdc 下载数据参考简书中GDC下载数据: 分为两部分：下载甲基化数据以及下载clinical 数据 需要在 TCGA GDC 中下载三个文件，本别是两个manifest的txt格式的文件，还有一个是metadata.cart开头的JSON文件。  step0.1下载 manifest文件">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564831007960.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564189691386.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564190514167.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564824068651.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/%E7%94%B2%E5%9F%BA%E5%8C%96%E6%95%99%E7%A8%8B/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564823187746.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564824339435.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564825739631.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564825886700.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564826926232.png">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:36:33.526Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="实战">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564831007960.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCGA甲基化数据实战 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCGA甲基化数据实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:36:33" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h4 id><a href="#" class="headerlink" title></a></h4><h2 id="TCGA甲基化数据实战"><a href="#TCGA甲基化数据实战" class="headerlink" title="TCGA甲基化数据实战"></a>TCGA甲基化数据实战</h2><h4 id="step0-gdc-下载数据"><a href="#step0-gdc-下载数据" class="headerlink" title="step0 gdc 下载数据"></a>step0 gdc 下载数据</h4><p>参考简书中GDC下载数据: 分为两部分：下载甲基化数据以及下载clinical 数据</p>
+<p><strong>需要在 TCGA GDC 中下载三个文件，本别是两个manifest的txt格式的文件，还有一个是metadata.cart开头的JSON文件。</strong></p>
+<p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564831007960.png" alt="1564831007960"></p>
+<h5 id="step0-1下载-manifest文件"><a href="#step0-1下载-manifest文件" class="headerlink" title="step0.1下载 manifest文件"></a>step0.1下载 manifest文件</h5><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564189691386.png" alt="1564189691386"></p>
+<a id="more"></a>
+
+<p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564190514167.png" alt="1564190514167"></p>
+<h5 id="安装GDC-client"><a href="#安装GDC-client" class="headerlink" title="安装GDC_client"></a>安装GDC_client</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">mkdir -p ~/biosoft</span><br><span class="line">cd ~/biosoft/</span><br><span class="line">wget https://gdc.cancer.gov/system/files/authenticated%20user/0/gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line">unzip gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir methylation</span><br><span class="line">nohup ~/biosoft/gdc-client download -m ~/project/methylation_escc/gdc_manifest.2019-<span class="number">07</span>-<span class="number">27.</span>txt -d  ~/project/methylation_escc/methylation &amp;</span><br></pre></td></tr></table></figure>
+
+<h5 id="step-0-2-通过manifest文件下载clinical-数据"><a href="#step-0-2-通过manifest文件下载clinical-数据" class="headerlink" title="step 0.2 通过manifest文件下载clinical 数据"></a>step 0.2 通过manifest文件下载clinical 数据</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir clinical</span><br><span class="line">nohup ~/biosoft/gdc-client download -m ~/project/methylation_escc/clinical_gdc_manifest.2019-<span class="number">08</span>-<span class="number">02.</span>txt -d  ~/project/methylation_escc/clinical &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="step1-R语言整合数据"><a href="#step1-R语言整合数据" class="headerlink" title="step1 :R语言整合数据"></a>step1 :R语言整合数据</h4><h5 id="step1-1-clinical-data"><a href="#step1-1-clinical-data" class="headerlink" title="step1.1:  clinical data"></a>step1.1:  clinical data</h5><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564824068651.png" alt="1564824068651"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"XML"</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"methods"</span>)</span><br><span class="line">dir=<span class="string">'./clinical/'</span></span><br><span class="line">all_fiels=list.files(path = dir ,pattern=<span class="string">'*.xml$'</span>,recursive=<span class="literal">T</span>)</span><br><span class="line">cl = lapply(all_fiels</span><br><span class="line">            , <span class="keyword">function</span>(x)&#123;</span><br><span class="line">              <span class="comment">#x=all_fiels[1]</span></span><br><span class="line">              result &lt;- xmlParse(file = file.path(dir,x)) </span><br><span class="line">              rootnode &lt;- xmlRoot(result)  </span><br><span class="line">              xmldataframe &lt;- xmlToDataFrame( rootnode[<span class="number">2</span>] ) </span><br><span class="line">              <span class="keyword">return</span>(t(xmldataframe))</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">cl_df&lt;- as.data.frame(t(do.call(cbind,cl)))</span><br><span class="line">save(cl_df,file = <span class="string">'GDC_TCGA_LUAD_clinical_df.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>具体参照从GDC下载数据</p>
+</blockquote>
+<h5 id="step1-2：methylation-data"><a href="#step1-2：methylation-data" class="headerlink" title="step1.2：methylation data"></a>step1.2：methylation data</h5><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/%E7%94%B2%E5%9F%BA%E5%8C%96%E6%95%99%E7%A8%8B/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564823187746.png" alt="1564823187746"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dir=<span class="string">'./methylation/'</span></span><br><span class="line">all_fiels=list.files(path = dir, pattern=<span class="string">'*.gdc_hg38.txt$'</span>,recursive=<span class="literal">T</span>)</span><br><span class="line">all_fiels</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564824339435.png" alt="1564824339435"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line">methylation&lt;- lapply(all_fiels</span><br><span class="line">                 , <span class="keyword">function</span>(x)&#123;</span><br><span class="line">                   <span class="comment">#x=all_fiels[1]</span></span><br><span class="line">                   result &lt;- fread(file = file.path(dir,x),sep = <span class="string">'\t'</span>, header = <span class="literal">T</span>)[,<span class="number">1</span>:<span class="number">2</span>] </span><br><span class="line">                   <span class="keyword">return</span>(result)</span><br><span class="line">                 &#125;)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>只读取第一列和第二列</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">methylation_final&lt;- t(do.call(cbind,methylation))</span><br><span class="line">dim(methylation_final)</span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">10</span>,<span class="number">1</span>:<span class="number">10</span>]</span><br><span class="line">colnames(methylation_final)&lt;- methylation_final[<span class="number">1</span>,]</span><br><span class="line">methylation_final&lt;- methylation_final[seq(<span class="number">2</span>,nrow(methylation_final),by = <span class="number">2</span>),]</span><br><span class="line">row.names(methylation_final)</span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">10</span>,<span class="number">1</span>:<span class="number">10</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">################################## 将表达矩阵转换为numeric</span></span><br><span class="line">class(methylation_final[<span class="number">2</span>,<span class="number">2</span>])</span><br><span class="line">methylation_final&lt;- apply(noquote(methylation_final),<span class="number">2</span>,as.numeric)</span><br><span class="line">dim(methylation_final)</span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">######################### 将rownames改为barcode</span></span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">file_names&lt;- str_split(all_fiels,<span class="string">'/'</span>,simplify = <span class="literal">T</span>)[,<span class="number">2</span>]</span><br><span class="line">rownames(methylation_final)&lt;- file_names</span><br><span class="line"></span><br><span class="line">save(methylation_final,file=<span class="string">'methylation_final.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在服务器中操作结束，转到Xftp下载到PC中继续操作</p>
+</blockquote>
+<p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564825739631.png" alt="1564825739631"></p>
+<p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564825886700.png" alt="1564825886700"></p>
+<h5 id="step1-3-整理clinical-data"><a href="#step1-3-整理clinical-data" class="headerlink" title="step1.3 整理clinical data"></a>step1.3 整理clinical data</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"XML"</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">"methods"</span>)</span><br><span class="line">dir=<span class="string">'./clinical/'</span></span><br><span class="line">all_fiels=list.files(path = dir ,pattern=<span class="string">'*.xml$'</span>,recursive=<span class="literal">T</span>)</span><br><span class="line">all_fiels&lt;- all_fiels[grepl(pattern = <span class="string">'org_omf'</span>,all_fiels)==<span class="literal">FALSE</span>]</span><br><span class="line"><span class="comment"># 这一步很重要，删除org_omf，否则会do.call的时候会报错</span></span><br><span class="line">cl = lapply(all_fiels</span><br><span class="line">            , <span class="keyword">function</span>(x)&#123;</span><br><span class="line">              <span class="comment">#x=all_fiels[1]</span></span><br><span class="line">              result &lt;- xmlParse(file = file.path(dir,x)) </span><br><span class="line">              rootnode &lt;- xmlRoot(result)  </span><br><span class="line">              xmldataframe &lt;- xmlToDataFrame( rootnode[<span class="number">2</span>] ) </span><br><span class="line">              <span class="keyword">return</span>(t(xmldataframe))</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">cl_df&lt;- as.data.frame(t(do.call(cbind,cl)))</span><br><span class="line">save(cl_df,file = <span class="string">'./Rdata/GDC_TCGA_LUAD_clinical_df.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h5 id="step1-4：整理uuid-To-barcode"><a href="#step1-4：整理uuid-To-barcode" class="headerlink" title="step1.4：整理uuid_To_barcode"></a>step1.4：整理uuid_To_barcode</h5><h6 id="metadata-cart-ESCC-json-下载"><a href="#metadata-cart-ESCC-json-下载" class="headerlink" title="metadata.cart.ESCC.json 下载"></a>metadata.cart.ESCC.json 下载</h6><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564826926232.png" alt="1564826926232"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line">load(file = <span class="string">'./Rdata/methylation_final.Rdata'</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">'rjson'</span>)</span><br><span class="line">result&lt;- fromJSON(file = <span class="string">'./metadata.cart.2019-07-27.json'</span>)</span><br><span class="line">file_uuids&lt;- unlist(lapply(result,<span class="keyword">function</span>(x)&#123;x[[<span class="number">13</span>]][[<span class="number">1</span>]][[<span class="number">2</span>]]&#125;))</span><br><span class="line">file_uuids</span><br><span class="line">file_names&lt;- unlist(lapply(result,<span class="keyword">function</span>(x)&#123;x[[<span class="number">3</span>]]&#125;))</span><br><span class="line">file_names</span><br><span class="line">tcga_barcode&lt;- unlist(lapply(result,<span class="keyword">function</span>(x)&#123;x[[<span class="number">13</span>]][[<span class="number">1</span>]][[<span class="number">3</span>]]&#125;))</span><br><span class="line">tcga_barcode</span><br><span class="line">uuid_To_barcode&lt;- data.frame(bcr_patient_uuid=file_uuids,tcag_barcode=tcga_barcode,file_names=file_names)</span><br><span class="line">colnames(uuid_To_barcode)</span><br><span class="line">save(uuid_To_barcode,file = <span class="string">'./Rdata/uuid_To_barcode.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="step1-5-最后一步"><a href="#step1-5-最后一步" class="headerlink" title="step1.5 最后一步"></a>step1.5 最后一步</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">################## 根据原始三文件，整理expr矩阵和clinicl_data矩阵</span></span><br><span class="line"></span><br><span class="line">load(file = <span class="string">'./Rdata/uuid_To_barcode.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/GDC_TCGA_LUAD_clinical_df.Rdata'</span>)</span><br><span class="line">load(file=<span class="string">'./Rdata/methylation_final.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">################## 根据原始三文件，整理expr矩阵和clinicl_data矩阵</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">a&lt;- as.character(uuid_To_barcode$file_names)</span><br><span class="line"></span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">1</span>,<span class="number">1</span>:<span class="number">1</span>]</span><br><span class="line">methylation_final&lt;- as.data.frame(methylation_final)</span><br><span class="line"></span><br><span class="line">methylation_final$file_names&lt;- row.names(methylation_final)</span><br><span class="line">methylation_final$file_names</span><br><span class="line">uuid_To_barcode$file_names</span><br><span class="line">methylation_final&lt;- merge.data.frame(uuid_To_barcode,methylation_final,by = <span class="string">'file_names'</span>)</span><br><span class="line"></span><br><span class="line">rownames(methylation_final)&lt;- methylation_final$tcag_barcode</span><br><span class="line">methylation_final&lt;- methylation_final[,-<span class="number">1</span>]</span><br><span class="line">methylation_final&lt;- methylation_final[,-<span class="number">1</span>]</span><br><span class="line">methylation_final&lt;- methylation_final[,-<span class="number">1</span>]</span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">methylation_final&lt;- as.data.frame(t(methylation_final))</span><br><span class="line">methylation_final[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#################################下面整理clinical_data,通过bcr_patient_uuid</span></span><br><span class="line">cl_df$bcr_patient_uuid&lt;- tolower(cl_df$bcr_patient_uuid) <span class="comment">### 大写字母改为小写</span></span><br><span class="line"></span><br><span class="line">clinical_data&lt;- merge(uuid_To_barcode,cl_df,by = <span class="string">'bcr_patient_uuid'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">############# 最终methylation_final 通过tcag_barcode 与clinicaldat联系起来</span></span><br><span class="line"></span><br><span class="line">save(clinical_data,methylation_final,file = <span class="string">'./Rdata/step0_GDC_data.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<h5 id="step1-6-下载methyaltion的注释信息"><a href="#step1-6-下载methyaltion的注释信息" class="headerlink" title="step1.6: 下载methyaltion的注释信息"></a>step1.6: 下载methyaltion的注释信息</h5><p>最后下载一个注释文件，可以是TCGA_methylation中的任何一个文件，去掉beta值就是注释文件。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line">anno_450K&lt;- fread(file = <span class="string">'./Rdata/450K_annotation.txt'</span>,header = <span class="literal">T</span>, sep = <span class="string">'\t'</span>)</span><br><span class="line">anno_450K&lt;- anno_450K[,-<span class="number">2</span>]</span><br><span class="line">save(anno_450K,file = <span class="string">'./Rdata/anno_450K.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h4 id="Step2-进行数据分析"><a href="#Step2-进行数据分析" class="headerlink" title="Step2 进行数据分析"></a>Step2 进行数据分析</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">rm(list=ls())</span><br><span class="line">load(file = <span class="string">'./Rdata/step0_GDC_data.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/anno_450K.Rdata'</span>)</span><br><span class="line">match(colnames(methylation_final),clinical_data$tcag_barcode)</span><br><span class="line">clinical_data&lt;- clinical_data[match(colnames(methylation_final),clinical_data$tcag_barcode),]</span><br><span class="line">match(colnames(methylation_final),clinical_data$tcag_barcode)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">beta.m&lt;- methylation_final</span><br><span class="line"></span><br><span class="line">matData&lt;- beta.m[rowMeans(beta.m)&gt;<span class="number">0.005</span>,]</span><br><span class="line">pdf(file = <span class="string">'rawBox.pdf'</span>)</span><br><span class="line">boxplot(matData,col = <span class="string">'blue'</span>,xaxt = <span class="string">'n'</span>, outline =<span class="literal">F</span>)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(wateRmelon)</span><br><span class="line">matData&lt;- betaqn(matData)</span><br><span class="line">pdf(file = <span class="string">'normalBox.pdf'</span>)</span><br><span class="line">boxplot(matData, col = <span class="string">'red'</span>,xaxt = <span class="string">'n'</span>, outline =<span class="literal">F</span>)</span><br><span class="line">dev.off()</span><br><span class="line">grset&lt;- makeGenomicRatioSetFromMatrix(matData,what = <span class="string">'Beta'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pdf(file = <span class="string">'densityBeanplot.pdf'</span>)</span><br><span class="line">par(oma=c(<span class="number">2</span>,<span class="number">10</span>,<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">group_list=ifelse(as.numeric(substr(colnames(methylation_final),<span class="number">14</span>,<span class="number">15</span>)) &lt; <span class="number">10</span>,<span class="string">'tumor'</span>,<span class="string">'normal'</span>)</span><br><span class="line">table(group_list)</span><br><span class="line">pheno&lt;- data.frame(sample=clinical_data$tcag_barcode,group=group_list)</span><br><span class="line">match(colnames(methylation_final),clinical_data$tcag_barcode)</span><br><span class="line">matData&lt;- as.matrix(matData)</span><br><span class="line">densityBeanPlot(matData,sampGroups = pheno$group, sampNames = pheno$sample)</span><br><span class="line">dev.off()</span><br><span class="line">pdf(file = <span class="string">'mdsplot.pdf'</span>)</span><br><span class="line">mdsPlot(matData,numPositions = <span class="number">1000</span>,sampGroups = pheno$group,sampNames = pheno$sample) </span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">grset&lt;- makeGenomicRatioSetFromMatrix(matData,what = <span class="string">'Beta'</span>)</span><br><span class="line">M&lt;- getM(grset)</span><br><span class="line">dmp&lt;- dmpFinder(M,pheno = pheno$group,type=<span class="string">'categorical'</span>)</span><br><span class="line">dmpDiff&lt;- dmp[(dmp$qval&lt;<span class="number">0.05</span>)&amp;(is.na(dmp$qval)==<span class="literal">F</span>),]</span><br><span class="line">write.table(dmpDiff,file = <span class="string">'dmpDiff.xls'</span>,sep = <span class="string">'\t'</span>,quote = <span class="literal">F</span>)</span><br><span class="line"></span><br><span class="line">diffM&lt;- M[rownames(dmpDiff),]</span><br><span class="line">hmExp&lt;- diffM</span><br><span class="line"><span class="keyword">library</span>(<span class="string">'gplots'</span>)</span><br><span class="line">hmMat&lt;- as.matrix(hmExp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># pdf(file = 'heatmap.pdf',height = 150, width = 30)</span></span><br><span class="line"><span class="comment"># par(oma=c(3,3,3,5))</span></span><br><span class="line"><span class="comment"># 热图这个热图太大了，要换成</span></span><br><span class="line"><span class="comment"># heatmap.2(hmMat,col = 'greenred',trace = 'none',cexCol = 1)</span></span><br><span class="line"><span class="comment"># dev.off()</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class&lt;- pheno$group</span><br><span class="line">designMatrix&lt;- model.matrix(~factor(class))</span><br><span class="line">colnames(designMatrix)&lt;- c(<span class="string">'T'</span>,<span class="string">'C'</span>)</span><br><span class="line">dmrs&lt;- bumphunter(grset, design= designMatrix,cutoff=<span class="number">0.2</span>,B=<span class="number">10</span>,type=<span class="string">'Beta'</span>)</span><br><span class="line">dmrs_table&lt;- dmrs$table</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 最后结果保存下来，主要是两个结果：</span></span><br><span class="line"><span class="comment"># 一：dmpDiff different methylation protein？ 这个结果是从dmp 中筛选出的有统计学意义的差异甲基化蛋白</span></span><br><span class="line"><span class="comment"># 二：dmrs different methylation regions</span></span><br><span class="line">save(dmp,dmpDiff,dmrs,dmrs_table,file = <span class="string">'./Rdata/step1_methylation.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="后续分析"><a href="#后续分析" class="headerlink" title="后续分析"></a>后续分析</h4> <figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">load(file = <span class="string">'./Rdata/step0_GDC_data.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/anno_450K.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'./Rdata/step1_methylation.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/%E5%AE%9E%E6%88%98/" rel="tag"># 实战</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/TCGA%E4%B8%ADGBM%E7%9A%84RNA-seq%E5%92%8C%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="prev" title="TCGA中GBM的RNA-seq和甲基化数据整合分析实践">
+      <i class="fa fa-chevron-left"></i> TCGA中GBM的RNA-seq和甲基化数据整合分析实践
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/Rscript_EpiDISH%E5%AE%9E%E6%88%98/" rel="next" title="TCGA甲基化实战">
+      TCGA甲基化实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#"><span class="nav-number">1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCGA甲基化数据实战"><span class="nav-number"></span> <span class="nav-text">TCGA甲基化数据实战</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step0-gdc-下载数据"><span class="nav-number">1.</span> <span class="nav-text">step0 gdc 下载数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step0-1下载-manifest文件"><span class="nav-number">1.1.</span> <span class="nav-text">step0.1下载 manifest文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#安装GDC-client"><span class="nav-number">1.2.</span> <span class="nav-text">安装GDC_client</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step-0-2-通过manifest文件下载clinical-数据"><span class="nav-number">1.3.</span> <span class="nav-text">step 0.2 通过manifest文件下载clinical 数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-R语言整合数据"><span class="nav-number">2.</span> <span class="nav-text">step1 :R语言整合数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-1-clinical-data"><span class="nav-number">2.1.</span> <span class="nav-text">step1.1:  clinical data</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-2：methylation-data"><span class="nav-number">2.2.</span> <span class="nav-text">step1.2：methylation data</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-3-整理clinical-data"><span class="nav-number">2.3.</span> <span class="nav-text">step1.3 整理clinical data</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-4：整理uuid-To-barcode"><span class="nav-number">2.4.</span> <span class="nav-text">step1.4：整理uuid_To_barcode</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#metadata-cart-ESCC-json-下载"><span class="nav-number">2.4.1.</span> <span class="nav-text">metadata.cart.ESCC.json 下载</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-5-最后一步"><span class="nav-number">2.5.</span> <span class="nav-text">step1.5 最后一步</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#step1-6-下载methyaltion的注释信息"><span class="nav-number">2.6.</span> <span class="nav-text">step1.6: 下载methyaltion的注释信息</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Step2-进行数据分析"><span class="nav-number">3.</span> <span class="nav-text">Step2 进行数据分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#后续分析"><span class="nav-number">4.</span> <span class="nav-text">后续分析</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="450K甲基化芯片数据处理传送门">
+<meta property="og:type" content="article">
+<meta property="og:title" content="450K甲基化芯片数据处理传送门">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E4%BD%9C%E4%B8%9A/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="450K甲基化芯片数据处理传送门">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:35:31.563Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E4%BD%9C%E4%B8%9A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>450K甲基化芯片数据处理传送门 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E4%BD%9C%E4%B8%9A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          450K甲基化芯片数据处理传送门
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:31" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="450K甲基化芯片数据处理传送门"><a href="#450K甲基化芯片数据处理传送门" class="headerlink" title="450K甲基化芯片数据处理传送门"></a><strong>450K甲基化芯片数据处理传送门</strong></h3><a id="more"></a>
+
+<p>Illumina甲基化芯片目前仍是很多实验室做甲基化项目的首选，尤其是对于大样本研究而言，其性价比相当高。这种芯片的发展主要经历了27K、450K以及850K，目前积累的数据主要是450K芯片的，未来850K可能会成为主流。之前我写过一篇<a href="http://www.biotrainee.com/thread-237-1-1.html" target="_blank" rel="noopener">450K芯片预处理的帖子</a>，其中也介绍了这种芯片的基础知识以及流程图和代码，大家可以先看看。</p>
+<p>芯片的处理流程一般就是：<strong>数据读入——数据过滤——数据校正——下游分析。</strong></p>
+<h4 id="step1-计算机资源的准备"><a href="#step1-计算机资源的准备" class="headerlink" title="step1:计算机资源的准备"></a>step1:计算机资源的准备</h4><p>与测序相比，芯片的处理可能对计算资源的要求是不算高，主要使用的工具就是R，R的使用比较耗内存，尤其是处理大批量数据的时候。R本身是支持各种系统的，所以不管是mac、windows还是linux理论上都是可以的，只要下载对应版本即可。当然，如果你会linux最好在linux操作。其实数据分析很多都是相通的，所以之前群主推荐的配置和工具都是可以拿来用的。需要安装的R packages包括 ChAMP，minfi和wateRmelon等.<strong>作业1</strong>安装好R软件及相应的包，下载R包的说明书，整理它们的官网链接。了解illumina 450K甲基化芯片的探针设计，下载manifest文件。</p>
+<h4 id="step2-读文章拿到测序数据"><a href="#step2-读文章拿到测序数据" class="headerlink" title="step2:读文章拿到测序数据"></a>step2:读文章拿到测序数据</h4><p>本次讲解用到的数据来自文章<a href="https://www.ncbi.nlm.nih.gov/pubmed/24555846" target="_blank" rel="noopener">The relationship between DNA methylation, genetic and expression inter-individual variation in untransformed human fibroblast</a>从文章里面找到数据存放地址如下：<a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52025" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52025</a></p>
+<p><strong>作业2</strong>看文章里的methods部分，把它的分析步骤摘抄下来，然后理解GEO数据库的数据存放形式，把规律和笔记发在论坛上面，类似于<a href="http://www.biotrainee.com/thread-1750-1-1.html" target="_blank" rel="noopener">RNA-seq数据处理入门</a>和<a href="http://www.biotrainee.com/thread-2013-1-1.html" target="_blank" rel="noopener">CHIP-seq数据处理入门</a></p>
+<h4 id="step3-了解芯片数据"><a href="#step3-了解芯片数据" class="headerlink" title="step3:了解芯片数据"></a>step3:了解芯片数据</h4><p>需要阅读相关的资料，比如illumina的官网介绍及相关的文献，对甲基化及该芯片的技术核心有一定了解，对于存在的问题也要知道，这对于后面分析时理解校正的意义非常重要！</p>
+<p><strong>作业3</strong>理解芯片的probe，Bead，p值，I型探针和II型探针等。</p>
+<h4 id="step4-了解probe注释"><a href="#step4-了解probe注释" class="headerlink" title="step4:了解probe注释"></a>step4:了解probe注释</h4><p>在GEO或者illumina下载450K注释文件，理解每一列的意义及探针的分类。或者下载官网的manifest文件并且理解。</p>
+<p><strong>作业4</strong>下载注释文件，理解甲基化探针的分类及注释。</p>
+<h4 id="step5-数据读入"><a href="#step5-数据读入" class="headerlink" title="step5:数据读入"></a>step5:数据读入</h4><p>处理甲基化芯片的R包其实很多，我之前用的是minfi，现在用ChAMP应该更加方便，它整合了很多分析处理数据的方法，例如过滤和校正等，所以大家可以以ChAMP为主。</p>
+<p><strong>作业5</strong>查看甲基化芯片文件的命名规则，整理文件读入所需的表格，使用ChAMP包读入文件。</p>
+<h4 id="step6-数据过滤及数据校正"><a href="#step6-数据过滤及数据校正" class="headerlink" title="step6:数据过滤及数据校正"></a>step6:数据过滤及数据校正</h4><p>数据过滤主要是根据p值和bead数，probe还需要注意过滤snp和multiple-hit，样本过滤可以考虑PCA或MDS，很多时候R包会直接帮我们做了，但是需要对过滤的标准做到心中有数。数据校正主要是I型探针和II型探针校正，批次校正和混杂因素校正等。</p>
+<p><strong>作业6</strong>根据p值和bead数过滤探针和样本，过滤SNP和multiple-hit的探针，使用BMIQ校正探针类型，使用combat校正批次效应，使用lm校正混杂因素。</p>
+<h4 id="step7-下游分析"><a href="#step7-下游分析" class="headerlink" title="step7:下游分析"></a>step7:下游分析</h4><p>下游分析一般根据需求来定，比如差异甲基化分析、甲基化与表达的整合分析等。<strong>作业7</strong>学习T-test和线性回归的差异甲基化分析。</p>
+<h4 id="step8：探针注释、绘图等"><a href="#step8：探针注释、绘图等" class="headerlink" title="step8：探针注释、绘图等"></a>step8：探针注释、绘图等</h4><p>甲基化探针可以根据官方给的注释文件进行基因和CGI的注释。也可以使用webgestalt对感兴趣的探针做GO和Pathway的分析。可以使用ggplot等对探针的分布进行绘图。<strong>作业8</strong>理解甲基化探针的CGI及基因位置注释并且简单可视化。<strong>后记</strong>希望和大家一起学习，共同进步。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E4%BA%8E%E5%85%8D%E7%96%AB%E7%BB%86%E8%83%9E%E6%B5%B8%E6%B6%A6/" rel="prev" title="甲基化免疫细胞浸润">
+      <i class="fa fa-chevron-left"></i> 甲基化免疫细胞浸润
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E7%BB%93%E6%9E%9C%E6%B3%A8%E9%87%8A/" rel="next" title="甲基化结果注释">
+      甲基化结果注释 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#450K甲基化芯片数据处理传送门"><span class="nav-number">1.</span> <span class="nav-text">450K甲基化芯片数据处理传送门</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#step1-计算机资源的准备"><span class="nav-number">1.1.</span> <span class="nav-text">step1:计算机资源的准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step2-读文章拿到测序数据"><span class="nav-number">1.2.</span> <span class="nav-text">step2:读文章拿到测序数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step3-了解芯片数据"><span class="nav-number">1.3.</span> <span class="nav-text">step3:了解芯片数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step4-了解probe注释"><span class="nav-number">1.4.</span> <span class="nav-text">step4:了解probe注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step5-数据读入"><span class="nav-number">1.5.</span> <span class="nav-text">step5:数据读入</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step6-数据过滤及数据校正"><span class="nav-number">1.6.</span> <span class="nav-text">step6:数据过滤及数据校正</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step7-下游分析"><span class="nav-number">1.7.</span> <span class="nav-text">step7:下游分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#step8：探针注释、绘图等"><span class="nav-number">1.8.</span> <span class="nav-text">step8：探针注释、绘图等</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

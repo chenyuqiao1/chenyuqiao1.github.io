@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用DSS包多种方式检验差异甲基化信号区域">
+<meta property="og:type" content="article">
+<meta property="og:title" content="甲基化高通量测序分析DSS包">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="使用DSS包多种方式检验差异甲基化信号区域">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190530121638089.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531144259742.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531153428574.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531162248144.png">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:35:51.368Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="DSS">
+<meta property="article:tag" content="甲基化测序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190530121638089.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>甲基化高通量测序分析DSS包 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          甲基化高通量测序分析DSS包
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:51" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="使用DSS包多种方式检验差异甲基化信号区域"><a href="#使用DSS包多种方式检验差异甲基化信号区域" class="headerlink" title="使用DSS包多种方式检验差异甲基化信号区域"></a>使用DSS包多种方式检验差异甲基化信号区域</h1><a id="more"></a>
+
+<h3 id="一个背景"><a href="#一个背景" class="headerlink" title="一个背景"></a>一个背景</h3><p>哺乳动物基因组CpG位点通常集中在称为CpG岛（CpG island，CGI）的区域中，并且已知人基因启动子~60％含有CpG岛。CpG岛上下游不超过2000个碱基对（2kb）的基因组区域称为CpG“岛岸”（shores），其中CpG shelves指位于CpG shores 上下游2kb以内的区域，open sea指CpG islands、CpG shores和CpG shelves之外的其他区域。这4种情况形成了CpG resort。CpG位点的密度从island到open sea递减。</p>
+<h3 id="3个技术"><a href="#3个技术" class="headerlink" title="3个技术"></a>3个技术</h3><p>主要是 甲基化测序的 WGBS和RRBS，还有 芯片：</p>
+<p><strong>全基因组DNA甲基化测序（Whole Genome Bisulfite Sequencing，WGBS）</strong>是 DNA 甲基化研究的金标准，它通过 Bisulfite 处理和全基因组 DNA 测序结合的方式，对整个基因组上的甲基化情况进行分析，具有单碱基分辨率，可精确评估单个 C 碱基的甲基化水平，构建全基因组精细甲基化图谱。数据量非常大。</p>
+<p><strong>简化甲基化测序</strong> (Reduced representation bisulfite sequencing, RRBS)是一种<strong>准确、高效、经济</strong>的DNA甲基化研究方法，通过酶切 (Msp I) 富集启动子及CpG岛区域，并进行Bisulfite测序，同时实现DNA甲基化状态检测的高分辨率和测序数据的高利用率。作为一种高性价比的甲基化研究方法，简化甲基化测序在大规模临床样本的研究中具有广泛的应用前景。</p>
+<p><strong>Illumina的Infinium BeadChip芯片</strong>，包括HumanMethyation450（450K）和MethylationEPIC（850K）。Infinium芯片存在染料偏差、不同探针化学和位置效应的问题，已知这些问题会影响结果，必须在数据处理过程中进行校正。Infinium 450K探针交叉反应和模糊比对到人类基因组中的多个位置影响了485,000个探测器中的约140,000个探针（29％），将可用探针的数量减少到约345,000个。这个问题在新发布850K仍然存在，其包括&gt; 90％的450K探针。</p>
+<p>有文章比较这3个技术：Empirical comparison of reduced representation bisulfite sequencing and Infinium BeadChip reproducibility and coverage of DNA methylation in humans</p>
+<p>主要是分析 <strong>差异甲基化区域（DMRs）与 DMR 相关差异表达基因</strong></p>
+<h3 id="数据介绍"><a href="#数据介绍" class="headerlink" title="数据介绍"></a>数据介绍</h3><p>这里选择 <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52140" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE52140</a></p>
+<p>提供每个样本的信号值矩阵下载</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190530121638089.png" alt="image-20190530121638089"></p>
+<p>下载并且了解数据:</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531144259742.png" alt="image-20190531144259742"></p>
+<p>查看压缩包内容，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">head GSM1084240_A3R_d6_250.cpgs.txt</span><br><span class="line">CHR POS A3R_d6_250</span><br><span class="line">chr1 10525 21&#x2F;23</span><br><span class="line">chr1 10542 21&#x2F;23</span><br><span class="line">chr1 10609 1&#x2F;23</span><br><span class="line">chr1 10617 0&#x2F;24</span><br><span class="line">chr1 10620 0&#x2F;24</span><br><span class="line">chr1 10631 0&#x2F;24</span><br><span class="line">chr1 10633 0&#x2F;24</span><br><span class="line">chr1 10636 0&#x2F;24</span><br><span class="line">chr1 10638 0&#x2F;24</span><br></pre></td></tr></table></figure>
+
+<p>DSS包要求输入文件数据:<em>每一行代表一个CpG site</em>, 格式如下:</p>
+<ul>
+<li>第一列为染色体</li>
+<li>第二列为位置</li>
+<li>第三列为total reads</li>
+<li>第四列为甲基化的reads</li>
+</ul>
+<p>所以我们下载的数据需要进行拆分，然后导入到R里面才能被DSS包使用。</p>
+<h3 id="DSS包介绍"><a href="#DSS包介绍" class="headerlink" title="DSS包介绍"></a>DSS包介绍</h3><p>主要是把上面项目的数据文件下载，然后导入到R里面，是有DSS包进行分析。</p>
+<p><strong>DSS (Dispersion Shrinkage for Sequencing data)</strong>，为基于高通量测序数据的差异分析而设计的Bioconductor包。<strong>主要应用于BS-seq（亚硫酸氢盐测序）中计算不同组别间差异甲基化位点（DML）和差异甲基化区域（DMR）</strong>即Call DML or DMR。</p>
+<p><strong>DSS包的使用主要包括：</strong></p>
+<ul>
+<li>输入文件的准备</li>
+<li>利用DMLtest函数检验所有的位点</li>
+<li>利用callDML函数挑选统计学显著的位点</li>
+<li>利用callDMR函数Call DMR</li>
+<li>利用showOneDMR函数对DMRs可视化</li>
+</ul>
+<p>首先我们导入上面GSE52140数据集的文件：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(data.table)</span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line"><span class="keyword">library</span>(tidyverse) </span><br><span class="line">allDat &lt;- lapply(list.files(<span class="string">'GSE52140_RAW/'</span>,pattern=<span class="string">'*cpgs.txt.gz'</span>),<span class="keyword">function</span>(f)&#123;</span><br><span class="line"> <span class="comment"># f="GSM1251242_H2R_d0.cpgs.txt.gz";</span></span><br><span class="line"> print(f);</span><br><span class="line"> tmp=fread(file.path(<span class="string">'GSE52140_RAW/'</span>,f))</span><br><span class="line"> chr=as.character(tmp$CHR)</span><br><span class="line"> pos=as.character(tmp$POS) </span><br><span class="line"> newTmp=separate(tmp,col =<span class="number">3</span>,into = c(<span class="string">"methy"</span>, <span class="string">"unmethy"</span>), sep = <span class="string">"/"</span>)</span><br><span class="line"> newTmp$all=as.numeric(newTmp$methy)+as.numeric(newTmp$unmethy)</span><br><span class="line"> newTmp=as.data.frame(newTmp[,c(<span class="number">1</span>,<span class="number">2</span>,<span class="number">5</span>,<span class="number">3</span>)])</span><br><span class="line"> colnames(newTmp)=c(<span class="string">'chr'</span>, <span class="string">'pos'</span> ,<span class="string">'N'</span> ,<span class="string">'X'</span>)</span><br><span class="line"> <span class="keyword">return</span>(newTmp)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">## 值得注意的是每个样本的位点数量不一致哦</span></span><br><span class="line">do.call(rbind,lapply(allDat,dim))</span><br><span class="line">tmp=do.call(cbind,lapply(allDat,head))</span><br><span class="line"></span><br><span class="line">sn=gsub(<span class="string">'.cpgs.txt.gz'</span>,<span class="string">''</span>,list.files(<span class="string">'GSE52140_RAW/'</span>,pattern=<span class="string">'*cpgs.txt.gz'</span>))</span><br><span class="line">sn=gsub(<span class="string">'GSM.*?_'</span>,<span class="string">''</span>,sn)</span><br><span class="line">sn</span><br></pre></td></tr></table></figure>
+
+<p>也就是说把这17个文件读入了，样本名字是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt; sn</span><br><span class="line"> [1] &quot;A0R_d0_rep1&quot; &quot;A3R_d0_rep1&quot; &quot;A3R_d6_250&quot; &quot;A3R_d6_1000&quot; </span><br><span class="line"> [5] &quot;A3R_d13_250&quot; &quot;A3R_d13_1000&quot; &quot;H0R_d0_rep1&quot; &quot;H3R_d0_rep1&quot; </span><br><span class="line"> [9] &quot;H3R_d6_250&quot; &quot;H3R_d13_250&quot; &quot;A0R_d0_rep2&quot; &quot;A3R_d0_rep2&quot; </span><br><span class="line">[13] &quot;H0R_d0_rep2&quot; &quot;H3R_d0_rep2&quot; &quot;A1R_d0&quot; &quot;A2R_d0&quot; </span><br><span class="line">[17] &quot;H2R_d0&quot;</span><br></pre></td></tr></table></figure>
+
+<p>这个时候，这个变量有点大，可能会考验你的计算机哦。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531153428574.png" alt="image-20190531153428574"></p>
+<p>然后我们用下面的3个例子来说明这个DSS包的用法，需要掌握上面样本的命名：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># lung cancer cell lines A549 (A) and HTB56 (H)</span><br><span class="line"># normal cell lines (0R) </span><br><span class="line"># a highly metastatic phenotype (3R)</span><br><span class="line"># 5-Azacytidine treatment at low concentrations (250 nM &amp; 1000 nM) </span><br><span class="line"># for 6 days, additional 7 days in regular medium</span><br></pre></td></tr></table></figure>
+
+<h3 id="单样本VS单样本"><a href="#单样本VS单样本" class="headerlink" title="单样本VS单样本"></a>单样本VS单样本</h3><p>代码如下，重要就是构建对象和做统计检验</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(DSS)</span><br><span class="line"><span class="keyword">require</span>(bsseq) </span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line"> BSobj &lt;- makeBSseqData(allDat[<span class="number">1</span>:<span class="number">2</span>],</span><br><span class="line"> c(<span class="string">"A0R"</span>, <span class="string">"A3R"</span>) )[<span class="number">1</span>:<span class="number">1000</span>,]</span><br><span class="line"> BSobj</span><br><span class="line"> save(BSobj,file = <span class="string">'single-BSobj.Rdata'</span>)</span><br><span class="line"> <span class="comment"># There is no biological replicates in at least one condition.</span></span><br><span class="line"> dmlTest &lt;- DMLtest(BSobj, group1=c(<span class="string">"A0R"</span>), group2=c(<span class="string">"A3R"</span>),smoothing=<span class="literal">TRUE</span>)</span><br><span class="line"> head(dmlTest) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多样本的组VS另一个组"><a href="#多样本的组VS另一个组" class="headerlink" title="多样本的组VS另一个组"></a>多样本的组VS另一个组</h3><p>代码如下，重要就是构建对象和做统计检验，这里比较”A0R_d0”和”A3R_d0”组别的2个样本：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line"> sn[c(<span class="number">1</span>,<span class="number">11</span>,<span class="number">2</span>,<span class="number">12</span>)]</span><br><span class="line"> BSobj &lt;- makeBSseqData(allDat[c(<span class="number">1</span>,<span class="number">11</span>,<span class="number">2</span>,<span class="number">12</span>)],</span><br><span class="line"> sn[c(<span class="number">1</span>,<span class="number">11</span>,<span class="number">2</span>,<span class="number">12</span>)] )[<span class="number">1</span>:<span class="number">1000</span>,]</span><br><span class="line"> BSobj </span><br><span class="line"> save(BSobj,file = <span class="string">'group-BSobj.Rdata'</span>)</span><br><span class="line"> dmlTest &lt;- DMLtest(BSobj, group1=c(<span class="string">"A0R_d0_rep1"</span>,<span class="string">"A0R_d0_rep2"</span>),</span><br><span class="line"> group2=c(<span class="string">"A3R_d0_rep1"</span>,<span class="string">"A3R_d0_rep2"</span>),smoothing=<span class="literal">F</span>)</span><br><span class="line"> head(dmlTest) </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="多种比较方式"><a href="#多种比较方式" class="headerlink" title="多种比较方式"></a>多种比较方式</h3><p>代码如下，重要仍然是构建对象和做统计检验，但是需要构建属性矩阵，而且增加了DMLfit步骤。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sn</span><br><span class="line">sn[grep(<span class="string">'rep'</span>,sn)]</span><br><span class="line">cellline=substring(sn[grep(<span class="string">'rep'</span>,sn)],<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">type=substring(sn[grep(<span class="string">'rep'</span>,sn)],<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">design=data.frame(cellline=cellline,type=type)</span><br><span class="line">design</span><br></pre></td></tr></table></figure>
+
+<p>得到的属性矩阵如下：</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/image-20190531162248144.png" alt="image-20190531162248144"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">sn</span><br><span class="line">sn[grep(<span class="string">'rep'</span>,sn)]</span><br><span class="line">cellline=substring(sn[grep(<span class="string">'rep'</span>,sn)],<span class="number">1</span>,<span class="number">1</span>)</span><br><span class="line">type=substring(sn[grep(<span class="string">'rep'</span>,sn)],<span class="number">2</span>,<span class="number">2</span>)</span><br><span class="line">design=data.frame(cellline=cellline,type=type)</span><br><span class="line">design</span><br><span class="line"></span><br><span class="line"><span class="comment"># 构建对象特别耗时；</span></span><br><span class="line">BSobj &lt;- makeBSseqData(allDat[c(grep(<span class="string">'rep'</span>,sn))],</span><br><span class="line">sn[grep(<span class="string">'rep'</span>,sn)]) </span><br><span class="line">BSobj </span><br><span class="line">save(BSobj,file = <span class="string">'multi-BSobj.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'multi-BSobj.Rdata'</span>)</span><br><span class="line">DMLfit=DMLfit.multiFactor(BSobj,design,</span><br><span class="line">formula = ~cellline+type+cellline:type)</span><br><span class="line"></span><br><span class="line">colnames(DMLfit$X) </span><br><span class="line"><span class="comment"># 这里可以使用 ‘coef’, ‘term’, or ‘Contrast’我们仅仅是演示 coef</span></span><br><span class="line">dmlTest=DMLtest.multiFactor(DMLfit,coef=<span class="number">2</span>)</span><br><span class="line">head(dmlTest)</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是<code>DMLtest.multiFactor</code>结果不需要<code>callDML</code>，只需要<code>callDMR</code>即可!</p>
+<h3 id="结果介绍"><a href="#结果介绍" class="headerlink" title="结果介绍"></a>结果介绍</h3><p>不管是哪种比较，最后都得到<code>dmlTest</code>变量走后面的流程，包括确定显著差异甲基化区域及基因，以及可视化展现，代码如下：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 3.Call DML by using callDML function. The results DMLs are sorted by the significance.</span></span><br><span class="line">dmls &lt;- callDML(dmlTest, p.threshold=<span class="number">0.001</span>)</span><br><span class="line">head(dmls)</span><br><span class="line"><span class="comment">##To detect loci with difference greater than 0.1, do:</span></span><br><span class="line">dmls2 &lt;- callDML(dmlTest, delta=<span class="number">0.1</span>, p.threshold=<span class="number">0.001</span>)</span><br><span class="line">head(dmls2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 4.Call DMR by using callDML function</span></span><br><span class="line"><span class="comment">##Regions with many statistically significant CpG sites are identified as DMRs.</span></span><br><span class="line">dmrs &lt;- callDMR(dmlTest, p.threshold=<span class="number">0.01</span>)</span><br><span class="line">head(dmrs)</span><br><span class="line"><span class="comment">##To detect regions with difference greater than 0.1, do:</span></span><br><span class="line">dmrs2 &lt;- callDMR(dmlTest, delta=<span class="number">0.1</span>, p.threshold=<span class="number">0.05</span>)</span><br><span class="line">head(dmrs2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 5.The DMRs can be visualized using showOneDMR function</span></span><br><span class="line">showOneDMR(dmrs[<span class="number">1</span>,], BSobj)</span><br></pre></td></tr></table></figure>
+
+<p>很明显，参数都是可以调整的，统计学显著性的阈值自己把握。</p>
+<h3 id="作业"><a href="#作业" class="headerlink" title="作业"></a>作业</h3><p>分析文章 Enduring epigenetic landmarks define the cancer microenvironment ，拿到 患者间差异甲基化区域（DMRs）与 DMR 相关差异表达基因（DE-DMRs）</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/DSS/" rel="tag"># DSS</a>
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F/" rel="tag"># 甲基化测序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/22/%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%AD%A6%E4%B9%A01/" rel="prev" title="宏基因组学习1">
+      <i class="fa fa-chevron-left"></i> 宏基因组学习1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/" rel="next" title="甲基化高通量测序分析3">
+      甲基化高通量测序分析3 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用DSS包多种方式检验差异甲基化信号区域"><span class="nav-number">1.</span> <span class="nav-text">使用DSS包多种方式检验差异甲基化信号区域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一个背景"><span class="nav-number">1.0.1.</span> <span class="nav-text">一个背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3个技术"><span class="nav-number">1.0.2.</span> <span class="nav-text">3个技术</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据介绍"><span class="nav-number">1.0.3.</span> <span class="nav-text">数据介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DSS包介绍"><span class="nav-number">1.0.4.</span> <span class="nav-text">DSS包介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单样本VS单样本"><span class="nav-number">1.0.5.</span> <span class="nav-text">单样本VS单样本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多样本的组VS另一个组"><span class="nav-number">1.0.6.</span> <span class="nav-text">多样本的组VS另一个组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多种比较方式"><span class="nav-number">1.0.7.</span> <span class="nav-text">多种比较方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果介绍"><span class="nav-number">1.0.8.</span> <span class="nav-text">结果介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#作业"><span class="nav-number">1.0.9.</span> <span class="nav-text">作业</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

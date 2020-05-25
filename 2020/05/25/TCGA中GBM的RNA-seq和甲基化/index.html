@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="TCGA中GBM的RNA-seq和甲基化数据整合分析实践">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCGA中GBM的RNA-seq和甲基化数据整合分析实践">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/TCGA%E4%B8%ADGBM%E7%9A%84RNA-seq%E5%92%8C%E7%94%B2%E5%9F%BA%E5%8C%96/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="TCGA中GBM的RNA-seq和甲基化数据整合分析实践">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/mw7v0grs28.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/5kiku4d5iu.png?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/bsxad4jy6f.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/5n1gmkd1t3.png?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ie841hjxsy.png?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/nvogbt0ctg.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/x75r3f68ub.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/9fu6tn36hp.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ewvhmprd16.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/gcun2i1n4v.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/36duyvva7w.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/2rbjb4odfu.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ellj9a87p7.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ykmocx8nks.png?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/hzgih6708p.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/ef4pp3gefx.jpeg?imageView2/2/w/1620">
+<meta property="og:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/o57ktdi2sx.jpeg?imageView2/2/w/1620">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:31:36.152Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="RNA-seq">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ask.qcloudimg.com/http-save/yehe-1154415/mw7v0grs28.jpeg?imageView2/2/w/1620">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/TCGA%E4%B8%ADGBM%E7%9A%84RNA-seq%E5%92%8C%E7%94%B2%E5%9F%BA%E5%8C%96/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCGA中GBM的RNA-seq和甲基化数据整合分析实践 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/TCGA%E4%B8%ADGBM%E7%9A%84RNA-seq%E5%92%8C%E7%94%B2%E5%9F%BA%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCGA中GBM的RNA-seq和甲基化数据整合分析实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:31:36" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="TCGA中GBM的RNA-seq和甲基化数据整合分析实践"><a href="#TCGA中GBM的RNA-seq和甲基化数据整合分析实践" class="headerlink" title="TCGA中GBM的RNA-seq和甲基化数据整合分析实践"></a>TCGA中GBM的RNA-seq和甲基化数据整合分析实践</h1><a id="more"></a>
+
+
+
+<p><strong>找出胶质细胞瘤特异性甲基化区域，为临床诊断提供理论依据</strong></p>
+<blockquote>
+<p><strong>步骤：</strong> 1、查找数据：下载TCGA中GBM的RNA-seq和甲基化数据 2、甲基化数据分析，正常肿瘤对比，进行差异甲基化分析，找出肿瘤样本中高甲基化区域 3、对RNA-seq数据进行分析，正常肿瘤对比，差异表达基因的筛选，找出肿瘤样本中低表达基因。 4、结合甲基化和RNA-seq数据，将高甲基化和低表达基因取交集，这些基因很可能属于抑癌基因，与抑癌基因取交集，再结合promoter区域的CpG整合分析，寻找候选靶标。 5、对找出的靶标进行验证，利用pubmed以及其他数据库，反向验证靶标的  </p>
+</blockquote>
+<p>可靠性 </p>
+<p>一、数据下载</p>
+<p>首先进入TCGA下载数据GBM的RNA-seq和甲基化数据，从下表可见GBM共有172套RNA-seq数据以及437套DNA甲基化数据，由于TCGA提供Infinium HumanMethylation27 BeadChip和Infinium HumanMethylation450 BeadChip两种芯片平台的数据，为了避免后续不同芯片平台间数据合并的困难，仅下载HumanMethylation450的芯片数据，共计154套。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/mw7v0grs28.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 1TCGA数据汇总</p>
+<p>二、初步整理数据</p>
+<p>使用TCGA-Assembler.2.0.5进行GBM数据批量下载与初步整理，并且绘制RNA-seq 基因表达量盒型 图 以及甲基化芯片数据盒型图 ，由于数据量较大，此处不贴图。</p>
+<p>三、整体可视化</p>
+<p>首先对于甲基化数据，选取ID为TCGA.06.AABW.11A.31D.A368.05的数据，查看总体甲基化程度。由于每个位点真实情况只存在：甲基化/非甲基化两种，所以对全部位点甲基化程度进行统计，也应该是大部分位点处于“完全甲基化”(Methylation state=1)和“完全非甲基化”(Methylation state=0)两种状态，下图绘制了数据的频数柱状图，可以明显看出形状处于“两头高，中间低”，反向说明芯片数据质量较好。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/5kiku4d5iu.png?imageView2/2/w/1620" alt="img"></p>
+<p>图表 2单个样本CpG甲基化程度统计</p>
+<p>接下来，对多个样本绘制CpG甲基化程度小提琴图，同一行是同一个病人，左边样本来源于Primary Solid Tumor，右边样本来源于Recurrent Solid Tumor，除了甲基化程度大部分分布于0和1附近外，还能看出来源于同一病人肿瘤的甲基化程度依旧会有略微差异。</p>
+<p>TCGA barcode：<a href="https://wiki.nci.nih.gov/display/TCGA/TCGA+barcode" target="_blank" rel="noopener">https://wiki.nci.nih.gov/display/TCGA/TCGA+barcode</a></p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/bsxad4jy6f.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 3小提琴图</p>
+<p>同样的，对于RNA-seq数据也可以进行一些初步可视化，除了数据下载后绘制的盒型图，亦可以进行PCA初步查看数据分布，下图左为PCA陡坡图，反映了第一主成分、第二主成分…等等所拥有信息量的比例，下图右为使用PCA1和PCA2绘制的散点图，可以发现5个正常样本距离较近，从侧面反映数据可信度较好。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/5n1gmkd1t3.png?imageView2/2/w/1620" alt="img"></p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ie841hjxsy.png?imageView2/2/w/1620" alt="img"></p>
+<p>最后，对于RNA-seq表达谱数据，使用系统聚类方法，绘制树状图，可以发现5个正常样本距离也是很近，数据质量还行。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/nvogbt0ctg.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>四、差异甲基化区域筛选</p>
+<p>为了更加科学高效地筛选差异甲基化位点，参考bioconductor中甲基化芯片的分析流程，使用minfi包进行差异甲基化分析，得到差异甲基化位点。</p>
+<p><a href="http://www.bioconductor.org/help/workflows/methylationArrayAnalysis/" target="_blank" rel="noopener">http://www.bioconductor.org/help/workflows/methylationArrayAnalysis/</a></p>
+<p>在检测的526733个CpG位点中，共有4927个CpG位点P值&lt;0.01，且在肿瘤样本中保持着甲基化程度高于0.7，对应2054个基因。</p>
+<p>五、差异表达基因筛选</p>
+<p>由于数据源自RNA-seq，最主流的分析方法当然是基于负二项分布模型的DESeq2包。</p>
+<p>先用MA-plot查看差异表达基因大致分布。意外的是，图形左侧有大概七条线状条纹，最初我怀疑这是sample之间有batch effect导致，需要用其他更好normalize的方法，后来用identify方法挨个找出每条线上的基因名及其对应的表达量，发现这些基因在172套样本中表达量几乎全为0，仅有一两个样本有一点点表达，这种数据的存在导致这些线状条纹的产生。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/x75r3f68ub.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 4 MA-plot</p>
+<p>然后， 选取p值最小的差异表达基因，绘制其在不同组间表达量，确实差异很显著。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/9fu6tn36hp.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 5表达量散点图</p>
+<p>接着，绘制差异表达基因在不同组间的表达量热图，正常样本是图片最左边的五列，当然如果需要解释具体的生物学问题，需要将聚类出来的每一类，将差异表达基因进行GO以及KEGG注释，结合有关的生物学表型，探讨其分子机制及意义</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ewvhmprd16.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 6表达量热图</p>
+<p>最后，选取筛选条件为p值小于0.01且log2FoldChange&lt;-2的差异表达基因，在肿瘤样本低表达的基因，共计1657个</p>
+<p>六、抑癌基因的获取</p>
+<p>在pubmed中查询研究人员整理的tumor suppressor genes，果然在Nucleic Acids Res发表过TSGene数据库，存储了抑癌基因的列表。<a href="https://bioinfo.uth.edu/TSGene/download.cgi" target="_blank" rel="noopener">https://bioinfo.uth.edu/TSGene/download.cgi</a></p>
+<p>下载全部1217个人类抑癌基因的列表。</p>
+<p>All the 1217 human tumor suppressor genes with basic annotations</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/gcun2i1n4v.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 7 TSGene database</p>
+<p>七、数据整合</p>
+<p>对于甲基化数据中，肿瘤样本高甲基化CpG附近的基因，RNA-seq中肿瘤样本低表达的基因，以及TSGene数据库中下载的抑癌基因列表，三者做overlap，找出特异性的候选靶标，为后续分析做准备，下图为三者overlap的韦恩图。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/36duyvva7w.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 8数据整合韦恩图</p>
+<p>共计找出12个候选靶标基因。</p>
+<p>八、靶标筛选</p>
+<p>之前筛选选择的单个CpG的差异甲基化，而实际临床检测应用时候，可能需要多个CpG作为对照，因此统计了12个候选靶标基因TSS前1.5kb内所有CpG的甲基化程度，然后绘制热图，可以明显发现，虽然当初用CpG的差异甲基化位点筛出来的基因都是肿瘤样本高甲基化的，可是统计TSS前1.5kb内所有CpG的甲基化程度，这些基因却有很多在所有样本中都是低甲基化状态，而看上去很靠谱的是NUAK1基因，其正常样本在TSS前1.5kb内低甲基化，肿瘤样本中对应区域高甲基化。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/2rbjb4odfu.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 9 methylation heatmap</p>
+<p>NUAK1基因TSS前1.5kb内共检测了7个CpG，这7个CpG在154个样本中检测出来的甲基化程度如下图，可以明显看出来这7个CpG在Tumor组织中甲基化程度都相对高，而在Normal组织中甲基化程度相对较低。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ellj9a87p7.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 10 NUAK1的TSS区CpG甲基化程度</p>
+<p>使用Cpgplot预测CpG island位置，这7个CpG在promoter5’到3’序列图上相对位置如下</p>
+<p>1035 1094 1408 1413 1444 1448 1471</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ykmocx8nks.png?imageView2/2/w/1620" alt="img"></p>
+<p>图表 11 CpG island预测</p>
+<p>参数使用：</p>
+<p>NUAK1promoter from 1 to 1500</p>
+<p>​    Observed/Expected ratio &gt; 0.40</p>
+<p>​    Percent C + Percent G &gt; 40.00</p>
+<p>​    Length &gt; 100</p>
+<p>CpG island详细信息: Length 101 (1086..1186)     Length 105 (1366..1470)</p>
+<p>这七个CpG基本都在CpGisland中，具体序列见附录</p>
+<p>九、靶标基因相关讨论</p>
+<p>进入Gene数据库搜索NUAK1相关内容，可以发现基因全称NUAK family kinase 1，还是个激酶，激酶的话就对调控会有很大作用了，而在HPA RNA-seq normal tissues项目中，又看出来这个激酶在脑中表达量明显高于其他组织，这又与发生在脑部的GBM不谋而合。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/hzgih6708p.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 12 NUAK1相关讨论</p>
+<p>十、分子机制探讨</p>
+<p>对于肿瘤组织中高甲基化CpG附近的，并且在肿瘤样本中低表达的intersect共计274个基因，使用Gene Ontology进行富集分析，可以明显发现在GO biological process生物学过程中的“神经系统发育”、“化学性突触传递”和“细胞膜的组织”等部分里面有着富集，特别是“中枢神经系统的髓鞘形成”，富集程度达到26.95倍，这又与研究的多发生于脑补的GBM有着密切的联系，反向验证实验结果的正确性。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/ef4pp3gefx.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 13 GO富集分析</p>
+<p>十一、FurtherMore</p>
+<p>根据生物学知识可以得到，CpG的甲基化会调控基因的转录，因此，Transcript Start Site(TSS)附近的甲基化程度值得进行一番深入研究，选用人类基因组hg19版本，对23056基因共计46489个转录起始位点，进行转录起始位点富集甲基化程度统计。</p>
+<p>统计TSS前后5000bp内CpG甲基化程度，并且使用曲线进行拟合，可以发现TSS处的CpG Methylation水平明显降低，这也与科学常识相吻合。</p>
+<p><img src="https://ask.qcloudimg.com/http-save/yehe-1154415/o57ktdi2sx.jpeg?imageView2/2/w/1620" alt="img"></p>
+<p>图表 14 TSS附近甲基化程度</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/RNA-seq/" rel="tag"># RNA-seq</a>
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/annovar%E6%B3%A8%E9%87%8A%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="prev" title="annovar注释甲基化">
+      <i class="fa fa-chevron-left"></i> annovar注释甲基化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/" rel="next" title="TCGA甲基化数据实战">
+      TCGA甲基化数据实战 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#TCGA中GBM的RNA-seq和甲基化数据整合分析实践"><span class="nav-number">1.</span> <span class="nav-text">TCGA中GBM的RNA-seq和甲基化数据整合分析实践</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

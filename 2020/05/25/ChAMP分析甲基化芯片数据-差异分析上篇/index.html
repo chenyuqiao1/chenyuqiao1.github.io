@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ChAMP分析甲基化芯片数据-差异分析上篇经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析  DMP 差异甲基化探针 DMR 差异甲基化区域  在ChAMP包中，champ.DMP函数用于分析差异甲基化探针，champ.DMR函数用于分析差异甲基化区域。本章我们先看下差异探针的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChAMP分析甲基化芯片数据-差异分析上篇">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="ChAMP分析甲基化芯片数据-差异分析上篇经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析  DMP 差异甲基化探针 DMR 差异甲基化区域  在ChAMP包中，champ.DMP函数用于分析差异甲基化探针，champ.DMR函数用于分析差异甲基化区域。本章我们先看下差异探针的分析">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:33:12.411Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="ChAMP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ChAMP分析甲基化芯片数据-差异分析上篇 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8A%E7%AF%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ChAMP分析甲基化芯片数据-差异分析上篇
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:12" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ChAMP分析甲基化芯片数据-差异分析上篇"><a href="#ChAMP分析甲基化芯片数据-差异分析上篇" class="headerlink" title="ChAMP分析甲基化芯片数据-差异分析上篇"></a>ChAMP分析甲基化芯片数据-差异分析上篇</h1><p>经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析</p>
+<ol>
+<li>DMP 差异甲基化探针</li>
+<li>DMR 差异甲基化区域</li>
+</ol>
+<p>在<code>ChAMP</code>包中，<code>champ.DMP</code>函数用于分析差异甲基化探针，<code>champ.DMR</code>函数用于分析差异甲基化区域。本章我们先看下差异探针的分析</p>
+<a id="more"></a>
+
+
+
+<p><code>champ.DMP</code>函数的用法示例</p>
+<blockquote>
+<p>myDMP &lt;- champ.DMP()</p>
+</blockquote>
+<p>在差异分析时，我们需要两个输入数据，一个就是探针的表达谱数据，beta  matrix, 另外一个就是样本的分组信息。</p>
+<p>在<code>champ.DMP</code>函数中，默认<code>myNorm</code>作为归一化之后的beta  matrix，对于样本的分组信息，<code>ChAMP</code>默认从Samplesheet.csv文件中读取，在数据导入成功后，<code>myLoad$pd</code>代表的就是SampleSheet.csv文件的信息，所以<code>myLoad$pd$Sample_Group</code> 代表样本的分组信息。</p>
+<p>在差异分析时，最关键的就是差异分组问题。在实验设计阶段，有很多类型的分组设计，比如最常见的case_vs_control, 两个group的分组;多个组织，比如3个组织，共3个group; 时间序列，比如药物处理后的几个时间点。不同的实验设计，在差异分析时，想要关注的差异点自然不同，在分析时也要采取不同的分析策略。</p>
+<p>对于<code>ChAMP</code>来说，上述的几种分组设计都是支持。</p>
+<p><code>champ.DMP</code>计算过程分为以下3步：</p>
+<h3 id="1-检测样本分组，确定分组比较"><a href="#1-检测样本分组，确定分组比较" class="headerlink" title="1. 检测样本分组，确定分组比较"></a>1. 检测样本分组，确定分组比较</h3><p>测试数据分成T和C两组，每组各4个样本、</p>
+<p>在这一步，需要确定两个因素：</p>
+<ul>
+<li>分组的类型<br>主要识别分组变量是离散型还是连续型，如果是字符串型<code>character</code>, 就是离散型，如果是数值型<code>numeric</code>, 就是连续型。不同的类型，采取的差异分析策略不同。<br>测试数据是字符型的两个group, 具体的输入信息如下</li>
+<li>分组的个数<br>确定group的个数，2个group 肯定是两者之间进行差异分析，但是当group 个数3个或以上时，就需要确定如何分组比较。 默认情况下两两之间都进行差异分析，如果你不需要这么多的差异结果，可以通过<code>compare.group</code> 参数指定， <code>compare.group</code>参数的值是一个list, list 中的每个元素是一个长度为2的向量，指定了用于差异分析的两个group</li>
+</ul>
+<blockquote>
+<p>[ Section 1:  Check Input Pheno Start ]<br> You pheno is character type.<br>   Your pheno information contains following groups. &gt;&gt;<br>   C:4 samples.<br>   T:4 samples.<br>   [The power of statistics analysis on groups contain very few samples may not strong.]<br>   pheno contains only 2 phenotypes<br>   compare.group parameter is NULL, two pheno types will be added into Compare List.<br>   C_to_T compare group : C, T<br>[ Section 1:  Check Input Pheno Done ]</p>
+</blockquote>
+<h3 id="进行差异探针分析"><a href="#进行差异探针分析" class="headerlink" title="进行差异探针分析"></a>进行差异探针分析</h3><p>通过调用<code>limma</code> 函数进行差异分析，默认通过<code>BH</code>方法进行多重建设检验的校正，p.adjust &lt; 0.05 的认为是差异探针</p>
+<p>可以通过<code>adjPVal</code>参数修改p.adjust的阈值，当然也可以修改<code>adjust.method</code> 参数的值，调整多重假设检验校正的算法，默认值为<code>BH</code>, 可选值包括 “none”, “BH”, “BY”, “holm”。</p>
+<blockquote>
+<p>[ Section 2:  Find Differential Methylated CpGs Start ]<br> Start to Compare : C, T<br> Contrast Matrix<br>     Contrasts<br>Levels pT-pC<br>   pC    -1<br>   pT     1<br> You have found 4283 significant MVPs with a BH adjusted P-value below 0.05.<br> Calculate DMP for C and T done.<br>[ Section 2:  Find Numeric Vector Related CpGs Done ]</p>
+</blockquote>
+<h3 id="添加差异探针的注释信息"><a href="#添加差异探针的注释信息" class="headerlink" title="添加差异探针的注释信息"></a>添加差异探针的注释信息</h3><p>之前的分析都是针对探针的beta matrix 进行的分析，找的差异探针之后，我们肯定希望知道这个探针对应的基因，染色体位置等注释信息。这一步实际就是在已有的差异结果的基础上，追加探针的注释信息。</p>
+<blockquote>
+<p>[ Section 3:  Match Annotation Start ]<br>[ Section 3:  Match Annotation Done ]</p>
+</blockquote>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><blockquote>
+<p>str(myDMP)<br>List of 1<br>$ C_to_T:’data.frame’:    4283 obs. of  23 variables:<br> ..$ logFC                : num [1:4283] 0.724 …<br> ..$ AveExpr              : num [1:4283] 0.398 …<br> ..$ t                    : num [1:4283] 28.2 …<br> ..$ P.Value              : num [1:4283] 1.74e-08…<br> ..$ adj.P.Val            : num [1:4283] 0.00703…<br> ..$ B                    : num [1:4283] 7.6 7.05 …<br> ..$ C_AVG                : num [1:4283] 0.0358 …<br> ..$ T_AVG                : num [1:4283] 0.759 …<br> ..$ deltaBeta            : num [1:4283] 0.724 …<br> ..$ CHR                  : Factor w/ 25 levels “”,”1”,”10”,”11”,..:<br> ..$ MAPINFO              : int [1:4283] 141516291 …<br> ..$ Strand               : Factor w/ 3 levels “”,”F”,”R”: 3 2 …<br> ..$ Type                 : Factor w/ 2 levels “I”,”II”: 2 2 …<br> ..$ gene                 : Factor w/ 20622 levels “”,”A1BG” …<br> ..$ feature              : chr [1:4283] “Body” “Body” …<br> ..$ cgi                  : Factor w/ 4 levels “island”,”opensea”,..: …<br> ..$ feat.cgi             : Factor w/ 28 levels “1stExon-island”,..: 13 …<br> ..$ UCSC_CpG_Islands_Name: Factor w/ 27177 levels “”,”chr1:10003165-10003585”,..: 18278 …<br> ..$ DHS                  : logi [1:4283] NA NA NA NA NA NA …<br> ..$ Enhancer             : logi [1:4283] TRUE TRUE NA NA NA NA …<br> ..$ Phantom              : Factor w/ 11912 levels “”,”high-CpG:100009860- …<br> ..$ Probe_SNPs           : Factor w/ 56004 levels “”,”rs10000615”,..:<br> ..$ Probe_SNPs_10        : Factor w/ 35790 levels “”,”rs10000804” …</p>
+</blockquote>
+<p><code>myDMP</code> 就是最终的差异分析结果，是一个<code>list</code>对象，list中的每个元素是两个group之间差异分析的结果。</p>
+<p>测试数据只有两个分组，所以list 中只有一个元素。差异分析的结果是一个<code>data.frame</code>对象，可以分成3个部分。</p>
+<p>从<code>logFC</code>到<code>B</code>的部分是limma 差异输出结果， <code>C_AVG</code>到<code>deltaBeta</code>是每组表达量的均值，<code>deltaBate</code>是两组均值的差，<code>CHR</code>到<code>Probe_SNPs_10</code>是探针的注释信息。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/ChAMP/" rel="tag"># ChAMP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/EpiDISH/" rel="prev" title="EpiDISH包的使用解读">
+      <i class="fa fa-chevron-left"></i> EpiDISH包的使用解读
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/ChAMP%20%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90%E4%B8%8B%E7%AF%87/" rel="next" title="ChAMP 分析甲基化芯片数据">
+      ChAMP 分析甲基化芯片数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ChAMP分析甲基化芯片数据-差异分析上篇"><span class="nav-number">1.</span> <span class="nav-text">ChAMP分析甲基化芯片数据-差异分析上篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-检测样本分组，确定分组比较"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 检测样本分组，确定分组比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行差异探针分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">进行差异探针分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加差异探针的注释信息"><span class="nav-number">1.0.3.</span> <span class="nav-text">添加差异探针的注释信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果展示"><span class="nav-number">1.0.4.</span> <span class="nav-text">结果展示</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

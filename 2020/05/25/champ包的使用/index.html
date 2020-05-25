@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="[R]甲基化①ChAMP帮助文档译[上]-甲基化分析流程(The Chip Analysis Methylation Pipeline)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCGA甲基化实战">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="[R]甲基化①ChAMP帮助文档译[上]-甲基化分析流程(The Chip Analysis Methylation Pipeline)">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/1203538-f5466d61ad624e11.webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:36:03.036Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="TCGA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/1203538-f5466d61ad624e11.webp">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>TCGA甲基化实战 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCGA甲基化实战
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:36:03" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="R-甲基化①ChAMP帮助文档译-上-甲基化分析流程-The-Chip-Analysis-Methylation-Pipeline"><a href="#R-甲基化①ChAMP帮助文档译-上-甲基化分析流程-The-Chip-Analysis-Methylation-Pipeline" class="headerlink" title="[R]甲基化①ChAMP帮助文档译[上]-甲基化分析流程(The Chip Analysis Methylation Pipeline)"></a>[R]甲基化①ChAMP帮助文档译[上]-甲基化分析流程(The Chip Analysis Methylation Pipeline)</h1><a id="more"></a>
+
+<p>很早很早之前翻译的ChAMP帮助文档译-甲基化分析流程</p>
+<ul>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-new-updates" target="_blank" rel="noopener">1新更新</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-introduction" target="_blank" rel="noopener">2介绍</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-installation" target="_blank" rel="noopener">3安装</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-test-data" target="_blank" rel="noopener">4测试数据</a></li>
+<li>5 ChAMP流程<ul>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-pipeline-introduction" target="_blank" rel="noopener">5.1流程介绍</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-full-pipeline" target="_blank" rel="noopener">5.2全流程</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-separated-steps" target="_blank" rel="noopener">5.3分离步骤</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-epic-pipeline" target="_blank" rel="noopener">5.4 EPIC流程</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-computational-requirements" target="_blank" rel="noopener">5.5计算要求</a></li>
+</ul>
+</li>
+<li>6 ChAMP流程说明<ul>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-loading-data" target="_blank" rel="noopener">6.1加载数据</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-filtering-data" target="_blank" rel="noopener">6.2过滤数据</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-further-quality-control-and-exploratory-analysis" target="_blank" rel="noopener">6.3进一步的质量控制和探索性分析</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-normalization" target="_blank" rel="noopener">6.4标准化</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-svd-plot" target="_blank" rel="noopener">6.5 SVD图</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-batch-effect-correction" target="_blank" rel="noopener">6.6批效应校正</a></li>
+<li>6.7差异甲基化探针<ul>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-dmp.gui-performance-on-numeric-variable" target="_blank" rel="noopener">6.7.1 DMP.GUI对数值变量的影响</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-hydroxymethylation-analysis" target="_blank" rel="noopener">6.7.2羟甲基化分析</a></li>
+</ul>
+</li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-differential-methylation-regions" target="_blank" rel="noopener">6.8差异甲基化区域</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-differential-methylation-blocks" target="_blank" rel="noopener">6.9差异甲基化块</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-gene-set-enrichment-analysis" target="_blank" rel="noopener">6.10基因集富集分析</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-differential-methylated-interaction-hotspots" target="_blank" rel="noopener">6.11差异甲基化交互热点</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-copy-number-variation" target="_blank" rel="noopener">6.12拷贝数变异</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-cell-type-heterogeneity" target="_blank" rel="noopener">6.13细胞类型异质性</a></li>
+</ul>
+</li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-summary" target="_blank" rel="noopener">7摘要</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-citing-champ" target="_blank" rel="noopener">8引用ChAMP</a></li>
+<li><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fbioconductor.org%2Fpackages%2Frelease%2Fbioc%2Fvignettes%2FChAMP%2Finst%2Fdoc%2FChAMP.html%23section-references" target="_blank" rel="noopener">参考文献</a></li>
+</ul>
+<h1 id="1新更新"><a href="#1新更新" class="headerlink" title="1新更新"></a>1新更新</h1><p>【译者注：】新更新主要讲的是新版本CHAMP相较于旧版本所做的功能上的增删。</p>
+<blockquote>
+<p><strong>如果您使用2.8.3以上的ChAMP版本，请注意：您必须安装最新的ChAMPdata软件包(版本2.8.1)才能使用新的ChAMP工作。</strong></p>
+</blockquote>
+<p>1：<strong>在champ.load()中添加了“force”参数。</strong>“force”是minfi的read.meth.exp()函数中的一个参数，当您的数据集来自不同批次时，force参数将允许read.meth.exp()函数提取所有批次中的共有的探针并进行分析。</p>
+<p>2：<strong>champ.DMP()现在可以使用数字变量：</strong>现在，champ.DMP()可以用于类似于年龄这样的数字变量，您可以在champ.DMP()函数中设置“pheno”参数(译者注：pheno是表型参数)，使其检测与数字变量相关的CpG。(<strong>works on numeric variable now:</strong> Now champ.DMP() would works on numeric variable like age, you can set “pheno” parameter in champ.DMP() function to make it detect numeric variable related CpGs.)</p>
+<p>3：<strong>champ.DMP()在每两个分类表型之间进行比较(译者注：两两表型之间进行比较)：</strong>之前的champ.DMP()只能用在两个表型上，如果您的协变量中有多个表型，则需要设置参数“compare.group”比较他们中的任何两个。现在，champ.DMP()将对每一对表型并返回该对表型的所有结果的列表。</p>
+<p>4：<strong>goseq被gometh替代：</strong>之前我们使用goseq来做CpG number矫正过的GSEA(CpG number corrected GSEA)，现在我们使用了goseq算法的另一个实现：gometh。gometh发表在missMethyl包中，gometh在做GSEA时也使用CpGs数量进行校正。</p>
+<p>5：<strong>missMethyl和combinat pacakges要用到了：</strong>由于我们在包中使用了一些新功能，如gometh和combn，我们需要在导入列表中添加这两个包。您可以使用命令：<code>source(&quot;https://bioconductor.org/biocLite.R&quot;);biocLite(&quot;missMethyl&quot;,&quot;combinat&quot;)</code>安装它们。</p>
+<p>6：<strong>DMP.GUI()被改进了：</strong>现在DMP.GUI()函数会自动检测你的pheno参数的类型，如果它是“数字”，散点图将绘制在CpG plot 上，如果它是“character”或“factor”将绘制boxplot在CpG plot 上。</p>
+<p>7：<strong>SVD图添加的图例：</strong>我们现在在SVD图中添加了带颜色的图例。</p>
+<p>8：<strong>“minfi”加载方法修复：</strong>以前的“minfi”函数不工作，因为wateRmelon的beadcount()函数无法从rgSet对象获取beads information，这可能是由于minfi和wateRmelon之间的冲突而引起的。现在我们修复了这个问题，而现在，旧的“minfi”加载方法是有效的。您可以在champ.load()函数中设置参数方法来用您的更喜欢的方式加载数据。</p>
+<p>9：<strong>ChAMP 的vignette和github示例 的页面更新(译者注：vignette是长帮助文档)：</strong>我们花了大量的工作来升级ChAMP vignette。还在我们的<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2FJoshuaTian%2FChAMPDemos" target="_blank" rel="noopener">github演示页面</a>上添加了更多最新的演示结果。</p>
+<p>10：<strong>在vignette中增加了来自GSE40279的图表结果。</strong>由于您的450K演示数据不包含任何数字变量，因此我们在此处使用GSE40279显示展示champ.SVD()和DMP.GUI()的性能。</p>
+<h1 id="2介绍"><a href="#2介绍" class="headerlink" title="2介绍"></a>2介绍</h1><p>ChAMP包旨在分析Illumina甲基化beadarray数据(EPIC和450k)，并提供了一个集成当前可用的450k和EPIC分析方法的流程。这包括各种不同的<strong>数据导入</strong>方法(例如来自.idat文件或beta值矩阵)和<strong>质量控制</strong>图(qc plot)。<strong>2型探头校正</strong>方法包括 SWAN , Peak Based Correction (PBC) and BMIQ (默认BMIQ)。minfi 包提供的有名的功能<strong>标准化</strong>函数也可以用:<strong>奇异值分解</strong>(SVD)方法可以深入挖掘批次效应，结合ComBat方法<strong>校正批次效应</strong>。通过RefbaseEWAS 可以<strong>调整细胞型异质性</strong>。ChAMP还包含了一个函数能从450k或EPIC数据<strong>推断拷贝数变异</strong>。为了识别<strong>差异甲基化区域</strong>(DMR)，ChAMP 除了集成了以前的DMR检测方法Bumphunter和DMRcate 之外，还提供了Lasso方法。对于需要寻找<strong>差异甲基化块</strong>的用户，新版ChAMP也集成了这个功能。champ也可实现基因富集分析(GSEA)。此外，新版本的ChAMP还结合了FEM包，它可以推断在表型之间呈现差异甲基化的个体化基因网络模块。</p>
+<p>尽管有许多其它流程和包可以分析450K或EPIC数据( IMA, minfi, methylumi, RnBeads and wateRmelon)，但champ提供了从读取原始数据文件到最后一步结果输出的更全面的和完整的分析流程，它简化了研究人员的甲基化阵列分析过程。新版ChAMP还提供了一系列基于<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fshiny.rstudio.com%2F" target="_blank" rel="noopener">Shiny</a>和<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fplot.ly%2F" target="_blank" rel="noopener">Plotly</a>的WebBrower交互式分析功能(GUI功能)，以帮助科学家更方便的查看ChAMP结果。这就需要一个基于web浏览器的交互式框架，用于本地或远程调用图形系统。例如，对于大多数Linux系统来说：X11(译者注：在Macintosh和Windows有图形界面之后，unix系统也想搞一套图形界面系统，然后就有了X11。经过几年的发展，X11逐渐成了unix和linux上的主流图形界面系统。)。.</p>
+<blockquote>
+<p><strong>如果您有任何bugs要报告或对ChAMP的建议，请发送电子邮件至<a href="mailto:champ450k@gmail.com">champ450k@gmail.com</a>。</strong></p>
+</blockquote>
+<h1 id="3安装"><a href="#3安装" class="headerlink" title="3安装"></a>3安装</h1><p>要求您的计算机或服务器上已安装<code>R 3.3</code>或更高版本R。ChAMP是一个集成了许多其他CRAN和Bioconductor包的流程(pipeline) 。要使流程的所有步骤正常工作，请确保将Bioconductor升级到最新版本(3.5)。</p>
+<p>在R和Bioconductor安装完成之后，您可以开始安装ChAMP。安装它的最简单方法是在您的<strong>R session</strong>输入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;https:&#x2F;&#x2F;bioconductor.org&#x2F;biocLite.R&quot;)</span><br><span class="line">biocLite(&quot;ChAMP&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>如果您在使用Bioconductor存在任何问题，可以使用的另一个手段是直接安装<strong>所有</strong>相关依赖软件包，然后安装ChAMP。ChAMP依赖于许多包，您可以在R中使用以下命令安装大部分包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source(&quot;http:&#x2F;&#x2F;bioconductor.org&#x2F;biocLite.R&quot;)</span><br><span class="line">biocLite(c(&quot;minfi&quot;,&quot;ChAMPdata&quot;,&quot;Illumina450ProbeVariants.db&quot;,&quot;sva&quot;,&quot;IlluminaHumanMethylation450kmanifest&quot;,&quot;limma&quot;,&quot;RPMM&quot;,&quot;DNAcopy&quot;,&quot;preprocessCore&quot;,&quot;impute&quot;,&quot;marray&quot;,&quot;wateRmelon&quot;,&quot;goseq&quot;,&quot;plyr&quot;,&quot;GenomicRanges&quot;,&quot;RefFreeEWAS&quot;,&quot;qvalue&quot;,&quot;isva&quot;,&quot;doParallel&quot;,&quot;bumphunter&quot;,&quot;quadprog&quot;,&quot;shiny&quot;,&quot;shinythemes&quot;,&quot;plotly&quot;,&quot;RColorBrewer&quot;,&quot;DMRcate&quot;,&quot;dendextend&quot;,&quot;IlluminaHumanMethylationEPICmanifest&quot;,&quot;FEM&quot;,&quot;matrixStats&quot;,&quot;missMethyl&quot;,&quot;combinat&quot;))</span><br></pre></td></tr></table></figure>
+
+<p>当您安装ChAMP时，您可能会遇到一些错误，指出某些软件包未安装。这些错误是由递归依赖于R包导致的，例如，ChAMP使用minfi，minfi使用lumi，lumi使用其他软件包，因此如果您的计算机上没有安装lumi，则ChAMP将失败。要解决这些错误，您只需要检查这些错误消息，找出需要丢失的包，然后<code>biocLite(&quot;YourErrorPackage&quot;)</code>直接使用命令安装。然后重新安装ChAMP，可能需要3-4次，但最终应该可以安装上ChAMP。</p>
+<p>安装后，您应该可以在R会话中加载ChAMP软件包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">library(&quot;ChAMP&quot;)</span><br></pre></td></tr></table></figure>
+
+<h1 id="4测试数据"><a href="#4测试数据" class="headerlink" title="4测试数据"></a>4测试数据</h1><p>该包含有两个测试数据集，一个是HumanMethylation450数据(.idat)，另一个是<strong>模拟的</strong>EPIC数据，可用于测试ChAMP中的函数。可以像如下所示导入我们的测试数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">testDir&#x3D;system.file(&quot;extdata&quot;,package&#x3D;&quot;ChAMPdata&quot;)</span><br><span class="line">myLoad &lt;- champ.load(testDir,arraytype&#x3D;&quot;450K&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>该450K肺肿瘤数据集只包含8个样本，4个肺肿瘤样本(T)和4个对照样本(C)。我们之后将使用这个数据集来展示ChAMP的功能。</p>
+<p>对于EPIC模拟数据集，用户可以使用以下代码来加载它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data(EPICSimData)</span><br></pre></td></tr></table></figure>
+
+<p>该模拟数据集包含16个样本，所有这些样本实际上最初是来自于一个样本(经过修改DMP和DMR，同时也赋予一些误差方差)(but modified into DMP and DMR, also alone with some errors variance)。在这16个样本数据集中，我们模拟8个样本为control，8个样本为case，样本在EPICSimData对象的pd(表型)中标记。在这个数据中，我们随机选择了来自bummunter包的clusterMaker()函数的5000个区域。在每个区域，我们随机选择一些连续CpG作为DMR，然后增加或减少该DMR的β值。所以在这个数据集中应该有不到5000个DMR(4700+)，因为一些模拟DMR只包含1-2个CpGs，所以在用champ.DMR()函数时不被判定为DMR。用户可以使用此数据来测试ChAMP在EPIC数据上的效能。</p>
+<h1 id="5-ChAMP流程"><a href="#5-ChAMP流程" class="headerlink" title="5 ChAMP流程"></a>5 ChAMP流程</h1><h2 id="5-1流程介绍"><a href="#5-1流程介绍" class="headerlink" title="5.1流程介绍"></a>5.1流程介绍</h2><p><img src="/2020/05/25/champ%E5%8C%85%E7%9A%84%E4%BD%BF%E7%94%A8/1203538-f5466d61ad624e11.webp" alt="img"></p>
+<p>ChAMP流程图(上图)概述了ChAMP流程中的步骤。每个步骤可以作为一个单独的功能单独运行。这允许ChAMP的结果与其他分析流程之间进行集成。在上述流程图中，包括了ChAMP的所有功能，它们使用三种颜色进行分类：</p>
+<ul>
+<li><strong>蓝色</strong>表示甲基化<strong>数据准备</strong>的函数，如加载，归一化，质量控制检查等。</li>
+<li><strong>红色</strong>代表<strong>产生分析结果</strong>的函数，如差异甲基化位置(DMP)，差异甲基化区域(DMR)，差异甲基化区块，EpiMod(一种用于检测差分甲基化基因模块的方法来源于FEM包)，通路富集结果等。</li>
+<li><strong>黄色</strong>表示数据集和分析结果的GUI界面(译者注：界面化展示结果)。</li>
+</ul>
+<p>上述曲线中的<strong>实线灰色</strong>表示<strong>流程线</strong>，而虚线灰线表示函数可能不一定被使用，这取决于您的数据和项目。</p>
+<p>在上图中，有一些标有绿色微光的函数和连接(线)，表示<strong>主要分析流程</strong>。ChAMP结合了许多函数，但并不是所有函数都要在你的分析中使用。绿色微光表示<strong>最可能</strong>用于各种数据集的主要分析流程。我们还标记了这些主要流程的分析顺序，这对新用户应该是有帮助的。图表中间的<strong>黑点</strong>表示<strong>完全准备好的甲基化数据集</strong>，这是数据准备和数据分析之间的关键。因此，我们建议您保存完全准备好的数据，因为您的其他分析可能直接从它开始。</p>
+<h2 id="5-2全流程"><a href="#5-2全流程" class="headerlink" title="5.2全流程"></a>5.2全流程</h2><p>完整的流程可以使用一个命令一次运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">champ.process(directory &#x3D; testDir)</span><br></pre></td></tr></table></figure>
+
+<p>当通过champ.process()函数运行完整的流程时，可以调整多个参数。这些参数与ChAMP包中涉及的所有功能相关，但并不包括所有参数，否则，champ.process()函数将会太大; 请参阅ChAMP的manual进行参数设置。</p>
+<h2 id="5-3分步步骤"><a href="#5-3分步步骤" class="headerlink" title="5.3分步步骤"></a>5.3分步步骤</h2><p>我们注意到，champ.process()可能并不总是成功运行，这可能是由于特定数据集的特殊性。例如，pd文件中感兴趣的协变量可能不表示为“Sample_Group”，而是另一个类别，例如“Disease”，但在ChAMP函数中，“Sample_Group”被设置为感兴趣的变量的默认值。如果在使用champ.process()时遇到任何问题，我们建议您逐步运行这个流程：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">myLoad &lt;- cham.load(testDir)</span><br><span class="line"># Or you may separate about code as champ.import(testDir) + champ.filter()</span><br><span class="line">CpG.GUI()</span><br><span class="line">champ.QC() # Alternatively: QC.GUI()</span><br><span class="line">myNorm &lt;- champ.norm()</span><br><span class="line">champ.SVD()</span><br><span class="line"># If Batch detected, run champ.runCombat() here.</span><br><span class="line">myDMP &lt;- champ.DMP()</span><br><span class="line">DMP.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR()</span><br><span class="line">DMR.GUI()</span><br><span class="line">myBlock &lt;- champ.Block()</span><br><span class="line">Block.GUI()</span><br><span class="line">myGSEA &lt;- champ.GSEA()</span><br><span class="line">myEpiMod &lt;- champ.EpiMod()</span><br><span class="line">myCNA &lt;- champ.CNA()</span><br><span class="line"></span><br><span class="line"># If DataSet is Blood samples, run champ.refbase() here.</span><br><span class="line">myRefbase &lt;- champ.refbase()</span><br></pre></td></tr></table></figure>
+
+<p>我们注意到，上述ChAMP函数是使用默认参数的，用户可以自行调整参数，用户也可以将其他独特的分析工具或方法集成到这里使用。有关参数选项的详细信息，请查看此vignette的相关章节或ChAMP manual。</p>
+<h2 id="5-4-EPIC流程"><a href="#5-4-EPIC流程" class="headerlink" title="5.4 EPIC流程"></a>5.4 EPIC流程</h2><p>ChAMP为EPIC阵列分析提供了友好的用户接口。大多数功能对于450K阵列和EPIC阵列都是相同的，唯一的区别在于一个参数’arraytype’，(该参数作用于需要注释文件的函数上)：您只需要将此参数设置为“EPIC”。在ChAMP包中，我们创建了一个模拟的EPIC数据集(beta值)。分析EPIC阵列的流程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"># myLoad &lt;- champ.load(directory &#x3D; testDir,arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line"># We simulated EPIC data from beta value instead of .idat file,</span><br><span class="line"># but user may use above code to read .idat files directly.</span><br><span class="line"># Here we we started with myLoad.</span><br><span class="line"></span><br><span class="line">data(EPICSimData)</span><br><span class="line">CpG.GUI(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">champ.QC() # Alternatively QC.GUI(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">myNorm &lt;- champ.norm(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">champ.SVD()</span><br><span class="line"># If Batch detected, run champ.runCombat() here.This data is not suitable.</span><br><span class="line">myDMP &lt;- champ.DMP(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">DMP.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR()</span><br><span class="line">DMR.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">DMR.GUI(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">myBlock &lt;- champ.Block(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">Block.GUI(arraytype&#x3D;&quot;EPIC&quot;) # For this simulation data, not Differential Methylation Block is detected.</span><br><span class="line">myGSEA &lt;- champ.GSEA(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line">myEpiMod &lt;- champ.EpiMod(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line"></span><br><span class="line"># champ.CNA(arraytype&#x3D;&quot;EPIC&quot;)</span><br><span class="line"># champ.CNA() function call for intensity data, which is not included in our Simulation data.</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-5计算要求"><a href="#5-5计算要求" class="headerlink" title="5.5计算要求"></a>5.5计算要求</h2><p>该流程对大量样本的数据的分析能力在某种程度上取决于可用的内存大小。ChAMP流程在具有8GB内存的计算机上可以成功运行200个样本。如果样本量大的话，可以找服务器/群集来执行分析。</p>
+<p>champ.load()函数会使用很多的内存。如果您打算多次运行分析，建议运行<code>myLoad &lt;- champ.load()</code> 将导入的内容保存到列表中用于之后的分析。</p>
+<p>在champ.DMR()，champ.norm()和champ.Block()函数中，一些方法可能使用了并行的方法来加速进程。如果您的服务器或计算机拥有较多的内核，您可以同时指定更多的内核运行，以使函数运行速度更快(不过这可能会增加内存的占用)。您可以在R中使用以下代码来检测核心数量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(&quot;doParallel&quot;)</span><br><span class="line">detectCores()</span><br></pre></td></tr></table></figure>
+
+<p>GUI函数需要更多的条件。<strong>需要GUI环境的基本框架</strong>(<strong>A basic framework for a GUI environment is required</strong>。如果您在自己的电脑上运行ChAMP，那是极好的。但是，如果您在远程服务器上运行ChAMP，则本地显示系统对于使用这些基于WebBrower的GUI功能至关重要(X11是一个非常常用的工具)(译者注：x11指的是什么？我贴上一枚知乎链接解释这个问题 <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.zhihu.com%2Fquestion%2F27939248%3Fsort%3Dcreated" target="_blank" rel="noopener">https://www.zhihu.com/question/27939248?sort=created</a>)。对于Windows用户，<a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.netsarang.com%2Fproducts%2Fxmg_overview.html" target="_blank" rel="noopener">Xmanager</a>或<a href="https://links.jianshu.com/go?to=http%3A%2F%2Fmobaxterm.mobatek.net%2F" target="_blank" rel="noopener">MobaxTerm</a> 是非常好的选择。(译者注：xmanager是一个可以实现windows系统和linux系统的交互，对linux进行管理。可以在两种系统间传输文件)</p>
+<blockquote>
+<p>ChAMP的一个重大改进是：即便用户不是从原始的.idat文件开始，也可以进行完整的分析。(只要您有甲基化β矩阵和相应的表型(pd)文件，您就可以进行几乎所有的ChAMP分析。这样使得那些只有beta值文件而没有原始idat文件的用户分析更加容易。(例如，从TCGA或GEO获取数据的用户。)(译者注：GEO TCGA上获取的数据通常是被处理成含beta值的谱)</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/TCGA/" rel="tag"># TCGA</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/jimmy_methylKit%20%E8%BF%9B%E8%A1%8C%E5%B7%AE%E5%BC%82%E7%94%B2%E5%9F%BA%E5%8C%96%E5%88%86%E6%9E%90/" rel="prev" title="TCGA甲基化实战">
+      <i class="fa fa-chevron-left"></i> TCGA甲基化实战
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/annovar%E6%B3%A8%E9%87%8A%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="next" title="annovar注释甲基化">
+      annovar注释甲基化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#R-甲基化①ChAMP帮助文档译-上-甲基化分析流程-The-Chip-Analysis-Methylation-Pipeline"><span class="nav-number">1.</span> <span class="nav-text">[R]甲基化①ChAMP帮助文档译[上]-甲基化分析流程(The Chip Analysis Methylation Pipeline)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#1新更新"><span class="nav-number">2.</span> <span class="nav-text">1新更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2介绍"><span class="nav-number">3.</span> <span class="nav-text">2介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3安装"><span class="nav-number">4.</span> <span class="nav-text">3安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4测试数据"><span class="nav-number">5.</span> <span class="nav-text">4测试数据</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-ChAMP流程"><span class="nav-number">6.</span> <span class="nav-text">5 ChAMP流程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1流程介绍"><span class="nav-number">6.1.</span> <span class="nav-text">5.1流程介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2全流程"><span class="nav-number">6.2.</span> <span class="nav-text">5.2全流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3分步步骤"><span class="nav-number">6.3.</span> <span class="nav-text">5.3分步步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-EPIC流程"><span class="nav-number">6.4.</span> <span class="nav-text">5.4 EPIC流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-5计算要求"><span class="nav-number">6.5.</span> <span class="nav-text">5.5计算要求</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">26</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">98</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
