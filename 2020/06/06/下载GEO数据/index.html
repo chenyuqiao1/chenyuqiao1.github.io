@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="使用已经下载的数据提取pheno_data12345678910111213141516171819202122232425#### step1rm(list &#x3D; ls())library(GEOquery)eSet&lt;- getGEO(GEO &#x3D; NULL, filename &#x3D; &#39;.&#x2F;Rdata&#x2F;GSE69925_series_matrix.txt.gz&#39;, destdir &#x3D; tempd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="下载GEO数据集">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/06/06/%E4%B8%8B%E8%BD%BDGEO%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="使用已经下载的数据提取pheno_data12345678910111213141516171819202122232425#### step1rm(list &#x3D; ls())library(GEOquery)eSet&lt;- getGEO(GEO &#x3D; NULL, filename &#x3D; &#39;.&#x2F;Rdata&#x2F;GSE69925_series_matrix.txt.gz&#39;, destdir &#x3D; tempd">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-06-06T09:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-06T10:02:41.171Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="datasets">
+<meta property="article:tag" content="download data">
+<meta property="article:tag" content="GSE">
+<meta property="article:tag" content="GDS">
+<meta property="article:tag" content="下载数据">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/06/06/%E4%B8%8B%E8%BD%BDGEO%E6%95%B0%E6%8D%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>下载GEO数据集 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/06/06/%E4%B8%8B%E8%BD%BDGEO%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          下载GEO数据集
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-06-06 17:00:00 / Modified: 18:02:41" itemprop="dateCreated datePublished" datetime="2020-06-06T17:00:00+08:00">2020-06-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R-project/" itemprop="url" rel="index"><span itemprop="name">R project</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="使用已经下载的数据提取pheno-data"><a href="#使用已经下载的数据提取pheno-data" class="headerlink" title="使用已经下载的数据提取pheno_data"></a>使用已经下载的数据提取pheno_data</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### step1</span></span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="keyword">library</span>(GEOquery)</span><br><span class="line"></span><br><span class="line">eSet&lt;- getGEO(GEO = <span class="literal">NULL</span>, filename = <span class="string">'./Rdata/GSE69925_series_matrix.txt.gz'</span>, destdir = tempdir(),</span><br><span class="line">              GSElimits = <span class="literal">NULL</span>, GSEMatrix = <span class="literal">TRUE</span>, AnnotGPL = <span class="literal">FALSE</span>, getGPL = <span class="literal">FALSE</span>,</span><br><span class="line">              parseCharacteristics = <span class="literal">TRUE</span>)</span><br><span class="line">pheno&lt;- pData(eSet)</span><br><span class="line">GSE69925_expr&lt;- exprs(eSet)</span><br><span class="line"></span><br><span class="line">save(pheno,GSE69925_expr, file = <span class="string">'./Rdata/step0_eset_pheno.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">整理phe</span><br><span class="line">phe&lt;- data.frame(ID=pheno$geo_accession,gender=pheno$`gender:ch1`,age=pheno$`age:ch1`,</span><br><span class="line">                 differentiation=pheno$`his type:ch1`,T_stage= pheno$`depth:ch1`,</span><br><span class="line">                 N_stage=pheno$`lymph node metastasis:ch1`)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># tmp1 = eSet$characteristics_ch1.1</span></span><br><span class="line"><span class="comment"># tmp2&lt;- eSet$characteristics_ch1</span></span><br><span class="line"><span class="comment"># tmp3&lt;- eSet$geo_accession</span></span><br><span class="line"><span class="comment"># tmp4&lt;- eSet$`age:ch1`</span></span><br><span class="line"><span class="comment"># tmp5&lt;- eSet$`Sex:ch1`</span></span><br><span class="line"><span class="comment"># tmp6&lt;- eSet$`status:ch1`</span></span><br><span class="line"><span class="comment"># tmp7&lt;- eSet$data_processing</span></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="使用URL-https-www-ncbi-nlm-nih-gov-geo-download-acc-GSE23046"><a href="#使用URL-https-www-ncbi-nlm-nih-gov-geo-download-acc-GSE23046" class="headerlink" title="使用URL https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE23046"></a>使用URL <a href="https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE23046" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE23046</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 下载矩阵</span><br><span class="line">ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;geo&#x2F;series&#x2F;GSE1nnn&#x2F;GSE1009&#x2F;matrix&#x2F;GSE1009_series_matrix.txt.gz</span><br><span class="line"># 也会出现例外</span><br><span class="line">https:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;geo&#x2F;series&#x2F;GSE97nnn&#x2F;GSE97051&#x2F;matrix&#x2F;GSE97051-GPL20115_series_matrix.txt.gz</span><br><span class="line"># 下载filelist</span><br><span class="line">ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;geo&#x2F;series&#x2F;GSE1nnn&#x2F;GSE1009&#x2F;suppl&#x2F;filelist.txt</span><br><span class="line"># 下载原始数据</span><br><span class="line">ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;geo&#x2F;series&#x2F;GSE1nnn&#x2F;GSE1009&#x2F;suppl&#x2F;GSE1009_RAW.tar</span><br></pre></td></tr></table></figure>
+<h3 id="下载gpl芯片平台信息"><a href="#下载gpl芯片平台信息" class="headerlink" title="下载gpl芯片平台信息"></a>下载gpl芯片平台信息</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(GEOquery)</span><br><span class="line">gpl&lt;- getGEO(<span class="string">'GPL18109'</span>,destdir = <span class="string">'./'</span>)</span><br><span class="line">GEOquery::Table(gpl)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 打开已经下载的芯片平台</span></span><br><span class="line">gpl&lt;- getGEO(filename = <span class="string">'./Rdata/GPL20115.soft'</span>) <span class="comment"># 这一句可以打开soft格式的平台信息</span></span><br><span class="line">gpl_20115&lt;- GEOquery::Table(gpl)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="在NCBI-下载芯片平台信息"><a href="#在NCBI-下载芯片平台信息" class="headerlink" title="在NCBI 下载芯片平台信息"></a>在NCBI 下载芯片平台信息</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https:&#x2F;&#x2F;www.ncbi.nlm.nih.gov&#x2F;geo&#x2F;query&#x2F;acc.cgi?acc&#x3D;GPL18109</span><br></pre></td></tr></table></figure>
+<h3 id="NCBI-芯片平台查询"><a href="#NCBI-芯片平台查询" class="headerlink" title="NCBI 芯片平台查询"></a>NCBI 芯片平台查询</h3><p><a href="https://www.ncbi.nlm.nih.gov/geo/browse/?view=platforms&display=20&zsort=sample" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/browse/?view=platforms&amp;display=20&amp;zsort=sample</a></p>
+<h3 id="使用getGEO函数也可以下载到平台信息"><a href="#使用getGEO函数也可以下载到平台信息" class="headerlink" title="使用getGEO函数也可以下载到平台信息"></a>使用getGEO函数也可以下载到平台信息</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这也是一种方法，直接下载GSE97051以及属于他的芯片平台</span></span><br><span class="line">gset &lt;- getGEO(<span class="string">"GSE97051"</span>, GSEMatrix = <span class="literal">TRUE</span>, AnnotGPL = <span class="literal">TRUE</span>, destdir = <span class="string">"./Rdata"</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="已经下载好的芯片平台可以用一下的方法打开"><a href="#已经下载好的芯片平台可以用一下的方法打开" class="headerlink" title="已经下载好的芯片平台可以用一下的方法打开"></a>已经下载好的芯片平台可以用一下的方法打开</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpl&lt;- getGEO(filename = <span class="string">'./Rdata/GPL20115.soft'</span>) <span class="comment"># 这一句可以打开soft格式的平台信息</span></span><br><span class="line">gpl_20115&lt;- GEOquery::Table(gpl)</span><br></pre></td></tr></table></figure>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>) </span><br><span class="line"><span class="comment"># 指定使用BioCManager下载的路径</span></span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>)) </span><br><span class="line"><span class="keyword">library</span>(GEOquery)</span><br><span class="line"><span class="comment"># 这也是一种方法，直接下载GSE97051以及属于他的芯片平台</span></span><br><span class="line">gset &lt;- getGEO(<span class="string">"GSE97051"</span>, GSEMatrix = <span class="literal">TRUE</span>, AnnotGPL = <span class="literal">TRUE</span>, destdir = <span class="string">"./Rdata"</span>)</span><br><span class="line"><span class="comment"># 只要这里的参数AnnotGPL设置为TRUE</span></span><br><span class="line">exprSet=exprs(gset[[<span class="number">1</span>]])</span><br><span class="line">pdata=pData(gset[[<span class="number">1</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 已经用上述方法下载的数据可以用一下的方式打开</span></span><br><span class="line">eSet&lt;- getGEO(GEO = <span class="literal">NULL</span>, filename = <span class="string">'./Rdata/GSE97051-GPL20115_series_matrix.txt.gz'</span>, destdir = tempdir(),</span><br><span class="line">              GSElimits = <span class="literal">NULL</span>, GSEMatrix = <span class="literal">TRUE</span>, AnnotGPL = <span class="literal">FALSE</span>, getGPL = <span class="literal">FALSE</span>,</span><br><span class="line">              parseCharacteristics = <span class="literal">TRUE</span>)</span><br><span class="line">pheno_GSE97051&lt;- pData(eSet)</span><br><span class="line">expr_GSE97051&lt;- exprs(eSet)</span><br><span class="line">gpl&lt;- getGEO(filename = <span class="string">'./Rdata/GPL20115.soft'</span>) <span class="comment"># 这一句可以打开soft格式的平台信息</span></span><br><span class="line">gpl_20115&lt;- GEOquery::Table(gpl)</span><br><span class="line">save(expr_GSE97051,pheno_GSE97051,gpl_20115, file = <span class="string">'./Rdata/step0.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="bioconductor-地址"><a href="#bioconductor-地址" class="headerlink" title="bioconductor 地址"></a>bioconductor 地址</h3><p><a href="https://www.bioconductor.org/" target="_blank" rel="noopener">https://www.bioconductor.org/</a></p>
+<h3 id="芯片ID注释R包查询网址"><a href="#芯片ID注释R包查询网址" class="headerlink" title="芯片ID注释R包查询网址"></a>芯片ID注释R包查询网址</h3><p><a href="http://www.bio-info-trainee.com/1399.html" target="_blank" rel="noopener">http://www.bio-info-trainee.com/1399.html</a></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#下载hgu133a数据包</span></span><br><span class="line">BiocManager::install(<span class="string">"hgu133a.db"</span>)</span><br><span class="line"><span class="keyword">library</span>(<span class="string">'hgu133a.db'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="getGEO下载注释信息"><a href="#getGEO下载注释信息" class="headerlink" title="getGEO下载注释信息"></a>getGEO下载注释信息</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gpl&lt;- getGEO(<span class="string">'GPL18109'</span>,destdir=<span class="string">'.'</span>)</span><br><span class="line">colnames(Table(gpl))</span><br></pre></td></tr></table></figure>
+
+<h3 id="补充了解内容"><a href="#补充了解内容" class="headerlink" title="补充了解内容"></a>补充了解内容</h3><h5 id="NCBI的基因entrez-ID相关文件参考http-www-bio-info-trainee-com-75-html"><a href="#NCBI的基因entrez-ID相关文件参考http-www-bio-info-trainee-com-75-html" class="headerlink" title="NCBI的基因entrez ID相关文件参考http://www.bio-info-trainee.com/75.html"></a>NCBI的基因entrez ID相关文件参考<a href="http://www.bio-info-trainee.com/75.html" target="_blank" rel="noopener">http://www.bio-info-trainee.com/75.html</a></h5><p>文件下载地址</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2ensembl.gz</span><br><span class="line">ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/gene2refseq.gz</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/datasets/" rel="tag"># datasets</a>
+              <a href="/tags/download-data/" rel="tag"># download data</a>
+              <a href="/tags/GSE/" rel="tag"># GSE</a>
+              <a href="/tags/GDS/" rel="tag"># GDS</a>
+              <a href="/tags/%E4%B8%8B%E8%BD%BD%E6%95%B0%E6%8D%AE/" rel="tag"># 下载数据</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/06/project_colorectal-cancer/" rel="prev" title="结直肠癌任务">
+      <i class="fa fa-chevron-left"></i> 结直肠癌任务
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用已经下载的数据提取pheno-data"><span class="nav-number">1.</span> <span class="nav-text">使用已经下载的数据提取pheno_data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用URL-https-www-ncbi-nlm-nih-gov-geo-download-acc-GSE23046"><span class="nav-number">2.</span> <span class="nav-text">使用URL https:&#x2F;&#x2F;www.ncbi.nlm.nih.gov&#x2F;geo&#x2F;download&#x2F;?acc&#x3D;GSE23046</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下载gpl芯片平台信息"><span class="nav-number">3.</span> <span class="nav-text">下载gpl芯片平台信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在NCBI-下载芯片平台信息"><span class="nav-number">4.</span> <span class="nav-text">在NCBI 下载芯片平台信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NCBI-芯片平台查询"><span class="nav-number">5.</span> <span class="nav-text">NCBI 芯片平台查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用getGEO函数也可以下载到平台信息"><span class="nav-number">6.</span> <span class="nav-text">使用getGEO函数也可以下载到平台信息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#已经下载好的芯片平台可以用一下的方法打开"><span class="nav-number">6.1.</span> <span class="nav-text">已经下载好的芯片平台可以用一下的方法打开</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例"><span class="nav-number">6.2.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#bioconductor-地址"><span class="nav-number">7.</span> <span class="nav-text">bioconductor 地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#芯片ID注释R包查询网址"><span class="nav-number">8.</span> <span class="nav-text">芯片ID注释R包查询网址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#getGEO下载注释信息"><span class="nav-number">9.</span> <span class="nav-text">getGEO下载注释信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#补充了解内容"><span class="nav-number">10.</span> <span class="nav-text">补充了解内容</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#NCBI的基因entrez-ID相关文件参考http-www-bio-info-trainee-com-75-html"><span class="nav-number">10.0.1.</span> <span class="nav-text">NCBI的基因entrez ID相关文件参考http:&#x2F;&#x2F;www.bio-info-trainee.com&#x2F;75.html</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">73</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">100</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

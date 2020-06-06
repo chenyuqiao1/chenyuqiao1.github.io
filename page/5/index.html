@@ -173,6 +173,180 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/17/Project_RNA_seq_SRP219564/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/17/Project_RNA_seq_SRP219564/" class="post-title-link" itemprop="url">RNA-seq全流程数据分析精简版</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-17T00:00:00+08:00">2019-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RNA-seq/" itemprop="url" rel="index"><span itemprop="name">RNA-seq</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/RNA-seq/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">#####可以使用循环下载</span></span></span><br><span class="line">cat SRR_Acc_List.txt |  while read id; do (nohup prefetch $&#123;id&#125; -O ./original_data 1&gt;log.txt 2&gt;&amp;1 &amp;) ;done</span><br></pre></td></tr></table></figure>
+
+<h4 id="step2-sra2fastq"><a href="#step2-sra2fastq" class="headerlink" title="step2 sra2fastq"></a>step2 sra2fastq</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">### 处理SRP219564</span></span></span><br><span class="line"></span><br><span class="line">cd ~/project/SRP219564/</span><br><span class="line">cat SraRunTable.txt |awk '&#123;print $12,$14&#125;'|sed '1d'  &gt;sra2case.txt</span><br><span class="line">cd ~/project/SRP219564/original_data</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">vim multi_sra2fastq.sh</span><br><span class="line"></span><br><span class="line">cat ../sra2case.txt | while read id;</span><br><span class="line">do 	</span><br><span class="line">	arr=($id)</span><br><span class="line">	file=$&#123;arr[0]&#125;</span><br><span class="line">	sample=$&#123;arr[1]&#125;</span><br><span class="line">	sra=$&#123;file&#125;.sra</span><br><span class="line">	nohup fastq-dump --gzip --split-3 -O ../fastq/ $&#123;sra&#125; 1&gt;log.txt 2&gt;&amp;1 &amp;</span><br><span class="line">done</span><br><span class="line"></span><br><span class="line">bash multi_sra2fastq.sh</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/17/Project_RNA_seq_SRP219564/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/17/proteomics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/17/proteomics/" class="post-title-link" itemprop="url">肿瘤蛋白质组学学习资料</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-17 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-17T00:00:00+08:00">2019-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/proteomics/" itemprop="url" rel="index"><span itemprop="name">proteomics</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<ul>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490521&idx=1&sn=5969fff933a593031263140658a49580&chksm=9b485b62ac3fd2749773f50b61dc6cc8f55d26d13695c1359c236d7a4599a229dd5ab0fc78a5&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第1期-认识基础概念</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490521&idx=2&sn=9b4e827ef29f429b4ac36c853d24f0d1&chksm=9b485b62ac3fd2748d13b032e6c24fa856ae7c094ae423682eaca5baba76fcb5fc484b37e00d&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第2期-认识蛋白质组学原始数据</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490564&idx=1&sn=fd054d41eabebb65a0774510ca9662ad&chksm=9b485cbfac3fd5a9b09d9b326b939a0597dd1d89490f202f0b48f8850abfac3c5006de1ed2b2&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第3期-蛋白质组学的三大元素</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490571&idx=1&sn=c6e9094703bce3592296d95452fb3994&chksm=9b485cb0ac3fd5a6d80285ea8c587c514011b55360a276b44d9f75a5893c2065b3333361af9a&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第4期 文章搜库过程复现</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490667&idx=1&sn=fd6eafe8d331c3f0775e5f4daf6f3853&chksm=9b485cd0ac3fd5c67ff8b2435b6c972ceab39eff94a4a104b128f7f2ac01e028a86f23c112a8&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第5期搜库软件之 MaxQuant 再介绍</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490674&idx=1&sn=440b68a92007a5fdcf441f28c5cb20cd&chksm=9b485cc9ac3fd5df18380dbe4264d37b0e97d6f6781795948fdc60f671837eaa41fe049b210e&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第6期 搜库软件之 MaxQuant 结果数据介绍</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490818&idx=2&sn=2b16285e84893fbca47768ac99b3164e&chksm=9b485db9ac3fd4af4562f112320c66c6badaf9f419fc4a629052065e48baebbfd6545b1410f5&token=925692667&lang=zh_CN&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第7期 复现文章数据- 预处理之Perseus 的使用</a></li>
+<li><a href="https://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247490826&idx=2&sn=08656fef45992122e946519ba18749af&chksm=9b485db1ac3fd4a737a2b9f5afce551f53435fbc4f143ba578076a8f81a43e9c94aeb3f43f76&token=925692667&lang=zh_CN&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第8期 文章复现之数据处理</a></li>
+<li><a href="http://mp.weixin.qq.com/s?__biz=MzAxMDkxODM1Ng==&mid=2247491047&idx=1&sn=550c3c9a6ff45ac88a46516eaa1ca708&chksm=9b485d5cac3fd44acd78cf940d1eacf094d407f2458ec061ee98f9273b4eddb4366a84a150ee&scene=21#wechat_redirect" target="_blank" rel="noopener">蛋白质组学第9期 文章数据分析之差异蛋白筛选和功能分析</a> </li>
+<li><a href="https://mp.weixin.qq.com/s?src=11&timestamp=1576581661&ver=2040&signature=tUt1QEQsO54IcxwPxR1GhlhEhJPwQ8acCJRzCgxH-Ffx*9yo70RUDZBJxknb0q1M7sTp3zEBcYABZATEgwA-KFVkLtp-h3ip8Qmg7J6lYnp4sI2k4vdZKNaNgRGIv6s2&new=1" target="_blank" rel="noopener">蛋白质组学第10期 定量方法介绍</a></li>
+</ul>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/16/download_data_from_NCBI/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -859,169 +1033,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/30/vocanno_plot/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/30/vocanno_plot/" class="post-title-link" itemprop="url">发表级别的火山图</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-30 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-30T00:00:00+08:00">2019-11-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="用于文献发表的火山图"><a href="#用于文献发表的火山图" class="headerlink" title="用于文献发表的火山图"></a>用于文献发表的火山图</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/30/vocanno_plot/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/29/mutation_heatmap/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/29/mutation_heatmap/" class="post-title-link" itemprop="url">突变热图作图</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-29 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-29T00:00:00+08:00">2019-11-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DNAseq/" itemprop="url" rel="index"><span itemprop="name">DNAseq</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="一个函数实现基因内具有多种突变类型的热图的绘制"><a href="#一个函数实现基因内具有多种突变类型的热图的绘制" class="headerlink" title="一个函数实现基因内具有多种突变类型的热图的绘制"></a><a href="https://www.cnblogs.com/ywliao/p/8991346.html" target="_blank" rel="noopener">一个函数实现基因内具有多种突变类型的热图的绘制</a></h1><p>这里需要致谢这个大神，分享代码。</p>
-<p>代码还需要慢慢理解。。。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/29/mutation_heatmap/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1091,18 +1102,18 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">25</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">95</span>
+        <span class="site-state-item-count">100</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
