@@ -9179,7 +9179,9 @@
   <entry>
     <title>结直肠癌任务</title>
     <url>/2020/06/06/project_colorectal-cancer/</url>
-    <content><![CDATA[<h2 id="第一章：数据下载"><a href="#第一章：数据下载" class="headerlink" title="第一章：数据下载"></a>第一章：数据下载</h2><p><a href="https://www.colonomics.org/data/" target="_blank" rel="noopener">https://www.colonomics.org/data/</a></p>
+    <content><![CDATA[<h2 id="第一章：数据下载"><a href="#第一章：数据下载" class="headerlink" title="第一章：数据下载"></a>第一章：数据下载</h2><a id="more"></a>
+
+<p><a href="https://www.colonomics.org/data/" target="_blank" rel="noopener">https://www.colonomics.org/data/</a></p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200606175129204.png" alt="image-20200606175129204"></p>
 <h3 id="Expression"><a href="#Expression" class="headerlink" title="Expression"></a><strong>Expression</strong></h3><p><a href="https://www.colonomics.org/rawdata/CLX_Expression_2014Nov24.txt.gz" target="_blank" rel="noopener">data matrix</a> U219 array<br><a href="https://www.colonomics.org/rawdata/CLX_Expression_PC1_2014Nov24.txt.gz" target="_blank" rel="noopener">data matrix</a> probes summarized at gene level</p>
 <p>Also available at GEO as <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076" target="_blank" rel="noopener">GSE44076</a></p>
@@ -9195,12 +9197,55 @@
 <p>已经下载了转录组数据，通过这个GSE44076下载的。</p>
 <p><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076</a></p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200606175604457.png" alt="image-20200606175604457"></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment"># library(GEOquery)</span></span><br><span class="line"><span class="comment"># gpl&lt;- getGEO('GPL13667',destdir = './Rdata/')</span></span><br><span class="line"><span class="comment"># save(gpl,file = './Rdata/gpl13667.Rdata')</span></span><br></pre></td></tr></table></figure>
+
+<p>通过这个方法得到的gpl矩阵不是完整的</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL13667" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL13667</a></p>
+<p>最后通过平台信息直接下载</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606224320428.png" alt="image-20200606224320428"></p>
+<p>下载了多次失败，但最终下载成功。不知道以后能不能解决下载难的问题。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606224348622.png" alt="image-20200606224348622"></p>
+<h4 id="第二部分：coexpression-analysis"><a href="#第二部分：coexpression-analysis" class="headerlink" title="第二部分：coexpression_analysis"></a>第二部分：coexpression_analysis</h4><figure class="highlight r"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="comment"># getwd()</span></span><br><span class="line"><span class="comment"># setwd("E:/R_Project/RNA_seq_pengxiong_and_datasets/pengxiong")</span></span><br><span class="line">load(file = <span class="string">'./Rdata/step2.Rdata'</span>)</span><br><span class="line">new_exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">exprSet&lt;- as.data.frame(t(new_exprSet))</span><br><span class="line"><span class="comment">### 首先要整理数据，删除非癌组织</span></span><br><span class="line">rownames(exprSet)</span><br><span class="line">rownames(pheno)</span><br><span class="line">match(rownames(exprSet),rownames(pheno))</span><br><span class="line"><span class="comment">#### 筛选出tumor的组织成为exprset</span></span><br><span class="line">exprSet&lt;- exprSet[pheno$`sample type:ch1`==<span class="string">'Tumor'</span>,]</span><br><span class="line">exprSet[,colnames(exprSet)==<span class="string">'CDH1'</span>]</span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">p=cor.test(exprSet[,<span class="string">'CDH1'</span>],exprSet[,<span class="string">'PARK7'</span>],method = c(<span class="string">'pearson'</span>))</span><br><span class="line">p$p.value</span><br><span class="line">class(p$p.value)</span><br><span class="line">p$estimate</span><br><span class="line">class(p$estimate)</span><br><span class="line"><span class="comment"># p=cor.test(exprSet[,'CDH1'],exprSet[,1])</span></span><br><span class="line"><span class="comment"># pvalue[1,1]&lt;- p$p.value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 要事先定义好一个矩阵,这个矩阵应该是2行19927列,第一列存放p值，第二列存放相关系数。存放最后的相关性p值</span></span><br><span class="line">pvalue = matrix(nrow=<span class="number">2</span>,ncol=ncol(exprSet)) <span class="comment">####这里nrow=2 不能单纯只写2   matrix(2,ncol=ncol(exprSet))，这样是错误的。会报错下标出界</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:ncol(exprSet)) &#123;</span><br><span class="line">  p=cor.test(exprSet[,<span class="string">'CDH1'</span>],exprSet[,i])</span><br><span class="line">  pvalue[<span class="number">1</span>,i]&lt;- p$p.value</span><br><span class="line">  pvalue[<span class="number">2</span>,i]&lt;- p$estimate</span><br><span class="line">  pvalue &lt;- as.data.frame(pvalue)</span><br><span class="line">  colnames(pvalue) &lt;- colnames(exprSet)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rownames(pvalue)&lt;- c(<span class="string">'pvalue'</span>,<span class="string">'correlation'</span>)</span><br><span class="line"></span><br><span class="line">coexpr_CDH1&lt;- t(pvalue)</span><br><span class="line">head(coexpr_CDH1)</span><br><span class="line">coexpr_CDH1_final&lt;- coexpr_CDH1[coexpr_CDH1[,<span class="number">1</span>]&lt;<span class="number">0.001</span>,]</span><br><span class="line">coexpr_CDH1_final&lt;- coexpr_CDH1[abs(coexpr_CDH1[,<span class="number">2</span>])&gt;<span class="number">0.8</span>,]</span><br><span class="line">save(pvalue,coexpr_CDH1_final,file = <span class="string">'./Rdata/coexpression_analysis_results.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rownames(coexpr_CDH1_final)</span><br><span class="line"><span class="comment"># exprSet_plot&lt;- exprSet[exprSet[,'CDH1']&gt;10,]  #### 删除离群值</span></span><br><span class="line"><span class="comment"># table(exprSet_plot[,'CDH1']&gt;10)</span></span><br><span class="line">plot(exprSet_plot[,<span class="string">'CDH1'</span>],exprSet_plot[,<span class="string">'ERBB3'</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<p>错误示范：Error in <code>[&lt;-</code>(<code>*tmp*</code>, 2, i, value = p$estimate) : 下标出界</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607102027801.png" alt="image-20200607102027801"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"> [1] &quot;C1orf162&quot; &quot;TLR1&quot;     &quot;HAVCR2&quot;   &quot;TLR8&quot;     &quot;ATP8B4&quot;   &quot;GGTA1&quot;    &quot;STX11&quot;    &quot;MYO5A&quot;    &quot;TFEC&quot;     &quot;HCST&quot;     &quot;LAIR1&quot;   </span><br><span class="line">[12] &quot;LSP1&quot;     &quot;CD300A&quot;   &quot;BTK&quot;      &quot;KLHL6&quot;    &quot;C1orf54&quot;  &quot;LY86&quot;     &quot;NCKAP1L&quot;  &quot;CD37&quot;     &quot;CXorf21&quot;  &quot;TRPV2&quot;    &quot;PIK3R5&quot;  </span><br><span class="line">[23] &quot;CCR5&quot;     &quot;CD300LF&quot;  &quot;CYTH4&quot;    &quot;ABI3&quot;     &quot;CSF1R&quot;    &quot;ARHGAP25&quot; &quot;ARHGEF6&quot;  &quot;PIK3CD&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>去一下交集</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
 ]]></content>
       <tags>
         <tag>research</tag>
         <tag>colorectal cancer</tag>
         <tag>datasets</tag>
         <tag>project</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>视频下载</title>
+    <url>/2019/06/06/download_video/</url>
+    <content><![CDATA[<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">python -m pip install --upgrade pip</span><br><span class="line">pip3 install --upgrade you-get</span><br><span class="line"></span><br><span class="line">you-get --playlist https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;xxxx</span><br></pre></td></tr></table></figure>
+
+
+
+<a id="more"></a>
+
+<p><img src="/2019/06/06/download_video/1564760780450.png" alt="1564760780450"></p>
+<h4 id="下载youtube视频"><a href="#下载youtube视频" class="headerlink" title="下载youtube视频"></a>下载youtube视频</h4><p>第一步分别下载音频和视频</p>
+<p><img src="/2019/06/06/download_video/image-20200426094217645.png" alt="image-20200426094217645"></p>
+<p>第二步用脚本合并音频和视频</p>
+<p><img src="/2019/06/06/download_video/image-20200426095804016.png" alt="image-20200426095804016"></p>
+<p><img src="/2019/06/06/download_video/image-20200426095819874.png" alt="image-20200426095819874"></p>
+]]></content>
+      <tags>
+        <tag>视频下载</tag>
       </tags>
   </entry>
 </search>
