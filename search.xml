@@ -9264,6 +9264,15 @@
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200607233605579.png" alt="image-20200607233605579"></p>
 <p>PIK3R5在正常组织里高表达。</p>
 <p>我很奇怪的发下E-cadherin居然在正常组织中低表达。（可见病理条件下和生理条件下有非常多的不同）因此这样的分析意义不大。</p>
+<h3 id="但是自己的分析和网页工具有差异"><a href="#但是自己的分析和网页工具有差异" class="headerlink" title="但是自己的分析和网页工具有差异"></a>但是自己的分析和网页工具有差异</h3><p><img src="/2020/06/06/project_colorectal-cancer/image-20200608222041441.png" alt="image-20200608222041441"></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">tmp&lt;- exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),]</span><br><span class="line">tmp2&lt;- exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),]</span><br><span class="line">exprSet&lt;- as.matrix(exprSet)</span><br><span class="line">p=cor.test(exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),],exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),],method = <span class="string">'pearson'</span>)</span><br><span class="line">p$p.value</span><br><span class="line">class(p$p.value)</span><br><span class="line">p$estimate</span><br><span class="line">class(p$estimate)</span><br><span class="line">plot(exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),],exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),])</span><br><span class="line">plot(exprSet[,<span class="string">'CDH1'</span>],exprSet[,<span class="string">'PIK3R5'</span>])</span><br></pre></td></tr></table></figure>
+
+<p>通过原始数据的ENSG找到了这些基因的表达，同样做曲线。因此我确信我的统计是没有问题的。（这里包含了癌组织和正常组织，但正常组织少，几乎可以忽略）</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608225310142.png" alt="image-20200608225310142"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214121961.png" alt="image-20200608214121961"></p>
+<p><a href="https://www.cbioportal.org/" target="_blank" rel="noopener">https://www.cbioportal.org/</a></p>
+<p>还能搜索到蛮多数据集cbioportal主要是基因组信息</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214520923.png" alt="image-20200608214520923"></p>
 ]]></content>
       <tags>
         <tag>research</tag>
