@@ -9270,9 +9270,38 @@
 <p>通过原始数据的ENSG找到了这些基因的表达，同样做曲线。因此我确信我的统计是没有问题的。（这里包含了癌组织和正常组织，但正常组织少，几乎可以忽略）</p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200608225310142.png" alt="image-20200608225310142"></p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214121961.png" alt="image-20200608214121961"></p>
-<p><a href="https://www.cbioportal.org/" target="_blank" rel="noopener">https://www.cbioportal.org/</a></p>
+<h2 id="第五部分：探索结直肠癌大型数据库"><a href="#第五部分：探索结直肠癌大型数据库" class="headerlink" title="第五部分：探索结直肠癌大型数据库"></a>第五部分：探索结直肠癌大型数据库</h2><h4 id="1-从cbioportal开始"><a href="#1-从cbioportal开始" class="headerlink" title="1 从cbioportal开始"></a>1 从cbioportal开始</h4><p><a href="https://www.cbioportal.org/" target="_blank" rel="noopener">https://www.cbioportal.org/</a></p>
 <p>还能搜索到蛮多数据集cbioportal主要是基因组信息</p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214520923.png" alt="image-20200608214520923"></p>
+<h4 id="2-从TCGA开始"><a href="#2-从TCGA开始" class="headerlink" title="2 从TCGA开始"></a>2 从TCGA开始</h4><p>[下图链接](<a href="https://portal.gdc.cancer.gov/projects?filters={&quot;op&quot;%3A&quot;and&quot;%2C&quot;content&quot;%3A[{&quot;op&quot;%3A&quot;in&quot;%2C&quot;content&quot;%3A{&quot;field&quot;%3A&quot;projects.disease_type&quot;%2C&quot;value&quot;%3A[&quot;adenomas" target="_blank" rel="noopener">https://portal.gdc.cancer.gov/projects?filters={&quot;op&quot;%3A&quot;and&quot;%2C&quot;content&quot;%3A[{&quot;op&quot;%3A&quot;in&quot;%2C&quot;content&quot;%3A{&quot;field&quot;%3A&quot;projects.disease_type&quot;%2C&quot;value&quot;%3A[&quot;adenomas</a> and adenocarcinomas”]}}%2C{“op”%3A”in”%2C”content”%3A{“field”%3A”projects.primary_site”%2C”value”%3A[“colon”]}}%2C{“op”%3A”in”%2C”content”%3A{“field”%3A”projects.summary.data_categories.data_category”%2C”value”%3A[“transcriptome profiling”]}}]})</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609084844926.png" alt="image-20200609084844926"></p>
+<h4 id="3-关于110个样本的CPTAC数据集"><a href="#3-关于110个样本的CPTAC数据集" class="headerlink" title="3 关于110个样本的CPTAC数据集"></a>3 关于110个样本的CPTAC数据集</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200609075152738.png" alt="image-20200609075152738"></p>
+<p>DATA AND SOFTWARE AVAILABILITY<br>Raw genomics data from this study are available at the Sequence Read Archive (SRA), BioProject ID: PRJNA514017 (<a href="ftp://ftp-trace">ftp://ftp-trace</a>. ncbi.nlm.nih.gov/sra/review/SRP178677_20190114_143443_27e795eb0f314edf0479737480ab0f2a). Raw and low-level processed<br>proteomics data from this study are available at the CPTAC Data Portal (<a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a>).<br>All final data matrices are available at the LinkedOmics (Vasaikar et al., 2018) (<a href="http://linkedomics.org/cptac-colon/" target="_blank" rel="noopener">http://linkedomics.org/cptac-colon/</a>), which also<br>provides computational tools for further exploration of this dataset.  </p>
+<p><strong>确定有用链接</strong></p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a></p>
+<p><a href="http://linkedomics.org/cptac-colon/" target="_blank" rel="noopener">http://linkedomics.org/cptac-colon/</a>  （这个链接能下载到所有数据）不一定要下载原始数据，原始数据数据量太大，直接使用已经处理好的数据更加方便。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609080729377.png" alt="image-20200609080729377"></p>
+<p>这里说明都有</p>
+<p>下载使用该数据集进行分析后发现</p>
+<p>无明显相关性</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609081649099.png" alt="image-20200609081649099"></p>
+<p>TCGA还有一大部分的数据</p>
+<p>TCGA中蛋白质组学数据存放在单独的蛋白质组学数据库中</p>
+<p><a href="https://proteomics.cancer.gov/" target="_blank" rel="noopener">https://proteomics.cancer.gov/</a></p>
+<p>这部分是蛋白质数据。</p>
+<p>总列表</p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/public" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/public</a></p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609074030557.png" alt="image-20200609074030557"></p>
+<p>这部分数据可以通过网页工具IBM aspera下载，这个是网站自动引导安装的</p>
+<p>这部分数据应该是蛋白质谱数据。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609074412154.png" alt="image-20200609074412154"></p>
+<p>这部分数据是可以下载和应用的。</p>
+<h4 id="4-还有一个比较大的数据集-DFCI-但只有全外显子测序数据"><a href="#4-还有一个比较大的数据集-DFCI-但只有全外显子测序数据" class="headerlink" title="4 还有一个比较大的数据集 DFCI 但只有全外显子测序数据"></a>4 还有一个比较大的数据集 DFCI 但只有全外显子测序数据</h4><p><a href="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000722.v1.p1" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000722.v1.p1</a></p>
+<p>和cbioportal中600多个样本一致。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083523964.png" alt="image-20200609083523964"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083842234.png" alt="image-20200609083842234"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083458671.png" alt="image-20200609083458671"></p>
 ]]></content>
       <tags>
         <tag>research</tag>
