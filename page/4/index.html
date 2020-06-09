@@ -670,6 +670,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/25/download_data_from_gdc/" class="post-title-link" itemprop="url">从gdc下载数据并整理成表达矩阵</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-25 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-25T00:00:00+08:00">2019-12-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-09 17:39:58" itemprop="dateModified" datetime="2020-06-09T17:39:58+08:00">2020-06-09</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/TCGA/" itemprop="url" rel="index"><span itemprop="name">TCGA</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="从gdc下载数据并整理成表达矩阵"><a href="#从gdc下载数据并整理成表达矩阵" class="headerlink" title="从gdc下载数据并整理成表达矩阵"></a>从gdc下载数据并整理成表达矩阵</h1><h4 id="step0-使用gdc-client-通过manifest文件下载数据"><a href="#step0-使用gdc-client-通过manifest文件下载数据" class="headerlink" title="step0 使用gdc-client 通过manifest文件下载数据"></a>step0 使用gdc-client 通过manifest文件下载数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line"># mkdir -p ~&#x2F;biosoft&#x2F;gdc_client</span><br><span class="line"># cd ~&#x2F;biosoft&#x2F;gdc_client&#x2F;</span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_OSX_x64.zip </span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line"></span><br><span class="line">## .&#x2F;gdc-client --help</span><br><span class="line">## .&#x2F;gdc-client download --help </span><br><span class="line">#  mkdir clinical</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-clinical.txt -d clinical</span><br><span class="line">#  Successfully downloaded: 522</span><br><span class="line"># mkdir miRNAseq</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-LUAD-miRNA-seq.txt -d miRNAseq</span><br><span class="line">#  Successfully downloaded: 567</span><br></pre></td></tr></table></figure>
+
+<h4 id="step0-1-下载RNA-seq表达矩阵"><a href="#step0-1-下载RNA-seq表达矩阵" class="headerlink" title="step0.1 下载RNA-seq表达矩阵"></a>step0.1 下载RNA-seq表达矩阵</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-91e2faea88d0a36a.png" alt="image.png"></p>
+<h4 id="step0-2-下载clinical-data数据"><a href="#step0-2-下载clinical-data数据" class="headerlink" title="step0.2 下载clinical data数据"></a>step0.2 下载clinical data数据</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-252490f6e2489f3c.png" alt="image.png"></p>
+<h4 id="step0-3-把所有文件都放进购物差内，下载metadata的RNA-seq的json文件：包含RNA-seq文件中的所有信息-后续需要文件名称对应"><a href="#step0-3-把所有文件都放进购物差内，下载metadata的RNA-seq的json文件：包含RNA-seq文件中的所有信息-后续需要文件名称对应" class="headerlink" title="step0.3 把所有文件都放进购物差内，下载metadata的RNA_seq的json文件：包含RNA-seq文件中的所有信息(后续需要文件名称对应)"></a>step0.3 把所有文件都放进购物差内，下载metadata的RNA_seq的json文件：包含RNA-seq文件中的所有信息(后续需要文件名称对应)</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-d1a2eba221bad4ed.png" alt="image.png"></p>
+<h4 id="step0-4-最终下载三个文件"><a href="#step0-4-最终下载三个文件" class="headerlink" title="step0.4 最终下载三个文件"></a>step0.4 最终下载三个文件</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-419c4af1231196be.png" alt="最终要下载三个文件"></p>
+<h2 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 安装软件</span><br><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line">mkdir -p ~&#x2F;biosoft&#x2F;gdc_client</span><br><span class="line">cd ~&#x2F;biosoft&#x2F;gdc_client&#x2F;</span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_OSX_x64.zip </span><br><span class="line">wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line"></span><br><span class="line"># 下载数据</span><br><span class="line">~&#x2F;biosoft&#x2F;gdc-client --help</span><br><span class="line">~&#x2F;biosoft&#x2F;gdc-client download --help </span><br><span class="line">cd ~&#x2F;project&#x2F;ESCA_data_gdc&#x2F;</span><br><span class="line">mkdir clinical</span><br><span class="line">nohup ~&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_clincial_xml.txt -d clinical &amp;</span><br><span class="line">mkdir RNA_seq</span><br><span class="line">nohup ~&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_HTSeq-counts.txt -d RNA_seq &amp;</span><br></pre></td></tr></table></figure>
+
+<h4 id="step1-通过clinical的xml格式整理cl-df"><a href="#step1-通过clinical的xml格式整理cl-df" class="headerlink" title="step1 通过clinical的xml格式整理cl_df"></a>step1 通过clinical的xml格式整理cl_df</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">rm(list &#x3D; ls())</span><br><span class="line">library(&quot;XML&quot;)</span><br><span class="line">library(&quot;methods&quot;)</span><br><span class="line">dir&#x3D;&#39;.&#x2F;clinical&#x2F;&#39;</span><br><span class="line">all_fiels&#x3D;list.files(path &#x3D; dir ,pattern&#x3D;&#39;*.xml$&#39;,recursive&#x3D;T)</span><br><span class="line">cl &#x3D; lapply(all_fiels</span><br><span class="line">            , function(x)&#123;</span><br><span class="line">              #x&#x3D;all_fiels[1]</span><br><span class="line">              result &lt;- xmlParse(file &#x3D; file.path(dir,x)) </span><br><span class="line">              rootnode &lt;- xmlRoot(result)  </span><br><span class="line">              xmldataframe &lt;- xmlToDataFrame( rootnode[2] ) </span><br><span class="line">              return(t(xmldataframe))</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">cl_df&lt;- as.data.frame(t(do.call(cbind,cl)))</span><br><span class="line">save(cl_df,file &#x3D; &#39;GDC_TCGA_LUAD_clinical_df.Rdata&#39;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="step2-根据RNA-seq-count文件整理RNA-seq"><a href="#step2-根据RNA-seq-count文件整理RNA-seq" class="headerlink" title="step2 根据RNA-seq count文件整理RNA-seq"></a>step2 根据RNA-seq count文件整理RNA-seq</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">dir&#x3D;&#39;.&#x2F;rna-seq&#x2F;&#39;</span><br><span class="line">all_fiels&#x3D;list.files(path &#x3D; dir, pattern&#x3D;&#39;*htseq.counts.gz$&#39;,recursive&#x3D;T)</span><br><span class="line">all_fiels</span><br><span class="line">rna_seq&lt;- lapply(all_fiels</span><br><span class="line">                 , function(x)&#123;</span><br><span class="line">                   #x&#x3D;all_fiels[1]</span><br><span class="line">                   result &lt;- read.table(file &#x3D; file.path(dir,x),sep &#x3D; &#39;\t&#39;, header &#x3D; T)[,1:2] </span><br><span class="line">                   return(result)</span><br><span class="line">                 &#125;)</span><br><span class="line">rna_seq_final&lt;- t(do.call(cbind,rna_seq))</span><br><span class="line">dim(rna_seq_final)</span><br><span class="line">rna_seq_final[1:10,1:10]</span><br><span class="line">colnames(rna_seq_final)&lt;- rna_seq_final[1,]</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[seq(2,nrow(rna_seq_final),by &#x3D; 2),]</span><br><span class="line">row.names(rna_seq_final)</span><br><span class="line">rna_seq_final[1:10,1:10]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">################################## 将表达矩阵转换为numeric</span><br><span class="line">class(rna_seq_final[2,2])</span><br><span class="line">rna_seq_final&lt;- apply(noquote(rna_seq_final),2,as.numeric)</span><br><span class="line">dim(rna_seq_final)</span><br><span class="line">rna_seq_final[1:10,1:10]</span><br><span class="line"></span><br><span class="line">######################### 将rownames改为barcode</span><br><span class="line">library(stringr)</span><br><span class="line">file_names&lt;- str_split(all_fiels,&#39;&#x2F;&#39;,simplify &#x3D; T)[,2]</span><br><span class="line">rownames(rna_seq_final)&lt;- file_names</span><br></pre></td></tr></table></figure>
+
+<h4 id="step3-通过matedata文件将file-names和barcode相互联系"><a href="#step3-通过matedata文件将file-names和barcode相互联系" class="headerlink" title="step3 通过matedata文件将file_names和barcode相互联系"></a>step3 通过matedata文件将file_names和barcode相互联系</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">library(&#39;rjson&#39;)</span><br><span class="line">result&lt;- fromJSON(file &#x3D; &#39;.&#x2F;metadata.cart.ESCC.json&#39;)</span><br><span class="line">file_uuids&lt;- unlist(lapply(result,function(x)&#123;x[[12]][[1]][[2]]&#125;))</span><br><span class="line">file_uuids</span><br><span class="line">file_names&lt;- unlist(lapply(result,function(x)&#123;x[[3]]&#125;))</span><br><span class="line">file_names</span><br><span class="line">tcga_barcode&lt;- unlist(lapply(result,function(x)&#123;x[[12]][[1]][[3]]&#125;))</span><br><span class="line">tcga_barcode</span><br><span class="line"></span><br><span class="line">uuid_To_barcode&lt;- data.frame(bcr_patient_uuid&#x3D;file_uuids,tcag_barcode&#x3D;tcga_barcode,file_names&#x3D;file_names)</span><br><span class="line">colnames(uuid_To_barcode)</span><br><span class="line"></span><br><span class="line">save(cl_df,rna_seq_final,uuid_To_barcode,file &#x3D; &#39;GDC_TCGA.Rdata&#39;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="step4-将rna-seq矩阵rownames改为TCGA-barcode-将更改Ensemble-ID"><a href="#step4-将rna-seq矩阵rownames改为TCGA-barcode-将更改Ensemble-ID" class="headerlink" title="step4 将rna_seq矩阵rownames改为TCGA_barcode 将更改Ensemble_ID"></a>step4 将rna_seq矩阵rownames改为TCGA_barcode 将更改Ensemble_ID</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">load(file &#x3D; &#39;.&#x2F;GDC_TCGA.Rdata&#39;)</span><br><span class="line"></span><br><span class="line">a&lt;- as.character(uuid_To_barcode$file_names)</span><br><span class="line"></span><br><span class="line">table(file_names%in%a)</span><br><span class="line">table(a%in%file_names)</span><br><span class="line">rna_seq_final[1:1,1:1]</span><br><span class="line">rna_seq_final&lt;- as.data.frame(rna_seq_final)</span><br><span class="line"></span><br><span class="line">rna_seq_final$file_names&lt;- row.names(rna_seq_final)</span><br><span class="line">rna_seq_final$file_names</span><br><span class="line">uuid_To_barcode$file_names</span><br><span class="line">rna_seq_final&lt;- merge.data.frame(uuid_To_barcode,rna_seq_final,by &#x3D; &#39;file_names&#39;)</span><br><span class="line"></span><br><span class="line">rownames(rna_seq_final)&lt;- rna_seq_final$tcag_barcode</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final[1:4,1:4]</span><br><span class="line"></span><br><span class="line">rna_seq_final&lt;- as.data.frame(t(rna_seq_final))</span><br><span class="line">library(stringr)</span><br><span class="line">options(stringsAsFactors &#x3D; F)</span><br><span class="line"></span><br><span class="line">Ensemble_ID&lt;- row.names(rna_seq_final)</span><br><span class="line"></span><br><span class="line">ID&lt;- strsplit(Ensemble_ID, &quot;[.]&quot;)</span><br><span class="line">str(ID)</span><br><span class="line">IDlast&lt;- sapply(ID, &quot;[&quot;, 1)</span><br><span class="line">IDlast</span><br><span class="line">row.names(rna_seq_final)&lt;- IDlast</span><br><span class="line">rna_seq_final[1:5,1:5]</span><br></pre></td></tr></table></figure>
+
+<h4 id="下面整理clinical-data-通过bcr-patient-uuid"><a href="#下面整理clinical-data-通过bcr-patient-uuid" class="headerlink" title="下面整理clinical_data,通过bcr_patient_uuid"></a>下面整理clinical_data,通过bcr_patient_uuid</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_df$bcr_patient_uuid&lt;- tolower(cl_df$bcr_patient_uuid) ### 大写字母改为小写</span><br><span class="line"></span><br><span class="line">clinical_data&lt;- merge(uuid_To_barcode,cl_df,by &#x3D; &#39;bcr_patient_uuid&#39;)</span><br><span class="line"></span><br><span class="line">############# 最终rna_seq_final 通过tcag_barcode 与clinicaldat联系起来</span><br><span class="line"></span><br><span class="line">save(clinical_data,rna_seq_final,file &#x3D; &#39;step0_GDC_data.Rdata&#39;)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -929,117 +1026,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/19/reading_note_m6A/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/19/reading_note_m6A/" class="post-title-link" itemprop="url">RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-19 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-19T00:00:00+08:00">2019-12-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:56" itemprop="dateModified" datetime="2020-05-17T21:54:56+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">阅读笔记</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="RNA-m6A-methylation-regulates-the-epithelial-mesenchymal-transition-of-cancer-cells-and-translation-of-Snail"><a href="#RNA-m6A-methylation-regulates-the-epithelial-mesenchymal-transition-of-cancer-cells-and-translation-of-Snail" class="headerlink" title="RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail"></a>RNA m6A methylation regulates the epithelial mesenchymal transition of cancer cells and translation of Snail</h2><p>几个知识点：</p>
-<ol>
-<li><p>writers: Methyltransferase-like 3 (METTL3), METTL14, and Wilm’s tumor-1-associated protein (WTAP) have been proved to act as m6A methyltransferases (“writers”) in mammalian cells </p>
-</li>
-<li><p>readers: m6A-binding proteins with YTH domain, including cytoplasmic protein YTHDF1, YTHDF2, YTHDF3, and nuclear protein YTHDC1, have been identified to be the “readers” of m6A and modulate mRNA stability and translation to mediate downstream effects.</p>
-</li>
-<li><p>m6A demethylase, ALKBH5 </p>
-</li>
-</ol>
-<p>几种药物的使用</p>
-<ol>
-<li><p>actinomycin D : Act-D, 抑制转录</p>
-</li>
-<li><p>MG132: 抑制蛋白酶体的活性，抑制蛋白质的降解</p>
-</li>
-<li><p>CHX：放线菌酮，抑制蛋白质的翻译。</p>
-</li>
-</ol>
-<p><img src="/2019/12/19/reading_note_m6A/1576760902675.png" alt="1576760902675"></p>
-<p>TGF-β处理细胞可以诱导EMT，<strong>补充材料</strong>证明可TGF-β确实可以增加EMT，细胞功能实验和FN1 and CDH1的mRNA qPCR验证。EMT marker WB。</p>
-<p>a: LC–MS/MS assay.  TGF-β处理后m6A比例增多.</p>
-<p>This was further confirmed by the results obtained in dot-blot analysis</p>
-<p><img src="/2019/12/19/reading_note_m6A/1576761297331.png" alt="1576761297331"></p>
-<p>Mettl3Mut/- HeLa cells (Supplementary Fig. 2C) generated in our previous study35 by using the CRISPR/Cas9 editing system according to the published protocol35,36. </p>
-<p><strong>CDH1 (E-Cad) mRNA</strong> </p>
-<p><img src="/2019/12/19/reading_note_m6A/1576764282685.png" alt="1576764282685"></p>
-<p>ribosome profiling ：</p>
-<p>RNA fractions: </p>
-<ol>
-<li><p>non-translating fraction (&lt; 40 S), </p>
-</li>
-<li><p>translation initiation fraction (including 40S ribosomes, 60S ribosomes, 80S monosomes, and &lt; 80S) </p>
-</li>
-<li><p>translation active polysomes (&gt; 80S) .</p>
-</li>
-</ol>
-<p><img src="/2019/12/19/reading_note_m6A/1576764643127.png" alt="1576764643127"></p>
-<p>Another identified m6A demethylase, ALKBH5 </p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1109,13 +1095,13 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
-        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-count">26</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
