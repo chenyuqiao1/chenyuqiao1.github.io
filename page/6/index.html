@@ -173,6 +173,87 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/02/ggplot/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/12/02/ggplot/" class="post-title-link" itemprop="url">ggplot-R可视化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-02T00:00:00+08:00">2019-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-11 19:02:19" itemprop="dateModified" datetime="2020-06-11T19:02:19+08:00">2020-06-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="可视化数据探索-R作图ggplot"><a href="#可视化数据探索-R作图ggplot" class="headerlink" title="可视化数据探索 R作图ggplot"></a>可视化数据探索 R作图ggplot</h2><h3 id="ggplot用于发表"><a href="#ggplot用于发表" class="headerlink" title="ggplot用于发表"></a>ggplot用于发表</h3><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">setwd( <span class="string">"E:/R_Project/GEO-undermine/GSE53625_fresh_new"</span>)</span><br><span class="line"><span class="comment">#######################################  单基因的表达</span></span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="comment"># load(file='./Rdata/step1_common_gene.Rdata')</span></span><br><span class="line">load(file = <span class="string">'./Rdata/!step0_cleaned_phe_exprSer.Rdata'</span>)</span><br><span class="line"><span class="comment"># boxplot(exprSet)</span></span><br><span class="line"><span class="comment"># library('preprocessCore')</span></span><br><span class="line"><span class="comment"># exprSet2&lt;- as.matrix(exprSet)</span></span><br><span class="line"><span class="comment"># exprSet2&lt;- normalize.quantiles(exprSet)</span></span><br><span class="line"><span class="comment"># boxplot(exprSet2,las=2)</span></span><br><span class="line"></span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$V2=='normal',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$`Adjuvant therapy`!='yes',]</span></span><br><span class="line">exprSet&lt;- exprSet[,colnames(exprSet)%<span class="keyword">in</span>%phe$GSM_ID]</span><br><span class="line"></span><br><span class="line"><span class="comment"># tmp&lt;- exprSet[grepl('GAPDH',row.names(exprSet)),]</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># save(exprSet,file = './Rdata/step2.2_normalization.Rdata')</span></span><br><span class="line"><span class="comment"># a&lt;- as.data.frame(row.names(exprSet))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_name&lt;- c('PLAU','SPP1','BGN','NDC80','BUB1B','KIF2C','AURKB','BUB1','CXCL1','CXCL10','CXCL8','MMP9','CDC6','MCM10','MCM2')</span></span><br><span class="line"><span class="comment"># gene_up&lt;- c('COL5A1', 'SPP1', 'COL1A1', 'MMP3', 'MMP1', 'SERPINH1', 'POSTN', 'COL1A2', 'BGN', 'ELN', 'SPARC')</span></span><br><span class="line"><span class="comment"># gene_down&lt;- c('CDC25B', 'CENPF', 'TOP2A', 'KIF4A', 'KIF23', 'AURKA', 'TPX2')</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># gene_diff&lt;- c('COL3A1', 'POSTN', 'BGN', 'ELN', 'SPARC')</span></span><br><span class="line"><span class="comment"># peognostic_gene&lt;- c('BGN','CSTB','GPX3')</span></span><br><span class="line"><span class="comment"># gene_name&lt;-  unique(c(gene_diff,gene_down,gene_up,peognostic_gene))</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># gene_name&lt;- c('THBS2','SEMA3C','ITGB6' ,'ANOS1','JAKMIP3' ,'LINC01197' , 'LNCAROD' , 'LMO7DN', 'SEMA6D' ,'UBE2QL1','NTRK2' , 'MAGEA11','KCNH1' ,  'SLC28A3' ,  'HOXA9' , 'AC106771.1' ,'LINC01733' , 'SULT6B1'  ,'COL22A1', 'PAX1')</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_name&lt;- c('LINC00551')</span></span><br><span class="line"><span class="comment"># gene_name&lt;- c('MMP3','COL1A1','COL1A2','COL5A1','COL11A1','SERPINE1','THBS2','LUM','BGN','SPP1')</span></span><br><span class="line">gene_name&lt;- c(<span class="string">'MYBL2'</span>,<span class="string">'CDCA5'</span>,<span class="string">'CMC2'</span>,<span class="string">'UBE2C'</span>,<span class="string">'DTL'</span>,<span class="string">'TPX2'</span>,<span class="string">'GINS1'</span>,<span class="string">'KIF20A'</span>,<span class="string">'RNASEH2A'</span>)</span><br><span class="line"><span class="keyword">library</span>(reshape2)</span><br><span class="line"><span class="comment">########### 探索数据   </span></span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(reshape2)</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line">  gene_expression&lt;- as.data.frame(t(exprSet[gene_name,]))</span><br><span class="line">  match(colnames(exprSet),phe$GSM_ID)</span><br><span class="line">  gene_expression$group&lt;- factor(phe$V2)</span><br><span class="line">  <span class="comment"># gene_expression$samlple&lt;- rownames(gene_expression)</span></span><br><span class="line">  exprSet_L&lt;- melt(gene_expression,id.vars = c(<span class="string">'group'</span>))</span><br><span class="line">  names(exprSet_L)[<span class="number">2</span>]&lt;- c(<span class="string">'sample'</span>)</span><br><span class="line">  p=ggplot(exprSet_L,aes(x=sample,y=value,fill=group))+geom_boxplot() + stat_compare_means(method = <span class="string">'wilcox.test'</span>,label=<span class="string">'p.signif'</span>) + theme(axis.title.x  = element_text(angle = <span class="number">0</span>,hjust = <span class="number">.5</span>,vjust = <span class="number">.5</span>))+</span><br><span class="line">  theme(axis.text.x = element_text(angle = <span class="number">0</span>, hjust = <span class="number">0.5</span>, vjust = <span class="number">0.5</span>,size = <span class="number">8</span>))</span><br><span class="line">  print(p)</span><br><span class="line">&#125;</span><br><span class="line">ggsave(<span class="string">'./figure/ggplot_boxplot_module2_version1130.pdf'</span>,p,width = <span class="number">25</span>, height = <span class="number">12.5</span>, units = <span class="string">'cm'</span>)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/12/02/ggplot/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/30/reshape2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -925,93 +1006,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/23/Vcftools/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/23/Vcftools/" class="post-title-link" itemprop="url">vcf_filter工具之一vcftools</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-23T00:00:00+08:00">2019-11-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/DNAseq/" itemprop="url" rel="index"><span itemprop="name">DNAseq</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="Vcftools"><a href="#Vcftools" class="headerlink" title="Vcftools"></a>Vcftools</h2><p>帮助文档的examples：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># EXAMPLES</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Output allele frequency <span class="keyword">for</span> all sites <span class="keyword">in</span> the input vcf file from chromosome 1</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file from the input vcf file that removes any indel sites</span></span><br><span class="line">vcftools --vcf input_file.vcf --remove-indels --recode --recode-INFO-all --out SNPs_only</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output file comparing the sites <span class="keyword">in</span> two vcf files</span></span><br><span class="line">vcftools --gzvcf input_file1.vcf.gz --gzdiff input_file2.vcf.gz --diff-site --out in1_v_in2</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file to standard out without any sites that have a filter tag, <span class="keyword">then</span> compress it with gzip</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --remove-filtered-all --recode --stdout | gzip -c &gt; output_PASS_only.vcf.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a Hardy-Weinberg p-value <span class="keyword">for</span> every site <span class="keyword">in</span> the bcf file that does not have any missing genotypes</span></span><br><span class="line">vcftools --bcf input_file.bcf --hardy --max-missing 1.0 --out output_noMissing</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output nucleotide diversity at a list of positions</span></span><br><span class="line">zcat input_file.vcf.gz | vcftools --vcf - --site-pi --positions SNP_list.txt --out nucleotide_diversity</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>能理解这几句很重要,90%的内容就都可以理解了。</p>
-</blockquote>
-<p><a href="https://vcftools.github.io/man_latest.html" target="_blank" rel="noopener">vcftools官方帮助文档</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/23/Vcftools/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1081,7 +1075,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1092,7 +1086,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

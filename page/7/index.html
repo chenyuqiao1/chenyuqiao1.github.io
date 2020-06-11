@@ -173,6 +173,93 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/23/Vcftools/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/11/23/Vcftools/" class="post-title-link" itemprop="url">vcf_filter工具之一vcftools</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-11-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-23T00:00:00+08:00">2019-11-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DNAseq/" itemprop="url" rel="index"><span itemprop="name">DNAseq</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="Vcftools"><a href="#Vcftools" class="headerlink" title="Vcftools"></a>Vcftools</h2><p>帮助文档的examples：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># EXAMPLES</span></span></span><br><span class="line"><span class="meta">#</span><span class="bash"> Output allele frequency <span class="keyword">for</span> all sites <span class="keyword">in</span> the input vcf file from chromosome 1</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --freq --chr 1 --out chr1_analysis</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file from the input vcf file that removes any indel sites</span></span><br><span class="line">vcftools --vcf input_file.vcf --remove-indels --recode --recode-INFO-all --out SNPs_only</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output file comparing the sites <span class="keyword">in</span> two vcf files</span></span><br><span class="line">vcftools --gzvcf input_file1.vcf.gz --gzdiff input_file2.vcf.gz --diff-site --out in1_v_in2</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a new vcf file to standard out without any sites that have a filter tag, <span class="keyword">then</span> compress it with gzip</span></span><br><span class="line">vcftools --gzvcf input_file.vcf.gz --remove-filtered-all --recode --stdout | gzip -c &gt; output_PASS_only.vcf.gz</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output a Hardy-Weinberg p-value <span class="keyword">for</span> every site <span class="keyword">in</span> the bcf file that does not have any missing genotypes</span></span><br><span class="line">vcftools --bcf input_file.bcf --hardy --max-missing 1.0 --out output_noMissing</span><br><span class="line"><span class="meta">#</span><span class="bash"> Output nucleotide diversity at a list of positions</span></span><br><span class="line">zcat input_file.vcf.gz | vcftools --vcf - --site-pi --positions SNP_list.txt --out nucleotide_diversity</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>能理解这几句很重要,90%的内容就都可以理解了。</p>
+</blockquote>
+<p><a href="https://vcftools.github.io/man_latest.html" target="_blank" rel="noopener">vcftools官方帮助文档</a></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2019/11/23/Vcftools/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/23/vcf_filter/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -895,89 +982,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/11/18/myblog_hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/11/18/myblog_hexo/" class="post-title-link" itemprop="url">hexo个人博客搭建</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-11-18 00:00:00" itemprop="dateCreated datePublished" datetime="2019-11-18T00:00:00+08:00">2019-11-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:55" itemprop="dateModified" datetime="2020-05-17T21:54:55+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/myblog/" itemprop="url" rel="index"><span itemprop="name">myblog</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="搭建个人博客一文就够"><a href="#搭建个人博客一文就够" class="headerlink" title="搭建个人博客一文就够"></a>搭建个人博客一文就够</h3><p><strong>为什么我要搭建个人博客。第一想把我自己的学习经历记录下来分析给大家，第二方便我系统的整理备份我电脑中的各种文件。同时方便随时查阅和搜索。</strong></p>
-<p>第一步：购买腾讯云服务器，购买域名bio-info-bridge.cn</p>
-<p>第二步：开始搭建博客，重要参考前辈的博客，<a href="https://www.bioinfo-scrounger.com/archives/migrate_wordpress_hexo/" target="_blank" rel="noopener">搭建个人博客参考</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/11/18/myblog_hexo/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1047,7 +1051,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1058,7 +1062,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

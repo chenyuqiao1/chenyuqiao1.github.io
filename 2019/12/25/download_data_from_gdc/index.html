@@ -32,7 +32,7 @@
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-d1a2eba221bad4ed.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-419c4af1231196be.png">
 <meta property="article:published_time" content="2019-12-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-09T09:39:58.734Z">
+<meta property="article:modified_time" content="2020-06-09T10:35:00.817Z">
 <meta property="article:author" content="yuqiao chen">
 <meta property="article:tag" content="RNA-seq">
 <meta property="article:tag" content="methylation">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-09 17:39:58" itemprop="dateModified" datetime="2020-06-09T17:39:58+08:00">2020-06-09</time>
+                <time title="Modified: 2020-06-09 18:35:00" itemprop="dateModified" datetime="2020-06-09T18:35:00+08:00">2020-06-09</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -259,8 +259,9 @@
 <h4 id="step0-1-下载RNA-seq表达矩阵"><a href="#step0-1-下载RNA-seq表达矩阵" class="headerlink" title="step0.1 下载RNA-seq表达矩阵"></a>step0.1 下载RNA-seq表达矩阵</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-91e2faea88d0a36a.png" alt="image.png"></p>
 <h4 id="step0-2-下载clinical-data数据"><a href="#step0-2-下载clinical-data数据" class="headerlink" title="step0.2 下载clinical data数据"></a>step0.2 下载clinical data数据</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-252490f6e2489f3c.png" alt="image.png"></p>
 <h4 id="step0-3-把所有文件都放进购物差内，下载metadata的RNA-seq的json文件：包含RNA-seq文件中的所有信息-后续需要文件名称对应"><a href="#step0-3-把所有文件都放进购物差内，下载metadata的RNA-seq的json文件：包含RNA-seq文件中的所有信息-后续需要文件名称对应" class="headerlink" title="step0.3 把所有文件都放进购物差内，下载metadata的RNA_seq的json文件：包含RNA-seq文件中的所有信息(后续需要文件名称对应)"></a>step0.3 把所有文件都放进购物差内，下载metadata的RNA_seq的json文件：包含RNA-seq文件中的所有信息(后续需要文件名称对应)</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-d1a2eba221bad4ed.png" alt="image.png"></p>
-<h4 id="step0-4-最终下载三个文件"><a href="#step0-4-最终下载三个文件" class="headerlink" title="step0.4 最终下载三个文件"></a>step0.4 最终下载三个文件</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-419c4af1231196be.png" alt="最终要下载三个文件"></p>
-<h2 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># 安装软件</span><br><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line">mkdir -p ~&#x2F;biosoft&#x2F;gdc_client</span><br><span class="line">cd ~&#x2F;biosoft&#x2F;gdc_client&#x2F;</span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_OSX_x64.zip </span><br><span class="line">wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line"></span><br><span class="line"># 下载数据</span><br><span class="line">~&#x2F;biosoft&#x2F;gdc-client --help</span><br><span class="line">~&#x2F;biosoft&#x2F;gdc-client download --help </span><br><span class="line">cd ~&#x2F;project&#x2F;ESCA_data_gdc&#x2F;</span><br><span class="line">mkdir clinical</span><br><span class="line">nohup ~&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_clincial_xml.txt -d clinical &amp;</span><br><span class="line">mkdir RNA_seq</span><br><span class="line">nohup ~&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_HTSeq-counts.txt -d RNA_seq &amp;</span><br></pre></td></tr></table></figure>
+<h4 id="step0-4-最终下载三个文件"><a href="#step0-4-最终下载三个文件" class="headerlink" title="step0.4 最终下载三个文件"></a>step0.4 最终下载三个文件</h4><p><strong>注意：（两个TXT文件是服务器下载文件用，而json文件标记了RNA-seq文件的信息，格式转换的时候要用）</strong></p>
+<p><img src="/2019/12/25/download_data_from_gdc/13817032-419c4af1231196be.png" alt="最终要下载三个文件"></p>
+<h2 id="下载数据"><a href="#下载数据" class="headerlink" title="下载数据"></a>下载数据</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"># 安装软件</span><br><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line">cd ~&#x2F;my_disk&#x2F;biosoft&#x2F;</span><br><span class="line">wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.5.0_Ubuntu_x64.zip</span><br><span class="line">unzip https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.5.0_Ubuntu_x64.zip</span><br><span class="line"></span><br><span class="line"># 下载数据</span><br><span class="line">~&#x2F;biosoft&#x2F;gdc-client download --help </span><br><span class="line">cd ~&#x2F;project&#x2F;ESCA_data_gdc&#x2F;</span><br><span class="line">mkdir clinical</span><br><span class="line">nohup  ~&#x2F;my_disk&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_20200609_COAD_clinic.txt -d clinical &amp;</span><br><span class="line">mkdir RNA_seq</span><br><span class="line">nohup  ~&#x2F;my_disk&#x2F;biosoft&#x2F;gdc-client download -m .&#x2F;gdc_manifest_20200609_COAD_FPKM.txt -d RNA_seq &amp;</span><br></pre></td></tr></table></figure>
 
 <h4 id="step1-通过clinical的xml格式整理cl-df"><a href="#step1-通过clinical的xml格式整理cl-df" class="headerlink" title="step1 通过clinical的xml格式整理cl_df"></a>step1 通过clinical的xml格式整理cl_df</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">rm(list &#x3D; ls())</span><br><span class="line">library(&quot;XML&quot;)</span><br><span class="line">library(&quot;methods&quot;)</span><br><span class="line">dir&#x3D;&#39;.&#x2F;clinical&#x2F;&#39;</span><br><span class="line">all_fiels&#x3D;list.files(path &#x3D; dir ,pattern&#x3D;&#39;*.xml$&#39;,recursive&#x3D;T)</span><br><span class="line">cl &#x3D; lapply(all_fiels</span><br><span class="line">            , function(x)&#123;</span><br><span class="line">              #x&#x3D;all_fiels[1]</span><br><span class="line">              result &lt;- xmlParse(file &#x3D; file.path(dir,x)) </span><br><span class="line">              rootnode &lt;- xmlRoot(result)  </span><br><span class="line">              xmldataframe &lt;- xmlToDataFrame( rootnode[2] ) </span><br><span class="line">              return(t(xmldataframe))</span><br><span class="line">            &#125;)</span><br><span class="line"></span><br><span class="line">cl_df&lt;- as.data.frame(t(do.call(cbind,cl)))</span><br><span class="line">save(cl_df,file &#x3D; &#39;GDC_TCGA_LUAD_clinical_df.Rdata&#39;)</span><br></pre></td></tr></table></figure>
 
@@ -369,7 +370,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-count">78</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -380,7 +381,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-count">105</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
