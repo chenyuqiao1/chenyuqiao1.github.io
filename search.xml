@@ -9538,4 +9538,63 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
         <tag>RNA结合蛋白</tag>
       </tags>
   </entry>
+  <entry>
+    <title>X-tile</title>
+    <url>/2019/12/02/Xtile/</url>
+    <content><![CDATA[<h1 id="关于X-tile-选择生存曲线的最佳Cut-off"><a href="#关于X-tile-选择生存曲线的最佳Cut-off" class="headerlink" title="关于X-tile 选择生存曲线的最佳Cut-off"></a>关于X-tile 选择生存曲线的最佳Cut-off</h1><a id="more"></a>
+
+<p><img src="/2019/12/02/Xtile/13817032-7c6844356ed0413b.webp" alt="img"></p>
+<blockquote>
+<p><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fanswers.microsoft.com%2Fen-us%2Fwindows%2Fforum%2Fwindows_8-winapps-appother%2Fnet-framework-2050727%2F7b4a2221-8b9a-4460-9712-c8f5521307dc%3Fauth%3D1" target="_blank" rel="noopener">https://answers.microsoft.com/en-us/windows/forum/windows_8-winapps-appother/net-framework-2050727/7b4a2221-8b9a-4460-9712-c8f5521307dc?auth=1</a><br><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.microsoft.com%2Fen-us%2Fdownload%2Fconfirmation.aspx%3Fid%3D6523" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/confirmation.aspx?id=6523</a><br><a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.microsoft.com%2Fen-us%2Fdownload%2Fconfirmation.aspx%3Fid%3D16614" target="_blank" rel="noopener">https://www.microsoft.com/en-us/download/confirmation.aspx?id=16614</a></p>
+</blockquote>
+<p>需要下载</p>
+<p><img src="/2019/12/02/Xtile/13817032-c3b4f296a85d9e49.webp" alt="img"></p>
+<p>image.png</p>
+<p>一个是X86 一个是X64</p>
+<p>我安装了X64 x-tile 就可以成功安装</p>
+<p><img src="/2019/12/02/Xtile/13817032-6c19311e66d1f57d.webp" alt="img"></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">setwd(<span class="string">"E:/R_Project/GEO-undermine/GSE53625_fresh_new"</span>)</span><br><span class="line">rm(list=ls())</span><br><span class="line">load(file = <span class="string">'./Rdata/step5_for_survival.Rdata'</span>)</span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">gene_name&lt;- <span class="string">'BGN'</span></span><br><span class="line"></span><br><span class="line">match(colnames(exprSet),phe$GSM_ID)</span><br><span class="line">event&lt;- ifelse(phe$`Death at FU`==<span class="string">'yes'</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line">time&lt;- phe$time</span><br><span class="line">expr_value&lt;- exprSet[gene_name,]</span><br><span class="line"></span><br><span class="line">pheno&lt;- data.frame(event=event,time=time,expr_value=expr_value)</span><br><span class="line">write.table(pheno,file = paste0(<span class="string">'G:/2019-9-10ESCC_RNA_Seq/'</span>,gene_name,<span class="string">'.txt'</span>),sep = <span class="string">'\t'</span>,row.names = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/12/02/Xtile/13817032-0abd25d69af4c85a.webp" alt="img"></p>
+<p><img src="/2019/12/02/Xtile/13817032-93a543e7c9862d44.webp" alt="img"></p>
+<p>按下锁键</p>
+<h3 id="根据cutoff-值画生存曲线"><a href="#根据cutoff-值画生存曲线" class="headerlink" title="根据cutoff 值画生存曲线"></a>根据cutoff 值画生存曲线</h3><figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span>(gene_name%<span class="keyword">in</span>%row.names(exprSet))&#123;</span><br><span class="line">  phe$group=ifelse(exprSet[gene_name,]&gt;quantile(exprSet[gene_name,],<span class="number">0.7374</span>),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  table(phe$group)</span><br><span class="line">  <span class="comment"># ggsurvplot(survfit(Surv(time, event)~group, data=phe), conf.int=F, pval=TRUE,</span></span><br><span class="line">  <span class="comment">#            # xlim = c(0,30),</span></span><br><span class="line">  <span class="comment">#            legend.title = gene_name)</span></span><br><span class="line">  p=ggsurvplot(survfit(Surv(time, event)~group, data = phe), conf.int = <span class="literal">F</span>,</span><br><span class="line">               tables.height=<span class="number">0.25</span>,</span><br><span class="line">               pval = <span class="literal">TRUE</span>,pval.size=<span class="number">6</span>,font.pval= c(<span class="number">14</span>, <span class="string">"bold"</span>, <span class="string">"black"</span>),</span><br><span class="line">               legend.title = gene_name, font.legend= c(<span class="number">14</span>, <span class="string">"plain"</span>, <span class="string">"black"</span>),</span><br><span class="line">               <span class="comment"># font.main = c(100, "bold", "black"),</span></span><br><span class="line">               xlim = c(<span class="number">0</span>,<span class="number">72</span>), <span class="comment"># present narrower X axis, but not affect</span></span><br><span class="line">               <span class="comment"># survival estimates.</span></span><br><span class="line">               palette=c(<span class="string">"red"</span>, <span class="string">"blue"</span>),</span><br><span class="line">               font.x = c(<span class="number">14</span>, <span class="string">"plain"</span>, <span class="string">"black"</span>),</span><br><span class="line">               font.y = c(<span class="number">14</span>, <span class="string">"plain"</span>, <span class="string">"black"</span>),</span><br><span class="line">               font.tickslab = c(<span class="number">14</span>, <span class="string">"plain"</span>, <span class="string">"black"</span>),</span><br><span class="line">               xlab = <span class="string">"Time in months"</span>, <span class="comment"># customize X axis label.</span></span><br><span class="line">               break.time.by = <span class="number">6</span>) <span class="comment"># break X axis in time intervals by 500.</span></span><br><span class="line">  <span class="comment"># sfit2&lt;- survfit(Surv(time, event)~group, data=phe_loop)</span></span><br><span class="line">  tiff(filename = paste0(<span class="string">'G:/2019-9-10ESCC_RNA_Seq/Figures/'</span>,gene_name,<span class="string">'_log_rank.tiff'</span>),res=<span class="number">600</span>,width = <span class="number">4000</span>,height = <span class="number">3000</span>)</span><br><span class="line">  print(p)</span><br><span class="line">  dev.off()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>R</category>
+      </categories>
+      <tags>
+        <tag>生存分析</tag>
+        <tag>X-tile</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>stringr</title>
+    <url>/2019/12/02/stringr/</url>
+    <content><![CDATA[<h3 id="stringr"><a href="#stringr" class="headerlink" title="stringr"></a>stringr</h3><a id="more"></a>
+
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">str_c</span><br><span class="line">str_sub</span><br><span class="line">str_split</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="字符串组合"><a href="#字符串组合" class="headerlink" title="字符串组合"></a>字符串组合</h5><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">str_c(<span class="string">"x"</span>,<span class="string">"y"</span>)</span><br><span class="line">str_c(<span class="string">"x"</span>,<span class="string">"y"</span>,sep=<span class="string">","</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="字符串取子集"><a href="#字符串取子集" class="headerlink" title="字符串取子集"></a>字符串取子集</h5><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">x&lt;-c(<span class="string">"Apple"</span>,<span class="string">"Banana"</span>,<span class="string">"Pear"</span>)</span><br><span class="line">str_sub(x,<span class="number">1</span>,<span class="number">3</span>) <span class="comment">##从1取到3</span></span><br><span class="line">str_sub(x,-<span class="number">1</span>,-<span class="number">3</span>) <span class="comment">##从-1取到-3</span></span><br><span class="line"></span><br><span class="line">phe$rfs_time&lt;- str_sub(phe$rfs_time,<span class="number">12</span>,<span class="number">16</span>) <span class="comment">###最后数字可以写大一点，如果是到最后的话</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="按照分隔"><a href="#按照分隔" class="headerlink" title="按照分隔"></a>按照分隔</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rownames(exprSet)&lt;- str_split(rownames(exprSet),pattern &#x3D; &#39;\\.&#39;, simplify &#x3D; T)[,1]</span><br><span class="line">### 按照点分开</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id><a href="#" class="headerlink" title></a></h5>]]></content>
+      <categories>
+        <category>R</category>
+      </categories>
+      <tags>
+        <tag>文本处理</tag>
+        <tag>stringr</tag>
+      </tags>
+  </entry>
 </search>
