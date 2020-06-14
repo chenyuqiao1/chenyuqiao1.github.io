@@ -9478,4 +9478,64 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
         <tag>rectosigmoid junction</tag>
       </tags>
   </entry>
+  <entry>
+    <title>转录因子和RNA结合蛋白注释信息下载</title>
+    <url>/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/</url>
+    <content><![CDATA[<h3 id="关于转录因子的数据库"><a href="#关于转录因子的数据库" class="headerlink" title="关于转录因子的数据库"></a>关于转录因子的数据库</h3><h3 id="Plan-A：基于大量ChIP-seq公共数据"><a href="#Plan-A：基于大量ChIP-seq公共数据" class="headerlink" title="Plan A：基于大量ChIP-seq公共数据"></a>Plan A：基于大量ChIP-seq公共数据</h3><h4 id="A1：Cistrome-Data-Browser"><a href="#A1：Cistrome-Data-Browser" class="headerlink" title="A1：Cistrome Data Browser"></a>A1：Cistrome Data Browser</h4><p><a href="http://cistrome.org/" target="_blank" rel="noopener">http://cistrome.org/</a></p>
+<p>这里列出了所有转录因子，但是不知道如何下载</p>
+<p><a href="http://cistrome.org/db/#/" target="_blank" rel="noopener">http://cistrome.org/db/#/</a></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612114445330.png" alt="image-20200612114445330"></p>
+<p>承诺提交的信息正确，不会把下载到的数据交给别人，发表文章的时候引用该论文。输入校验码，点击最下面的按钮，就开始下载了。</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/0-1591933533548.jfif" alt="img"></p>
+<p>用bedtools找出感兴趣的基因附近有结合信号peak的ChIP-seq数据，对应到TF名字，就推测出哪些TF结合了感兴趣的基因。</p>
+<p><strong>该方法的优点是</strong>，找到的TF跟DNA关系是有<em>in vivo</em>实验证据的；<strong>缺点是</strong>，基因的转录调控有着组织特异性，在这套ChIP-seq数据的细胞类型和处理条件下不结合，不代表你关心的细胞类型或处理条件下也不结合，有可能真就能结合呢！反之亦然。</p>
+<p>还有一个是</p>
+<p><a href="https://genome.ucsc.edu/cgi-bin/hgGateway" target="_blank" rel="noopener">https://genome.ucsc.edu/cgi-bin/hgGateway</a></p>
+<p><a href="https://genome.ucsc.edu/cgi-bin/hgGateway，一定选择hg19版本。如果进入hg38，是看不到ENCODE数据的，因为跑ENCODE数据时用的是hg19。GO" target="_blank" rel="noopener">https://genome.ucsc.edu/cgi-bin/hgGateway，一定选择hg19版本。如果进入hg38，是看不到ENCODE数据的，因为跑ENCODE数据时用的是hg19。GO</a></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612113315179.png" alt="image-20200612113315179"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612113542155.png" alt="image-20200612113542155"></p>
+<p>找到Regulation，点击ENC TF binding…，show，refresh</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612114233955.png" alt="image-20200612114233955"></p>
+<h4 id="A2-ENCODE"><a href="#A2-ENCODE" class="headerlink" title="A2 ENCODE"></a>A2 ENCODE</h4><p><a href="https://www.encodeproject.org/" target="_blank" rel="noopener">https://www.encodeproject.org/</a></p>
+<p>ENCODE项目进展到今天已经产生了7813套ChIP-seq数据，其中人的5568套，小鼠1086套。检索方法参考<a href="http://mp.weixin.qq.com/s?__biz=MzIxMjA0NzU0OA==&mid=2650982429&idx=1&sn=acad911676eda75f7699dd623c421774&chksm=8cba6bcebbcde2d8f3be2fd279f9c48e27b999d88558e03fe5f28d46b02fa4f054445a64b254&scene=21#wechat_redirect" target="_blank" rel="noopener">表观遗传系列视频17 | Penn State 岳峰：ENCODE &amp; Roadmap workshop（附PPT）</a>。另外，还有平行项目，例如模式生物modENCODE和modERN项目，以后小哈会发帖分享使用心得。</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612120321413.png" alt="image-20200612120321413"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640-1591934562918.webp" alt="img"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612120425495.png" alt="image-20200612120425495"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640.webp" alt="img"></p>
+<p>人，除组蛋白以外，转录因子等factor的ChIP-seq数据2191套，包含620个factor。</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640.webp" alt="img"></p>
+<p>目前可以最多添加100套数据到UCSC genome browser里面查看某段DNA上的peak分布。</p>
+<p>例如，在Biosample type里选择stem cell，一共86套数据</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640.png" alt="img"></p>
+<p>点击Visuallize</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640-1591934198491.webp" alt="img"></p>
+<p>选择hg19，数据更全。后面再check一下GRCh38版本的基因组在你关心的区域上是否有更新。</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612120715361.png" alt="image-20200612120715361"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/640.png" alt="img"></p>
+<p>打开后看到所有86套数据都展示出来了，在位置框里输入您想看的区段，或基因名字，例如sox2，然后zoom out 10x看更大的区域。好多小矩形的那行就是call出来的peak，下面紧挨着那行是原始信号强度。用眼睛看哪个factor在sox2 TSS附近有peak，推测该factor对sox2的转录有调控作用。</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612121151477.png" alt="image-20200612121151477"></p>
+<p>这部分就还是结果</p>
+<p>继续往下滚动页面，还能看到该区域存在哪些TF的motif，详见下文Plan B。</p>
+<p>如果不想用眼睛看100套以内的数据，而是要从所有的ChIP-seq数据中找到结合某段DNA的factor，需要批量下载：</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612121425611.png" alt="image-20200612121425611"></p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/image-20200612121414505.png" alt="image-20200612121414505"></p>
+<p>下载后的数据处理类似于前面讲的Cistrome Data Browser。</p>
+<h3 id="Plan-B：基于motif预测"><a href="#Plan-B：基于motif预测" class="headerlink" title="Plan B：基于motif预测"></a>Plan B：基于motif预测</h3><p>通过motif预测DNA上可能会有哪些转录因子结合。每个转录因子都有一个DNA结合结构域（DBD），喜欢结合在特定DNA序列上，也就是motif。如果我感兴趣的基因上游DNA有某个TF的motif，那么该TF就有可能结合这段DNA，从而调控下游基因表达。</p>
+<p>进入UCSC，<a href="https://genome.ucsc.edu/cgi-bin/hgGateway，找到Regulation，点击TFBS" target="_blank" rel="noopener">https://genome.ucsc.edu/cgi-bin/hgGateway，找到Regulation，点击TFBS</a> Conserved，full，refresh</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/0-1591933695277.jfif" alt="img"></p>
+<p>refresh后，这段DNA范围内有motif的TF名字就出现在左侧</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/0-1591933695294.jfif" alt="img"></p>
+<p>点击名字，出现motif信息</p>
+<p><img src="/2019/12/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/0-1591933695268.jfif" alt="img"></p>
+<p><strong>该方法的缺点是</strong>，就算在DNA序列上找到了TF对应的motif，并且用EMSA实验验证是阳性，该TF不一定真的就能<em>in vivo</em>结合这段DNA。这起码提供了一条线索，让你有迹可循，看到了某个感兴趣的TF的motif，就做个ChIP-qPCR验证一下吧！</p>
+]]></content>
+      <categories>
+        <category>R关于转录</category>
+      </categories>
+      <tags>
+        <tag>转录因子</tag>
+        <tag>数据库下载</tag>
+        <tag>RNA结合蛋白</tag>
+      </tags>
+  </entry>
 </search>
