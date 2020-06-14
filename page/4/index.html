@@ -173,6 +173,85 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%852/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%852/" class="post-title-link" itemprop="url">甲基化高通量测序分析2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:55" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="计算不同组别间差异甲基化位点和区域的R包—DSS"><a href="#计算不同组别间差异甲基化位点和区域的R包—DSS" class="headerlink" title="计算不同组别间差异甲基化位点和区域的R包—DSS"></a>计算不同组别间差异甲基化位点和区域的R包—DSS</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%852/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -908,97 +987,6 @@
 <h4 id="step4-将rna-seq矩阵rownames改为TCGA-barcode-将更改Ensemble-ID"><a href="#step4-将rna-seq矩阵rownames改为TCGA-barcode-将更改Ensemble-ID" class="headerlink" title="step4 将rna_seq矩阵rownames改为TCGA_barcode 将更改Ensemble_ID"></a>step4 将rna_seq矩阵rownames改为TCGA_barcode 将更改Ensemble_ID</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">load(file &#x3D; &#39;.&#x2F;GDC_TCGA.Rdata&#39;)</span><br><span class="line"></span><br><span class="line">a&lt;- as.character(uuid_To_barcode$file_names)</span><br><span class="line"></span><br><span class="line">table(file_names%in%a)</span><br><span class="line">table(a%in%file_names)</span><br><span class="line">rna_seq_final[1:1,1:1]</span><br><span class="line">rna_seq_final&lt;- as.data.frame(rna_seq_final)</span><br><span class="line"></span><br><span class="line">rna_seq_final$file_names&lt;- row.names(rna_seq_final)</span><br><span class="line">rna_seq_final$file_names</span><br><span class="line">uuid_To_barcode$file_names</span><br><span class="line">rna_seq_final&lt;- merge.data.frame(uuid_To_barcode,rna_seq_final,by &#x3D; &#39;file_names&#39;)</span><br><span class="line"></span><br><span class="line">rownames(rna_seq_final)&lt;- rna_seq_final$tcag_barcode</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final&lt;- rna_seq_final[,-1]</span><br><span class="line">rna_seq_final[1:4,1:4]</span><br><span class="line"></span><br><span class="line">rna_seq_final&lt;- as.data.frame(t(rna_seq_final))</span><br><span class="line">library(stringr)</span><br><span class="line">options(stringsAsFactors &#x3D; F)</span><br><span class="line"></span><br><span class="line">Ensemble_ID&lt;- row.names(rna_seq_final)</span><br><span class="line"></span><br><span class="line">ID&lt;- strsplit(Ensemble_ID, &quot;[.]&quot;)</span><br><span class="line">str(ID)</span><br><span class="line">IDlast&lt;- sapply(ID, &quot;[&quot;, 1)</span><br><span class="line">IDlast</span><br><span class="line">row.names(rna_seq_final)&lt;- IDlast</span><br><span class="line">rna_seq_final[1:5,1:5]</span><br></pre></td></tr></table></figure>
 
 <h4 id="下面整理clinical-data-通过bcr-patient-uuid"><a href="#下面整理clinical-data-通过bcr-patient-uuid" class="headerlink" title="下面整理clinical_data,通过bcr_patient_uuid"></a>下面整理clinical_data,通过bcr_patient_uuid</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cl_df$bcr_patient_uuid&lt;- tolower(cl_df$bcr_patient_uuid) ### 大写字母改为小写</span><br><span class="line"></span><br><span class="line">clinical_data&lt;- merge(uuid_To_barcode,cl_df,by &#x3D; &#39;bcr_patient_uuid&#39;)</span><br><span class="line"></span><br><span class="line">############# 最终rna_seq_final 通过tcag_barcode 与clinicaldat联系起来</span><br><span class="line"></span><br><span class="line">save(clinical_data,rna_seq_final,file &#x3D; &#39;step0_GDC_data.Rdata&#39;)</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/" class="post-title-link" itemprop="url">chip-seq实战</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2019-12-23 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-23T00:00:00+08:00">2019-12-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-05-17 21:54:57" itemprop="dateModified" datetime="2020-05-17T21:54:57+08:00">2020-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/" itemprop="url" rel="index"><span itemprop="name">project</span></a>
-                </span>
-                  , 
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/project/chip-seq/" itemprop="url" rel="index"><span itemprop="name">chip-seq</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="step1-下载数据"><a href="#step1-下载数据" class="headerlink" title="step1 下载数据"></a>step1 下载数据</h4><p>需要用rna 环境下，否则需要中心配置下载设置</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p ~/project/ZNF582_chip_seq/original_data</span><br><span class="line">source activate rna</span><br><span class="line">nohup prefetch SRR5197188 &amp;</span><br><span class="line"></span><br><span class="line">nohup prefetch SRR5197033 &amp; ### control</span><br><span class="line">mv SRR5197188.sra ~/project/ZNF582_chip_seq/original_data/</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>/home/chenyuqiao/ncbi/public/sra</p>
-<p>默认下载地址</p>
-</blockquote>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2019/12/23/ZNF582%E5%AE%9E%E6%88%98/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
       
     </div>
 
