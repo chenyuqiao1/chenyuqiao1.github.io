@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="单基因生存分析一文就够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单基因生存分析一文就够">
+<meta property="og:url" content="http://bio_info_bridge.cn/2019/12/02/single_gene_survival_analysis/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="单基因生存分析一文就够">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2019/12/02/single_gene_survival_analysis/image-20200614132014421.png">
+<meta property="article:published_time" content="2019-12-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-14T06:45:52.958Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="生存分析">
+<meta property="article:tag" content="coxph生存分析">
+<meta property="article:tag" content="生存曲线">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2019/12/02/single_gene_survival_analysis/image-20200614132014421.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2019/12/02/single_gene_survival_analysis/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>单基因生存分析一文就够 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2019/12/02/single_gene_survival_analysis/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          单基因生存分析一文就够
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-12-02 00:00:00" itemprop="dateCreated datePublished" datetime="2019-12-02T00:00:00+08:00">2019-12-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-14 14:45:52" itemprop="dateModified" datetime="2020-06-14T14:45:52+08:00">2020-06-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="单基因生存分析一文就够"><a href="#单基因生存分析一文就够" class="headerlink" title="单基因生存分析一文就够"></a>单基因生存分析一文就够</h2><a id="more"></a>
+
+<h4 id="单基因生存曲线"><a href="#单基因生存曲线" class="headerlink" title="单基因生存曲线"></a>单基因生存曲线</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line">load(<span class="string">'./Rdata/step2.Rdata'</span>)</span><br><span class="line">expr_GSE39582&lt;- as.data.frame(new_exprSet)</span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"></span><br><span class="line">phe&lt;- pheno</span><br><span class="line">phe$event&lt;- phe$characteristics_ch1.11</span><br><span class="line">phe$rfs_time&lt;- as.character(phe$characteristics_ch1.12)</span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">phe$rfs_time&lt;- str_sub(phe$rfs_time,<span class="number">12</span>,<span class="number">16</span>)</span><br><span class="line">phe$rfs_time[phe$rfs_time==<span class="string">'N/A'</span>]&lt;- <span class="literal">NA</span> </span><br><span class="line">phe$rfs_time&lt;- as.numeric(phe$rfs_time)</span><br><span class="line">phe$time&lt;- phe$rfs_time </span><br><span class="line">phe$event&lt;- str_sub(phe$event,<span class="number">12</span>,<span class="number">16</span>)</span><br><span class="line">phe$event[phe$event==<span class="string">'N/A'</span>]&lt;- <span class="literal">NA</span> </span><br><span class="line">phe$event&lt;- as.numeric(phe$event)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># match(colnames(expr_GSE39582),phe$submitter_id.samples)</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[match(colnames(expr_GSE39582),phe$submitter_id.samples),]</span></span><br><span class="line">match(colnames(expr_GSE39582),phe$geo_accession)</span><br><span class="line"></span><br><span class="line">exprSet&lt;- as.matrix(expr_GSE39582)</span><br><span class="line"><span class="comment"># table(phe$drug_name)</span></span><br><span class="line"><span class="comment"># table(phe$therapy_type=='Chemotherapy')</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$therapy_type!='Chemotherapy',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$therapy_type=='Chemotherapy',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name=='Cisplatin'|phe$drug_name=='Capecitabine',]</span></span><br><span class="line"><span class="comment"># phe$drug_name&lt;- tolower(phe$drug_name)</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name=='cisplatin'| phe$drug_name=='capecitabine',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name!='cisplatin'&amp; phe$drug_name!='capecitabine',]</span></span><br><span class="line"><span class="comment"># exprSet&lt;- exprSet[,colnames(exprSet)%in%phe$submitter_id.samples]</span></span><br><span class="line"><span class="comment"># table(phe$pathologic_T)</span></span><br><span class="line"><span class="comment"># a&lt;- as.data.frame(row.names(exprSet))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_expression&lt;- as.data.frame(t(exprSet['CDC7',]))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_name&lt;- 'CYP1B1'</span></span><br><span class="line"><span class="comment"># gene_name&lt;- 'PAX1'</span></span><br><span class="line"><span class="comment"># gene_name&lt;- 'ZNF582'</span></span><br><span class="line">gene_name&lt;- <span class="string">'SPOCD1'</span></span><br><span class="line"><span class="keyword">if</span>(gene_name%<span class="keyword">in</span>%row.names(exprSet))&#123;</span><br><span class="line">  phe$group=ifelse(exprSet[gene_name,]&gt;quantile(exprSet[gene_name,],<span class="number">0.513</span>),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  table(phe$group)</span><br><span class="line">  ggsurvplot(survfit(Surv(time, event)~group, data=phe), conf.int=<span class="literal">F</span>, pval=<span class="literal">TRUE</span>, legend.title = gene_name)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="单基因cox生存分析"><a href="#单基因cox生存分析" class="headerlink" title="单基因cox生存分析"></a>单基因cox生存分析</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####################################### 单因素cox分析</span></span><br><span class="line">mySurv=with(phe,Surv(time, event))</span><br><span class="line">gene_expr&lt;- exprSet[gene_name,]</span><br><span class="line"><span class="comment"># m=coxph(mySurv ~ exprSet[gene_name,], data =  phe)</span></span><br><span class="line">m=coxph(mySurv ~ gene_expr, data =  phe)</span><br><span class="line">mSummary&lt;- summary(m)</span><br><span class="line">mSummary$coefficients</span><br><span class="line">mSummary$conf.int</span><br><span class="line"><span class="comment"># beta &lt;- coef(m)</span></span><br><span class="line"><span class="comment"># se &lt;- sqrt(diag(vcov(m)))</span></span><br><span class="line"><span class="comment"># HR &lt;- exp(beta)</span></span><br><span class="line"><span class="comment"># HRse &lt;- HR * se</span></span><br><span class="line"><span class="comment"># m=coxph(mySurv ~ grade + T_stage +N_stage +group, data =  survival_dat)</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/12/02/single_gene_survival_analysis/image-20200614132014421.png" alt="image-20200614132014421"></p>
+<h4 id="使用Xtile"><a href="#使用Xtile" class="headerlink" title="使用Xtile"></a>使用Xtile</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">####################### 使用Xtile</span></span><br><span class="line"><span class="comment"># rm(list=ls())</span></span><br><span class="line"><span class="comment"># load(file = './Rdata/step5_for_survival.Rdata')</span></span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">gene_name&lt;- <span class="string">'SPOCD1'</span></span><br><span class="line"></span><br><span class="line">match(colnames(exprSet),phe$geo_accession)</span><br><span class="line"><span class="comment"># event&lt;- ifelse(phe$`Death at FU`=='yes',0,1)</span></span><br><span class="line">event&lt;- phe$event</span><br><span class="line">time&lt;- phe$time</span><br><span class="line">expr_value&lt;- exprSet[gene_name,]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pheno_xtile&lt;- data.frame(event=event,time=time,expr_value=expr_value)</span><br><span class="line">write.table(pheno_xtile,file = paste0(<span class="string">'./Rdata/'</span>,gene_name,<span class="string">'.txt'</span>),sep = <span class="string">'\t'</span>,row.names = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="TCGA数据整理后生存分析"><a href="#TCGA数据整理后生存分析" class="headerlink" title="TCGA数据整理后生存分析"></a>TCGA数据整理后生存分析</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line">load(<span class="string">'./Rdata/step00_idtransed.Rdata'</span>)</span><br><span class="line">expr_TCGA&lt;- as.data.frame(new_exprSet)</span><br><span class="line"><span class="keyword">library</span>(readxl)</span><br><span class="line">pheno &lt;- read_excel(<span class="string">"Rdata/TCGA-COAD.GDC_phenotype.xlsx"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"></span><br><span class="line">phe&lt;- pheno</span><br><span class="line"></span><br><span class="line"><span class="comment"># expr_TCGA&lt;- new_exprSet</span></span><br><span class="line">group_list=ifelse(as.numeric(substr(colnames(expr_TCGA),<span class="number">14</span>,<span class="number">15</span>)) &lt; <span class="number">10</span>,<span class="string">'tumor'</span>,<span class="string">'normal'</span>)</span><br><span class="line">expr_TCGA=na.omit(expr_TCGA)</span><br><span class="line">expr_TCGA=expr_TCGA[,group_list==<span class="string">'tumor'</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">###### 筛选clinical data</span></span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">colnames(expr_TCGA)&lt;- str_sub(colnames(expr_TCGA),<span class="number">1</span>,<span class="number">16</span>)</span><br><span class="line"><span class="comment"># group_list=ifelse(as.numeric(substr(pheno$submitter_id.samples,14,15)) &lt; 10,'tumor','normal')</span></span><br><span class="line">pheno&lt;- pheno[pheno$submitter_id.samples%<span class="keyword">in</span>%colnames(expr_TCGA),]</span><br><span class="line">expr_TCGA&lt;- expr_TCGA[,colnames(expr_TCGA)%<span class="keyword">in</span>%pheno$submitter_id.samples]</span><br><span class="line">table(colnames(expr_TCGA)%<span class="keyword">in</span>%pheno$submitter_id.samples)</span><br><span class="line">table(!duplicated(colnames(expr_TCGA)))</span><br><span class="line">table(!duplicated(pheno$submitter_id.samples))</span><br><span class="line">pheno&lt;- pheno[match(colnames(expr_TCGA),pheno$submitter_id.samples),]</span><br><span class="line">match(pheno$submitter_id.samples,colnames(expr_TCGA))</span><br><span class="line"><span class="comment">###### step2 整理临床信息</span></span><br><span class="line"><span class="comment"># pheno&lt;- pheno</span></span><br><span class="line">colnames(pheno)</span><br><span class="line">pheno$vital_status.demographic</span><br><span class="line">pheno$pathologic_T</span><br><span class="line">pheno$pathologic_N</span><br><span class="line">pheno$pathologic_M</span><br><span class="line">colnames(pheno)</span><br><span class="line">pheno&lt;- pheno[,c(<span class="string">'submitter_id.samples'</span>,<span class="string">'gender.demographic'</span>,</span><br><span class="line">                 <span class="comment"># 'therapy_type','drug_name',</span></span><br><span class="line">                <span class="comment"># 'country_of_procurement',</span></span><br><span class="line">                 <span class="string">'tumor_stage.diagnoses'</span>,<span class="string">'tumor_grade.diagnoses'</span>,</span><br><span class="line">                <span class="comment"># 'neoplasm_histologic_grade','planned_surgery_status',</span></span><br><span class="line">                 <span class="string">'vital_status.demographic'</span>,<span class="string">'days_to_death.demographic'</span>,</span><br><span class="line">                 <span class="string">'days_to_last_follow_up.diagnoses'</span>,<span class="string">'pathologic_T'</span>,</span><br><span class="line">                 <span class="string">'pathologic_N'</span>,<span class="string">'pathologic_M'</span>),]</span><br><span class="line"><span class="comment"># pheno$days_to_death.diagnoses&lt;- as.numeric(as.character(pheno$days_to_death))</span></span><br><span class="line"><span class="comment"># pheno$days_to_last_followup&lt;- as.numeric(as.character(pheno$days_to_last_followup))</span></span><br><span class="line"><span class="comment"># pheno$time&lt;- ifelse(pheno$days_to_last_followup == '',pheno$days_to_death,pheno$days_to_last_followup)</span></span><br><span class="line">pheno$time&lt;- ifelse(is.na(pheno$days_to_death.demographic) != <span class="literal">TRUE</span>,pheno$days_to_death.demographic,pheno$days_to_last_follow_up.diagnoses)</span><br><span class="line">pheno$event&lt;- as.numeric(as.factor(pheno$vital_status.demographic))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># pheno$pathologic_T[grepl('T4a',pheno$pathologic_T)]&lt;- c('T4')</span></span><br><span class="line"><span class="comment"># pheno$pathologic_T&lt;- factor(pheno$pathologic_T)</span></span><br><span class="line"><span class="comment"># # pheno$pathologic_T&lt;- ifelse(pheno$pathologic_T== 'T1','T1','T2-4')</span></span><br><span class="line"><span class="comment"># # pheno$pathologic_T&lt;- ifelse(pheno$pathologic_T== 'T1'|pheno$pathologic_T=='T2','T1-2','T3-4')</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># pheno$pathologic_N&lt;- factor(pheno$pathologic_N)</span></span><br><span class="line"><span class="comment"># pheno$pathologic_N[pheno$pathologic_N==''|pheno$pathologic_N=='TX']&lt;- NA</span></span><br><span class="line"><span class="comment"># # pheno$pathologic_N&lt;- ifelse(pheno$pathologic_N!='N0','N+','N0')</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># pheno$pathologic_M&lt;- ifelse(pheno$pathologic_M== 'M0','M0','M+')</span></span><br><span class="line"><span class="comment"># pheno$pathologic_M&lt;- factor(pheno$pathologic_M,levels = c('M0',"M1"))</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># pheno$tumor_stage&lt;- pheno$tumor_stage.diagnoses</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># pheno$tumor_stage[grepl('stage iii',pheno$tumor_stage.diagnoses)]&lt;- c('stage iii')</span></span><br><span class="line"><span class="comment"># pheno$tumor_stage[grepl('stage iv',pheno$tumor_stage.diagnoses) ]&lt;- c('stage iv')</span></span><br><span class="line"><span class="comment"># pheno$tumor_stage[grepl('stage ii',pheno$tumor_stage.diagnoses) &amp; (!grepl('stage iii',pheno$tumor_stage.diagnoses))]&lt;- c('stage ii')</span></span><br><span class="line"><span class="comment"># pheno$tumor_stage[grepl('stage i',pheno$tumor_stage.diagnoses) &amp; (!grepl('stage iii',pheno$tumor_stage.diagnoses))  </span></span><br><span class="line"><span class="comment">#                   &amp; (!grepl('stage ii',pheno$tumor_stage.diagnoses)) &amp; (!grepl('stage iv',pheno$tumor_stage.diagnoses))]&lt;- c('stage i')</span></span><br><span class="line"><span class="comment"># pheno$tumor_stage[pheno$tumor_stage.diagnoses=='not reported']&lt;- NA</span></span><br><span class="line"><span class="comment"># pheno$tumor_stage&lt;- factor(pheno$tumor_stage)</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"></span><br><span class="line"><span class="comment"># match(colnames(expr_TCGA),phe$submitter_id.samples)</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[match(colnames(expr_TCGA),phe$submitter_id.samples),]</span></span><br><span class="line">match(colnames(expr_TCGA),pheno$submitter_id.samples)</span><br><span class="line">phe&lt;- pheno</span><br><span class="line">exprSet&lt;- as.matrix(expr_TCGA)</span><br><span class="line"><span class="comment"># table(phe$drug_name)</span></span><br><span class="line"><span class="comment"># table(phe$therapy_type=='Chemotherapy')</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$therapy_type!='Chemotherapy',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$therapy_type=='Chemotherapy',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name=='Cisplatin'|phe$drug_name=='Capecitabine',]</span></span><br><span class="line"><span class="comment"># phe$drug_name&lt;- tolower(phe$drug_name)</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name=='cisplatin'| phe$drug_name=='capecitabine',]</span></span><br><span class="line"><span class="comment"># phe&lt;- phe[phe$drug_name!='cisplatin'&amp; phe$drug_name!='capecitabine',]</span></span><br><span class="line"><span class="comment"># exprSet&lt;- exprSet[,colnames(exprSet)%in%phe$submitter_id.samples]</span></span><br><span class="line"><span class="comment"># table(phe$pathologic_T)</span></span><br><span class="line"><span class="comment"># a&lt;- as.data.frame(row.names(exprSet))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_expression&lt;- as.data.frame(t(exprSet['CDC7',]))</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># gene_name&lt;- 'CYP1B1'</span></span><br><span class="line"><span class="comment"># gene_name&lt;- 'PAX1'</span></span><br><span class="line"><span class="comment"># gene_name&lt;- 'ZNF582'</span></span><br><span class="line">gene_name&lt;- <span class="string">'SPOCD1'</span> <span class="comment"># SPOCD1 RPIA</span></span><br><span class="line"><span class="keyword">if</span>(gene_name%<span class="keyword">in</span>%row.names(exprSet))&#123;</span><br><span class="line">  phe$group=ifelse(exprSet[gene_name,]&gt;quantile(exprSet[gene_name,],<span class="number">0.5</span>),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  table(phe$group)</span><br><span class="line">  ggsurvplot(survfit(Surv(time, event)~group, data=phe), conf.int=<span class="literal">F</span>, pval=<span class="literal">TRUE</span>, legend.title = gene_name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">####################################### 单因素cox分析</span></span><br><span class="line">mySurv=with(phe,Surv(time, event))</span><br><span class="line">gene_expr&lt;- exprSet[gene_name,]</span><br><span class="line"><span class="comment"># m=coxph(mySurv ~ exprSet[gene_name,], data =  phe)</span></span><br><span class="line">m=coxph(mySurv ~ gene_expr, data =  phe)</span><br><span class="line">mSummary&lt;- summary(m)</span><br><span class="line">mSummary$coefficients</span><br><span class="line">mSummary$conf.int</span><br><span class="line"><span class="comment"># beta &lt;- coef(m)</span></span><br><span class="line"><span class="comment"># se &lt;- sqrt(diag(vcov(m)))</span></span><br><span class="line"><span class="comment"># HR &lt;- exp(beta)</span></span><br><span class="line"><span class="comment"># HRse &lt;- HR * se</span></span><br><span class="line"><span class="comment"># m=coxph(mySurv ~ grade + T_stage +N_stage +group, data =  survival_dat)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">####################### 使用Xtile</span></span><br><span class="line"><span class="comment"># rm(list=ls())</span></span><br><span class="line"><span class="comment"># load(file = './Rdata/step5_for_survival.Rdata')</span></span><br><span class="line"><span class="keyword">library</span>(survminer)</span><br><span class="line"><span class="keyword">library</span>(survival)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"></span><br><span class="line">gene_name&lt;- <span class="string">'SPOCD1'</span></span><br><span class="line"></span><br><span class="line">match(colnames(exprSet),phe$geo_accession)</span><br><span class="line"><span class="comment"># event&lt;- ifelse(phe$`Death at FU`=='yes',0,1)</span></span><br><span class="line">event&lt;- phe$event</span><br><span class="line">time&lt;- phe$time</span><br><span class="line">expr_value&lt;- exprSet[gene_name,]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pheno_xtile&lt;- data.frame(event=event,time=time,expr_value=expr_value)</span><br><span class="line">write.table(pheno_xtile,file = paste0(<span class="string">'./Rdata/'</span>,gene_name,<span class="string">'.txt'</span>),sep = <span class="string">'\t'</span>,row.names = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90/" rel="tag"># 生存分析</a>
+              <a href="/tags/coxph%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90/" rel="tag"># coxph生存分析</a>
+              <a href="/tags/%E7%94%9F%E5%AD%98%E6%9B%B2%E7%BA%BF/" rel="tag"># 生存曲线</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/11/30/reshape2/" rel="prev" title="reshape2--R语言长数据-短数据转化">
+      <i class="fa fa-chevron-left"></i> reshape2--R语言长数据-短数据转化
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/12/02/stringr/" rel="next" title="stringr">
+      stringr <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#单基因生存分析一文就够"><span class="nav-number">1.</span> <span class="nav-text">单基因生存分析一文就够</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单基因生存曲线"><span class="nav-number">1.0.1.</span> <span class="nav-text">单基因生存曲线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#单基因cox生存分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">单基因cox生存分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用Xtile"><span class="nav-number">1.0.3.</span> <span class="nav-text">使用Xtile</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCGA数据整理后生存分析"><span class="nav-number">2.</span> <span class="nav-text">TCGA数据整理后生存分析</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">83</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">111</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
