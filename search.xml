@@ -9183,7 +9183,15 @@
   <entry>
     <title>结直肠癌任务</title>
     <url>/2020/06/06/project_colorectal-cancer/</url>
-    <content><![CDATA[<h2 id="第一部分：数据下载"><a href="#第一部分：数据下载" class="headerlink" title="第一部分：数据下载"></a>第一部分：数据下载</h2><a id="more"></a>
+    <content><![CDATA[<h2 id="第一部分：数据下载"><a href="#第一部分：数据下载" class="headerlink" title="第一部分：数据下载"></a>第一部分：数据下载</h2><p>GSE81980</p>
+<p>GSE18105</p>
+<p>GSE17538</p>
+<p>GSE74602</p>
+<p>GSE21510</p>
+<p>GSE32323</p>
+<p>GSE113513</p>
+<p>癌细胞系实验常用于药物敏感性测试与药效标志的筛选。目前研究者已构建了许多大型药物敏感<br>性数据库，如 Genomics of Drug Sensitivity in Cancer (GDSC)、 Cancer Cell Line Encyclopedia(CCLE)和<br>Cancer Therapeutics Response Portal (CTRP)数据库等  </p>
+<a id="more"></a>
 
 <p><a href="https://www.colonomics.org/data/" target="_blank" rel="noopener">https://www.colonomics.org/data/</a></p>
 <p><img src="/2020/06/06/project_colorectal-cancer/image-20200606175129204.png" alt="image-20200606175129204"></p>
