@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="从gdc下载数据并整理成表达矩阵step0 使用gdc-client 通过manifest文件下载数据1234567891011121314# https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool# mkdir -p ~&#x2F;biosoft&#x2F;gdc_client# cd ~&amp;#x2">
+  <meta name="description" content="从gdc下载数据并整理成表达矩阵">
 <meta property="og:type" content="article">
 <meta property="og:title" content="从gdc下载数据并整理成表达矩阵">
 <meta property="og:url" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/index.html">
 <meta property="og:site_name" content="Bio_info_bridge">
-<meta property="og:description" content="从gdc下载数据并整理成表达矩阵step0 使用gdc-client 通过manifest文件下载数据1234567891011121314# https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool# mkdir -p ~&#x2F;biosoft&#x2F;gdc_client# cd ~&amp;#x2">
+<meta property="og:description" content="从gdc下载数据并整理成表达矩阵">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-91e2faea88d0a36a.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-252490f6e2489f3c.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-d1a2eba221bad4ed.png">
 <meta property="og:image" content="http://bio_info_bridge.cn/2019/12/25/download_data_from_gdc/13817032-419c4af1231196be.png">
 <meta property="article:published_time" content="2019-12-24T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-06-09T10:35:00.817Z">
+<meta property="article:modified_time" content="2020-06-15T14:19:54.588Z">
 <meta property="article:author" content="yuqiao chen">
 <meta property="article:tag" content="RNA-seq">
 <meta property="article:tag" content="methylation">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-09 18:35:00" itemprop="dateModified" datetime="2020-06-09T18:35:00+08:00">2020-06-09</time>
+                <time title="Modified: 2020-06-15 22:19:54" itemprop="dateModified" datetime="2020-06-15T22:19:54+08:00">2020-06-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -254,7 +254,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="从gdc下载数据并整理成表达矩阵"><a href="#从gdc下载数据并整理成表达矩阵" class="headerlink" title="从gdc下载数据并整理成表达矩阵"></a>从gdc下载数据并整理成表达矩阵</h1><h4 id="step0-使用gdc-client-通过manifest文件下载数据"><a href="#step0-使用gdc-client-通过manifest文件下载数据" class="headerlink" title="step0 使用gdc-client 通过manifest文件下载数据"></a>step0 使用gdc-client 通过manifest文件下载数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line"># mkdir -p ~&#x2F;biosoft&#x2F;gdc_client</span><br><span class="line"># cd ~&#x2F;biosoft&#x2F;gdc_client&#x2F;</span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_OSX_x64.zip </span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line"></span><br><span class="line">## .&#x2F;gdc-client --help</span><br><span class="line">## .&#x2F;gdc-client download --help </span><br><span class="line">#  mkdir clinical</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-clinical.txt -d clinical</span><br><span class="line">#  Successfully downloaded: 522</span><br><span class="line"># mkdir miRNAseq</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-LUAD-miRNA-seq.txt -d miRNAseq</span><br><span class="line">#  Successfully downloaded: 567</span><br></pre></td></tr></table></figure>
+        <h1 id="从gdc下载数据并整理成表达矩阵"><a href="#从gdc下载数据并整理成表达矩阵" class="headerlink" title="从gdc下载数据并整理成表达矩阵"></a>从gdc下载数据并整理成表达矩阵</h1><a id="more"></a>
+
+<h4 id="step0-使用gdc-client-通过manifest文件下载数据"><a href="#step0-使用gdc-client-通过manifest文件下载数据" class="headerlink" title="step0 使用gdc-client 通过manifest文件下载数据"></a>step0 使用gdc-client 通过manifest文件下载数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;access-data&#x2F;gdc-data-transfer-tool</span><br><span class="line"># mkdir -p ~&#x2F;biosoft&#x2F;gdc_client</span><br><span class="line"># cd ~&#x2F;biosoft&#x2F;gdc_client&#x2F;</span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_OSX_x64.zip </span><br><span class="line"># wget https:&#x2F;&#x2F;gdc.cancer.gov&#x2F;system&#x2F;files&#x2F;authenticated%20user&#x2F;0&#x2F;gdc-client_v1.3.0_Ubuntu14.04_x64.zip</span><br><span class="line"></span><br><span class="line">## .&#x2F;gdc-client --help</span><br><span class="line">## .&#x2F;gdc-client download --help </span><br><span class="line">#  mkdir clinical</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-clinical.txt -d clinical</span><br><span class="line">#  Successfully downloaded: 522</span><br><span class="line"># mkdir miRNAseq</span><br><span class="line"># .&#x2F;gdc-client download -m ~&#x2F;Documents&#x2F;Nutstore&#x2F;github&#x2F;TCGA-KIRC-miRNA-example&#x2F;GDC&#x2F;gdc_manifest.2018-08-05-LUAD-miRNA-seq.txt -d miRNAseq</span><br><span class="line">#  Successfully downloaded: 567</span><br></pre></td></tr></table></figure>
 
 <h4 id="step0-1-下载RNA-seq表达矩阵"><a href="#step0-1-下载RNA-seq表达矩阵" class="headerlink" title="step0.1 下载RNA-seq表达矩阵"></a>step0.1 下载RNA-seq表达矩阵</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-91e2faea88d0a36a.png" alt="image.png"></p>
 <h4 id="step0-2-下载clinical-data数据"><a href="#step0-2-下载clinical-data数据" class="headerlink" title="step0.2 下载clinical data数据"></a>step0.2 下载clinical data数据</h4><p><img src="/2019/12/25/download_data_from_gdc/13817032-252490f6e2489f3c.png" alt="image.png"></p>
