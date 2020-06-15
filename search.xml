@@ -10330,7 +10330,7 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
     <title>转录因子分析实战1（两个数据库ENCODE and Cistrome）</title>
     <url>/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/</url>
     <content><![CDATA[<h3 id="两个数据库ENCODE-and-Cistrome"><a href="#两个数据库ENCODE-and-Cistrome" class="headerlink" title="两个数据库ENCODE and Cistrome"></a>两个数据库ENCODE and Cistrome</h3><p><img src="/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/image-20200614195715898.png" alt="image-20200614195715898"></p>
-<!--moire-->
+<a id="more"></a>
 
 <h2 id="Cistrome"><a href="#Cistrome" class="headerlink" title="Cistrome"></a>Cistrome</h2><h3 id="肿瘤相关转录因子和enhancer的分析"><a href="#肿瘤相关转录因子和enhancer的分析" class="headerlink" title="肿瘤相关转录因子和enhancer的分析"></a>肿瘤相关转录因子和enhancer的分析</h3><p><a href="http://cistrome.org/" target="_blank" rel="noopener">http://cistrome.org/</a></p>
 <p><img src="/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/image-20200614180852077.png" alt="image-20200614180852077"></p>
@@ -10387,6 +10387,8 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <p><img src="/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/image-20200614205238524.png" alt="image-20200614205238524"></p>
 <p>下载进度</p>
 <p>Ref： <a href="https://links.jianshu.com/go?to=https%3A%2F%2Fwww.encodeproject.org%2F" target="_blank" rel="noopener">https://www.encodeproject.org/</a></p>
+<h2 id="RNA-binding-protein（RBP）下载"><a href="#RNA-binding-protein（RBP）下载" class="headerlink" title="RNA binding protein（RBP）下载"></a>RNA binding protein（RBP）下载</h2><p><img src="/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/image-20200615085229602.png" alt="image-20200615085229602"></p>
+<p><img src="/2020/06/02/%E8%82%BF%E7%98%A4%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%AE%9E%E6%88%98/image-20200615085300894.png" alt="image-20200615085300894"></p>
 ]]></content>
       <categories>
         <category>R关于转录</category>
