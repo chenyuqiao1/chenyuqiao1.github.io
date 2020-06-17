@@ -20,12 +20,12 @@
     var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="TCGA数据差异分析后生存分析（批量单因素cox回归&#x2F;Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）测序上游分析系列：mRNA-seq转录组二代测序从raw reads到表达矩阵：上中游分析pipelinemiRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【一】miRNA-seq小RNA高通量测">
+  <meta name="description" content="TCGA数据差异分析后生存分析（批量单因素cox回归&#x2F;Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）">
 <meta property="og:type" content="article">
 <meta property="og:title" content="完整生存分析套路">
 <meta property="og:url" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/index.html">
 <meta property="og:site_name" content="Bio_info_bridge">
-<meta property="og:description" content="TCGA数据差异分析后生存分析（批量单因素cox回归&#x2F;Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）测序上游分析系列：mRNA-seq转录组二代测序从raw reads到表达矩阵：上中游分析pipelinemiRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【一】miRNA-seq小RNA高通量测">
+<meta property="og:description" content="TCGA数据差异分析后生存分析（批量单因素cox回归&#x2F;Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/22060704-898b8cac8ffc2a59.webp">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/22060704-d846b589209874cd.webp">
@@ -41,7 +41,7 @@
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/22060704-bf01e5ed7b9275ca.webp">
 <meta property="og:image" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/22060704-8f8ac457ff901f62.webp">
 <meta property="article:published_time" content="2020-06-16T07:33:53.210Z">
-<meta property="article:modified_time" content="2020-06-16T08:29:09.004Z">
+<meta property="article:modified_time" content="2020-06-17T05:12:52.781Z">
 <meta property="article:author" content="yuqiao chen">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://bio_info_bridge.cn/2020/06/16/%E5%AE%8C%E6%95%B4%E7%94%9F%E5%AD%98%E5%88%86%E6%9E%90%E5%A5%97%E8%B7%AF/22060704-898b8cac8ffc2a59.webp">
@@ -214,10 +214,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-06-16 15:33:53 / Modified: 16:29:09" itemprop="dateCreated datePublished" datetime="2020-06-16T15:33:53+08:00">2020-06-16</time>
+              <time title="Created: 2020-06-16 15:33:53" itemprop="dateCreated datePublished" datetime="2020-06-16T15:33:53+08:00">2020-06-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-17 13:12:52" itemprop="dateModified" datetime="2020-06-17T13:12:52+08:00">2020-06-17</time>
+              </span>
 
           
             <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
@@ -237,7 +243,9 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="TCGA数据差异分析后生存分析（批量单因素cox回归-Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM-plot可视化）"><a href="#TCGA数据差异分析后生存分析（批量单因素cox回归-Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM-plot可视化）" class="headerlink" title="TCGA数据差异分析后生存分析（批量单因素cox回归/Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）"></a>TCGA数据差异分析后生存分析（批量单因素cox回归/Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）</h1><h3 id="测序上游分析系列："><a href="#测序上游分析系列：" class="headerlink" title="测序上游分析系列："></a>测序上游分析系列：</h3><p><a href="https://www.jianshu.com/p/f4b09d72e269" target="_blank" rel="noopener">mRNA-seq转录组二代测序从raw reads到表达矩阵：上中游分析pipeline</a><br><a href="https://www.jianshu.com/p/ef20c4932b3b" target="_blank" rel="noopener">miRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【一】</a><br><a href="https://www.jianshu.com/p/bb3536fc1744" target="_blank" rel="noopener">miRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【二】</a></p>
+        <h1 id="TCGA数据差异分析后生存分析（批量单因素cox回归-Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM-plot可视化）"><a href="#TCGA数据差异分析后生存分析（批量单因素cox回归-Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM-plot可视化）" class="headerlink" title="TCGA数据差异分析后生存分析（批量单因素cox回归/Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）"></a>TCGA数据差异分析后生存分析（批量单因素cox回归/Lasso筛选，多因素cox建模，时间依赖ROC曲线及KM plot可视化）</h1><a id="more"></a>
+
+<h3 id="测序上游分析系列："><a href="#测序上游分析系列：" class="headerlink" title="测序上游分析系列："></a>测序上游分析系列：</h3><p><a href="https://www.jianshu.com/p/f4b09d72e269" target="_blank" rel="noopener">mRNA-seq转录组二代测序从raw reads到表达矩阵：上中游分析pipeline</a><br><a href="https://www.jianshu.com/p/ef20c4932b3b" target="_blank" rel="noopener">miRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【一】</a><br><a href="https://www.jianshu.com/p/bb3536fc1744" target="_blank" rel="noopener">miRNA-seq小RNA高通量测序pipeline：从raw reads，鉴定已知miRNA-预测新miRNA，到表达矩阵【二】</a></p>
 <h3 id="其他文章系列：ggplot2作图篇："><a href="#其他文章系列：ggplot2作图篇：" class="headerlink" title="其他文章系列：ggplot2作图篇："></a>其他文章系列：ggplot2作图篇：</h3><p>（1）<a href="https://www.jianshu.com/p/d9d2e34f186f" target="_blank" rel="noopener">基于ggplot2的RNA-seq转录组可视化：总述和分文目录</a><br>（2）<a href="https://www.jianshu.com/p/eadca8687df4" target="_blank" rel="noopener">测序结果概览：基因表达量rank瀑布图，高密度表达相关性散点图，注释特定基因及errorbar的表达相关性散点图绘制</a><br>（3）<a href="https://www.jianshu.com/p/8c3f74b55154" target="_blank" rel="noopener">单/多个基因在组间同时展示的多种选择：分组小提琴图、分组/分面柱状图、单基因蜂群点图拼图的绘制</a><br>（4）<a href="https://www.jianshu.com/p/bb72bf62942a" target="_blank" rel="noopener">配对样本基因表达趋势：优化前后的散点连线图+拼图绘制</a></p>
 <p>常见的TCGA数据挖掘办法之一，是通过差异基因分析获得差异表达基因，然后从中筛选出部分表达水平与患者生存相关联的候选基因，对它们的表达水平进行多因素cox回归构建风险模型，评估风险模型的预测能力（ROC曲线），并用Kaplan-Meier生存分析评估模型的风险评分是否有意义。</p>
 <p>本例仍使用之前教程选择的的TCGA-LUSC白色人种肺鳞癌表达谱数据。<br>TCGA数据下载整合操作见前文：<a href="https://www.jianshu.com/p/1e6476fe6f1e" target="_blank" rel="noopener">从TCGA数据库下载并整合清洗高通量肿瘤表达谱-临床性状数据</a><br>DESeq2差异分析见前文：<a href="https://www.jianshu.com/p/bdace8d6d0fe" target="_blank" rel="noopener">TCGA数据整合后进行DESeq2差异表达分析和基于R的多种可视化</a></p>
