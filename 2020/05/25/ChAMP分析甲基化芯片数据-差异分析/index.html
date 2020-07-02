@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="ChAMP分析甲基化芯片数据-差异分析上篇经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析  DMP 差异甲基化探针 DMR 差异甲基化区域  在ChAMP包中，champ.DMP函数用于分析差异甲基化探针，champ.DMR函数用于分析差异甲基化区域。本章我们先看下差异探针的分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ChAMP分析甲基化芯片数据-差异分析">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="ChAMP分析甲基化芯片数据-差异分析上篇经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析  DMP 差异甲基化探针 DMR 差异甲基化区域  在ChAMP包中，champ.DMP函数用于分析差异甲基化探针，champ.DMR函数用于分析差异甲基化区域。本章我们先看下差异探针的分析">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215639614.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215652523.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215702027.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215721351.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220549481.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220621051.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220640756.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220713510.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220734841.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220746462.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220800852.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220820574.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220841991.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220857540.png">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-25T14:09:05.465Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="ChAMP">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215639614.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>ChAMP分析甲基化芯片数据-差异分析 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ChAMP分析甲基化芯片数据-差异分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-05-25 00:00:00" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-25 22:09:05" itemprop="dateModified" datetime="2020-06-25T22:09:05+08:00">2020-06-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="ChAMP分析甲基化芯片数据-差异分析上篇"><a href="#ChAMP分析甲基化芯片数据-差异分析上篇" class="headerlink" title="ChAMP分析甲基化芯片数据-差异分析上篇"></a>ChAMP分析甲基化芯片数据-差异分析上篇</h1><p>经过预处理之后的数据，就可以进行差异分析了。对于甲基化芯片而言，有两个方面的差异分析</p>
+<ol>
+<li>DMP 差异甲基化探针</li>
+<li>DMR 差异甲基化区域</li>
+</ol>
+<p>在<code>ChAMP</code>包中，<code>champ.DMP</code>函数用于分析差异甲基化探针，<code>champ.DMR</code>函数用于分析差异甲基化区域。本章我们先看下差异探针的分析</p>
+<a id="more"></a>
+
+
+
+<p><code>champ.DMP</code>函数的用法示例</p>
+<blockquote>
+<p>myDMP &lt;- champ.DMP()</p>
+</blockquote>
+<p>在差异分析时，我们需要两个输入数据，一个就是探针的表达谱数据，beta  matrix, 另外一个就是样本的分组信息。</p>
+<p>在<code>champ.DMP</code>函数中，默认<code>myNorm</code>作为归一化之后的beta  matrix，对于样本的分组信息，<code>ChAMP</code>默认从Samplesheet.csv文件中读取，在数据导入成功后，<code>myLoad$pd</code>代表的就是SampleSheet.csv文件的信息，所以<code>myLoad$pd$Sample_Group</code> 代表样本的分组信息。</p>
+<p>在差异分析时，最关键的就是差异分组问题。在实验设计阶段，有很多类型的分组设计，比如最常见的case_vs_control, 两个group的分组;多个组织，比如3个组织，共3个group; 时间序列，比如药物处理后的几个时间点。不同的实验设计，在差异分析时，想要关注的差异点自然不同，在分析时也要采取不同的分析策略。</p>
+<p>对于<code>ChAMP</code>来说，上述的几种分组设计都是支持。</p>
+<p><code>champ.DMP</code>计算过程分为以下3步：</p>
+<h3 id="1-检测样本分组，确定分组比较"><a href="#1-检测样本分组，确定分组比较" class="headerlink" title="1. 检测样本分组，确定分组比较"></a>1. 检测样本分组，确定分组比较</h3><p>测试数据分成T和C两组，每组各4个样本、</p>
+<p>在这一步，需要确定两个因素：</p>
+<ul>
+<li>分组的类型<br>主要识别分组变量是离散型还是连续型，如果是字符串型<code>character</code>, 就是离散型，如果是数值型<code>numeric</code>, 就是连续型。不同的类型，采取的差异分析策略不同。<br>测试数据是字符型的两个group, 具体的输入信息如下</li>
+<li>分组的个数<br>确定group的个数，2个group 肯定是两者之间进行差异分析，但是当group 个数3个或以上时，就需要确定如何分组比较。 默认情况下两两之间都进行差异分析，如果你不需要这么多的差异结果，可以通过<code>compare.group</code> 参数指定， <code>compare.group</code>参数的值是一个list, list 中的每个元素是一个长度为2的向量，指定了用于差异分析的两个group</li>
+</ul>
+<blockquote>
+<p>[ Section 1:  Check Input Pheno Start ]<br> You pheno is character type.<br>   Your pheno information contains following groups. &gt;&gt;<br>   C:4 samples.<br>   T:4 samples.<br>   [The power of statistics analysis on groups contain very few samples may not strong.]<br>   pheno contains only 2 phenotypes<br>   compare.group parameter is NULL, two pheno types will be added into Compare List.<br>   C_to_T compare group : C, T<br>[ Section 1:  Check Input Pheno Done ]</p>
+</blockquote>
+<h3 id="进行差异探针分析"><a href="#进行差异探针分析" class="headerlink" title="进行差异探针分析"></a>进行差异探针分析</h3><p>通过调用<code>limma</code> 函数进行差异分析，默认通过<code>BH</code>方法进行多重建设检验的校正，p.adjust &lt; 0.05 的认为是差异探针</p>
+<p>可以通过<code>adjPVal</code>参数修改p.adjust的阈值，当然也可以修改<code>adjust.method</code> 参数的值，调整多重假设检验校正的算法，默认值为<code>BH</code>, 可选值包括 “none”, “BH”, “BY”, “holm”。</p>
+<blockquote>
+<p>[ Section 2:  Find Differential Methylated CpGs Start ]<br> Start to Compare : C, T<br> Contrast Matrix<br>     Contrasts<br>Levels pT-pC<br>   pC    -1<br>   pT     1<br> You have found 4283 significant MVPs with a BH adjusted P-value below 0.05.<br> Calculate DMP for C and T done.<br>[ Section 2:  Find Numeric Vector Related CpGs Done ]</p>
+</blockquote>
+<h3 id="添加差异探针的注释信息"><a href="#添加差异探针的注释信息" class="headerlink" title="添加差异探针的注释信息"></a>添加差异探针的注释信息</h3><p>之前的分析都是针对探针的beta matrix 进行的分析，找的差异探针之后，我们肯定希望知道这个探针对应的基因，染色体位置等注释信息。这一步实际就是在已有的差异结果的基础上，追加探针的注释信息。</p>
+<blockquote>
+<p>[ Section 3:  Match Annotation Start ]<br>[ Section 3:  Match Annotation Done ]</p>
+</blockquote>
+<h3 id="结果展示"><a href="#结果展示" class="headerlink" title="结果展示"></a>结果展示</h3><blockquote>
+<p>str(myDMP)<br>List of 1<br>$ C_to_T:’data.frame’:    4283 obs. of  23 variables:<br> ..$ logFC                : num [1:4283] 0.724 …<br> ..$ AveExpr              : num [1:4283] 0.398 …<br> ..$ t                    : num [1:4283] 28.2 …<br> ..$ P.Value              : num [1:4283] 1.74e-08…<br> ..$ adj.P.Val            : num [1:4283] 0.00703…<br> ..$ B                    : num [1:4283] 7.6 7.05 …<br> ..$ C_AVG                : num [1:4283] 0.0358 …<br> ..$ T_AVG                : num [1:4283] 0.759 …<br> ..$ deltaBeta            : num [1:4283] 0.724 …<br> ..$ CHR                  : Factor w/ 25 levels “”,”1”,”10”,”11”,..:<br> ..$ MAPINFO              : int [1:4283] 141516291 …<br> ..$ Strand               : Factor w/ 3 levels “”,”F”,”R”: 3 2 …<br> ..$ Type                 : Factor w/ 2 levels “I”,”II”: 2 2 …<br> ..$ gene                 : Factor w/ 20622 levels “”,”A1BG” …<br> ..$ feature              : chr [1:4283] “Body” “Body” …<br> ..$ cgi                  : Factor w/ 4 levels “island”,”opensea”,..: …<br> ..$ feat.cgi             : Factor w/ 28 levels “1stExon-island”,..: 13 …<br> ..$ UCSC_CpG_Islands_Name: Factor w/ 27177 levels “”,”chr1:10003165-10003585”,..: 18278 …<br> ..$ DHS                  : logi [1:4283] NA NA NA NA NA NA …<br> ..$ Enhancer             : logi [1:4283] TRUE TRUE NA NA NA NA …<br> ..$ Phantom              : Factor w/ 11912 levels “”,”high-CpG:100009860- …<br> ..$ Probe_SNPs           : Factor w/ 56004 levels “”,”rs10000615”,..:<br> ..$ Probe_SNPs_10        : Factor w/ 35790 levels “”,”rs10000804” …</p>
+</blockquote>
+<p><code>myDMP</code> 就是最终的差异分析结果，是一个<code>list</code>对象，list中的每个元素是两个group之间差异分析的结果。</p>
+<p>测试数据只有两个分组，所以list 中只有一个元素。差异分析的结果是一个<code>data.frame</code>对象，可以分成3个部分。</p>
+<p>从<code>logFC</code>到<code>B</code>的部分是limma 差异输出结果， <code>C_AVG</code>到<code>deltaBeta</code>是每组表达量的均值，<code>deltaBate</code>是两组均值的差，<code>CHR</code>到<code>Probe_SNPs_10</code>是探针的注释信息。</p>
+<h1 id="ChAMP-分析甲基化芯片数据-差异分析下篇"><a href="#ChAMP-分析甲基化芯片数据-差异分析下篇" class="headerlink" title="ChAMP 分析甲基化芯片数据-差异分析下篇"></a>ChAMP 分析甲基化芯片数据-差异分析下篇</h1><p>对于甲基化芯片的差异分析，除了有探针水平的差异分析，还有差异甲基化区域<code>DMR</code>分析。</p>
+<p>差异甲基化区域的示意图如下：</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215639614.png" alt="image-20200625215639614"></p>
+<p>该图片来自<code>Bumphunter</code>的文献，图中绿色矩形代表的就是一个差异甲基化区域。</p>
+<p>A 图代表的是甲基化位点的在<code>cancer</code>和<code>normal</code> 两个group的分布, 每组包含8个生物学重复；B 图代表的是DMR 检测的原理，在正负0.1的两条红线是自定义的差异阈值，而黑色的线是根据CpG位点差异程度拟合出来的线，只有当差异超出了阈值，也就是说黑色的线在两条红色线定义的区域之外的时候，才认为是1个候选的DMR。 从图上来看，每个DMR可以看作是从红色线条定义的区域凸出来的部分，叫做bump。</p>
+<p>在<code>ChAMP</code> 中，通过<code>champ.DMR</code>函数进行差异甲基化区域分析</p>
+<p>用法示例</p>
+<blockquote>
+<p>myDMR &lt;- champ.DMR()</p>
+</blockquote>
+<p><code>champ.DMR</code> 集成了3种差异甲基化区域分析算法：</p>
+<ol>
+<li><p>Bumphunter</p>
+</li>
+<li><p>DMRcate</p>
+</li>
+<li><p>ProbeLasso</p>
+</li>
+</ol>
+<p>默认使用的是<code>Bumphunter</code>算法，三种算法对应的参数会有所不同，具体可以查看函数的帮助文档。</p>
+<p>DMR分析完成之后，为了控制假阳性率，都会有一定的过滤手段。在<code>ChAMP</code>中，通过下列两个条件对结果进行过滤</p>
+<h3 id="minProbes"><a href="#minProbes" class="headerlink" title="minProbes"></a>minProbes</h3><p>DMR区域包括了许多的CpG位点，每个Cp位点对应1个探针，这个参数指定包含的探针的最少个数，默认为7，如果一个DMR覆盖的探针数目少于7个，则不会输出。</p>
+<h3 id="adjPvalDmr"><a href="#adjPvalDmr" class="headerlink" title="adjPvalDmr"></a>adjPvalDmr</h3><p>这个参数就是我们最常用的校正之后的p值，默认参数为0.05。</p>
+<p>如果你的操作系统支持图形界面，可以运行<code>DMR.GUI()</code>命令，在浏览器中交互式的查看结果</p>
+<h3 id="DMRtable"><a href="#DMRtable" class="headerlink" title="DMRtable"></a>DMRtable</h3><p>差异甲基化区域的染色体区域和p值等基本信息</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215652523.png" alt="image-20200625215652523"></p>
+<h3 id="DMR-heatmap"><a href="#DMR-heatmap" class="headerlink" title="DMR heatmap"></a>DMR heatmap</h3><p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215702027.png" alt="image-20200625215702027"></p>
+<h3 id="DMR-甲基化水平分布图"><a href="#DMR-甲基化水平分布图" class="headerlink" title="DMR 甲基化水平分布图"></a>DMR 甲基化水平分布图</h3><p>每个DMR区间两组样本甲基化水平分布图</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625215721351.png" alt="image-20200625215721351"></p>
+<h1 id="ChAMP-包分析450K甲基化芯片数据（一站式）"><a href="#ChAMP-包分析450K甲基化芯片数据（一站式）" class="headerlink" title="ChAMP 包分析450K甲基化芯片数据（一站式）"></a>ChAMP 包分析450K甲基化芯片数据（一站式）</h1><p><strong>ChAMP PACKAGE</strong></p>
+<p>▛ <strong>用来分析illuminate甲基化数据的包 (EPIC and 450k) ▟</strong></p>
+<p><strong>⊙</strong> 不同格式的数据导入</p>
+<p> | .idat files</p>
+<p> | a beta-valued matrix</p>
+<p><strong>⊙</strong> Quality Control plots</p>
+<p><strong>⊙</strong> Type-2 探针的矫正方法</p>
+<p> | SWAN1</p>
+<p> | Peak Based Correction (PBC)2</p>
+<p> | BMIQ3 (the default choice)</p>
+<p><strong>⊙</strong> Functional Normalization function｜the minfi package</p>
+<p><strong>⊙</strong> 查看批次效应的方法｜singular value decomposition (SVD) method，for correction of multiple batch effects the ComBat method.</p>
+<p><strong>⊙</strong> 矫正cell-type heterogeneity｜RefbaseEWAS</p>
+<p><strong>⊙</strong> 推断CNV变异</p>
+<p><strong>⊙</strong> Differentially Methylated Regions (DMR)</p>
+<p> | Lasso method</p>
+<p> | Bumphunter</p>
+<p> | DMRcate</p>
+<p><strong>⊙</strong> find Differentially Methylated Blocks</p>
+<p><strong>⊙</strong> Gene Set Enrichment Analysis (GSEA)</p>
+<p><strong>⊙</strong> Infer gene modules in user-specified gene-networks that exhibit differential methylation between phenotypes （整合FEM package）</p>
+<p><strong>⊙</strong> 其他分析甲基化数据的包</p>
+<p> | IMA</p>
+<p> | minfi</p>
+<p> | methylumi</p>
+<p> | RnBeads</p>
+<p> | wateRmelon</p>
+<p>1、安装ChAMP包</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">source(<span class="string">"https://bioconductor.org/biocLite.R"</span>)</span><br><span class="line">biocLite(<span class="string">"ChAMP"</span>)</span><br><span class="line"></span><br><span class="line">source(<span class="string">"http://bioconductor.org/biocLite.R"</span>)</span><br><span class="line">biocLite(c(<span class="string">"minfi"</span>,<span class="string">"ChAMPdata"</span>,<span class="string">"Illumina450ProbeVariants.db"</span>,<span class="string">"sva"</span>,<span class="string">"IlluminaHumanMethylation450kmanifest"</span>,<span class="string">"limma"</span>))</span><br><span class="line"></span><br><span class="line">biocLite(<span class="string">"YourErrorPackage"</span>)</span><br><span class="line"></span><br><span class="line">library(<span class="string">"ChAMP"</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">如果报错：</span><br><span class="line">错误: package or namespace load failed <span class="keyword">for</span> <span class="string">'ChAMP'</span> <span class="keyword">in</span> inDL(x, <span class="keyword">as</span>.logical(local), <span class="keyword">as</span>.logical(now), ...):</span><br><span class="line">无法载入共享目标对象‘D:<span class="regexp">/work/</span>R<span class="number">-3.4</span><span class="number">.3</span>/library/mvtnorm/libs/x64/mvtnorm.dll’：:</span><br><span class="line">已达到了DLL数目的上限...</span><br><span class="line"></span><br><span class="line">解决方案:</span><br><span class="line">设置环境变量R_MAX_NUM_DLLS, 不管是什么操作系统，R语言对应的环境变量都可以在.Renviron文件中进行设置。</span><br><span class="line"></span><br><span class="line">这个文件可以保存在任意目录下，文件中就一句话，内容如下:</span><br><span class="line"></span><br><span class="line">R_MAX_NUM_DLLS=<span class="number">500</span></span><br><span class="line"></span><br><span class="line"><span class="number">500</span>表示允许的最多的dll文件数目，设置好之后，重新启动R, 然后输入如下命令:</span><br><span class="line"></span><br><span class="line">normalizePath(<span class="string">"d:/Documents/.Renviron"</span>, mustWork = FALSE)</span><br><span class="line"></span><br><span class="line">第一个参数为.Renviron文件的真实路径，然后在加载ChAMP包就可以了。</span><br></pre></td></tr></table></figure>
+
+<h6 id><a href="#" class="headerlink" title></a></h6><p>2、用测试数据跑流程</p>
+<p>测试数据包括 450k(.idat) 和 850k(simulated EPIC data) 两个数据集</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">testDir=system.file(<span class="string">"extdata"</span>,package=<span class="string">"ChAMPdata"</span>)</span><br><span class="line">myLoad &lt;- champ.load(testDir,arraytype=<span class="string">"450K"</span>)</span><br><span class="line"></span><br><span class="line">data(EPICSimData)</span><br></pre></td></tr></table></figure>
+
+<h6 id="-1"><a href="#-1" class="headerlink" title></a></h6><p>3、ChAMP Pipeline</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220549481.png" alt="image-20200625220549481"></p>
+<p><strong>- 绿色</strong>发光线表示主要的分析步骤</p>
+<p><strong>- 灰色</strong>线条为可选的步骤</p>
+<p><strong>- 黑点</strong>表示准备好的甲基化数据</p>
+<p>- <strong>蓝色</strong>表示准备工作：Loading, Normalization, Quality Control checks</p>
+<p>- <strong>红色</strong>表示产生分析结果：Differentially Methylated Positions (DMPs), Differentially  Methylated Regions (DMRs), Differentially methylated Blocks, EpiMod (a  method for detecting differentially methylated gene modules derived from  FEM package), Pathway Enrichment Results etc.</p>
+<p>- <strong>黄色</strong>表示交互界面画图</p>
+<p><strong>450K步骤</strong></p>
+<p><strong>Full Pipeline</strong></p>
+<ul>
+<li>一步跑完结果，但是可能报错</li>
+</ul>
+<p>​        champ.process(directory = testDir)</p>
+<ul>
+<li>一步一步跑</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">myLoad &lt;- cham.load(testDir)</span><br><span class="line"># Or you may separate about code as champ.import(testDir) + champ.filter()</span><br><span class="line">CpG.GUI()</span><br><span class="line">champ.QC() # Alternatively: QC.GUI()</span><br><span class="line">myNorm &lt;- champ.norm()</span><br><span class="line">champ.SVD()</span><br><span class="line"># If Batch detected, run champ.runCombat() here.</span><br><span class="line">myDMP &lt;- champ.DMP()</span><br><span class="line">DMP.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR()</span><br><span class="line">DMR.GUI()</span><br><span class="line">myBlock &lt;- champ.Block()</span><br><span class="line">Block.GUI()</span><br><span class="line">myGSEA &lt;- champ.GSEA()</span><br><span class="line">myEpiMod &lt;- champ.EpiMod()</span><br><span class="line">myCNA &lt;- champ.CNA()</span><br><span class="line"></span><br><span class="line"># If DataSet is Blood samples, run champ.refbase() here.</span><br><span class="line">myRefbase &lt;- champ.refbase()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>EPIC pipeline</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">data(EPICSimData)</span><br><span class="line">CpG.GUI(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">champ.QC() </span><br><span class="line">myNorm &lt;- champ.norm(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">champ.SVD()</span><br><span class="line"></span><br><span class="line">myDMP &lt;- champ.DMP(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">DMP.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR()</span><br><span class="line">DMR.GUI()</span><br><span class="line">myDMR &lt;- champ.DMR(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">DMR.GUI(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">myBlock &lt;- champ.Block(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">Block.GUI(arraytype=<span class="string">"EPIC"</span>) </span><br><span class="line">myGSEA &lt;- champ.GSEA(arraytype=<span class="string">"EPIC"</span>)</span><br><span class="line">myEpiMod &lt;- champ.EpiMod(arraytype=<span class="string">"EPIC"</span>)</span><br></pre></td></tr></table></figure>
+
+<p>最多在8G内存电脑上可以跑200个样本，如果在服务器上多核跑，需要命令</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">library(<span class="string">"doParallel"</span>)</span><br><span class="line">detectCores()</span><br></pre></td></tr></table></figure>
+
+<h4 id="-2"><a href="#-2" class="headerlink" title></a></h4><p><strong>ChAMP pipeline</strong></p>
+<h6 id="-3"><a href="#-3" class="headerlink" title></a></h6><p><strong>1. Loading Data</strong></p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220621051.png" alt="image-20200625220621051"></p>
+<p>.idat files 为原始芯片文件，包括pd file (Sample_Sheet.csv)文件（表型，编号等）</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220640756.png" alt="image-20200625220640756"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myLoad$pd</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. Filtering Data</strong></p>
+<ul>
+<li>ChAMP提供了 champ.filter() 函数，可以输入 (beta, M, Meth, UnMeth, intensity)格式的文件并进行过滤质控。 新版本的ChAMP包中champ.load()函数已经包含了此功能。</li>
+<li>champ.filter() 函数有个参数autoimpute，可以填补或保留由过滤导致的NA空缺值。</li>
+<li>如果输入多个数据框进行过滤，他们的行名和列名必须一致，否则champ.filter()认为是不同来源的数据，将停止过滤。</li>
+<li>低质量的样本（有较多的探针没有信号）将会被过滤掉，Sample_Name 要与pd file中的列名称一致。</li>
+<li>imputation需要detection P matrix, beta or M matrix信息，且ProbeCutoff 不能等于0，这个参数控制探针的NA ratio，来决定是否填补。</li>
+<li>如果想用beadcount信息进行过滤，champ.import() 函数会返回beads信息。 使用方法为：</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">myImport &lt;- champ.import(testDir)</span><br><span class="line">myLoad &lt;- champ.filter()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Section <span class="number">1</span>: Read PD Files Start： Reading CSV File</span><br><span class="line">Section <span class="number">2</span>: Read IDAT files Start：Extract Mean value <span class="keyword">for</span> Green and Red Channel Success</span><br><span class="line">    Your Red Green Channel contains <span class="number">622399</span> probes.</span><br><span class="line">Section <span class="number">3</span>: Use Annotation Start：Reading <span class="number">450</span>K Annotation，there are <span class="number">613</span> control probes <span class="keyword">in</span> Annotation，Generating Meth and UnMeth Matrix，<span class="number">485512</span> Meth probes</span><br><span class="line">  Generating beta Matrix</span><br><span class="line">  Generating M Matrix</span><br><span class="line">  Generating intensity Matrix</span><br><span class="line">  Calculating Detect P value</span><br><span class="line">  Counting Beads</span><br><span class="line"></span><br><span class="line">You may want to process champ.filter() next，This <span class="function"><span class="keyword">function</span> <span class="title">is</span> <span class="title">provided</span> <span class="title">for</span> <span class="title">user</span> <span class="title">need</span> <span class="title">to</span> <span class="title">do</span> <span class="title">filtering</span> <span class="title">on</span> <span class="title">some</span> <span class="title">beta</span> (<span class="params">or M</span>) <span class="title">matrix</span>, <span class="title">which</span> <span class="title">contained</span> <span class="title">most</span> <span class="title">filtering</span> <span class="title">system</span> <span class="title">in</span> <span class="title">champ</span>.<span class="title">load</span> <span class="title">except</span> <span class="title">beadcount</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Section</span> 1:  <span class="title">Check</span> <span class="title">Input</span> <span class="title">Start</span>：<span class="title">You</span> <span class="title">have</span> <span class="title">inputed</span> <span class="title">beta</span>,<span class="title">intensity</span> <span class="title">for</span> <span class="title">Analysis</span>.</span></span><br><span class="line"><span class="function"><span class="title">Checking</span> <span class="title">Finished</span> :<span class="title">filterDetP</span>,<span class="title">filterBeads</span>,<span class="title">filterMultiHit</span>,<span class="title">filterSNPs</span>,<span class="title">filterNoCG</span>,<span class="title">filterXY</span> <span class="title">would</span> <span class="title">be</span> <span class="title">done</span> <span class="title">on</span> <span class="title">beta</span>,<span class="title">intensity</span>.</span></span><br><span class="line"><span class="function">  <span class="title">You</span> <span class="title">also</span> <span class="title">provided</span> :<span class="title">detP</span>,<span class="title">beadcount</span> .</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Section</span> 2: <span class="title">Filtering</span> <span class="title">Start</span></span></span><br><span class="line"><span class="function"><span class="title">The</span> <span class="title">fraction</span> <span class="title">of</span> <span class="title">failed</span> <span class="title">positions</span> <span class="title">per</span> <span class="title">sample</span></span></span><br><span class="line"><span class="function">   <span class="title">Failed</span> <span class="title">CpG</span> <span class="title">Fraction</span>.</span></span><br><span class="line"><span class="function"><span class="title">C1</span>         0.0013429122</span></span><br><span class="line"><span class="function"><span class="title">C2</span>         0.0022162171</span></span><br><span class="line"><span class="function"><span class="title">C3</span>         0.0003563249</span></span><br><span class="line"><span class="function"><span class="title">C4</span>         0.0002842360</span></span><br><span class="line"><span class="function"><span class="title">T1</span>         0.0003831007</span></span><br><span class="line"><span class="function"><span class="title">T2</span>         0.0011946152</span></span><br><span class="line"><span class="function"><span class="title">T3</span>         0.0014953286</span></span><br><span class="line"><span class="function"><span class="title">T4</span>         0.0015447610</span></span><br><span class="line"><span class="function"><span class="title">Filtering</span> <span class="title">probes</span> <span class="title">with</span> <span class="title">a</span> <span class="title">detection</span> <span class="title">p</span>-<span class="title">value</span> <span class="title">above</span> 0.01.</span></span><br><span class="line"><span class="function">    <span class="title">Removing</span> 2728 <span class="title">probes</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="title">Filtering</span> <span class="title">BeadCount</span> <span class="title">Start</span></span></span><br><span class="line">    Filtering probes with a beadcount &lt;3 in at least 5% of samples.</span><br><span class="line">    Removing <span class="number">9291</span> probes</span><br><span class="line"></span><br><span class="line">  Filtering NoCG Start</span><br><span class="line">    Only Keep CpGs, removing <span class="number">2959</span> probes <span class="keyword">from</span> the analysis.</span><br><span class="line"></span><br><span class="line">  Filtering SNPs Start</span><br><span class="line">    Using general <span class="number">450</span>K SNP list <span class="keyword">for</span> filtering.</span><br><span class="line">    Filtering probes <span class="keyword">with</span> SNPs <span class="keyword">as</span> identified <span class="keyword">in</span> Zhou<span class="string">'s Nucleic Acids Research Paper 2016.</span></span><br><span class="line"><span class="string">    Removing 49231 probes from the analysis.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Filtering MultiHit Start</span></span><br><span class="line"><span class="string">    Filtering probes that align to multiple locations as identified in Nordlund et al</span></span><br><span class="line"><span class="string">    Removing 7003 probes from the analysis.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Filtering XY Start</span></span><br><span class="line"><span class="string">    Filtering probes located on X,Y chromosome, removing 9917 probes from the analysis.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Updating PD file</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  Fixing Outliers Start</span></span><br><span class="line"><span class="string">    Replacing all value smaller/equal to 0 with smallest positive value.</span></span><br><span class="line"><span class="string">    Replacing all value greater/equal to 1 with largest value below 1..</span></span><br></pre></td></tr></table></figure>
+
+<p>过滤步骤为：</p>
+<ul>
+<li>detection p-value (&lt;  0.01)。这个值储存在.idat文件中，champ.import()函数读入这个值并形成数据框。p&lt;  0.01的探针认为实验失败。过滤过程为：样本探针失败率阈值=0.1，再在剩下的样本中过滤探针。参数SampleCutoff 和  ProbeCutoff控制这两个阈值。</li>
+<li>ChAMP will filter out probes with &lt;3 beads ( filterBeads 参数控制) in at least 5% （beadCutoff 参数控制）of samples per probe.</li>
+<li>默认过滤non-CpG probes</li>
+<li>by default ChAMP will filter all SNP-related  probe。需要用population参数选择群体。如果不选，用General Recommended Probes provided by  Zhou to do filtering。</li>
+<li>ChAMP will filter all multi-hit probes.</li>
+<li>默认过滤掉chromosome X and Y上的探针。filterXY 参数控制。 如果没有原始的.IDAT 数据，用champ.filter() 函数进行过滤。</li>
+</ul>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a><strong>注意：</strong></h4><p>champ.load() can not perform filtering on beta matrix alone. For  users have no .IDAT data but beta matrix and Sample_Sheet.csv, you may  want perform filtering using the champ.filter() function and then use  following functions to do analysis.</p>
+<p>CpG.GUI() 函数查看甲基化位点的分布情况。CpGs on chromosome, CpG island, TSS reagions.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CpG.GUI(CpG=rownames(myLoad$beta),arraytype=<span class="string">"450K"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220713510.png" alt="image-20200625220713510"></p>
+<p><strong>3. Further quality control and exploratory analysis</strong></p>
+<p>用champ.QC() function and QC.GUI() function检查数据质量</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">champ.QC()</span><br></pre></td></tr></table></figure>
+
+<p>champ.QC()函数会生成三个图：</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220734841.png" alt="image-20200625220734841"></p>
+<p>mdsPlot (Multidimensional Scaling Plot): 基于前1000个最易变化的位点查看样本的相似度，用颜色标记不同的样本分组。</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220746462.png" alt="image-20200625220746462"></p>
+<p>densityPlot: 查看每个样本的beta值分布，有严重偏离的样本预示着质量较差（如亚硫酸盐处理不完全等）</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220800852.png" alt="image-20200625220800852"></p>
+<p>dendrogram:所有样本的聚类图。champ.QC()函数中Feature.sel=”None” 参数表示直接通过探针数值来计算样本的距离，比较耗内存；还有 “SVD” method。</p>
+<p>QC.GUI() 函数也可以画图，但是比较耗内存。 包括5张图：mdsPlot, type-I&amp;II densityPlot, sample beta distribution plot,  dendrogram plot and top 1000 most variable CpG’s heatmap.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">QC.GUI(beta=myLoad$beta,arraytype=<span class="string">"450K"</span>)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220820574.png" alt="image-20200625220820574"></p>
+<ul>
+<li>type-I&amp;II densityPlot图可以帮助查看两个探针的标准化状态。</li>
+<li>Top variable CpGs’ heatmap将前1000个差异最大的位点和状态表示出来。</li>
+</ul>
+<h6 id="-4"><a href="#-4" class="headerlink" title></a></h6><p><strong>4. Normalization</strong></p>
+<p>type-I 和 type-II  两种探针化学反应不同，设计也不同，导致分布区域也不同。这两种探针检测出的差异可能是因为探针所在位置不平衡导致的生物学差异引起的（如CpG位置的差异引起的）。最主要是type-II  探针exhibit a reduced dynamic range. 因此，针对 type-II probe bias的矫正是必要的。 champ.norm() 函数可以实现这个功能。针对type-II 探针有4种标准化的方法：BMIQ, SWAN, PBC 和 unctionalNormliazation。 850k 芯片用BMIQ标准化要好一点。但是BMIQ对质量差的样本或者甲基化偏差比较大的control样本效果不好。“cores”参数控制电脑核数，PDFplot=TRUE将图保存在resultsDir里。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myNorm &lt;- champ.norm(beta=myLoad$beta,arraytype=<span class="string">"450K"</span>,cores=<span class="number">5</span>)</span><br><span class="line"></span><br><span class="line">QC.GUI(myNorm,arraytype=<span class="string">"450K"</span>)</span><br></pre></td></tr></table></figure>
+
+<h6 id="-5"><a href="#-5" class="headerlink" title></a></h6><p><strong>5. SVD Plot</strong></p>
+<p>The singular value decomposition method (SVD)  用来用于评估数据集中变量的主要成分。这些显著性位点可能与我们感兴趣的生物学现象相关联，也可能与技术相关，如批次效应或群体效应。样本的病历信息越详细越好（如：dates  of hybridization, season in which samples were collected,  epidemiological information, etc），可以将这些因素包含进SVD中。 如果从 .idat导入原始文件，设置champ.SVD()函数的RGEffect=TRUE ，芯片上18个内置的对照探针（包括亚硫酸盐处理效率）将纳入确信的因素进行分析。 champ.SVD()函数将把pd文件中的所有协变量和表型数据纳入进行分析。可以用cbind()函数将自己的协变量与myLoad$pd合并进行分析。但是对于分类变量和数字变量处理方法是不一样的。  分类变量要转换成“factor” or “character”类型，数字变量转换成数字类型。 champ.SVD()分析时会把协变量打印在屏幕上，结果是热图，保存为SVDsummary.pdf文件。黑色表示最显著的p值。如果发现技术因素有影响，就需要用ComBat等方法重新标准化数据，包括variation  related to the beadchip, position and/or plate。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">champ.SVD(beta=myNorm,pd=myLoad$pd)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220841991.png" alt="image-20200625220841991"></p>
+<p>上图是用自带的测试数据绘制的，不是很复杂，看不出来。下图用GSE40279的656个样本绘制的。其中年龄是数字变量，其他都为分类变量。</p>
+<p><img src="/2020/05/25/ChAMP%E5%88%86%E6%9E%90%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE-%E5%B7%AE%E5%BC%82%E5%88%86%E6%9E%90/image-20200625220857540.png" alt="image-20200625220857540"></p>
+<h6 id="-6"><a href="#-6" class="headerlink" title></a></h6><p><strong>6. Batch Effect Correction</strong></p>
+<p>ComBat方法是sva  包里的一个方法，已经整合到ChAMP包里了，batchname=c(“Slide”)参数控制矫正因素。champ.runCombat()  函数自动把Sample_Group作为协变量矫正，现在又加入了另一个参数variablename用来加入自己的协变量进行矫正。如果用户在  champ.runCombat()函数中写的 batchname正确，函数将自动进行批次效应矫正。 ComBat如果直接用beta值进行矫正，输出可能不在0-1之间，所以计算机在计算前需要做一个变换。如果用M-values矫正，参数 logitTrans=FALSE设置。有时候批次效应和变异会混杂在一起，如果矫正了批次效应，变异也会消失，</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myCombat &lt;- champ.runCombat(beta=myNorm,pd=myLoad$pd,batchname=c(<span class="string">"Slide"</span>))</span><br><span class="line"></span><br><span class="line">champ.SVD()</span><br></pre></td></tr></table></figure>
+
+<h6 id="-7"><a href="#-7" class="headerlink" title></a></h6><p><strong>7.1 Differential Methylation Probes（DMP &amp; DMR &amp; DMB)</strong></p>
+<p>目的是找出几百万CpG中的哪些在疾病中发生了变化，而这些变化又是如何导致了基因发生了变化，最终导致了人体生病。</p>
+<p>DMP代表找出Differential Methylation Probe（差异化CpG位点），DMR代表找出Differential  Methylation Region（差异化CpG区域），Block代表Differential Methylation  Block（更大范围的差异化region区域）。</p>
+<p>champ.DMP() 实现了 limma包中利用linear  model计算差异甲基化位点的p-value。最新的champ.DMP()包支持分析数值型变量如年龄，分类型变量如包含多个表型的：“tumor”,  “metastasis”, “control”。数值型变量（如年龄）会用linear regression模型作为协变量进行分析，to  find your covariate-related CpGs, say age-related  CpGs.分类型变量会按类型分类进行比较，如比较“tumor–metastatic”, “tumor-control”, and  “metastatis-control”之间的差异，结果会输出一个数据框，包含差异的探针：P-value, t-statistic and  difference in mean methylation（被转换为logFC，类似于RNA-seq中的log  fold-change）。还包括每个探针的注释，相同组的平均beta值，两组之间的delta beta值（与  logFC相同的意思，老版本的包需要）。高级用户可以用limma 包进一步用输出的探针及p值进行DMR分析。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myDMP &lt;- champ.DMP(beta = myNorm,pheno=myLoad$pd$Sample_Group)</span><br><span class="line"></span><br><span class="line">head(myDMP[[<span class="number">1</span>]])</span><br></pre></td></tr></table></figure>
+
+<p>champ.DMP()返回的是list，新版本的ChAMP包含GUI交互界面检查myDMP的结果。用户提供未经修改的champ.DMP  (myDMP)函数产生的orginal beta matrix结果和covariates，DMP.GUI()  函数自动检测covariates是数值型还是分类型。分类型如case/control， DMP.GUI()自动画出显著性差异位点。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DMP.GUI(DMP=myDMP[[<span class="number">1</span>]],beta=myNorm,pheno=myLoad$pd$Sample_Group)</span><br></pre></td></tr></table></figure>
+
+<p><strong>7.2 Hydroxymethylation Analysis 羟甲基化</strong></p>
+<p>一些用户想做羟甲基化，下面为示例代码</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">myDMP &lt;- champ.DMP(beta=myNorm, pheno=myLoad$pd$Sample_Group, compare.group=c(<span class="string">"oxBS"</span>, <span class="string">"BS"</span>))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">hmc &lt;- myDMP[[<span class="number">1</span>]][myDMP[[<span class="number">1</span>]]$deltaBeta&gt;<span class="number">0</span>,]</span><br></pre></td></tr></table></figure>
+
+<h3 id="8-Differential-Methylation-Regions-差异甲基化区域"><a href="#8-Differential-Methylation-Regions-差异甲基化区域" class="headerlink" title="8. Differential Methylation Regions 差异甲基化区域"></a><strong>8. Differential Methylation Regions 差异甲基化区域</strong></h3><p>DMRs主要指一连串的CpG都会出现很明显的差异，champ.DMR()函数计算并返回一个数据框，包括：detected DMRs, with their length, clusters, number of CpGs annotated. 函数包含三种算法Bumphunter, ProbeLasso and DMRcate.  Bumphunter比较可靠，精确度可以有90%以上，ProbeLasso有75%左右，DMRcate是后来集成进去的，没有评测过。Bumphunter  算法首先将所有的探针分成几小类，然后用随机permutation方法评估候选的DMRs.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myDMR &lt;- champ.DMR(beta=myNorm,pheno=myLoad$pd$Sample_Group,method=<span class="string">"Bumphunter"</span>)</span><br><span class="line">head(myDMR$DMRcateDMR)</span><br><span class="line">DMR.GUI(DMR=myDMR)</span><br></pre></td></tr></table></figure>
+
+<h3 id="9-Differential-Methylation-Blocks"><a href="#9-Differential-Methylation-Blocks" class="headerlink" title="9. Differential Methylation Blocks"></a><strong>9. Differential Methylation Blocks</strong></h3><p>在Block-finder 功能中，champ.Block()函数首先在全基因组范围上计算small clusters (regions)  ，然后对于每个cluster，计算平均值和位置，将每个区域压缩为一个单元。 When we finding DMB, only single  unit from open sea would be used to do clustering. Here Bumphunter  algorithm will be used to find “DMRs” over these regions (single units  after collapse). In our previous paper23, and other scientists’ work24  we demonstrated that Differential Methylated Blocks may show universal  feature across various cancers</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">myBlock &lt;- champ.Block(beta=myNorm,pheno=myLoad$pd$Sample_Group,arraytype=<span class="string">"450K"</span>)</span><br><span class="line">head(myBlock$Block)</span><br><span class="line">Block.GUI(Block=myBlock,beta=myNorm,pheno=myLoad$pd$Sample_Group,runDMP=TRUE,compare.group=NULL,arraytype=<span class="string">"450K"</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="10-Gene-Set-Enrichment-Analysis"><a href="#10-Gene-Set-Enrichment-Analysis" class="headerlink" title="10. Gene Set Enrichment Analysis"></a><strong>10. Gene Set Enrichment Analysis</strong></h3><p>寻找作用通路网络中的疾病关联小网络 After previous steps, you may already get some significant DMPs or DMRs,  thus you may want to know if genes involved in these significant DMPs  or DMRs are enriched for specific biological terms or pathways. To  achieve this analysis, you can use champ.GSEA() to do GSEA  analysis.champ.GSEA() would automatically extract gene information,  transfer CpG information into gene information then conduct GSEA on each  list.</p>
+<p>There are two ways to do GSEA. In previous version, ChAMP used pathway information downloaded fromMSigDB. Then<strong>Fisher Exact Test</strong> will be used to calculate the enrichment status of each pathway. After  gene enrichment analysis, champ.GSEA() function would automatically  return pathways with P-value smaller then adjPval cutoff.</p>
+<p>However, as pointed out by Geeleher [citation], since different genes  has different numbers of CpGs contained inside, the two situation that  one genes with 50 CpGs inside but only one of them show significant  methylation, and one gene with 2 CpGs inside but two are significant  methylated should not be eaqualy treated. The solution is use number of  CpGs contained by genes to correct significant genes. as implemented in  the gometh function from missMethyl package25. In gometh  function, it used number of CpGs contained by each gene replace length  as biased data, to correct this issue. The idea of gometh is fitting a  curve for numbers of CpGs across genes related with GSEA, then using the  probability weighting function to correct GO’s p value.</p>
+<p>champ.GSEA() function as “goseq” to use goseq method to do GSEA, or  user may set it as “fisher” to do normal Gene Set Enrichment Analysis.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myGSEA &lt;- champ.GSEA(beta=myNorm,DMP=myDMP[[<span class="number">1</span>]], DMR=myDMR, arraytype=<span class="string">"450K"</span>,adjPval=<span class="number">0.05</span>, method=<span class="string">"fisher"</span>)</span><br><span class="line"># myDMP and myDMR could (not must) be used directly.</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-Differential-Methylated-Interaction-Hotspots"><a href="#11-Differential-Methylated-Interaction-Hotspots" class="headerlink" title="11. Differential Methylated Interaction Hotspots"></a><strong>11. Differential Methylated Interaction Hotspots</strong></h3><p>champ.EpiMod() This function usesFEM package to infer differentially methylated gene modules within a  user-specific functional gene-network. This network could be e.g. a  protein-protein interaction network. Thus, the champ.EpiMod() function  can be viewed as a functional supervised algorithm, which uses a network  of relations between genes (usually a PPI network), to identify  subnetworks where a significant number of genes are associated with a  phenotype of interest (POI). The EpiMod algorithm can be run in two  different modes: at the probe level, in which case the most  differentially methylated probe is assigned to each gene, or at the  gene-level in which case a DNAm value is assigned to each gene using an  optimized procedure described in detail in Jiao Y, Widschwendter M,  Teschendorff AE Bioinformatics 2014. Originally, the FEM package was  developed to infer differentially methylated gene modules which are also  deregulated at the gene expression level, however here we only provide  the EpiMod version, which only infers differentially methylated modules.  More advanced user may refer to FEM package for more information.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myEpiMod &lt;- champ.EpiMod(beta=myNorm,pheno=myLoad$pd$Sample_Group)</span><br></pre></td></tr></table></figure>
+
+<h3 id="12-Cell-Type-Heterogeneity"><a href="#12-Cell-Type-Heterogeneity" class="headerlink" title="12. Cell Type Heterogeneity"></a><strong>12. Cell Type Heterogeneity</strong></h3><p>由于DNA甲基化有高的细胞特异性，许多DMPs/DMRs的变化是由细胞成分导致的。许多方法可以矫正这个问题：RefbaseEWAS用组织的细胞类型做参考数据库，确定细胞比例。In  ChAMP, we include a reference databases for whole blood, one for 27K  and the other for 450K. After champ.refbase() function, cell type  heterogeneity corrected beta matrix, and cell-type specific proportions  in each sample will be returned. Do remember champ.refbase() can only  works on Blood Sample Data Set.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">myRefBase &lt;- champ.refbase(beta=myNorm,arraytype=<span class="string">"450K"</span>)</span><br><span class="line"># Our test data set is not whole blood. So it should not be run here.</span><br></pre></td></tr></table></figure>
+
+<p>参考：<a href="https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html" target="_blank" rel="noopener">https://bioconductor.org/packages/release/bioc/vignettes/ChAMP/inst/doc/ChAMP.html</a> <a href="http://blog.csdn.net/joshua_hit/article/details/54982018" target="_blank" rel="noopener">http://blog.csdn.net/joshua_hit/article/details/54982018</a> <a href="https://www.jianshu.com/p/6411e8acfab3" target="_blank" rel="noopener">https://www.jianshu.com/p/6411e8acfab3</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/ChAMP/" rel="tag"># ChAMP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/22/%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%AD%A6%E4%B9%A01/" rel="prev" title="宏基因组学习1">
+      <i class="fa fa-chevron-left"></i> 宏基因组学习1
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/" rel="next" title="甲基化高通量测序分析DSS包">
+      甲基化高通量测序分析DSS包 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ChAMP分析甲基化芯片数据-差异分析上篇"><span class="nav-number">1.</span> <span class="nav-text">ChAMP分析甲基化芯片数据-差异分析上篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-检测样本分组，确定分组比较"><span class="nav-number">1.0.1.</span> <span class="nav-text">1. 检测样本分组，确定分组比较</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进行差异探针分析"><span class="nav-number">1.0.2.</span> <span class="nav-text">进行差异探针分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加差异探针的注释信息"><span class="nav-number">1.0.3.</span> <span class="nav-text">添加差异探针的注释信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#结果展示"><span class="nav-number">1.0.4.</span> <span class="nav-text">结果展示</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ChAMP-分析甲基化芯片数据-差异分析下篇"><span class="nav-number">2.</span> <span class="nav-text">ChAMP 分析甲基化芯片数据-差异分析下篇</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#minProbes"><span class="nav-number">2.0.1.</span> <span class="nav-text">minProbes</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#adjPvalDmr"><span class="nav-number">2.0.2.</span> <span class="nav-text">adjPvalDmr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DMRtable"><span class="nav-number">2.0.3.</span> <span class="nav-text">DMRtable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DMR-heatmap"><span class="nav-number">2.0.4.</span> <span class="nav-text">DMR heatmap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DMR-甲基化水平分布图"><span class="nav-number">2.0.5.</span> <span class="nav-text">DMR 甲基化水平分布图</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ChAMP-包分析450K甲基化芯片数据（一站式）"><span class="nav-number">3.</span> <span class="nav-text">ChAMP 包分析450K甲基化芯片数据（一站式）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#"><span class="nav-number">3.0.0.0.0.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#-1"><span class="nav-number">3.0.0.0.0.2.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#-2"><span class="nav-number">3.0.0.1.</span> <span class="nav-text"></span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#-3"><span class="nav-number">3.0.0.1.0.1.</span> <span class="nav-text"></span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意："><span class="nav-number">3.0.0.2.</span> <span class="nav-text">注意：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#-4"><span class="nav-number">3.0.0.2.0.1.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#-5"><span class="nav-number">3.0.0.2.0.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#-6"><span class="nav-number">3.0.0.2.0.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#-7"><span class="nav-number">3.0.0.2.0.4.</span> <span class="nav-text"></span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-Differential-Methylation-Regions-差异甲基化区域"><span class="nav-number">3.0.1.</span> <span class="nav-text">8. Differential Methylation Regions 差异甲基化区域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Differential-Methylation-Blocks"><span class="nav-number">3.0.2.</span> <span class="nav-text">9. Differential Methylation Blocks</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10-Gene-Set-Enrichment-Analysis"><span class="nav-number">3.0.3.</span> <span class="nav-text">10. Gene Set Enrichment Analysis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-Differential-Methylated-Interaction-Hotspots"><span class="nav-number">3.0.4.</span> <span class="nav-text">11. Differential Methylated Interaction Hotspots</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12-Cell-Type-Heterogeneity"><span class="nav-number">3.0.5.</span> <span class="nav-text">12. Cell Type Heterogeneity</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">85</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
