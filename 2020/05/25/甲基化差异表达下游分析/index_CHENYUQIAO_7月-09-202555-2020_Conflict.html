@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="R语言实例操作分析GEO数据库甲基化芯片 基于minfi包">
+<meta property="og:type" content="article">
+<meta property="og:title" content="甲基化差异表达下游分析">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="R语言实例操作分析GEO数据库甲基化芯片 基于minfi包">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-566297da0d8873ab.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bf9b3a50f0b79140.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-6a7921051b15f484.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-b05f2cb457903266.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-4f20045b6e6a285a.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-6fd3876f75fa09c6.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-e8df720b14d59072.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-9a8879a651c282ee.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-7d34197e91147e8f.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-d88262e10e0e84db.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-f880e10673448921.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-95004e20582683d1.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-0cba564b15b9986c.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-fd54f54b84e20b18.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bb825a93e1268b92.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-a69865e55d4ddc3c.webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-b77b31a2ac4b8e8f?imageMogr2/auto-orient/strip%7CimageView2/2/w/751/format/webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-2f95b4ddd643a217.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-b44c6a53c77c0c0b.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-22c4de04cb494c3c.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-dcd36833c9e72fb2.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-7b26c50cca42a082.webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-febc213d52a6fc68?imageMogr2/auto-orient/strip%7CimageView2/2/w/689/format/webp">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/16435116-6d3b98a63ab859e5?imageMogr2/auto-orient/strip%7CimageView2/2/w/751/format/webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-e976248ac8ac1e2d.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bd63234359253637.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-1a11acf5a3e50a42.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-c17ad41698f524ab.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-c5fe9233da4d9429.webp">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-d289d68814d2f186.webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:35:47.815Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="教程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-566297da0d8873ab.webp">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>甲基化差异表达下游分析 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          甲基化差异表达下游分析
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:47" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="R语言实例操作分析GEO数据库甲基化芯片-基于minfi包"><a href="#R语言实例操作分析GEO数据库甲基化芯片-基于minfi包" class="headerlink" title="R语言实例操作分析GEO数据库甲基化芯片 基于minfi包"></a>R语言实例操作分析GEO数据库甲基化芯片 基于minfi包</h1><a id="more"></a>
+
+
+
+<p>小伙伴们，上次为大家解读了一篇GEO甲基化芯片相关的SCI文献(Aberrantly methylated-diferentially expressed genes and pathways in colorectal cancer)，今天，小编打算带领大家用R软件实例操作分析GEO甲基化芯片。作为目前最大的芯片数据库，GEO数据库提供给我们了海量的数据，但是，错综复杂的数据交织在一起，如何选择数据是摆在我们面前最重要的问题，读完今天这篇文章，我相信大家都能学会GEO甲基化芯片的分析。下面，就和大家一起跑一遍R，希望大家喜欢这篇文章！</p>
+<p>首先是GEO甲基化芯片的下载和预处理。进入GEO数据库主页(网址<a href="https://www.ncbi.nlm.nih.gov/geo/)，可以直接打开链接进入，也可以通过NCBI官网的GEO" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/)，可以直接打开链接进入，也可以通过NCBI官网的GEO</a> DataSets或GEO Profiles进入（进入NCBI数据库后下拉搜索框）。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-566297da0d8873ab.webp" alt="img"></p>
+<p>主页搜索框输入关键词“Methylation”，点击search，出来两行英语，一般选择第一行的数字，点进去。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bf9b3a50f0b79140.webp" alt="img"></p>
+<p>页面跳转到GEO DataSets，这和NCBI中直接进入是一样的，直接输入需要检索的肿瘤，或者如下图点击Advanced后，在高级检索中分别输入“Colorectal cancer”和“Methylation”，根据自己的需要选择合适的甲基化芯片。如果大家知道芯片的GSE号，也可以直接根据GSE号来检索。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-6a7921051b15f484.webp" alt="img"></p>
+<p>例如，本帖根据研究内容选择了“GSE29490”这张芯片。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-b05f2cb457903266.webp" alt="img"></p>
+<p>点击芯片标题，则可弹出这张芯片的全部注释信息。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-4f20045b6e6a285a.webp" alt="img"></p>
+<p>下拉该页面，可以看到该芯片的探针平台信息，样本信息，以及矩阵文件(名字Series Matrix File(s)的TXT格式)和原始文件(TAR格式的文件)。一般选择下载矩阵文件，如果下载原始文件，需要我们自行整理矩阵文件，还是比较麻烦的！</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-6fd3876f75fa09c6.webp" alt="img"></p>
+<p>点击Series Matrix File(s)后，选择文件的路径点击保存。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-e8df720b14d59072.webp" alt="img"></p>
+<p>对下载好的矩阵文件解压，使用EXCEL表格打开，如下图，其中感叹号开头的是注释文件，将其删除。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-9a8879a651c282ee.webp" alt="img"></p>
+<p>将注释文件删除后，把EXCEL里面的矩阵粘贴在txt文档里，命名为M.txt。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-7d34197e91147e8f.webp" alt="img"></p>
+<p>同时在EXCEL中建立两列以sample,group分组的表格，对样本进行分组，C为肿瘤组，T为病例组。将表格粘贴在txt文档里面，以“group.txt”命名。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-d88262e10e0e84db.webp" alt="img"></p>
+<p>将M.txt和group.txt放在同一文件夹里，文件夹名就叫M吧，文件的准备已告一段落。</p>
+<p>接下来，就可以打开Rstdio了(和R软件运行一样，本质也是R软件，只是界面不同)，做分析之前，需要安装甲基化芯片相关的包，这个过程一般比较慢，大概2h。而通过以下的代码就可以实现安装。对于这些包的安装和功能，我们可以参考Bioconductor网站。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-f880e10673448921.webp" alt="img"></p>
+<p>分析GEO甲基化芯片需要安装如下包：</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())   </span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)</span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line">options()$repos </span><br><span class="line">options()$BioC_mirror</span><br><span class="line">BiocManager::install(<span class="string">'IlluminaHumanMethylation450kmanifest'</span>) <span class="comment"># 注释</span></span><br><span class="line">BiocManager::install(<span class="string">'IlluminaHumanMethylation450kanno.ilmn12.hg19'</span>) <span class="comment"># 注释</span></span><br><span class="line">BiocManager::install(<span class="string">'minfi'</span>) </span><br><span class="line">BiocManager::install(<span class="string">'impute'</span>)     <span class="comment">#补全芯片缺失值</span></span><br><span class="line">BiocManager::install(<span class="string">'wateRmelon'</span>)   <span class="comment"># 芯片标准化</span></span><br><span class="line">BiocManager::install(<span class="string">'gplots'</span>)</span><br><span class="line">BiocManager::install(<span class="string">'cluster'</span>)</span><br><span class="line"><span class="keyword">library</span>(minfi)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="加载数据"><a href="#加载数据" class="headerlink" title="加载数据"></a>加载数据</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE52nnn/GSE52826/matrix/GSE52826_series_matrix.txt.gz</span></span><br><span class="line"><span class="keyword">require</span>(GEOquery)</span><br><span class="line"><span class="keyword">require</span>(Biobase)</span><br><span class="line">GSE52826&lt;- getGEO(GEO = <span class="literal">NULL</span>, filename = <span class="string">'./Rdata/GSE52826_series_matrix.txt.gz'</span>, destdir = tempdir(),</span><br><span class="line">                  GSElimits = <span class="literal">NULL</span>, GSEMatrix = <span class="literal">TRUE</span>, AnnotGPL = <span class="literal">FALSE</span>, getGPL = <span class="literal">FALSE</span>,</span><br><span class="line">                  parseCharacteristics = <span class="literal">TRUE</span>)</span><br><span class="line">beta.m &lt;- exprs(GSE52826)</span><br><span class="line">pData&lt;- pData(GSE52826)</span><br><span class="line">save(GSE52826,beta.m,pData,file = <span class="string">'./Rdata/GSE52826.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-95004e20582683d1.webp" alt="img"></p>
+<p>加载安装包，设置工作目录(注意R软件中工作目录需要用”\”或“/”，不可用“\”来设置工作目录)，工作目录直接设置M文件夹的路径，然后读取txt文件。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-0cba564b15b9986c.webp" alt="img"></p>
+<p>对数据进行标准化处理并输出结果</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">matData&lt;- beta.m[rowMeans(beta.m)&gt;<span class="number">0.005</span>,]</span><br><span class="line">pdf(file = <span class="string">'rawBox.pdf'</span>)</span><br><span class="line">boxplot(matData,col = <span class="string">'blue'</span>,xaxt = <span class="string">'n'</span>, outline =<span class="literal">F</span>)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(wateRmelon)</span><br><span class="line">matData&lt;- betaqn(matData)</span><br><span class="line">pdf(file = <span class="string">'normalBox.pdf'</span>)</span><br><span class="line">boxplot(matData, col = <span class="string">'red'</span>,xaxt = <span class="string">'n'</span>, outline =<span class="literal">F</span>)</span><br><span class="line">dev.off()</span><br><span class="line">grset&lt;- makeGenomicRatioSetFromMatrix(matData,what = <span class="string">'Beta'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-fd54f54b84e20b18.webp" alt="img"></p>
+<p>​    我们可以看出，标准化处理之前的箱线图的中位值未处于同一水平线上。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bb825a93e1268b92.webp" alt="img"></p>
+<p>而标准化处理后的箱线图中所有样本均处于同一水平线上，使各种实验条件下的测量可以相互比较，消除测量间的非实验差异。这样所有的样本就具有可比性了。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-a69865e55d4ddc3c.webp" alt="img"></p>
+<p>对芯片进行质量控制(QC)，这里需要输出两幅质量控制的图：DensityBean图，MDS图。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">pdf(file = <span class="string">'densityBeanplot.pdf'</span>)</span><br><span class="line">par(oma=c(<span class="number">2</span>,<span class="number">10</span>,<span class="number">2</span>,<span class="number">2</span>))</span><br><span class="line"></span><br><span class="line">pheno&lt;- data.frame(sample=pData$geo_accession,group=pData$characteristics_ch1.1)</span><br><span class="line">densityBeanPlot(matData,sampGroups = pheno$group, sampNames = pheno$sample)</span><br><span class="line">dev.off()</span><br><span class="line">pdf(file = <span class="string">'mdsplot.pdf'</span>)</span><br><span class="line">mdsPlot(matData,numPositions = <span class="number">1000</span>,sampGroups = pheno$group,sampNames = pheno$sample) </span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://upload-images.jianshu.io/upload_images/16435116-b77b31a2ac4b8e8f?imageMogr2/auto-orient/strip%7CimageView2/2/w/751/format/webp" alt="img"></p>
+<p>DensityBean图:图中可以看出，峰值主要出现在0附近，说明这张芯片的甲基化水平较低。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-2f95b4ddd643a217.webp" alt="img"></p>
+<p>MDS图：选出样本中1000个变异最大的位点，观察肿瘤组和对照组样本分布情况，在我们实验中，对于这种分布明显偏离组内其他样本的样本要予以剔除，因为这样的样本对实验结果影响较大。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-b44c6a53c77c0c0b.webp" alt="img"></p>
+<p>甲基化位点的差异分析</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grset&lt;- makeGenomicRatioSetFromMatrix(matData,what = <span class="string">'Beta'</span>)</span><br><span class="line">M&lt;- getM(grset)</span><br><span class="line">dmp&lt;- dmpFinder(M,pheno = pheno$group,type=<span class="string">'categorical'</span>)</span><br><span class="line">dmpDiff&lt;- dmp[(dmp$qval&lt;<span class="number">0.05</span>)&amp;(is.na(dmp$qval)==<span class="literal">F</span>),]</span><br><span class="line">write.table(dmpDiff,file = <span class="string">'dmpDiff.xls'</span>,sep = <span class="string">'\t'</span>,quote = <span class="literal">F</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-22c4de04cb494c3c.webp" alt="img"></p>
+<p>dmpFinder函数，其参数设置如下，对于这些函数的设置在R软件中输入“?dmpFinder”,运行代码即跳转到参数设置页面，非常方便。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-dcd36833c9e72fb2.webp" alt="img"></p>
+<p>打开文件夹，即可看见dmpDiff命名的甲基化位点的表格，而我们挑选的差异甲基化位点的值则是根据q-val＜0.05来判定的。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-7b26c50cca42a082.webp" alt="img"></p>
+<p>甲基化差异位点制作热图：这里是根据M值(甲基化的率)来做差异甲基化位点的热图。</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">diffM&lt;- M[rownames(dmpDiff),]</span><br><span class="line">hmExp&lt;- diffM</span><br><span class="line"><span class="keyword">library</span>(<span class="string">'gplots'</span>)</span><br><span class="line">hmMat&lt;- as.matrix(hmExp)</span><br><span class="line">pdf(file = <span class="string">'heatmap.pdf'</span>,height = <span class="number">150</span>, width = <span class="number">30</span>)</span><br><span class="line">par(oma=c(<span class="number">3</span>,<span class="number">3</span>,<span class="number">3</span>,<span class="number">5</span>))</span><br><span class="line"><span class="comment"># 热图这个热图太大了，要换成</span></span><br><span class="line">heatmap.2(hmMat,col = <span class="string">'greenred'</span>,trace = <span class="string">'none'</span>,cexCol = <span class="number">1</span>)</span><br><span class="line">dev.off()</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://upload-images.jianshu.io/upload_images/16435116-febc213d52a6fc68?imageMogr2/auto-orient/strip%7CimageView2/2/w/689/format/webp" alt="img"></p>
+<p>甲基化差异区域分析</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class&lt;- pheno$group</span><br><span class="line">designMatrix&lt;- model.matrix(~factor(class))</span><br><span class="line">colnames(designMatrix)&lt;- c(<span class="string">'T'</span>,<span class="string">'C'</span>)</span><br><span class="line">dmrs&lt;- bumphunter(grset, design= designMatrix,cutoff=<span class="number">0.2</span>,B=<span class="number">10</span>,type=<span class="string">'Beta'</span>)</span><br><span class="line">tmp&lt;- dmrs$table <span class="comment">## 差异甲基化的表达</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://upload-images.jianshu.io/upload_images/16435116-6d3b98a63ab859e5?imageMogr2/auto-orient/strip%7CimageView2/2/w/751/format/webp" alt="img"></p>
+<h4 id="运行代码后，得到名为dmrs的表格。"><a href="#运行代码后，得到名为dmrs的表格。" class="headerlink" title="运行代码后，得到名为dmrs的表格。"></a>运行代码后，得到名为dmrs的表格。</h4><h6 id="之后我觉得可以使用bedtools进行注释参考我的简书"><a href="#之后我觉得可以使用bedtools进行注释参考我的简书" class="headerlink" title="之后我觉得可以使用bedtools进行注释参考我的简书"></a>之后我觉得可以使用bedtools进行注释参考我的简书</h6><p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-e976248ac8ac1e2d.webp" alt="img"></p>
+<p>​      我们在做甲基化差异区域注释时候需要五列数据：chr，start，end，Ref，Alt。其中Ref，Alt这两列数据缺失，需要手动用0补充。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-bd63234359253637.webp" alt="img"></p>
+<p>​        补充好了之后，就可以对甲基化芯片差异区域进行注释了。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-1a11acf5a3e50a42.webp" alt="img"></p>
+<p>   甲基化区域的注释，我们采用wANNOVAR网站(<a href="http://wannovar.wglab.org/)，进入主页后需要输入邮箱(机构邮箱)，这里小编也是在网上随便机构邮箱，这个网站有点不地道，不支持个人邮箱！当然，只是为了使用这个网站，不需要邮箱来接受消息。Sample" target="_blank" rel="noopener">http://wannovar.wglab.org/)，进入主页后需要输入邮箱(机构邮箱)，这里小编也是在网上随便机构邮箱，这个网站有点不地道，不支持个人邮箱！当然，只是为了使用这个网站，不需要邮箱来接受消息。Sample</a> identifer栏随便输入英文名称即可。将上述准备好的5列数据（chr，start，end，Ref，Alt）粘贴在第三个检索框里。下拉页面，在Input Fomat栏里选择ANNOVAR，然后点击Submit提交数据。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-c17ad41698f524ab.webp" alt="img"></p>
+<p>大概几分钟的时间，注释结束，便可下载我们刚刚注释的甲基化区域了，其中第一行为外显子区域结果，第二行为整个基因上面的注释。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-c5fe9233da4d9429.webp" alt="img"></p>
+<p>打开文件，我们可以看到第6列是甲基化位于基因上的位置，第7列是甲基化区域所在的基因，第8行是对甲基化基因的注释。到这里，我们针对一张GEO甲基化分析已完成。</p>
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%B7%AE%E5%BC%82%E8%A1%A8%E8%BE%BE%E4%B8%8B%E6%B8%B8%E5%88%86%E6%9E%90/16435116-d289d68814d2f186.webp" alt="img"></p>
+<p>​    当我们得到这些甲基化的基因后，可以对这些基因进行GO、KEGG富集分析，生存分析等，或者去联合基因表达的芯片进行分析。作为最大的芯片数据库，因GEO芯片来自用户的上传，我们需要对芯片的质量做质控，并且做标准化的处理，以尽可能消除对因实验条件不同造成的实验误差，这一点在TCGA数据库中则不需要。不需要花费经费，只需要大家动脑动手就能发SCI，哈哈，这样的GEO芯片来一打！</p>
+<p>​     </p>
+<h4 id="这里可以使用annovar进行注释"><a href="#这里可以使用annovar进行注释" class="headerlink" title="这里可以使用annovar进行注释"></a>这里可以使用annovar进行注释</h4>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/%E6%95%99%E7%A8%8B/" rel="tag"># 教程</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E7%BB%93%E6%9E%9C%E6%B3%A8%E9%87%8A/" rel="prev" title="甲基化结果注释">
+      <i class="fa fa-chevron-left"></i> 甲基化结果注释
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/jimmy_(%E7%94%B2%E5%9F%BA%E5%8C%96450k%E8%8A%AF%E7%89%87)%20%E9%A2%84%E5%A4%84%E7%90%86%E5%88%9D%E6%8E%A2/" rel="next" title="甲基化450k芯片处理">
+      甲基化450k芯片处理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#R语言实例操作分析GEO数据库甲基化芯片-基于minfi包"><span class="nav-number">1.</span> <span class="nav-text">R语言实例操作分析GEO数据库甲基化芯片 基于minfi包</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#加载数据"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">加载数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行代码后，得到名为dmrs的表格。"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">运行代码后，得到名为dmrs的表格。</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#之后我觉得可以使用bedtools进行注释参考我的简书"><span class="nav-number">1.0.0.2.0.1.</span> <span class="nav-text">之后我觉得可以使用bedtools进行注释参考我的简书</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里可以使用annovar进行注释"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">这里可以使用annovar进行注释</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

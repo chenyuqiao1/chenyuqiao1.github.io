@@ -173,7 +173,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/07/04/project_mutation_immune_therapy_results/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/07/10/Xcell/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -187,7 +187,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/04/project_mutation_immune_therapy_results/" class="post-title-link" itemprop="url">project_immune_therapy_mutation_2</a>
+            <a href="/2020/07/10/Xcell/" class="post-title-link" itemprop="url">Xcell</a>
         </h2>
 
         <div class="post-meta">
@@ -198,7 +198,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-04 17:00:00 / Modified: 22:09:41" itemprop="dateCreated datePublished" datetime="2020-07-04T17:00:00+08:00">2020-07-04</time>
+              <time title="Created: 2020-07-10 08:47:27 / Modified: 08:48:07" itemprop="dateCreated datePublished" datetime="2020-07-10T08:47:27+08:00">2020-07-10</time>
             </span>
 
           
@@ -212,30 +212,30 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <a id="more"></a>
+          <h1 id="Xcell实战"><a href="#Xcell实战" class="headerlink" title="Xcell实战"></a>Xcell实战</h1><p>xCell is a recently published method based on ssGSEA that estimates the abundance scores of 64 immune cell types, including adaptive and innate immune cells, hematopoietic progenitors, epithelial cells, and extracellular matrix cells</p>
+<blockquote>
+<p>xcell 是基于ssGSEA（single-sample GSEA）<br>ssGSEA顾名思义是一种特殊的GSEA，它主要针对单样本无法做GSEA而提出的一种实现方法，原理上与GSEA是类似的，不同的是GSEA需要准备表达谱文件即gct，根据表达谱文件计算每个基因的rank值<br>参考网址<a href="https://shengxin.ren/article/403和https://support.bioconductor.org/p/98463/" target="_blank" rel="noopener">https://shengxin.ren/article/403和https://support.bioconductor.org/p/98463/</a></p>
+</blockquote>
+<h4 id="关于Xcell找对网址很重要，我一开始找错了地方"><a href="#关于Xcell找对网址很重要，我一开始找错了地方" class="headerlink" title="关于Xcell找对网址很重要，我一开始找错了地方"></a>关于Xcell找对网址很重要，我一开始找错了地方</h4><p><a href="https://github.com/dviraran/xCell" target="_blank" rel="noopener">https://github.com/dviraran/xCell</a><br>首先看read.me 很开心是我要的东西</p>
+<p><img src="/2020/07/10/Xcell/13817032-e8e5d0d8710b3dd2.webp" alt="img"></p>
+<p>image.png</p>
+<p>安装这个之前经常报错，要安装很多别的辅助包</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">install.packages(<span class="string">'Rcpp'</span>)<span class="comment">#########安装各类程序包</span></span><br><span class="line">devtools::install_github(<span class="string">'dviraran/xCell'</span>)</span><br></pre></td></tr></table></figure>
 
-<h3 id="PCLO"><a href="#PCLO" class="headerlink" title="PCLO"></a>PCLO</h3><h5 id="ALL-samples"><a href="#ALL-samples" class="headerlink" title="ALL_samples"></a>ALL_samples</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183209082.png" alt="image-20200704183209082"></p>
-<h5 id="ALL-LUNG"><a href="#ALL-LUNG" class="headerlink" title="ALL_LUNG"></a>ALL_LUNG</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183852535.png" alt="image-20200704183852535"></p>
-<h5 id="ALL-Melanoma"><a href="#ALL-Melanoma" class="headerlink" title="ALL_Melanoma"></a>ALL_Melanoma</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184223045.png" alt="image-20200704184223045"></p>
-<h5 id="Melanoma-Riaz-snyder-Hugo-merge"><a href="#Melanoma-Riaz-snyder-Hugo-merge" class="headerlink" title="Melanoma_Riaz_snyder_Hugo_merge"></a>Melanoma_Riaz_snyder_Hugo_merge</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704182859967.png" alt="image-20200704182859967"></p>
-<h5 id="NSCLC-hellmann-Rivzi"><a href="#NSCLC-hellmann-Rivzi" class="headerlink" title="NSCLC_hellmann_Rivzi"></a>NSCLC_hellmann_Rivzi</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184552712.png" alt="image-20200704184552712"></p>
-<h5 id="VanAllenn-renal"><a href="#VanAllenn-renal" class="headerlink" title="VanAllenn+renal"></a>VanAllenn+renal</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184933388.png" alt="image-20200704184933388"></p>
-<h3 id="MUC16"><a href="#MUC16" class="headerlink" title="MUC16"></a>MUC16</h3><h5 id="ALL-samples-1"><a href="#ALL-samples-1" class="headerlink" title="ALL_samples"></a>ALL_samples</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183303351.png" alt="image-20200704183303351"></p>
-<h5 id="all-lung"><a href="#all-lung" class="headerlink" title="all_lung"></a>all_lung</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183929394.png" alt="image-20200704183929394"></p>
-<h5 id="ALL-Melanoma-1"><a href="#ALL-Melanoma-1" class="headerlink" title="ALL_Melanoma"></a>ALL_Melanoma</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184248980.png" alt="image-20200704184248980"></p>
-<h5 id="Melanoma-Riaz-snyder-Hugo-merge-1"><a href="#Melanoma-Riaz-snyder-Hugo-merge-1" class="headerlink" title="Melanoma_Riaz_snyder_Hugo_merge"></a>Melanoma_Riaz_snyder_Hugo_merge</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704182833730.png" alt="image-20200704182833730"></p>
-<h5 id="NSCLC-hellmann-Rivzi-1"><a href="#NSCLC-hellmann-Rivzi-1" class="headerlink" title="NSCLC_hellmann_Rivzi"></a>NSCLC_hellmann_Rivzi</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184618306.png" alt="image-20200704184618306"></p>
-<h5 id="VanAllenn-renal-1"><a href="#VanAllenn-renal-1" class="headerlink" title="VanAllenn+renal"></a>VanAllenn+renal</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704185038757.png" alt="image-20200704185038757"></p>
-<h3 id="FLG"><a href="#FLG" class="headerlink" title="FLG"></a>FLG</h3><h5 id="ALL-samples-2"><a href="#ALL-samples-2" class="headerlink" title="ALL_samples"></a>ALL_samples</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183004122.png" alt="image-20200704183004122"></p>
-<h5 id="ALL-LUNG-1"><a href="#ALL-LUNG-1" class="headerlink" title="ALL_LUNG"></a>ALL_LUNG</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704183746708.png" alt="image-20200704183746708"></p>
-<h5 id="ALL-Melanoma-2"><a href="#ALL-Melanoma-2" class="headerlink" title="ALL_Melanoma"></a>ALL_Melanoma</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184058508.png" alt="image-20200704184058508"></p>
-<h5 id="Melanoma-Riaz-snyder-Hugo-merge-2"><a href="#Melanoma-Riaz-snyder-Hugo-merge-2" class="headerlink" title="Melanoma_Riaz_snyder_Hugo_merge"></a>Melanoma_Riaz_snyder_Hugo_merge</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704182714181.png" alt="image-20200704182714181"></p>
-<h5 id="NSCLC-hellmann-Rivzi-2"><a href="#NSCLC-hellmann-Rivzi-2" class="headerlink" title="NSCLC_hellmann_Rivzi"></a>NSCLC_hellmann_Rivzi</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704184436471.png" alt="image-20200704184436471"></p>
-<p><strong>Hellmann数据集（PFS）有直接的TMB的数据</strong></p>
-<h5 id="VanAllenn-renal-2"><a href="#VanAllenn-renal-2" class="headerlink" title="VanAllenn+renal"></a>VanAllenn+renal</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704185057830.png" alt="image-20200704185057830"></p>
-<h3 id="LUNG-all"><a href="#LUNG-all" class="headerlink" title="LUNG_all"></a>LUNG_all</h3><h5 id="KRAS"><a href="#KRAS" class="headerlink" title="KRAS"></a>KRAS</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704190211812.png" alt="image-20200704190211812"></p>
-<h5 id="ZHFX4"><a href="#ZHFX4" class="headerlink" title="ZHFX4"></a>ZHFX4</h5><p><img src="/2020/07/04/project_mutation_immune_therapy_results/image-20200704190400229.png" alt="image-20200704190400229"></p>
+<p><img src="/2020/07/10/Xcell/13817032-ac46f38fb64e5df8.webp" alt="img"></p>
+<p>image.png</p>
+<p>安装的时候还会有错误。</p>
+<p><img src="/2020/07/10/Xcell/13817032-bc52818c39296c7c.webp" alt="img"></p>
+<p>安装好的这一刻，还是很开心的。</p>
+<p><img src="/2020/07/10/Xcell/13817032-f008a0705e76c4ee.webp" alt="img"></p>
+<p>image.png</p>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><h4 id="第一步-计算xCell"><a href="#第一步-计算xCell" class="headerlink" title="第一步 计算xCell"></a>第一步 计算xCell</h4><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">library</span>(xCell)</span><br><span class="line">exprMatrix = read.table(file = <span class="string">'/Users/chenyuqiao/Desktop/TCGA-LUAD.htseq_counts.tsv'</span>,header=TRUE,row.names=<span class="number">1</span>, <span class="keyword">as</span>.<span class="keyword">is</span>=TRUE)</span><br><span class="line">xCellAnalysis(exprMatrix)</span><br></pre></td></tr></table></figure>
 
+<p><img src="/2020/07/10/Xcell/13817032-05761afba002f936.webp" alt="img"></p>
+<p>data imput</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">library(xCell)</span><br><span class="line">exprMatrix = read.table(file = <span class="string">'/Users/chenyuqiao/Desktop/TCGA-LUAD.htseq_counts.tsv'</span>,header=<span class="keyword">TRUE</span>,row.names=<span class="number">1</span>, <span class="keyword">as</span>.is=<span class="keyword">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###exprMatrix&lt;- exprMatrix[1:10,1:10]</span></span><br><span class="line">Ensemble_ID&lt;- rownames(exprMatrix)</span><br><span class="line">ID&lt;- strsplit(Ensemble_ID, <span class="string">"[.]"</span>)</span><br><span class="line">str(ID)</span><br><span class="line">IDlast&lt;- sapply(ID, <span class="string">"["</span>, <span class="number">1</span>)</span><br><span class="line">exprMatrix$Ensemble_ID&lt;- IDlast</span><br><span class="line">row.names(exprMatrix)&lt;- exprMatrix$Ensemble_ID</span><br><span class="line">save(exprMatrix, file = <span class="string">'TCGA.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'TCGA.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">####library(clusterProfiler)</span></span><br><span class="line">library(org.Hs.eg.db)</span><br><span class="line">ls(<span class="string">"package:org.Hs.eg.db"</span>)</span><br><span class="line">g2s=toTable(org.Hs.egSYMBOL);head(g2s)</span><br><span class="line">g2e=toTable(org.Hs.egENSEMBL);head(g2e)</span><br><span class="line">tmp=merge(g2e,g2s,by=<span class="string">'gene_id'</span>)</span><br><span class="line">head(tmp)</span><br><span class="line">colnames(exprMatrix)[ncol(exprMatrix)] &lt;- c(<span class="string">"ensembl_id"</span>)<span class="comment">###################重命名Ensemble_ID 便于后面merge</span></span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">exprMatrix&lt;- merge(tmp,exprMatrix,by=<span class="string">'ensembl_id'</span>)</span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">exprMatrix&lt;- exprMatrix[,- c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">exprMatrix=exprMatrix[!duplicated(exprMatrix$symbol),]</span><br><span class="line">row.names(exprMatrix)&lt;- exprMatrix[,<span class="number">1</span>]</span><br><span class="line">exprMatrix&lt;- exprMatrix[,<span class="number">-1</span>]</span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">xCellAnalysis(exprMatrix)<span class="comment">####################一句话就分析完成了</span></span><br><span class="line"><span class="comment">##save(results,file = 'Xcell_result.Rdata')#############需要重新修改</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第二步：批量生存分析"><a href="#第二步：批量生存分析" class="headerlink" title="第二步：批量生存分析"></a>第二步：批量生存分析</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">load(file = <span class="string">'Xcell_result.Rdata'</span>)</span><br><span class="line">result&lt;- <span class="keyword">as</span>.data.frame(result)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tidyverse)</span><br><span class="line"></span><br><span class="line">TCGA.LUAD.GDC_phenotype &lt;- read.delim(<span class="string">"TCGA-LUAD.GDC_phenotype.tsv"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#colnames(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"><span class="comment">#head(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"></span><br><span class="line">LUAD_Pheno&lt;- select(TCGA.LUAD.GDC_phenotype, <span class="string">"submitter_id.samples"</span>, <span class="string">"vital_status.diagnoses"</span>, <span class="string">"days_to_death.diagnoses"</span>, <span class="string">"days_to_last_follow_up.diagnoses"</span>, <span class="string">"pathologic_N"</span>, <span class="string">"pathologic_M"</span>, <span class="string">"days_to_new_tumor_event_after_initial_treatment"</span>)</span><br><span class="line">LUAD_Pheno&lt;- LUAD_Pheno[grep(<span class="string">'01A'</span>,LUAD_Pheno$submitter_id.samples),]  <span class="comment">#####只筛选01A的   01A代表肿瘤</span></span><br><span class="line">LUAD_Pheno[is.na(LUAD_Pheno)]&lt;- <span class="number">0</span></span><br><span class="line">LUAD_Pheno$PFS_status&lt;- ifelse((LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span> &amp; LUAD_Pheno$days_to_death.diagnoses == <span class="number">0</span>), <span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">##################################</span></span><br><span class="line">LUAD_Pheno$OS&lt;- ifelse(LUAD_Pheno$days_to_last_follow_up.diagnoses &gt; LUAD_Pheno$days_to_death.diagnoses, LUAD_Pheno$days_to_last_follow_up.diagnoses,LUAD_Pheno$days_to_death.diagnoses)</span><br><span class="line">LUAD_Pheno$PFS&lt;- ifelse(LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span>, LUAD_Pheno$OS ,LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment)</span><br><span class="line">LUAD_Pheno$OS_status&lt;- <span class="keyword">as</span>.factor(LUAD_Pheno$vital_status.diagnoses)</span><br><span class="line"><span class="comment">#############################设计好分组</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#############################生存曲线</span></span><br><span class="line"></span><br><span class="line">firstdata&lt;- result  <span class="comment">###############expre</span></span><br><span class="line">firstdata$ID&lt;- rownames(firstdata)</span><br><span class="line">gene&lt;- row.names(firstdata)</span><br><span class="line"><span class="comment">#######select only gene to analysis</span></span><br><span class="line">library(survminer)</span><br><span class="line">library(survival)</span><br><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line"><span class="keyword">for</span> (x in gene) &#123;</span><br><span class="line">  RNA_seq_data&lt;-filter(firstdata, firstdata$ID == x)</span><br><span class="line">  RNA_seq_data&lt;- t(RNA_seq_data)</span><br><span class="line">  RNA_seq_data&lt;- <span class="keyword">as</span>.data.frame(RNA_seq_data)</span><br><span class="line">  <span class="comment"># str(RNA_seq_data)</span></span><br><span class="line">  <span class="comment"># colnames(LUAD_Pheno)</span></span><br><span class="line">  RNA_seq_data$submitter_id.samples&lt;- row.names(RNA_seq_data)</span><br><span class="line">  colnames(RNA_seq_data)&lt;- c(<span class="string">"Expressionvalue"</span>,<span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- <span class="keyword">as</span>.character(LUAD_Pheno$submitter_id.samples)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  finaldata&lt;- inner_join(LUAD_Pheno,RNA_seq_data, by = <span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.character(finaldata$PFS_status)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.factor(finaldata$PFS_status))</span><br><span class="line">  finaldata$Expressionvalue&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.character(finaldata$Expressionvalue))</span><br><span class="line">  finaldata$group&lt;- ifelse(finaldata$Expressionvalue&gt;median(finaldata$Expressionvalue),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  library(survminer)</span><br><span class="line">  library(survival)</span><br><span class="line">  fit &lt;- survfit(Surv(finaldata$PFS,finaldata$PFS_status)~finaldata$group, data=finaldata) </span><br><span class="line">  summary(fit)</span><br><span class="line">  pp&lt;- ggsurvplot(fit, data = finaldata, conf.int = F, pval = <span class="keyword">TRUE</span>,</span><br><span class="line">                  xlim = c(<span class="number">0</span>,<span class="number">2000</span>), <span class="comment"># present narrower X axis, but not affect</span></span><br><span class="line">                  <span class="comment"># survival estimates. </span></span><br><span class="line">                  xlab = <span class="string">"Time in days"</span>, <span class="comment"># customize X axis label. </span></span><br><span class="line">                  <span class="keyword">break</span>.time.by = <span class="number">200</span>) <span class="comment"># break X axis in time intervals by 500. </span></span><br><span class="line">  ggsave(filename = paste(<span class="string">"plot_"</span>,x,<span class="string">".pdf"</span>,sep = <span class="string">""</span>))</span><br><span class="line">  <span class="keyword">print</span>(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
 
@@ -254,7 +254,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/07/02/project_immune_therapy_2020_results/">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/07/10/%E5%AE%89%E8%A3%85Rtools/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -268,7 +268,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2020/07/02/project_immune_therapy_2020_results/" class="post-title-link" itemprop="url">project_immune_therapy_mutation</a>
+            <a href="/2020/07/10/%E5%AE%89%E8%A3%85Rtools/" class="post-title-link" itemprop="url">安装Rtools</a>
         </h2>
 
         <div class="post-meta">
@@ -279,80 +279,17 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-02 17:00:00 / Modified: 22:39:49" itemprop="dateCreated datePublished" datetime="2020-07-02T17:00:00+08:00">2020-07-02</time>
+              <time title="Created: 2020-07-10 00:00:00 / Modified: 18:19:02" itemprop="dateCreated datePublished" datetime="2020-07-10T00:00:00+08:00">2020-07-10</time>
             </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h4 id="黑色素瘤数据-137个samples-Riaze和snyder两个数据集"><a href="#黑色素瘤数据-137个samples-Riaze和snyder两个数据集" class="headerlink" title="黑色素瘤数据 137个samples(Riaze和snyder两个数据集)"></a>黑色素瘤数据 137个samples(Riaze和snyder两个数据集)</h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/07/02/project_immune_therapy_2020_results/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/06/16/project_colorectal_cancer_datasets/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/16/project_colorectal_cancer_datasets/" class="post-title-link" itemprop="url">结直肠癌其他数据</a>
-        </h2>
-
-        <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
+                <i class="far fa-folder"></i>
               </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-16 17:00:00" itemprop="dateCreated datePublished" datetime="2020-06-16T17:00:00+08:00">2020-06-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
                 </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-17 13:25:04" itemprop="dateModified" datetime="2020-06-17T13:25:04+08:00">2020-06-17</time>
-              </span>
+            </span>
 
           
 
@@ -365,10 +302,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="结直肠癌其他数据"><a href="#结直肠癌其他数据" class="headerlink" title="结直肠癌其他数据"></a>结直肠癌其他数据</h3>
+          <h1 id="安装Rtools-安装解决github上的R包的问题"><a href="#安装Rtools-安装解决github上的R包的问题" class="headerlink" title="安装Rtools 安装解决github上的R包的问题"></a>安装Rtools 安装解决github上的R包的问题</h1>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2020/06/16/project_colorectal_cancer_datasets/#more" rel="contents">
+              <a class="btn" href="/2020/07/10/%E5%AE%89%E8%A3%85Rtools/#more" rel="contents">
                 Read more &raquo;
               </a>
             </div>
@@ -446,80 +383,6 @@
             </div>
           <!--/noindex-->
         
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/06/11/project_rectum_rectosigmoid_junction/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="yuqiao chen">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Bio_info_bridge">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/06/11/project_rectum_rectosigmoid_junction/" class="post-title-link" itemprop="url">直肠和直肠乙状结肠连接部</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-06-11 17:00:00" itemprop="dateCreated datePublished" datetime="2020-06-11T17:00:00+08:00">2020-06-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-06-14 14:54:03" itemprop="dateModified" datetime="2020-06-14T14:54:03+08:00">2020-06-14</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <a id="more"></a>
-
-<h3 id="第一步：数据下载"><a href="#第一步：数据下载" class="headerlink" title="第一步：数据下载"></a>第一步：数据下载</h3><p>一共158 case 167 files</p>
-<p><img src="/2020/06/11/project_rectum_rectosigmoid_junction/image-20200611073342741.png" alt="image-20200611073342741"></p>
-<p><img src="/2020/06/11/project_rectum_rectosigmoid_junction/image-20200611073600075.png" alt="image-20200611073600075"></p>
-<p><img src="/2020/06/11/project_rectum_rectosigmoid_junction/image-20200611073910780.png" alt="image-20200611073910780"></p>
-<p>得到三个文件</p>
-<p><img src="/2020/06/11/project_rectum_rectosigmoid_junction/image-20200611074648834.png" alt="image-20200611074648834"></p>
-<p>manifest文件是下载用的</p>
-<p>metadata格式转化用。</p>
-
       
     </div>
 
@@ -924,6 +787,164 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/EpiDISH/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/EpiDISH/" class="post-title-link" itemprop="url">EpiDISH包的使用解读</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:05" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="EpiDISH包的使用解读-Eipgenetic-Dissection-of-intrasample-heterogentiy"><a href="#EpiDISH包的使用解读-Eipgenetic-Dissection-of-intrasample-heterogentiy" class="headerlink" title="EpiDISH包的使用解读 Eipgenetic Dissection of intrasample heterogentiy"></a>EpiDISH包的使用解读 Eipgenetic Dissection of intrasample heterogentiy</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/EpiDISH/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/" class="post-title-link" itemprop="url">850K甲基化芯片数据的分析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:33:40" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="850K甲基化芯片数据的分析"><a href="#850K甲基化芯片数据的分析" class="headerlink" title="850K甲基化芯片数据的分析"></a>850K甲基化芯片数据的分析</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/05/25/850K%E7%94%B2%E5%9F%BA%E5%8C%96%E8%8A%AF%E7%89%87%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E6%9E%90/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -993,7 +1014,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">84</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1004,7 +1025,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-count">109</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

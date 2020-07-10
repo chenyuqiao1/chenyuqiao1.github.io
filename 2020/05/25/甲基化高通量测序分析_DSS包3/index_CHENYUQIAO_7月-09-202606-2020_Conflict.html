@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="DNA甲基化测序数据处理（二）：差异分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="甲基化高通量测序分析3">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="DNA甲基化测序数据处理（二）：差异分析">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/6049898-adad729c6a975625.webp">
+<meta property="article:published_time" content="2020-05-24T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-05-25T06:35:59.534Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="甲基化">
+<meta property="article:tag" content="methylation">
+<meta property="article:tag" content="DSS">
+<meta property="article:tag" content="甲基化测序">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/6049898-adad729c6a975625.webp">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>甲基化高通量测序分析3 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          甲基化高通量测序分析3
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-25 00:00:00 / Modified: 14:35:59" itemprop="dateCreated datePublished" datetime="2020-05-25T00:00:00+08:00">2020-05-25</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/" itemprop="url" rel="index"><span itemprop="name">R</span></a>
+                </span>
+                  , 
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/R/R-script/" itemprop="url" rel="index"><span itemprop="name">R_script</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="DNA甲基化测序数据处理（二）：差异分析"><a href="#DNA甲基化测序数据处理（二）：差异分析" class="headerlink" title="DNA甲基化测序数据处理（二）：差异分析"></a>DNA甲基化测序数据处理（二）：差异分析</h1><a id="more"></a>
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>衔接上一篇数据比对后的结果，使用R包DSS进行处理。</p>
+<h1 id="Input文件准备"><a href="#Input文件准备" class="headerlink" title="Input文件准备"></a>Input文件准备</h1><p>我们先来复习一下上一节课得到的数据结果：<br><code>*.bismark.cov.gz</code> 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$head test_data_bismark_bt2.deduplicated.bismark.cov</span><br><span class="line">1   975476  975476  100 1   0</span><br><span class="line">1   975488  975488  100 1   0</span><br><span class="line">1   975490  975490  100 1   0</span><br><span class="line">1   2224487 2224487 100 1   0</span><br><span class="line">1   2224489 2224489 100 1   0</span><br><span class="line">1   2224514 2224514 100 1   0</span><br><span class="line">1   2224520 2224520 100 1   0</span><br><span class="line">1   2313220 2313220 0   0   1</span><br><span class="line">1   9313902 9313902 100 1   0</span><br><span class="line">1   9313914 9313914 100 1   0</span><br><span class="line"></span><br><span class="line"># 第一列代表chromosome</span><br><span class="line"># 第二，三列代表location</span><br><span class="line"># 第四列代表甲基化百分比</span><br><span class="line"># 第五列代表甲基化数目</span><br><span class="line"># 第六列代表未甲基化数目</span><br></pre></td></tr></table></figure>
+
+<p>这里我们使用的R包为DSS，使用<a href="https://bioconductor.org/packages/release/bioc/html/DSS.html" target="_blank" rel="noopener">Bioconductor</a>进行安装。<br>这个包可以对甲基化数据做两件事：</p>
+<ul>
+<li>找出差异甲基化位点</li>
+<li>根据甲基化位点找出差异化甲基化区域</li>
+</ul>
+<p>DSS包对差异甲基化的检测基于β负二项分布的严格沃尔德检验。</p>
+<blockquote>
+<p><strong>DSS包可以对无重复数据进行处理</strong></p>
+</blockquote>
+<p>输入数据的格式如下:</p>
+<ul>
+<li>第一列为染色体</li>
+<li>第二列为位置</li>
+<li>第三列为total reads</li>
+<li>第四列为甲基化的reads</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">chr pos N X</span><br><span class="line">chr18 3014904 26 2</span><br><span class="line">chr18 3031032 33 12</span><br><span class="line">chr18 3031044 33 13</span><br><span class="line">chr18 3031065 48 24</span><br><span class="line"></span><br><span class="line"># 根据这个特性，我们可以将上面的输出文件通过Linux或者R进行简单的处理得到input文件。</span><br><span class="line"># 非常简单，所以这里请自行转化，凡事都需要自己摸索。</span><br></pre></td></tr></table></figure>
+
+<h1 id="Call-DML-or-DMR"><a href="#Call-DML-or-DMR" class="headerlink" title="Call DML or DMR"></a>Call DML or DMR</h1><p>DML是甲基化差异位点，DMR为甲基化差异区域。<br><strong>使用DSS包自带的数据进行演示</strong></p>
+<p><strong>1. 载入两个包DSS和bsseq（需要该包构建obj对象）</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">library(DSS)</span><br><span class="line">require(bsseq)</span><br><span class="line">path &lt;- file.path(system.file(package&#x3D;&quot;DSS&quot;), &quot;extdata&quot;)</span><br><span class="line">dat1.1 &lt;- read.table(file.path(path, &quot;cond1_1.txt&quot;), header&#x3D;TRUE)</span><br><span class="line">dat1.2 &lt;- read.table(file.path(path, &quot;cond1_2.txt&quot;), header&#x3D;TRUE)</span><br><span class="line">dat2.1 &lt;- read.table(file.path(path, &quot;cond2_1.txt&quot;), header&#x3D;TRUE)</span><br><span class="line">dat2.2 &lt;- read.table(file.path(path, &quot;cond2_2.txt&quot;), header&#x3D;TRUE)</span><br><span class="line">BSobj &lt;- makeBSseqData( list(dat1.1, dat1.2, dat2.1, dat2.2),</span><br><span class="line">                           c(&quot;C1&quot;,&quot;C2&quot;, &quot;N1&quot;, &quot;N2&quot;) )[1:1000,]</span><br><span class="line"># 查看BSobj的类型</span><br><span class="line">BSobj </span><br><span class="line">An object of type &#39;BSseq&#39; with</span><br><span class="line">  1000 methylation loci</span><br><span class="line">  4 samples</span><br><span class="line">has not been smoothed</span><br><span class="line">All assays are in-memory、</span><br></pre></td></tr></table></figure>
+
+<p><strong>2. 利用DMLtest函数call DML，分为一下几个步骤：</strong></p>
+<ul>
+<li>预测所有CpG位点的平均甲基化水平</li>
+<li>对每个CpG位点估算其甲基化水平的dispersions</li>
+<li>进行沃尔德检验</li>
+</ul>
+<blockquote>
+<p>在第一步过程中，smoothing可以更好帮助估算甲基化（针对whole-genome BS-seq）。<br>而RRBS不需要smoothing。</p>
+</blockquote>
+<p>根据甲基化水平进行loci的差异分析</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">dmlTest &lt;- DMLtest(BSobj, group1&#x3D;c(&quot;C1&quot;, &quot;C2&quot;), group2&#x3D;c(&quot;N1&quot;, &quot;N2&quot;))</span><br><span class="line">head(dmlTest)</span><br><span class="line">    chr     pos       mu1       mu2        diff    diff.se       stat        phi1       phi2       pval       fdr</span><br><span class="line">1 chr18 3014904 0.3817233 0.4624549 -0.08073162 0.24997034 -0.3229648 0.300542998 0.01706260 0.74672190 0.9985094</span><br><span class="line">2 chr18 3031032 0.3380579 0.1417008  0.19635711 0.11086362  1.7711592 0.008911745 0.04783892 0.07653423 0.6792127</span><br><span class="line">3 chr18 3031044 0.3432172 0.3298853  0.01333190 0.12203116  0.1092500 0.010409029 0.01994821 0.91300423 0.9985094</span><br><span class="line">4 chr18 3031065 0.4369377 0.3649218  0.07201587 0.10099395  0.7130711 0.010320888 0.01603200 0.47580174 0.9985094</span><br><span class="line">5 chr18 3031069 0.2933572 0.5387464 -0.24538920 0.13178800 -1.8619996 0.012537553 0.02320887 0.06260315 0.6158797</span><br><span class="line">6 chr18 3031082 0.3526311 0.3905718 -0.03794068 0.07847999 -0.4834440 0.007665696 0.01145531 0.62878051 0.9985094</span><br><span class="line"></span><br><span class="line">dmlTest.sm &lt;- DMLtest(BSobj, group1&#x3D;c(&quot;C1&quot;, &quot;C2&quot;), group2&#x3D;c(&quot;N1&quot;, &quot;N2&quot;), smoothing&#x3D;TRUE)</span><br><span class="line">head(dmlTest.sm)</span><br><span class="line">    chr     pos       mu1       mu2        diff    diff.se       stat       phi1       phi2      pval       fdr</span><br><span class="line">1 chr18 3014904 0.3693669 0.4566563 -0.08728939 0.29967322 -0.2912819 0.30054300 0.01706260 0.7708357 0.9656515</span><br><span class="line">2 chr18 3031032 0.3433882 0.3679732 -0.02458503 0.03970109 -0.6192533 0.03177894 0.28323422 0.5357495 0.8639036</span><br><span class="line">3 chr18 3031044 0.3412867 0.3678807 -0.02659404 0.04032823 -0.6594397 0.02536938 0.02080295 0.5096134 0.8596522</span><br><span class="line">4 chr18 3031065 0.3358830 0.3511983 -0.01531533 0.04799161 -0.3191252 0.01123412 0.01621926 0.7496316 0.9652417</span><br><span class="line">5 chr18 3031069 0.3358830 0.3511983 -0.01531533 0.03205500 -0.4777830 0.02832889 0.05857316 0.6328047 0.8968029</span><br><span class="line">6 chr18 3031082 0.3358830 0.3511983 -0.01531533 0.05846593 -0.2619531 0.01682981 0.01368466 0.7933576 0.9745116</span><br></pre></td></tr></table></figure>
+
+<p><strong>3. 根据dmlTest来call DML</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">dmls &lt;- callDML(dmlTest.sm, p.threshold&#x3D;0.001)</span><br><span class="line">dmls</span><br><span class="line">      chr     pos       mu1       mu2      diff    diff.se     stat       phi1       phi2         pval          fdr postprob.overThreshold</span><br><span class="line">447 chr18 3973699 0.8530694 0.3432547 0.5098147 0.05726793 8.902272 0.03662109 0.98947516 5.471481e-19 4.962634e-16              1.0000000</span><br><span class="line">709 chr18 4564190 0.7773858 0.1977036 0.5796822 0.10294267 5.631116 0.21725415 0.02952656 1.790467e-08 5.413180e-06              0.9999984</span><br><span class="line">710 chr18 4564237 0.7773858 0.1977036 0.5796822 0.15431085 3.756587 0.02931516 0.26238558 1.722462e-04 7.439396e-03              0.9990652</span><br><span class="line">dmls &lt;- callDML(dmlTest, p.threshold&#x3D;0.001)</span><br><span class="line">dmls</span><br><span class="line">      chr     pos        mu1         mu2       diff    diff.se       stat        phi1       phi2         pval          fdr postprob.overThreshold</span><br><span class="line">450 chr18 3976129 0.01027497 0.939033927 -0.9287590 0.06544340 -14.191789 0.052591567 0.02428826 1.029974e-45 2.499403e-43              1.0000000</span><br><span class="line">451 chr18 3976138 0.01027497 0.939033927 -0.9287590 0.06544340 -14.191789 0.052591567 0.02428826 1.029974e-45 2.499403e-43              1.0000000</span><br><span class="line">638 chr18 4431501 0.01331553 0.943056638 -0.9297411 0.09273779 -10.025483 0.053172411 0.07746835 1.177826e-23 1.429096e-21              1.0000000</span><br><span class="line">639 chr18 4431511 0.01327049 0.943056638 -0.9297862 0.09270080 -10.029969 0.053121697 0.07746835 1.125518e-23 1.429096e-21              1.0000000</span><br><span class="line">710 chr18 4564237 0.91454619 0.011930005  0.9026162 0.05260037  17.159883 0.009528898 0.04942849 5.302004e-66 3.859859e-63              1.0000000</span><br><span class="line">782 chr18 4657576 0.98257334 0.067835497  0.9147378 0.06815000  13.422418 0.010424723 0.06755651 4.468885e-41 8.133371e-39              1.0000000</span><br><span class="line">582 chr18 4340682 0.95398081 0.030390730  0.9235901 0.10935874   8.445508 0.085494283 0.04540643 3.027264e-17 2.754810e-15              1.0000000</span><br><span class="line">583 chr18 4340709 0.95398081 0.030390730  0.9235901 0.10935874   8.445508 0.085494283 0.04540643 3.027264e-17 2.754810e-15              1.0000000</span><br><span class="line">340 chr18 3542732 0.95023554 0.034383112  0.9158524 0.11937407   7.672122 0.089137013 0.04474741 1.691739e-14 1.368429e-12              1.0000000</span><br><span class="line">395 chr18 3723448 0.06570765 0.751990744 -0.6862831 0.09825286  -6.984866 0.011958092 0.01646418 2.851278e-12 2.075730e-10              1.0000000</span><br><span class="line">188 chr18 3370113 0.01488553 0.787980174 -0.7730946 0.11380172  -6.793347 0.054190769 0.02752024 1.095611e-11 7.250956e-10              1.0000000</span><br><span class="line">400 chr18 3785543 0.79337804 0.118353679  0.6750244 0.12183251   5.540593 0.017720841 0.02442007 3.014493e-08 1.688116e-06              0.9999988</span><br><span class="line">683 chr18 4494490 0.77615275 0.104235359  0.6719174 0.12407577   5.415380 0.009219023 0.08210742 6.115879e-08 3.180257e-06              0.9999980</span><br><span class="line">783 chr18 4657592 0.96858371 0.266894590  0.7016891 0.13077255   5.365722 0.064228633 0.07721117 8.062618e-08 3.668491e-06              0.9999979</span><br><span class="line">642 chr18 4431618 0.43034706 0.965539700 -0.5351926 0.09578178  -5.587625 0.012064922 0.07497569 2.301966e-08 1.396526e-06              0.9999972</span><br><span class="line">189 chr18 3370141 0.01488553 0.676293642 -0.6614081 0.12554112  -5.268458 0.054190769 0.02138845 1.375746e-07 5.891428e-06              0.9999961</span><br><span class="line">738 chr18 4635185 0.44671015 0.007342128  0.4393680 0.08148745   5.391849 0.010069744 0.05154034 6.973627e-08 3.384534e-06              0.9999844</span><br><span class="line">330 chr18 3542403 0.02875655 0.714168320 -0.6854118 0.15294560  -4.481409 0.041892077 0.03368033 7.415192e-06 2.841190e-04              0.9999354</span><br><span class="line">185 chr18 3347936 0.49560648 0.017291187  0.4783153 0.10184167   4.696656 0.012173893 0.04533502 2.644552e-06 1.069574e-04              0.9998983</span><br><span class="line">92  chr18 3217241 0.03876653 0.767643956 -0.7288774 0.17547605  -4.153714 0.038095316 0.03753383 3.271214e-05 9.602621e-04              0.9998319</span><br><span class="line">396 chr18 3723468 0.23043341 0.951779714 -0.7213463 0.18220738  -3.958930 0.173291593 0.07965750 7.528626e-05 1.838513e-03              0.9996786</span><br><span class="line">40  chr18 3047980 0.07206183 0.658535570 -0.5864737 0.14396467  -4.073734 0.012517547 0.02615351 4.626536e-05 1.247451e-03              0.9996373</span><br><span class="line">614 chr18 4353399 0.01355584 0.547298573 -0.5337427 0.12855458  -4.151876 0.053422013 0.02055735 3.297603e-05 9.602621e-04              0.9996300</span><br><span class="line">99  chr18 3226251 0.97443783 0.217343279  0.7570945 0.19807591   3.822244 0.012911947 0.27481269 1.322425e-04 3.105566e-03              0.9995532</span><br><span class="line">613 chr18 4353379 0.01355584 0.529341634 -0.5157858 0.13033377  -3.957422 0.053422013 0.02080043 7.576289e-05 1.838513e-03              0.9992902</span><br><span class="line">894 chr18 4921874 0.35815864 0.009172558  0.3489861 0.07955244   4.386868 0.009774839 0.05010151 1.149944e-05 3.986472e-04              0.9991255</span><br><span class="line">895 chr18 4921881 0.35815864 0.009172558  0.3489861 0.07955244   4.386868 0.009774839 0.05010151 1.149944e-05 3.986472e-04              0.9991255</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意，这里使用smoothing进行操作，事实上使用的示例数据我也不清楚是RRBS还是WGBS，但是使用dmlTest call DML会有更多的结果。</p>
+</blockquote>
+<p>当然，用户也可以指定差异的阈值，只有差异大于阈值的才会被call出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">dmls2 &lt;- callDML(dmlTest, delta&#x3D;0.1, p.threshold&#x3D;0.001)</span><br><span class="line">head(dmls2)</span><br><span class="line">      chr     pos        mu1       mu2       diff    diff.se      stat        phi1       phi2         pval          fdr postprob.overThreshold</span><br><span class="line">450 chr18 3976129 0.01027497 0.9390339 -0.9287590 0.06544340 -14.19179 0.052591567 0.02428826 1.029974e-45 2.499403e-43                      1</span><br><span class="line">451 chr18 3976138 0.01027497 0.9390339 -0.9287590 0.06544340 -14.19179 0.052591567 0.02428826 1.029974e-45 2.499403e-43                      1</span><br><span class="line">638 chr18 4431501 0.01331553 0.9430566 -0.9297411 0.09273779 -10.02548 0.053172411 0.07746835 1.177826e-23 1.429096e-21                      1</span><br><span class="line">639 chr18 4431511 0.01327049 0.9430566 -0.9297862 0.09270080 -10.02997 0.053121697 0.07746835 1.125518e-23 1.429096e-21                      1</span><br><span class="line">710 chr18 4564237 0.91454619 0.0119300  0.9026162 0.05260037  17.15988 0.009528898 0.04942849 5.302004e-66 3.859859e-63                      1</span><br><span class="line">782 chr18 4657576 0.98257334 0.0678355  0.9147378 0.06815000  13.42242 0.010424723 0.06755651 4.468885e-41 8.133371e-39                      1</span><br></pre></td></tr></table></figure>
+
+<p><strong>4. 根据dmlTest Call DMR</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">dmrs &lt;- callDMR(dmlTest.sm, p.threshold&#x3D;0.01)</span><br><span class="line">dmrs</span><br><span class="line">     chr   start     end length nCG meanMethy1 meanMethy2 diff.Methy areaStat</span><br><span class="line">23 chr18 4921637 4922059    423  27 0.11002940 0.01809674 0.09193266 86.29588</span><br><span class="line">7  chr18 3507919 3508022    104  10 0.07524915 0.03294316 0.04230600 30.55943</span><br><span class="line">15 chr18 4340682 4340753     72   4 0.89237955 0.35052968 0.54184987 10.83526</span><br><span class="line">dmrs &lt;- callDMR(dmlTest, p.threshold&#x3D;0.01)</span><br><span class="line">dmrs</span><br><span class="line">     chr   start     end length nCG meanMethy1 meanMethy2 diff.Methy areaStat</span><br><span class="line">27 chr18 4657576 4657639     64   4   0.506453   0.318348   0.188105 14.34236</span><br></pre></td></tr></table></figure>
+
+<p>我们可以发现，smoothing前后得到的结果差异还是很大，所以针对不同的实验类型我们需要注意是否使用smoothing。<br>同理，也可以使用的delta参数以及调整p.threshold得到合适的结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">dmrs2 &lt;- callDMR(dmlTest, delta&#x3D;0.1, p.threshold&#x3D;0.05)</span><br><span class="line">dmrs2</span><br><span class="line">     chr   start     end length nCG meanMethy1 meanMethy2 diff.Methy areaStat</span><br><span class="line">31 chr18 4657576 4657639     64   4  0.5064530  0.3183480   0.188105 14.34236</span><br><span class="line">19 chr18 4222533 4222608     76   4  0.7880276  0.3614195   0.426608 12.91667</span><br></pre></td></tr></table></figure>
+
+<p><strong>5. 可视化</strong><br>DSS包提供了一个不是很美观的可视化函数，用户其实可以使用coverage结果在R里面作图。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">showOneDMR(dmrs[1,], BSobj)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%853/6049898-adad729c6a975625.webp" alt="img"></p>
+<h1 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h1><p>分析到此就告一段落了，随后就是自行对差异甲基化区域的注释以及可视化文献作图</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96/" rel="tag"># 甲基化</a>
+              <a href="/tags/methylation/" rel="tag"># methylation</a>
+              <a href="/tags/DSS/" rel="tag"># DSS</a>
+              <a href="/tags/%E7%94%B2%E5%9F%BA%E5%8C%96%E6%B5%8B%E5%BA%8F/" rel="tag"># 甲基化测序</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%85_Jimmy/" rel="prev" title="甲基化高通量测序分析DSS包">
+      <i class="fa fa-chevron-left"></i> 甲基化高通量测序分析DSS包
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/05/25/%E7%94%B2%E5%9F%BA%E5%8C%96%E9%AB%98%E9%80%9A%E9%87%8F%E6%B5%8B%E5%BA%8F%E5%88%86%E6%9E%90_DSS%E5%8C%852/" rel="next" title="甲基化高通量测序分析2">
+      甲基化高通量测序分析2 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#DNA甲基化测序数据处理（二）：差异分析"><span class="nav-number">1.</span> <span class="nav-text">DNA甲基化测序数据处理（二）：差异分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">2.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Input文件准备"><span class="nav-number">3.</span> <span class="nav-text">Input文件准备</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Call-DML-or-DMR"><span class="nav-number">4.</span> <span class="nav-text">Call DML or DMR</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结语"><span class="nav-number">5.</span> <span class="nav-text">结语</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

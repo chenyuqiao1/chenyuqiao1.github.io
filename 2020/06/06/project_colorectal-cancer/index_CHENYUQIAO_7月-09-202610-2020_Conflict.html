@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="第一部分：数据下载">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结直肠癌任务">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="第一部分：数据下载">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200606175129204.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200606175604457.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200606224320428.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200606224348622.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607102027801.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607195522072.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607200001886.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607202200261.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607201245285.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607201330657.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607201645907.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607201836317.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607201937045.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607202058626.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607202906148.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607203002523.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607203112623.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607200548373.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607210044607.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607223732087.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607223932045.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607224014158.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607232213291.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200607233605579.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200608222041441.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200608225310142.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200608214121961.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200608214520923.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609084844926.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609075152738.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609080729377.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609081649099.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609074030557.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609074412154.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609083523964.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609083842234.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200609083458671.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200610220435136.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200610225040685.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200610225245241.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200610225436215.png">
+<meta property="article:published_time" content="2020-06-06T09:00:00.000Z">
+<meta property="article:modified_time" content="2020-06-15T12:42:52.097Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="research">
+<meta property="article:tag" content="colorectal cancer">
+<meta property="article:tag" content="datasets">
+<meta property="article:tag" content="project">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/image-20200606175129204.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>结直肠癌任务 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/06/06/project_colorectal-cancer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          结直肠癌任务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-06-06 17:00:00" itemprop="dateCreated datePublished" datetime="2020-06-06T17:00:00+08:00">2020-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-06-15 20:42:52" itemprop="dateModified" datetime="2020-06-15T20:42:52+08:00">2020-06-15</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="第一部分：数据下载"><a href="#第一部分：数据下载" class="headerlink" title="第一部分：数据下载"></a>第一部分：数据下载</h2><a id="more"></a>
+
+<p><a href="https://www.colonomics.org/data/" target="_blank" rel="noopener">https://www.colonomics.org/data/</a></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606175129204.png" alt="image-20200606175129204"></p>
+<h3 id="Expression"><a href="#Expression" class="headerlink" title="Expression"></a><strong>Expression</strong></h3><p><a href="https://www.colonomics.org/rawdata/CLX_Expression_2014Nov24.txt.gz" target="_blank" rel="noopener">data matrix</a> U219 array<br><a href="https://www.colonomics.org/rawdata/CLX_Expression_PC1_2014Nov24.txt.gz" target="_blank" rel="noopener">data matrix</a> probes summarized at gene level</p>
+<p>Also available at GEO as <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076" target="_blank" rel="noopener">GSE44076</a></p>
+<p>Online exploration available at <a href="https://www.colonomics.org/expression-browser/" target="_blank" rel="noopener">CLX Expression Browser</a></p>
+<h3 id="miRNA"><a href="#miRNA" class="headerlink" title="miRNA"></a><strong>miRNA</strong></h3><p><a href="https://www.colonomics.org/rawdata/CLX_MiRNAs_counts_2014Apr11.txt.gz" target="_blank" rel="noopener">data matrix</a> raw counts<br><a href="https://www.colonomics.org/rawdata/CLX_MiRNAs_norm_2014Apr11.txt.gz" target="_blank" rel="noopener">data matrix</a> normalized counts</p>
+<p>Online exploration available at <a href="https://www.colonomics.org/expression-browser/" target="_blank" rel="noopener">CLX Expression Browser</a> Search micro-RNAs as miR-</p>
+<h3 id="Somatic-mutations"><a href="#Somatic-mutations" class="headerlink" title="Somatic mutations"></a><strong>Somatic mutations</strong></h3><p><a href="https://www.colonomics.org/rawdata/CLX_somatic_mutations.csv.gz" target="_blank" rel="noopener">data matrix</a></p>
+<h3 id="CNV"><a href="#CNV" class="headerlink" title="CNV"></a><strong>CNV</strong></h3><p><a href="https://www.colonomics.org/rawdata/CLX_CN_segments_2017Jan20.txt.gz" target="_blank" rel="noopener">data matrix</a></p>
+<h3 id="Methylation"><a href="#Methylation" class="headerlink" title="Methylation"></a><strong>Methylation</strong></h3><p>data matrix 450K array -Pending publication</p>
+<h3 id="Clinical-annotation-of-samples"><a href="#Clinical-annotation-of-samples" class="headerlink" title="Clinical annotation of samples"></a><strong>Clinical annotation of samples</strong></h3><p>data file – contact: <a href="mailto:v.moreno@iconcologia.net">v.moreno@iconcologia.net</a></p>
+<p>Please <a href="https://www.colonomics.org/publications/" target="_blank" rel="noopener">cite the colonomics</a> project if you use the data</p>
+<h3 id="Raw-data"><a href="#Raw-data" class="headerlink" title="Raw data"></a><strong>Raw data</strong></h3><p>Raw files for protected data can be accessed through EGA under accession number EGAS00001002453.<br>You can access a copy of the <a href="https://www.colonomics.org/rawdata/DAA.pdf" target="_blank" rel="noopener">here.</a></p>
+<p>已经下载了转录组数据，通过这个GSE44076下载的。</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE44076</a></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606175604457.png" alt="image-20200606175604457"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># library(GEOquery)</span></span><br><span class="line"><span class="comment"># gpl&lt;- getGEO('GPL13667',destdir = './Rdata/')</span></span><br><span class="line"><span class="comment"># save(gpl,file = './Rdata/gpl13667.Rdata')</span></span><br></pre></td></tr></table></figure>
+
+<p>通过这个方法得到的gpl矩阵不是完整的</p>
+<p><a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL13667" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL13667</a></p>
+<p>最后通过平台信息直接下载</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606224320428.png" alt="image-20200606224320428"></p>
+<p>下载了多次失败，但最终下载成功。不知道以后能不能解决下载难的问题。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200606224348622.png" alt="image-20200606224348622"></p>
+<h2 id="第二部分：coexpression-analysis"><a href="#第二部分：coexpression-analysis" class="headerlink" title="第二部分：coexpression_analysis"></a>第二部分：coexpression_analysis</h2><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="comment"># getwd()</span></span><br><span class="line"><span class="comment"># setwd("E:/R_Project/RNA_seq_pengxiong_and_datasets/pengxiong")</span></span><br><span class="line">load(file = <span class="string">'./Rdata/step2.Rdata'</span>)</span><br><span class="line">new_exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">exprSet&lt;- as.data.frame(t(new_exprSet))</span><br><span class="line"><span class="comment">### 首先要整理数据，删除非癌组织</span></span><br><span class="line">rownames(exprSet)</span><br><span class="line">rownames(pheno)</span><br><span class="line">match(rownames(exprSet),rownames(pheno))</span><br><span class="line"><span class="comment">#### 筛选出tumor的组织成为exprset</span></span><br><span class="line">exprSet&lt;- exprSet[pheno$`sample type:ch1`==<span class="string">'Tumor'</span>,]</span><br><span class="line">exprSet[,colnames(exprSet)==<span class="string">'CDH1'</span>]</span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">p=cor.test(exprSet[,<span class="string">'CDH1'</span>],exprSet[,<span class="string">'PARK7'</span>],method = c(<span class="string">'pearson'</span>))</span><br><span class="line">p$p.value</span><br><span class="line">class(p$p.value)</span><br><span class="line">p$estimate</span><br><span class="line">class(p$estimate)</span><br><span class="line"><span class="comment"># p=cor.test(exprSet[,'CDH1'],exprSet[,1])</span></span><br><span class="line"><span class="comment"># pvalue[1,1]&lt;- p$p.value</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#### 要事先定义好一个矩阵,这个矩阵应该是2行19927列,第一列存放p值，第二列存放相关系数。存放最后的相关性p值</span></span><br><span class="line">pvalue = matrix(nrow=<span class="number">2</span>,ncol=ncol(exprSet)) <span class="comment">####这里nrow=2 不能单纯只写2   matrix(2,ncol=ncol(exprSet))，这样是错误的。会报错下标出界</span></span><br><span class="line"><span class="keyword">for</span> (i <span class="keyword">in</span> <span class="number">1</span>:ncol(exprSet)) &#123;</span><br><span class="line">  p=cor.test(exprSet[,<span class="string">'CDH1'</span>],exprSet[,i])</span><br><span class="line">  pvalue[<span class="number">1</span>,i]&lt;- p$p.value</span><br><span class="line">  pvalue[<span class="number">2</span>,i]&lt;- p$estimate</span><br><span class="line">  pvalue &lt;- as.data.frame(pvalue)</span><br><span class="line">  colnames(pvalue) &lt;- colnames(exprSet)</span><br><span class="line">  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rownames(pvalue)&lt;- c(<span class="string">'pvalue'</span>,<span class="string">'correlation'</span>)</span><br><span class="line"></span><br><span class="line">coexpr_CDH1&lt;- t(pvalue)</span><br><span class="line">head(coexpr_CDH1)</span><br><span class="line">coexpr_CDH1_final&lt;- coexpr_CDH1[coexpr_CDH1[,<span class="number">1</span>]&lt;<span class="number">0.001</span>,]</span><br><span class="line">coexpr_CDH1_final&lt;- coexpr_CDH1[abs(coexpr_CDH1[,<span class="number">2</span>])&gt;<span class="number">0.8</span>,]</span><br><span class="line">save(pvalue,coexpr_CDH1_final,file = <span class="string">'./Rdata/coexpression_analysis_results.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">rownames(coexpr_CDH1_final)</span><br><span class="line"><span class="comment"># exprSet_plot&lt;- exprSet[exprSet[,'CDH1']&gt;10,]  #### 删除离群值</span></span><br><span class="line"><span class="comment"># table(exprSet_plot[,'CDH1']&gt;10)</span></span><br><span class="line">plot(exprSet_plot[,<span class="string">'CDH1'</span>],exprSet_plot[,<span class="string">'ERBB3'</span>])</span><br></pre></td></tr></table></figure>
+
+
+
+<p>错误示范：Error in <code>[&lt;-</code>(<code>*tmp*</code>, 2, i, value = p$estimate) : 下标出界</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607102027801.png" alt="image-20200607102027801"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> [1] &quot;C1orf162&quot; &quot;TLR1&quot;     &quot;HAVCR2&quot;   &quot;TLR8&quot;     &quot;ATP8B4&quot;   &quot;GGTA1&quot;    &quot;STX11&quot;    &quot;MYO5A&quot;    &quot;TFEC&quot;     &quot;HCST&quot;     &quot;LAIR1&quot;   </span><br><span class="line">[12] &quot;LSP1&quot;     &quot;CD300A&quot;   &quot;BTK&quot;      &quot;KLHL6&quot;    &quot;C1orf54&quot;  &quot;LY86&quot;     &quot;NCKAP1L&quot;  &quot;CD37&quot;     &quot;CXorf21&quot;  &quot;TRPV2&quot;    &quot;PIK3R5&quot;  </span><br><span class="line">[23] &quot;CCR5&quot;     &quot;CD300LF&quot;  &quot;CYTH4&quot;    &quot;ABI3&quot;     &quot;CSF1R&quot;    &quot;ARHGAP25&quot; &quot;ARHGEF6&quot;  &quot;PIK3CD&quot;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>去一下交集</p>
+<p>这里有几个问题</p>
+<h2 id="第三部分：PIK3R5"><a href="#第三部分：PIK3R5" class="headerlink" title="第三部分：PIK3R5"></a>第三部分：PIK3R5</h2><p>这是我的探索数据集的结果</p>
+<blockquote>
+<p>p$p.value<br>5.351829e-13<br> cor<br>-0.648247 </p>
+</blockquote>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607195522072.png" alt="image-20200607195522072"></p>
+<p>使用TCGA COAD数据集进行验证</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607200001886.png" alt="image-20200607200001886"></p>
+<h4 id="TCGA所有癌肿"><a href="#TCGA所有癌肿" class="headerlink" title="TCGA所有癌肿"></a>TCGA所有癌肿</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607202200261.png" alt="image-20200607202200261"></p>
+<h4 id="乳腺癌数据集"><a href="#乳腺癌数据集" class="headerlink" title="乳腺癌数据集"></a>乳腺癌数据集</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607201245285.png" alt="image-20200607201245285"></p>
+<h4 id="食管癌数据集"><a href="#食管癌数据集" class="headerlink" title="食管癌数据集"></a>食管癌数据集</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607201330657.png" alt="image-20200607201330657"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607201645907.png" alt="image-20200607201645907"></p>
+<h4 id="肉瘤"><a href="#肉瘤" class="headerlink" title="肉瘤"></a>肉瘤</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607201836317.png" alt="image-20200607201836317"></p>
+<h4 id="胃腺癌"><a href="#胃腺癌" class="headerlink" title="胃腺癌"></a>胃腺癌</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607201937045.png" alt="image-20200607201937045"></p>
+<h4 id="CESC宫颈鳞癌"><a href="#CESC宫颈鳞癌" class="headerlink" title="CESC宫颈鳞癌"></a>CESC宫颈鳞癌</h4><p>和Cervical squamous cell carcinoma and endocervical adenocarcinoma</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607202058626.png" alt="image-20200607202058626"></p>
+<h4 id="肝癌"><a href="#肝癌" class="headerlink" title="肝癌"></a>肝癌</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607202906148.png" alt="image-20200607202906148"></p>
+<h4 id="头颈部鳞癌"><a href="#头颈部鳞癌" class="headerlink" title="头颈部鳞癌"></a>头颈部鳞癌</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607203002523.png" alt="image-20200607203002523"></p>
+<p>胰腺癌等</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607203112623.png" alt="image-20200607203112623"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607200548373.png" alt="image-20200607200548373"></p>
+<h4 id="重要内容基因表达方向"><a href="#重要内容基因表达方向" class="headerlink" title="重要内容基因表达方向"></a>重要内容基因表达方向</h4><p><strong>但是个文章的意思是，通过抑制PIK3R5可以促进EMT。如果按照这个逻辑，那么PIK3R5应该和E-cadherin正相关。这是相矛盾的结果？？？</strong></p>
+<p><strong>但是按照一般情况，PI3K-AKT通路促进肿瘤的发生，和E-cadherin负相关还是有一定道理的。</strong></p>
+<h2 id="第四部分：继续PIK3R5探索"><a href="#第四部分：继续PIK3R5探索" class="headerlink" title="第四部分：继续PIK3R5探索"></a>第四部分：继续PIK3R5探索</h2><p>按照PIK3R5的表达高低进行分组，做GSEA分析</p>
+<p>做GSEA的时候报错</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607210044607.png" alt="image-20200607210044607"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DEG&lt;- DEG[!DEG$SYMBOL%<span class="keyword">in</span>%c(<span class="string">'RSU1'</span>,<span class="string">'LOC389935'</span>,<span class="string">'FRMPD2P1'</span>,<span class="string">'MRC1'</span>,<span class="string">'ANXA2P3'</span>,<span class="string">'PFKFB3'</span>,<span class="string">'FAM36B'</span>,<span class="string">'CC2D2B'</span>,<span class="string">'PDB6'</span>,<span class="string">'LOC728151'</span>,<span class="string">'RTKN2'</span>,<span class="string">'ZNF37C'</span>),]</span><br><span class="line"><span class="comment"># 通过这种方法删除部分好像还是行不通。</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>解决：不可以用EtreZID， 需要用genesymbol就可以解决了</strong></p>
+<h4 id="1-先是差异表达基因"><a href="#1-先是差异表达基因" class="headerlink" title="1 先是差异表达基因"></a>1 先是差异表达基因</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">rm(list=ls())</span><br><span class="line"></span><br><span class="line"><span class="comment">#####################################第一步按照PIK3R5的表达量分组做差异表达基因</span></span><br><span class="line">load(file=<span class="string">'./Rdata/step2.Rdata'</span>)</span><br><span class="line">exprSet=new_exprSet</span><br><span class="line">phe&lt;- pheno</span><br><span class="line">dim(exprSet)</span><br><span class="line">colnames(phe)</span><br><span class="line"><span class="comment">### 首先要整理数据，删除非癌组织</span></span><br><span class="line">colnames(exprSet)</span><br><span class="line">rownames(pheno)</span><br><span class="line">match(colnames(exprSet),rownames(pheno))</span><br><span class="line"><span class="comment">#### 筛选出tumor的组织成为exprset</span></span><br><span class="line">exprSet&lt;- exprSet[,pheno$`sample type:ch1`==<span class="string">'Tumor'</span>]</span><br><span class="line">exprSet[<span class="string">'CDH1'</span>,]</span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">group_list=ifelse(exprSet[<span class="string">'CDH1'</span>,]&gt;median(exprSet[<span class="string">'CDH1'</span>,]),<span class="string">'high'</span>, <span class="string">'low'</span>)</span><br><span class="line">table(group_list)</span><br><span class="line"><span class="comment"># group_list=ifelse(group_list=='cancer','cancer','normal')</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(limma)</span><br><span class="line"></span><br><span class="line">design &lt;- model.matrix(~<span class="number">0</span>+factor(group_list))</span><br><span class="line">colnames(design)=levels(factor(group_list))</span><br><span class="line">rownames(design)=colnames(exprSet)</span><br><span class="line">design</span><br><span class="line"></span><br><span class="line">contrast.matrix&lt;-makeContrasts(paste0(unique(group_list),collapse = <span class="string">"-"</span>),</span><br><span class="line">                               levels = design)</span><br><span class="line">contrast.matrix&lt;-makeContrasts(<span class="string">"high-low"</span>,</span><br><span class="line">                               levels = design)</span><br><span class="line"></span><br><span class="line">contrast.matrix <span class="comment">##这个矩阵声明，我们要把progres.组跟stable进行差异分析比较</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">deg = <span class="keyword">function</span>(exprSet,design,contrast.matrix)&#123;</span><br><span class="line">  <span class="comment">##step1</span></span><br><span class="line">  fit &lt;- lmFit(exprSet,design)</span><br><span class="line">  <span class="comment">##step2</span></span><br><span class="line">  fit2 &lt;- contrasts.fit(fit, contrast.matrix) </span><br><span class="line">  <span class="comment">##这一步很重要，大家可以自行看看效果</span></span><br><span class="line">  fit2 &lt;- eBayes(fit2)  <span class="comment">## default no trend !!!</span></span><br><span class="line">  <span class="comment">##eBayes() with trend=TRUE</span></span><br><span class="line">  <span class="comment">##step3</span></span><br><span class="line">  tempOutput = topTable(fit2, coef=<span class="number">1</span>, n=<span class="literal">Inf</span>)</span><br><span class="line">  nrDEG = na.omit(tempOutput) </span><br><span class="line">  <span class="comment">#write.csv(nrDEG2,"limma_notrend.results.csv",quote = F)</span></span><br><span class="line">  head(nrDEG)</span><br><span class="line">  <span class="keyword">return</span>(nrDEG)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">re = deg(exprSet,design,contrast.matrix)</span><br><span class="line">nrDEG=re</span><br><span class="line">DEG=nrDEG</span><br><span class="line"><span class="comment"># logFC_cutoff &lt;- with(DEG,mean(abs( logFC)) + sd(abs(logFC)) )</span></span><br><span class="line"><span class="comment"># logFC_cutoff &lt;- with(DEG,mean(abs( logFC)) + 2*sd(abs(logFC)) )</span></span><br><span class="line">logFC_cutoff=<span class="number">1</span></span><br><span class="line">DEG$change = as.factor(ifelse(DEG$P.Value &lt; <span class="number">0.05</span> &amp; abs(DEG$logFC) &gt; logFC_cutoff,</span><br><span class="line">                              ifelse(DEG$logFC &gt; logFC_cutoff ,<span class="string">'UP'</span>,<span class="string">'DOWN'</span>),<span class="string">'NOT'</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">save(DEG,file = <span class="string">'./Rdata/CDH1_expression_DEG.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="2-GSEA分析"><a href="#2-GSEA分析" class="headerlink" title="2 GSEA分析"></a>2 GSEA分析</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#################################################下面开始GSEA分析</span></span><br><span class="line">rm(list=ls())</span><br><span class="line"><span class="comment"># options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/")</span></span><br><span class="line"><span class="comment"># options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))</span></span><br><span class="line"><span class="comment"># BiocManager::install('GSEABase')</span></span><br><span class="line"><span class="comment"># BiocManager::install('GSVA')</span></span><br><span class="line"><span class="keyword">library</span>(GSEABase)</span><br><span class="line"><span class="keyword">library</span>(GSVA)</span><br><span class="line"><span class="comment">### ---------------</span></span><br><span class="line">load(file=<span class="string">'./Rdata/CDH1_expression_DEG.Rdata'</span>)</span><br><span class="line"><span class="comment"># source('functions.R')</span></span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(clusterProfiler)</span><br><span class="line"><span class="keyword">library</span>(org.Hs.eg.db)</span><br><span class="line"><span class="comment"># df &lt;- bitr(rownames(DEG), fromType = "SYMBOL",</span></span><br><span class="line"><span class="comment">#            toType = c( "ENTREZID"),</span></span><br><span class="line"><span class="comment">#            OrgDb = org.Hs.eg.db)</span></span><br><span class="line"><span class="comment"># head(df)</span></span><br><span class="line"><span class="comment"># head(DEG)</span></span><br><span class="line"><span class="comment"># DEG$SYMBOL = rownames(DEG)</span></span><br><span class="line"><span class="comment"># DEG=merge(DEG,df,by='SYMBOL')</span></span><br><span class="line"><span class="comment"># head(DEG)</span></span><br><span class="line"></span><br><span class="line">geneList=DEG$logFC</span><br><span class="line"><span class="comment"># names(geneList)=DEG$ENTREZID ### 如果这里用ENTREZID会报错</span></span><br><span class="line">names(geneList)=rownames(DEG)</span><br><span class="line">geneList=sort(geneList,decreasing = <span class="literal">T</span>)</span><br><span class="line"></span><br><span class="line">head(geneList)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">## Molecular Signatures Database (MSigDb) </span></span><br><span class="line">d=<span class="string">'D:/GSVA_and_GSEA_Gene_Sets/MsigDB/symbols/'</span></span><br><span class="line"><span class="comment"># gmts=list.files(d,pattern = 'all')</span></span><br><span class="line">gmts=list.files(d,pattern = <span class="string">'c2'</span>)</span><br><span class="line">gmts</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line">  msigdb &lt;- lapply(gmts, <span class="keyword">function</span>(gmtfile)&#123;</span><br><span class="line">    geneset &lt;- read.gmt(file.path(d,gmtfile)) </span><br><span class="line">    egmt &lt;- GSEA(geneList, TERM2GENE=geneset, verbose=<span class="literal">FALSE</span>)</span><br><span class="line">    head(egmt)</span><br><span class="line">    <span class="keyword">return</span>(egmt)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125; </span><br><span class="line">save(msigdb,file=<span class="string">'./Rdata/msigdb.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">load(file=<span class="string">'./Rdata/msigdb.Rdata'</span>)</span><br><span class="line">msigdb_df &lt;- lapply(msigdb, <span class="keyword">function</span>(x)&#123;</span><br><span class="line">  cat(paste(dim(x@result)),<span class="string">'\n'</span>)</span><br><span class="line">  x@result</span><br><span class="line">&#125;)</span><br><span class="line">gmts</span><br><span class="line">df=do.call(rbind ,msigdb_df)</span><br><span class="line">df</span><br><span class="line">write.csv(df, file = <span class="string">'./figure/GSEA_C2.csv'</span>)</span><br><span class="line">gseaplot(msigdb[[<span class="number">1</span>]],<span class="string">'HOLLERN_EMT_BREAST_TUMOR_UP'</span>) </span><br><span class="line"><span class="comment"># gseaplot(msigdb[[2]],'KEGG_CELL_CYCLE') </span></span><br><span class="line"><span class="comment"># gseaplot(msigdb[[5]],'GO_NEGATIVE_REGULATION_OF_MACROAUTOPHAGY')</span></span><br></pre></td></tr></table></figure>
+
+<p>最终得到很多通路与之对应其中搜索EMT发现一条</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607223732087.png" alt="image-20200607223732087"></p>
+<p>粗略的看有两条通路</p>
+<p>HOLLERN_EMT_BREAST_TUMOR_DN 和KEGG_WNT_SIGNALING_PATHWAY</p>
+<h4 id="3-GSEA结果"><a href="#3-GSEA结果" class="headerlink" title="3 GSEA结果"></a>3 GSEA结果</h4><h5 id="这条是-KEGG-WNT-SIGNALING-PATHWAY"><a href="#这条是-KEGG-WNT-SIGNALING-PATHWAY" class="headerlink" title="这条是 KEGG_WNT_SIGNALING_PATHWAY"></a>这条是 KEGG_WNT_SIGNALING_PATHWAY<img src="/2020/06/06/project_colorectal-cancer/image-20200607223932045.png" alt="image-20200607223932045"></h5><h5 id="这条是HOLLERN-EMT-BREAST-TUMOR-DN"><a href="#这条是HOLLERN-EMT-BREAST-TUMOR-DN" class="headerlink" title="这条是HOLLERN_EMT_BREAST_TUMOR_DN"></a>这条是HOLLERN_EMT_BREAST_TUMOR_DN</h5><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607224014158.png" alt="image-20200607224014158"></p>
+<p><a href="https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=C2" target="_blank" rel="noopener">https://www.gsea-msigdb.org/gsea/msigdb/genesets.jsp?collection=C2</a></p>
+<p>这个链接下搜索基因集信息</p>
+<h4 id="4-生存相关性-及-T-vs-N"><a href="#4-生存相关性-及-T-vs-N" class="headerlink" title="4 生存相关性 及 T vs N"></a>4 生存相关性 及 T vs N</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200607232213291.png" alt="image-20200607232213291"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200607233605579.png" alt="image-20200607233605579"></p>
+<p>PIK3R5在正常组织里高表达。</p>
+<p>我很奇怪的发下E-cadherin居然在正常组织中低表达。（可见病理条件下和生理条件下有非常多的不同）因此这样的分析意义不大。</p>
+<h3 id="但是自己的分析和网页工具有差异"><a href="#但是自己的分析和网页工具有差异" class="headerlink" title="但是自己的分析和网页工具有差异"></a>但是自己的分析和网页工具有差异</h3><p><img src="/2020/06/06/project_colorectal-cancer/image-20200608222041441.png" alt="image-20200608222041441"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">exprSet[<span class="number">1</span>:<span class="number">5</span>,<span class="number">1</span>:<span class="number">5</span>]</span><br><span class="line">tmp&lt;- exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),]</span><br><span class="line">tmp2&lt;- exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),]</span><br><span class="line">exprSet&lt;- as.matrix(exprSet)</span><br><span class="line">p=cor.test(exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),],exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),],method = <span class="string">'pearson'</span>)</span><br><span class="line">p$p.value</span><br><span class="line">class(p$p.value)</span><br><span class="line">p$estimate</span><br><span class="line">class(p$estimate)</span><br><span class="line">plot(exprSet[grepl(<span class="string">'ENSG00000039068'</span>,rownames(exprSet)),],exprSet[grepl(<span class="string">'ENSG00000141506'</span>,rownames(exprSet)),])</span><br><span class="line">plot(exprSet[,<span class="string">'CDH1'</span>],exprSet[,<span class="string">'PIK3R5'</span>])</span><br></pre></td></tr></table></figure>
+
+<p>通过原始数据的ENSG找到了这些基因的表达，同样做曲线。因此我确信我的统计是没有问题的。（这里包含了癌组织和正常组织，但正常组织少，几乎可以忽略）</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608225310142.png" alt="image-20200608225310142"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214121961.png" alt="image-20200608214121961"></p>
+<h2 id="第五部分：探索结直肠癌大型数据库"><a href="#第五部分：探索结直肠癌大型数据库" class="headerlink" title="第五部分：探索结直肠癌大型数据库"></a>第五部分：探索结直肠癌大型数据库</h2><h4 id="1-从cbioportal开始"><a href="#1-从cbioportal开始" class="headerlink" title="1 从cbioportal开始"></a>1 从cbioportal开始</h4><p><a href="https://www.cbioportal.org/" target="_blank" rel="noopener">https://www.cbioportal.org/</a></p>
+<p>还能搜索到蛮多数据集cbioportal主要是基因组信息</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200608214520923.png" alt="image-20200608214520923"></p>
+<h4 id="2-从TCGA开始"><a href="#2-从TCGA开始" class="headerlink" title="2 从TCGA开始"></a>2 从TCGA开始</h4><p>[下图链接](<a href="https://portal.gdc.cancer.gov/projects?filters={&quot;op&quot;%3A&quot;and&quot;%2C&quot;content&quot;%3A[{&quot;op&quot;%3A&quot;in&quot;%2C&quot;content&quot;%3A{&quot;field&quot;%3A&quot;projects.disease_type&quot;%2C&quot;value&quot;%3A[&quot;adenomas" target="_blank" rel="noopener">https://portal.gdc.cancer.gov/projects?filters={&quot;op&quot;%3A&quot;and&quot;%2C&quot;content&quot;%3A[{&quot;op&quot;%3A&quot;in&quot;%2C&quot;content&quot;%3A{&quot;field&quot;%3A&quot;projects.disease_type&quot;%2C&quot;value&quot;%3A[&quot;adenomas</a> and adenocarcinomas”]}}%2C{“op”%3A”in”%2C”content”%3A{“field”%3A”projects.primary_site”%2C”value”%3A[“colon”]}}%2C{“op”%3A”in”%2C”content”%3A{“field”%3A”projects.summary.data_categories.data_category”%2C”value”%3A[“transcriptome profiling”]}}]})</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609084844926.png" alt="image-20200609084844926"></p>
+<h4 id="3-关于110个样本的CPTAC数据集"><a href="#3-关于110个样本的CPTAC数据集" class="headerlink" title="3 关于110个样本的CPTAC数据集"></a>3 关于110个样本的CPTAC数据集</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200609075152738.png" alt="image-20200609075152738"></p>
+<p>DATA AND SOFTWARE AVAILABILITY<br>Raw genomics data from this study are available at the Sequence Read Archive (SRA), BioProject ID: PRJNA514017 (<a href="ftp://ftp-trace">ftp://ftp-trace</a>. ncbi.nlm.nih.gov/sra/review/SRP178677_20190114_143443_27e795eb0f314edf0479737480ab0f2a). Raw and low-level processed<br>proteomics data from this study are available at the CPTAC Data Portal (<a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a>).<br>All final data matrices are available at the LinkedOmics (Vasaikar et al., 2018) (<a href="http://linkedomics.org/cptac-colon/" target="_blank" rel="noopener">http://linkedomics.org/cptac-colon/</a>), which also<br>provides computational tools for further exploration of this dataset.  </p>
+<p><strong>确定有用链接</strong></p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a></p>
+<p><a href="http://linkedomics.org/cptac-colon/" target="_blank" rel="noopener">http://linkedomics.org/cptac-colon/</a>  （这个链接能下载到所有数据）不一定要下载原始数据，原始数据数据量太大，直接使用已经处理好的数据更加方便。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609080729377.png" alt="image-20200609080729377"></p>
+<p>这里说明都有</p>
+<p>下载使用该数据集进行分析后发现</p>
+<p>无明显相关性</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609081649099.png" alt="image-20200609081649099"></p>
+<p>TCGA还有一大部分的数据</p>
+<p>TCGA中蛋白质组学数据存放在单独的蛋白质组学数据库中</p>
+<p><a href="https://proteomics.cancer.gov/" target="_blank" rel="noopener">https://proteomics.cancer.gov/</a></p>
+<p>这部分是蛋白质数据。</p>
+<p>总列表</p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/public" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/public</a></p>
+<p><a href="https://cptac-data-portal.georgetown.edu/cptac/s/S045" target="_blank" rel="noopener">https://cptac-data-portal.georgetown.edu/cptac/s/S045</a></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609074030557.png" alt="image-20200609074030557"></p>
+<p>这部分数据可以通过网页工具IBM aspera下载，这个是网站自动引导安装的</p>
+<p>这部分数据应该是蛋白质谱数据。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609074412154.png" alt="image-20200609074412154"></p>
+<p>这部分数据是可以下载和应用的。</p>
+<h4 id="4-还有一个比较大的数据集-DFCI-但只有全外显子测序数据"><a href="#4-还有一个比较大的数据集-DFCI-但只有全外显子测序数据" class="headerlink" title="4 还有一个比较大的数据集 DFCI 但只有全外显子测序数据"></a>4 还有一个比较大的数据集 DFCI 但只有全外显子测序数据</h4><p><a href="https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000722.v1.p1" target="_blank" rel="noopener">https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000722.v1.p1</a></p>
+<p>和cbioportal中600多个样本一致。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083523964.png" alt="image-20200609083523964"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083842234.png" alt="image-20200609083842234"></p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200609083458671.png" alt="image-20200609083458671"></p>
+<h2 id="第六章补充部分"><a href="#第六章补充部分" class="headerlink" title="第六章补充部分"></a>第六章补充部分</h2><p>使用了从TCGA GDC得到的数据和网页工具较为一致了。而且数据量要大一些。</p>
+<p><img src="/2020/06/06/project_colorectal-cancer/image-20200610220435136.png" alt="image-20200610220435136"></p>
+<p>接下来关于PIK3R5的验证</p>
+<h4 id="我是从GSE44076这个数据库中找到的"><a href="#我是从GSE44076这个数据库中找到的" class="headerlink" title="我是从GSE44076这个数据库中找到的"></a>我是从GSE44076这个数据库中找到的</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200610225040685.png" alt="image-20200610225040685"></p>
+<h4 id="使用TCGA数据库验证（最正规的从GDC下载的数据）"><a href="#使用TCGA数据库验证（最正规的从GDC下载的数据）" class="headerlink" title="使用TCGA数据库验证（最正规的从GDC下载的数据）"></a>使用TCGA数据库验证（最正规的从GDC下载的数据）</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200610225245241.png" alt="image-20200610225245241"></p>
+<h4 id="只有CPTAC这个数据集没有相关性"><a href="#只有CPTAC这个数据集没有相关性" class="headerlink" title="只有CPTAC这个数据集没有相关性"></a>只有CPTAC这个数据集没有相关性</h4><p><img src="/2020/06/06/project_colorectal-cancer/image-20200610225436215.png" alt="image-20200610225436215"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/research/" rel="tag"># research</a>
+              <a href="/tags/colorectal-cancer/" rel="tag"># colorectal cancer</a>
+              <a href="/tags/datasets/" rel="tag"># datasets</a>
+              <a href="/tags/project/" rel="tag"># project</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/06/02/%E8%BD%AC%E5%BD%95%E5%9B%A0%E5%AD%90%E5%92%8CRNA%E7%BB%93%E5%90%88%E8%9B%8B%E7%99%BD%E6%B3%A8%E9%87%8A%E4%BF%A1%E6%81%AF%E4%B8%8B%E8%BD%BD/" rel="prev" title="转录因子和RNA结合蛋白注释信息下载">
+      <i class="fa fa-chevron-left"></i> 转录因子和RNA结合蛋白注释信息下载
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/06/06/%E4%B8%8B%E8%BD%BDGEO%E6%95%B0%E6%8D%AE/" rel="next" title="下载GEO数据集">
+      下载GEO数据集 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#第一部分：数据下载"><span class="nav-number">1.</span> <span class="nav-text">第一部分：数据下载</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Expression"><span class="nav-number">1.1.</span> <span class="nav-text">Expression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#miRNA"><span class="nav-number">1.2.</span> <span class="nav-text">miRNA</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Somatic-mutations"><span class="nav-number">1.3.</span> <span class="nav-text">Somatic mutations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CNV"><span class="nav-number">1.4.</span> <span class="nav-text">CNV</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Methylation"><span class="nav-number">1.5.</span> <span class="nav-text">Methylation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Clinical-annotation-of-samples"><span class="nav-number">1.6.</span> <span class="nav-text">Clinical annotation of samples</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Raw-data"><span class="nav-number">1.7.</span> <span class="nav-text">Raw data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第二部分：coexpression-analysis"><span class="nav-number">2.</span> <span class="nav-text">第二部分：coexpression_analysis</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第三部分：PIK3R5"><span class="nav-number">3.</span> <span class="nav-text">第三部分：PIK3R5</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TCGA所有癌肿"><span class="nav-number">3.0.1.</span> <span class="nav-text">TCGA所有癌肿</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#乳腺癌数据集"><span class="nav-number">3.0.2.</span> <span class="nav-text">乳腺癌数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#食管癌数据集"><span class="nav-number">3.0.3.</span> <span class="nav-text">食管癌数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#肉瘤"><span class="nav-number">3.0.4.</span> <span class="nav-text">肉瘤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#胃腺癌"><span class="nav-number">3.0.5.</span> <span class="nav-text">胃腺癌</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CESC宫颈鳞癌"><span class="nav-number">3.0.6.</span> <span class="nav-text">CESC宫颈鳞癌</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#肝癌"><span class="nav-number">3.0.7.</span> <span class="nav-text">肝癌</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#头颈部鳞癌"><span class="nav-number">3.0.8.</span> <span class="nav-text">头颈部鳞癌</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#重要内容基因表达方向"><span class="nav-number">3.0.9.</span> <span class="nav-text">重要内容基因表达方向</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第四部分：继续PIK3R5探索"><span class="nav-number">4.</span> <span class="nav-text">第四部分：继续PIK3R5探索</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-先是差异表达基因"><span class="nav-number">4.0.1.</span> <span class="nav-text">1 先是差异表达基因</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-GSEA分析"><span class="nav-number">4.0.2.</span> <span class="nav-text">2 GSEA分析</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-GSEA结果"><span class="nav-number">4.0.3.</span> <span class="nav-text">3 GSEA结果</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这条是-KEGG-WNT-SIGNALING-PATHWAY"><span class="nav-number">4.0.3.1.</span> <span class="nav-text">这条是 KEGG_WNT_SIGNALING_PATHWAY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这条是HOLLERN-EMT-BREAST-TUMOR-DN"><span class="nav-number">4.0.3.2.</span> <span class="nav-text">这条是HOLLERN_EMT_BREAST_TUMOR_DN</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-生存相关性-及-T-vs-N"><span class="nav-number">4.0.4.</span> <span class="nav-text">4 生存相关性 及 T vs N</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#但是自己的分析和网页工具有差异"><span class="nav-number">4.1.</span> <span class="nav-text">但是自己的分析和网页工具有差异</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第五部分：探索结直肠癌大型数据库"><span class="nav-number">5.</span> <span class="nav-text">第五部分：探索结直肠癌大型数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-从cbioportal开始"><span class="nav-number">5.0.1.</span> <span class="nav-text">1 从cbioportal开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-从TCGA开始"><span class="nav-number">5.0.2.</span> <span class="nav-text">2 从TCGA开始</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-关于110个样本的CPTAC数据集"><span class="nav-number">5.0.3.</span> <span class="nav-text">3 关于110个样本的CPTAC数据集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-还有一个比较大的数据集-DFCI-但只有全外显子测序数据"><span class="nav-number">5.0.4.</span> <span class="nav-text">4 还有一个比较大的数据集 DFCI 但只有全外显子测序数据</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#第六章补充部分"><span class="nav-number">6.</span> <span class="nav-text">第六章补充部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我是从GSE44076这个数据库中找到的"><span class="nav-number">6.0.1.</span> <span class="nav-text">我是从GSE44076这个数据库中找到的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用TCGA数据库验证（最正规的从GDC下载的数据）"><span class="nav-number">6.0.2.</span> <span class="nav-text">使用TCGA数据库验证（最正规的从GDC下载的数据）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#只有CPTAC这个数据集没有相关性"><span class="nav-number">6.0.3.</span> <span class="nav-text">只有CPTAC这个数据集没有相关性</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">27</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">113</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
