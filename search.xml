@@ -1884,7 +1884,9 @@
 
 
 
-<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">&gt; devtools::install_github(<span class="string">"jmzeng1314/idmap2"</span>)</span><br><span class="line">错误: Failed to install <span class="string">'idmap2'</span> from GitHub:</span><br><span class="line">  schannel: failed to receive handshake, SSL/TLS connection failed</span><br><span class="line">&gt; devtools::install_github(<span class="string">'dviraran/xCell'</span>)</span><br><span class="line">错误: Failed to install <span class="string">'unknown package'</span> from GitHub:</span><br><span class="line">  invalid multibyte string, element <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+<h4 id="从Github上安装R包，或者将github上的R包下载到本地安装"><a href="#从Github上安装R包，或者将github上的R包下载到本地安装" class="headerlink" title="从Github上安装R包，或者将github上的R包下载到本地安装"></a>从Github上安装R包，或者将github上的R包下载到本地安装</h4><h3 id="第一步需要安装Rtools（此处略过）"><a href="#第一步需要安装Rtools（此处略过）" class="headerlink" title="第一步需要安装Rtools（此处略过）"></a>第一步需要安装Rtools（此处略过）</h3><h3 id="第二步解决ssh钥匙问题"><a href="#第二步解决ssh钥匙问题" class="headerlink" title="第二步解决ssh钥匙问题"></a>第二步解决ssh钥匙问题</h3><figure class="highlight r"><table><tr><td class="code"><pre><span class="line">&gt; devtools::install_github(<span class="string">"jmzeng1314/idmap2"</span>)</span><br><span class="line">错误: Failed to install <span class="string">'idmap2'</span> from GitHub:</span><br><span class="line">  schannel: failed to receive handshake, SSL/TLS connection failed</span><br><span class="line">&gt; devtools::install_github(<span class="string">'dviraran/xCell'</span>)</span><br><span class="line">错误: Failed to install <span class="string">'unknown package'</span> from GitHub:</span><br><span class="line">  invalid multibyte string, element <span class="number">1</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -1910,10 +1912,16 @@
 
 <p><img src="/2019/11/24/install_R_Packages/image-20200710180737919.png" alt="image-20200710180737919"></p>
 <p>在使用github客户端提交代码时，报错<br>failed to receive handshake ssl/tls connection failed<br>解决方法：</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global http.sslBackend <span class="string">"openssl"</span></span></span><br><span class="line"><span class="meta">$</span><span class="bash"> git config --global http.sslCAInfo [path to .pem file]</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">git config --global http.sslBackend "openssl"</span><br><span class="line"><span class="meta">#</span><span class="bash"> git config --global http.sslCAInfo [path to .pem file]</span></span><br><span class="line">git config --global http.sslCAInfo /c/Users/kexin/Documents/R/win-library/3.6/openssl/cacert.pem</span><br></pre></td></tr></table></figure>
 
 
 
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">install_github(<span class="string">"ebecht/MCPcounter"</span>,ref=<span class="string">"master"</span>, subdir=<span class="string">"Source"</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2019/11/24/install_R_Packages/image-20200711143422331.png" alt="image-20200711143422331"></p>
+<p><img src="/2019/11/24/install_R_Packages/image-20200711142541161.png" alt="image-20200711142541161"></p>
 <p>亲测可用。<br>如果还不能用，建议谷歌，博主bing搜索了半天没有找到合适的方案，更别说百度了……<br>来源：<a href="https://github.com/desktop/desktop/issues/2920" target="_blank" rel="noopener">https://github.com/desktop/desktop/issues/2920</a><br>————————————————<br>版权声明：本文为CSDN博主「ThetaQing」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。<br>原文链接：<a href="https://blog.csdn.net/Thera_qing/article/details/102843096" target="_blank" rel="noopener">https://blog.csdn.net/Thera_qing/article/details/102843096</a></p>
 ]]></content>
       <categories>
@@ -8350,26 +8358,6 @@
       </tags>
   </entry>
   <entry>
-    <title>从NCBI上下载参考基因组及索引文件</title>
-    <url>/2020/05/25/%E4%BB%8ENCBI%E4%B8%8A%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h3 id="下载参考基因组数据"><a href="#下载参考基因组数据" class="headerlink" title="下载参考基因组数据"></a>下载参考基因组数据</h3><a id="more"></a>
-
-<p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/</a></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/my_disk/reference/NCBI/GCA/index/bowtie</span><br><span class="line">nohup wget https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_full_analysis_set.fna.bowtie_index.tar.gz &amp;</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/05/25/%E4%BB%8ENCBI%E4%B8%8A%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E7%B4%A2%E5%BC%95%E6%96%87%E4%BB%B6/1571984527391.png" alt="1571984527391"></p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -xzvf GCA_000001405.15_GRCh38_full_analysis_set.fna.bowtie_index.tar.gz</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>bio_informatics</category>
-      </categories>
-      <tags>
-        <tag>数据下载</tag>
-        <tag>参考基因组</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>宏基因组学习1</title>
     <url>/2020/05/22/%E5%AE%8F%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%AD%A6%E4%B9%A01/</url>
     <content><![CDATA[<p>学习资料</p>
@@ -10628,6 +10616,297 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <p>data imput</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line">library(xCell)</span><br><span class="line">exprMatrix = read.table(file = <span class="string">'/Users/chenyuqiao/Desktop/TCGA-LUAD.htseq_counts.tsv'</span>,header=<span class="keyword">TRUE</span>,row.names=<span class="number">1</span>, <span class="keyword">as</span>.is=<span class="keyword">TRUE</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">###exprMatrix&lt;- exprMatrix[1:10,1:10]</span></span><br><span class="line">Ensemble_ID&lt;- rownames(exprMatrix)</span><br><span class="line">ID&lt;- strsplit(Ensemble_ID, <span class="string">"[.]"</span>)</span><br><span class="line">str(ID)</span><br><span class="line">IDlast&lt;- sapply(ID, <span class="string">"["</span>, <span class="number">1</span>)</span><br><span class="line">exprMatrix$Ensemble_ID&lt;- IDlast</span><br><span class="line">row.names(exprMatrix)&lt;- exprMatrix$Ensemble_ID</span><br><span class="line">save(exprMatrix, file = <span class="string">'TCGA.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'TCGA.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">####library(clusterProfiler)</span></span><br><span class="line">library(org.Hs.eg.db)</span><br><span class="line">ls(<span class="string">"package:org.Hs.eg.db"</span>)</span><br><span class="line">g2s=toTable(org.Hs.egSYMBOL);head(g2s)</span><br><span class="line">g2e=toTable(org.Hs.egENSEMBL);head(g2e)</span><br><span class="line">tmp=merge(g2e,g2s,by=<span class="string">'gene_id'</span>)</span><br><span class="line">head(tmp)</span><br><span class="line">colnames(exprMatrix)[ncol(exprMatrix)] &lt;- c(<span class="string">"ensembl_id"</span>)<span class="comment">###################重命名Ensemble_ID 便于后面merge</span></span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">exprMatrix&lt;- merge(tmp,exprMatrix,by=<span class="string">'ensembl_id'</span>)</span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">exprMatrix&lt;- exprMatrix[,- c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">exprMatrix=exprMatrix[!duplicated(exprMatrix$symbol),]</span><br><span class="line">row.names(exprMatrix)&lt;- exprMatrix[,<span class="number">1</span>]</span><br><span class="line">exprMatrix&lt;- exprMatrix[,<span class="number">-1</span>]</span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">xCellAnalysis(exprMatrix)<span class="comment">####################一句话就分析完成了</span></span><br><span class="line"><span class="comment">##save(results,file = 'Xcell_result.Rdata')#############需要重新修改</span></span><br></pre></td></tr></table></figure>
 
-<h4 id="第二步：批量生存分析"><a href="#第二步：批量生存分析" class="headerlink" title="第二步：批量生存分析"></a>第二步：批量生存分析</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">load(file = <span class="string">'Xcell_result.Rdata'</span>)</span><br><span class="line">result&lt;- <span class="keyword">as</span>.data.frame(result)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tidyverse)</span><br><span class="line"></span><br><span class="line">TCGA.LUAD.GDC_phenotype &lt;- read.delim(<span class="string">"TCGA-LUAD.GDC_phenotype.tsv"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#colnames(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"><span class="comment">#head(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"></span><br><span class="line">LUAD_Pheno&lt;- select(TCGA.LUAD.GDC_phenotype, <span class="string">"submitter_id.samples"</span>, <span class="string">"vital_status.diagnoses"</span>, <span class="string">"days_to_death.diagnoses"</span>, <span class="string">"days_to_last_follow_up.diagnoses"</span>, <span class="string">"pathologic_N"</span>, <span class="string">"pathologic_M"</span>, <span class="string">"days_to_new_tumor_event_after_initial_treatment"</span>)</span><br><span class="line">LUAD_Pheno&lt;- LUAD_Pheno[grep(<span class="string">'01A'</span>,LUAD_Pheno$submitter_id.samples),]  <span class="comment">#####只筛选01A的   01A代表肿瘤</span></span><br><span class="line">LUAD_Pheno[is.na(LUAD_Pheno)]&lt;- <span class="number">0</span></span><br><span class="line">LUAD_Pheno$PFS_status&lt;- ifelse((LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span> &amp; LUAD_Pheno$days_to_death.diagnoses == <span class="number">0</span>), <span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">##################################</span></span><br><span class="line">LUAD_Pheno$OS&lt;- ifelse(LUAD_Pheno$days_to_last_follow_up.diagnoses &gt; LUAD_Pheno$days_to_death.diagnoses, LUAD_Pheno$days_to_last_follow_up.diagnoses,LUAD_Pheno$days_to_death.diagnoses)</span><br><span class="line">LUAD_Pheno$PFS&lt;- ifelse(LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span>, LUAD_Pheno$OS ,LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment)</span><br><span class="line">LUAD_Pheno$OS_status&lt;- <span class="keyword">as</span>.factor(LUAD_Pheno$vital_status.diagnoses)</span><br><span class="line"><span class="comment">#############################设计好分组</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#############################生存曲线</span></span><br><span class="line"></span><br><span class="line">firstdata&lt;- result  <span class="comment">###############expre</span></span><br><span class="line">firstdata$ID&lt;- rownames(firstdata)</span><br><span class="line">gene&lt;- row.names(firstdata)</span><br><span class="line"><span class="comment">#######select only gene to analysis</span></span><br><span class="line">library(survminer)</span><br><span class="line">library(survival)</span><br><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line"><span class="keyword">for</span> (x in gene) &#123;</span><br><span class="line">  RNA_seq_data&lt;-filter(firstdata, firstdata$ID == x)</span><br><span class="line">  RNA_seq_data&lt;- t(RNA_seq_data)</span><br><span class="line">  RNA_seq_data&lt;- <span class="keyword">as</span>.data.frame(RNA_seq_data)</span><br><span class="line">  <span class="comment"># str(RNA_seq_data)</span></span><br><span class="line">  <span class="comment"># colnames(LUAD_Pheno)</span></span><br><span class="line">  RNA_seq_data$submitter_id.samples&lt;- row.names(RNA_seq_data)</span><br><span class="line">  colnames(RNA_seq_data)&lt;- c(<span class="string">"Expressionvalue"</span>,<span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- <span class="keyword">as</span>.character(LUAD_Pheno$submitter_id.samples)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- sub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  finaldata&lt;- inner_join(LUAD_Pheno,RNA_seq_data, by = <span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.character(finaldata$PFS_status)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.factor(finaldata$PFS_status))</span><br><span class="line">  finaldata$Expressionvalue&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.character(finaldata$Expressionvalue))</span><br><span class="line">  finaldata$group&lt;- ifelse(finaldata$Expressionvalue&gt;median(finaldata$Expressionvalue),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  library(survminer)</span><br><span class="line">  library(survival)</span><br><span class="line">  fit &lt;- survfit(Surv(finaldata$PFS,finaldata$PFS_status)~finaldata$group, data=finaldata) </span><br><span class="line">  summary(fit)</span><br><span class="line">  pp&lt;- ggsurvplot(fit, data = finaldata, conf.int = F, pval = <span class="keyword">TRUE</span>,</span><br><span class="line">                  xlim = c(<span class="number">0</span>,<span class="number">2000</span>), <span class="comment"># present narrower X axis, but not affect</span></span><br><span class="line">                  <span class="comment"># survival estimates. </span></span><br><span class="line">                  xlab = <span class="string">"Time in days"</span>, <span class="comment"># customize X axis label. </span></span><br><span class="line">                  <span class="keyword">break</span>.time.by = <span class="number">200</span>) <span class="comment"># break X axis in time intervals by 500. </span></span><br><span class="line">  ggsave(filename = paste(<span class="string">"plot_"</span>,x,<span class="string">".pdf"</span>,sep = <span class="string">""</span>))</span><br><span class="line">  <span class="keyword">print</span>(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+<h4 id="第二步：批量生存分析"><a href="#第二步：批量生存分析" class="headerlink" title="第二步：批量生存分析"></a>第二步：批量生存分析</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line">load(file = <span class="string">'Xcell_result.Rdata'</span>)</span><br><span class="line">result&lt;- <span class="keyword">as</span>.data.frame(result)</span><br><span class="line">library(dplyr)</span><br><span class="line">library(tidyverse)</span><br><span class="line"></span><br><span class="line">TCGA.LUAD.GDC_phenotype &lt;- read.delim(<span class="string">"TCGA-LUAD.GDC_phenotype.tsv"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#colnames(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"><span class="comment">#head(TCGA.LUAD.GDC_phenotype)</span></span><br><span class="line"></span><br><span class="line">LUAD_Pheno&lt;- select(TCGA.LUAD.GDC_phenotype, <span class="string">"submitter_id.samples"</span>, <span class="string">"vital_status.diagnoses"</span>, <span class="string">"days_to_death.diagnoses"</span>, <span class="string">"days_to_last_follow_up.diagnoses"</span>, <span class="string">"pathologic_N"</span>, <span class="string">"pathologic_M"</span>, <span class="string">"days_to_new_tumor_event_after_initial_treatment"</span>)</span><br><span class="line">LUAD_Pheno&lt;- LUAD_Pheno[grep(<span class="string">'01A'</span>,LUAD_Pheno$submitter_id.samples),]  <span class="comment">#####只筛选01A的   01A代表肿瘤</span></span><br><span class="line">LUAD_Pheno[is.na(LUAD_Pheno)]&lt;- <span class="number">0</span></span><br><span class="line">LUAD_Pheno$PFS_status&lt;- ifelse((LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span> &amp; LUAD_Pheno$days_to_death.diagnoses == <span class="number">0</span>), <span class="number">0</span>,<span class="number">1</span>)</span><br><span class="line"><span class="comment">##################################</span></span><br><span class="line">LUAD_Pheno$OS&lt;- ifelse(LUAD_Pheno$days_to_last_follow_up.diagnoses &gt; LUAD_Pheno$days_to_death.diagnoses, LUAD_Pheno$days_to_last_follow_up.diagnoses,LUAD_Pheno$days_to_death.diagnoses)</span><br><span class="line">LUAD_Pheno$PFS&lt;- ifelse(LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment == <span class="number">0</span>, LUAD_Pheno$OS ,LUAD_Pheno$days_to_new_tumor_event_after_initial_treatment)</span><br><span class="line">LUAD_Pheno$OS_status&lt;- <span class="keyword">as</span>.factor(LUAD_Pheno$vital_status.diagnoses)</span><br><span class="line"><span class="comment">#############################设计好分组</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">#############################生存曲线</span></span><br><span class="line"></span><br><span class="line">firstdata&lt;- result  <span class="comment">###############expre</span></span><br><span class="line">firstdata$ID&lt;- rownames(firstdata)</span><br><span class="line">gene&lt;- row.names(firstdata)</span><br><span class="line"><span class="comment">#######select only gene to analysis</span></span><br><span class="line">library(survminer)</span><br><span class="line">library(survival)</span><br><span class="line">library(ggplot2)</span><br><span class="line">library(dplyr)</span><br><span class="line"><span class="keyword">for</span> (x in gene) &#123;</span><br><span class="line">  RNA_seq_data&lt;-filter(firstdata, firstdata$ID == x)</span><br><span class="line">  RNA_seq_data&lt;- t(RNA_seq_data)</span><br><span class="line">  RNA_seq_data&lt;- <span class="keyword">as</span>.data.frame(RNA_seq_data)</span><br><span class="line">  <span class="comment"># str(RNA_seq_data)</span></span><br><span class="line">  <span class="comment"># colnames(LUAD_Pheno)</span></span><br><span class="line">  RNA_seq_data$submitter_id.samples&lt;- row.names(RNA_seq_data)</span><br><span class="line">  colnames(RNA_seq_data)&lt;- c(<span class="string">"Expressionvalue"</span>,<span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- <span class="keyword">as</span>.character(LUAD_Pheno$submitter_id.samples)</span><br><span class="line">  LUAD_Pheno$submitter_id.samples&lt;- gsub(<span class="string">'-'</span>, <span class="string">'.'</span>, LUAD_Pheno$submitter_id.samples)<span class="comment">#############- replaced by .</span></span><br><span class="line">  finaldata&lt;- inner_join(LUAD_Pheno,RNA_seq_data, by = <span class="string">"submitter_id.samples"</span>)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.character(finaldata$PFS_status)</span><br><span class="line">  finaldata$PFS_status&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.factor(finaldata$PFS_status))</span><br><span class="line">  finaldata$Expressionvalue&lt;- <span class="keyword">as</span>.numeric(<span class="keyword">as</span>.character(finaldata$Expressionvalue))</span><br><span class="line">  finaldata$group&lt;- ifelse(finaldata$Expressionvalue&gt;median(finaldata$Expressionvalue),<span class="string">'high'</span>,<span class="string">'low'</span>)</span><br><span class="line">  library(survminer)</span><br><span class="line">  library(survival)</span><br><span class="line">  fit &lt;- survfit(Surv(finaldata$PFS,finaldata$PFS_status)~finaldata$group, data=finaldata) </span><br><span class="line">  summary(fit)</span><br><span class="line">  pp&lt;- ggsurvplot(fit, data = finaldata, conf.int = F, pval = <span class="keyword">TRUE</span>,</span><br><span class="line">                  xlim = c(<span class="number">0</span>,<span class="number">2000</span>), <span class="comment"># present narrower X axis, but not affect</span></span><br><span class="line">                  <span class="comment"># survival estimates. </span></span><br><span class="line">                  xlab = <span class="string">"Time in days"</span>, <span class="comment"># customize X axis label. </span></span><br><span class="line">                  <span class="keyword">break</span>.time.by = <span class="number">200</span>) <span class="comment"># break X axis in time intervals by 500. </span></span><br><span class="line">  ggsave(filename = paste(<span class="string">"plot_"</span>,x,<span class="string">".pdf"</span>,sep = <span class="string">""</span>))</span><br><span class="line">  <span class="keyword">print</span>(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+  </entry>
+  <entry>
+    <title>MCPcounter</title>
+    <url>/2020/07/11/MCPcounter/</url>
+    <content><![CDATA[<h1 id="MCPcounter"><a href="#MCPcounter" class="headerlink" title="MCPcounter"></a>MCPcounter</h1><h4 id="关于MCPcounter的新的理解"><a href="#关于MCPcounter的新的理解" class="headerlink" title="关于MCPcounter的新的理解"></a>关于MCPcounter的新的理解</h4><p>安装MCPcounter</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">BiocManager::install(<span class="string">'curl'</span>)</span><br><span class="line">??BiocManager</span><br><span class="line"><span class="comment">#####错误: (由警告转换成)程辑包'curl'是用R版本3.6.3 来建造的</span></span><br><span class="line"><span class="comment">##### 需要安装旧版本的curl：https://cran.r-project.org/src/contrib/Archive/curl/</span></span><br><span class="line"></span><br><span class="line">remove.packages(<span class="string">'curl'</span>)</span><br><span class="line"><span class="keyword">library</span>(curl)</span><br><span class="line">install_github(<span class="string">"ebecht/MCPcounter"</span>,ref=<span class="string">"master"</span>, subdir=<span class="string">"Source"</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/07/11/MCPcounter/image-20200711183237944.png" alt="image-20200711183237944"></p>
+<p>需要重新下载一个低版本的curl <a href="https://cran.r-project.org/src/contrib/Archive/curl/" target="_blank" rel="noopener">https://cran.r-project.org/src/contrib/Archive/curl/</a></p>
+<p>就可以安装成功。</p>
+<p>官方帮助文档</p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">??MCPcounter.estimate</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/07/11/MCPcounter/image-20200711204950063.png" alt="image-20200711204950063"></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">probesets=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/probesets.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,colClasses=<span class="string">"character"</span>)</span><br><span class="line">genes=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/genes.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,header=<span class="literal">TRUE</span>,colClasses=<span class="string">"character"</span>,check.names=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其实这两个文件，我以前就下载下来了，现在可以利用</p>
+<p><img src="/2020/07/11/MCPcounter/image-20200711205152561.png" alt="image-20200711205152561"></p>
+<figure class="highlight r"><table><tr><td class="code"><pre><span class="line">probesets&lt;- read.table(file = <span class="string">'./MCPcounter/probesets.txt'</span>,sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,colClasses=<span class="string">"character"</span>)</span><br><span class="line">genes&lt;- read.table(file = <span class="string">'./MCPcounter/genes.txt'</span>,sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,header=<span class="literal">TRUE</span>,colClasses=<span class="string">"character"</span>,check.names=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p><img src="/2020/07/11/MCPcounter/image-20200711195411947.png" alt="image-20200711195411947"></p>
+<h4 id="第一"><a href="#第一" class="headerlink" title="第一"></a>第一</h4><p>我得到的数据是nrpm值，处理的方法如下。考虑了管家基因后的normalization。然后limma做差异分析。</p>
+<p><img src="/2020/07/11/MCPcounter/13817032-224e26b1dfd135a0.webp" alt="img"></p>
+<p>image.png</p>
+<p><img src="/2020/07/11/MCPcounter/13817032-1e41cc1d5a5f9a5c.webp" alt="img"></p>
+<p>image.png</p>
+<blockquote>
+<p>我的问题：能不能使用原始read counts数据用DEseq2做normalization？（DEseq2做normilization时需要使用为整数的read counts，不然会<strong><em>报错\</em></strong>）<br>回答：DEseq2做normalization时没有考虑到管家基因，所以不建议用此方法</p>
+</blockquote>
+<h4 id="第二"><a href="#第二" class="headerlink" title="第二"></a>第二</h4><p>我自己在给我的数据nrpm上直接做了PCA图：nrpm数据格式和PCA图如下:</p>
+<table>
+<thead>
+<tr>
+<th><img src="/2020/07/11/MCPcounter/13817032-366adc25316cd608.webp" alt="img"></th>
+<th><img src="/2020/07/11/MCPcounter/13817032-1c5704cff71e93fc.webp" alt="img"></th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>由于数据差异较大，PCA图不是特别好看，所以建议可以Zscore或者logratio再次进行归一化。代码参考<a href="https://www.jianshu.com/p/57f62efa0fab" target="_blank" rel="noopener">https://www.jianshu.com/p/57f62efa0fab</a></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b&lt;- scale(expr)</span><br><span class="line">a&lt;- <span class="built_in">log</span>(expr+1)</span><br><span class="line"><span class="comment">########zscore就是scale</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="第三"><a href="#第三" class="headerlink" title="第三"></a>第三</h4><p>需要研究一下MCPcount是需要read counts还是可以用normalization的值<br>但是Xcell写的很明确，read counts或者normalization的值都可以，因为它只做ranking</p>
+<p><img src="/2020/07/11/MCPcounter/13817032-b999188cc01bba46.webp" alt="img"></p>
+<blockquote>
+<p>MCPcounter方法学原文中使用TCGA数据库验证时，使用了normalized results。所以解释了我的疑问。<br>查考文章：Estimating the population abundance of tissue-infiltrating immune and stromal cell populations using gene expression</p>
+</blockquote>
+<p><img src="/2020/07/11/MCPcounter/13817032-68da742443a52169.webp" alt="img"></p>
+<p>image.png</p>
+<blockquote>
+<p>MCP counter和cibersort最大的区别就是cibersort是计算淋巴细胞的比例，二MCPcounter是一个决定计数方法。</p>
+</blockquote>
+<h4 id="第四"><a href="#第四" class="headerlink" title="第四"></a>第四</h4><p>我自己的数据表明</p>
+<h5 id="Primary-tumor"><a href="#Primary-tumor" class="headerlink" title="Primary tumor"></a>Primary tumor</h5><table>
+<thead>
+<tr>
+<th><img src="/2020/07/11/MCPcounter/13817032-86f3aa28e2b4052a.webp" alt="img">image.png</th>
+<th><img src="/2020/07/11/MCPcounter/13817032-1ff0bf305000bb2d.webp" alt="img">image.png</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h4 id="Metastasis-lesion"><a href="#Metastasis-lesion" class="headerlink" title="Metastasis lesion"></a>Metastasis lesion</h4><table>
+<thead>
+<tr>
+<th><img src="/2020/07/11/MCPcounter/13817032-9518d7beffc343c8.webp" alt="img">image.png</th>
+<th><img src="https://upload-images.jianshu.io/upload_images/13817032-475c604ffda0d573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1054/format/webp" alt="img">image.png</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>参考文章Estimating the population abundance of tissue-infiltrating immune and stromal cell populations using gene expression<br>此文章对Lung Adenocarcinoma的数据进行了分析发现，将患者分成四组Blinegae 和Tcell 高表达的患者预后最好，我们的数据有一样的发现！！奠定了这一篇文章的基础。<br>后续我也会将分组信息变成四组进行分析</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/13817032-bb29dae277e81eb9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1200/format/webp" alt="img"></p>
+<p>image.png</p>
+<h4 id="第五"><a href="#第五" class="headerlink" title="第五"></a>第五</h4><p>MCPcounter进行TCGA数据挖掘的方法</p>
+<blockquote>
+<p>只需要构建一个表达矩阵：colname是sample_name，rownames是基因symbol或者另外两个ID（不记得了）featuresType=c(“HUGO_symbols”)其实有三种可选</p>
+</blockquote>
+<p>代码如下</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">library(curl)</span><br><span class="line">library(MCPcounter)</span><br><span class="line">??MCPcounter.estimate</span><br><span class="line">load(file = <span class="string">'TCGA.Rdata'</span>)</span><br><span class="line">exprMatrix[<span class="number">1</span>:<span class="number">10</span>,<span class="number">1</span>:<span class="number">10</span>]<span class="comment">####################ensemble整洁版ID</span></span><br><span class="line"><span class="comment">####library(clusterProfiler)</span></span><br><span class="line">library(org.Hs.eg.db)</span><br><span class="line">ls(<span class="string">"package:org.Hs.eg.db"</span>)</span><br><span class="line">g2s=toTable(org.Hs.egSYMBOL);head(g2s)</span><br><span class="line">g2e=toTable(org.Hs.egENSEMBL);head(g2e)</span><br><span class="line">tmp=merge(g2e,g2s,by=<span class="string">'gene_id'</span>)</span><br><span class="line">head(tmp)</span><br><span class="line">colnames(exprMatrix)[ncol(exprMatrix)] &lt;- c(<span class="string">"ensembl_id"</span>)<span class="comment">###################重命名Ensemble_ID 便于后面merge</span></span><br><span class="line">exprMatrix&lt;- merge(tmp,exprMatrix,by=<span class="string">'ensembl_id'</span>)</span><br><span class="line">exprMatrix&lt;- exprMatrix[,- c(<span class="number">1</span>,<span class="number">2</span>)]</span><br><span class="line">exprMatrix=exprMatrix[!duplicated(exprMatrix$symbol),]</span><br><span class="line">row.names(exprMatrix)&lt;- exprMatrix[,<span class="number">1</span>]</span><br><span class="line">exprMatrix&lt;- exprMatrix[,<span class="number">-1</span>]</span><br><span class="line">probesets=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/probesets.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="keyword">FALSE</span>,colClasses=<span class="string">"character"</span>)</span><br><span class="line">genes=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/genes.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="keyword">FALSE</span>,header=<span class="keyword">TRUE</span>,colClasses=<span class="string">"character"</span>,check.names=<span class="keyword">FALSE</span>)</span><br><span class="line">results&lt;- MCPcounter.estimate(exprMatrix,featuresType=c(<span class="string">"HUGO_symbols"</span>)[<span class="number">1</span>],</span><br><span class="line">                    probesets=probesets,</span><br><span class="line">                    genes=genes</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h5 id="第五-1"><a href="#第五-1" class="headerlink" title="第五"></a>第五</h5><p>修改生存曲线图例legend 参考资料：<br><a href="http://www.sthda.com/english/wiki/survminer-r-package-survival-data-analysis-and-visualization" target="_blank" rel="noopener">http://www.sthda.com/english/wiki/survminer-r-package-survival-data-analysis-and-visualization</a><br>待续。。。。。</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>下载参考基因组及注释文件</title>
+    <url>/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<hr>
+<p>title: 下载参考基因组及注释文件一文就够<br>date: 2020-5-25<br>tags: </p>
+<ul>
+<li>参考基因组</li>
+<li>数据下载<br>categories:</li>
+<li>bio_informatics</li>
+</ul>
+<hr>
+<h1 id="下载参考基因组及注释文件"><a href="#下载参考基因组及注释文件" class="headerlink" title="下载参考基因组及注释文件"></a>下载参考基因组及注释文件</h1><h4 id="补充部分下载NCBI下bowtie索引文件"><a href="#补充部分下载NCBI下bowtie索引文件" class="headerlink" title="补充部分下载NCBI下bowtie索引文件"></a>补充部分下载NCBI下bowtie索引文件</h4><blockquote>
+<p>补充部分下载NCBI下bowtie索引文件<br>（注意：RNAseq分析时候所有的注释文件和参考基因组信息要求是同一套系统）</p>
+</blockquote>
+<a id="more"></a>
+
+<p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd ~/my_disk/reference/NCBI/GCA/index/bowtie</span><br><span class="line">nohup wget https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_full_analysis_set.fna.bowtie_index.tar.gz &amp;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1571984527391.png" alt="1571984527391"></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">tar -xzvf GCA_000001405.15_GRCh38_full_analysis_set.fna.bowtie_index.tar.gz</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h1 id="第一部分：下载参考基因组"><a href="#第一部分：下载参考基因组" class="headerlink" title="第一部分：下载参考基因组"></a>第一部分：下载参考基因组</h1><h3 id="Ensembel-下载（全面）"><a href="#Ensembel-下载（全面）" class="headerlink" title="Ensembel 下载（全面）"></a>Ensembel 下载（全面）</h3><h3 id><a href="#" class="headerlink" title></a></h3><h4 id="FTP下载"><a href="#FTP下载" class="headerlink" title="FTP下载"></a><a href="http://www.ensembl.org/info/data/ftp/index.html" target="_blank" rel="noopener"><strong>FTP下载</strong></a></h4><p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567816508137.png" alt="1567816508137"></p>
+<h3 id="NCBI"><a href="#NCBI" class="headerlink" title="NCBI"></a>NCBI</h3><h3 id="下载参考基因组数据"><a href="#下载参考基因组数据" class="headerlink" title="下载参考基因组数据"></a>下载参考基因组数据</h3><h4 id="Hg38"><a href="#Hg38" class="headerlink" title="Hg38"></a>Hg38</h4><p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/genbank/vertebrate_mammalian/Homo_sapiens/all_assembly_versions/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/image-20200715210934453.png" alt="image-20200715210934453"></p>
+<h4 id="Hg19"><a href="#Hg19" class="headerlink" title="Hg19"></a>Hg19</h4><p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.25_GRCh37.p13/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.25_GRCh37.p13/</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/image-20200715211355147.png" alt="image-20200715211355147"></p>
+<h3 id="UCSC-比较复杂"><a href="#UCSC-比较复杂" class="headerlink" title="UCSC 比较复杂"></a>UCSC 比较复杂</h3><h4 id="UCSC-参考基因组"><a href="#UCSC-参考基因组" class="headerlink" title="UCSC 参考基因组"></a>UCSC 参考基因组</h4><p>hg38:<a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">nohup wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.chromFa.tar.gz &amp;</span><br><span class="line">tar -zvf chromFa.tar.gz</span><br><span class="line">cat *.fa &gt; hg38_UCSC.fa</span><br><span class="line">rm chr*</span><br></pre></td></tr></table></figure>
+
+
+
+<p>UCSC(<a href="http://genome.ucsc.edu/index.html" target="_blank" rel="noopener">http://genome.ucsc.edu/index.html</a>) –&gt; <code>Downloads</code> –&gt; <code>Genome Data</code> –&gt; <code>Human</code> –&gt; <code>hg19 (Full data set)</code> –&gt; <code>chromFa.tar.gz</code></p>
+<p><a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567816293356.png" alt="1567816293356"></p>
+<p><strong>chromFa.tar.gz</strong> - The assembly sequence in one file per chromosome. Repeats from RepeatMasker and Tandem Repeats Finder (with period of 12 or less) are shown in lower case; non-repeating sequence is shown in upper case.</p>
+<h4 id="UCSC注释文件"><a href="#UCSC注释文件" class="headerlink" title="UCSC注释文件"></a>UCSC注释文件</h4><p>方法一：用Table Browser下载</p>
+<p>需要在<a href="http://genome.ucsc.edu/cgi-bin/hgTables" target="_blank" rel="noopener">Table Browser</a>里选择一系列参数：</p>
+<blockquote>
+<p>clade: Mammal genome: Human assembly: Feb. 2009 (GRCh37/hg19) group: Genes and Gene Predictions track: UCSC Genes table: knownGene region: Select “genome” for the entire genome. output format: GTF - gene transfer format output file: enter a file name to save your results to a file, or leave blank to display results in the browser</p>
+<p>Then click ‘get output’.</p>
+</blockquote>
+<p>但是这种方式下载的GTF文件是有限制的，只包含了转录本ID。转录本对应的基因名称是非常重要的信息，如果要解决这个问题，可以通过FTP服务器进行下载。</p>
+<p>方法二：用FTP下载</p>
+<p>UCSC的FTP服务提供了物种的注释文件供下载，但是FTP中并没有直接提供bed, gtf 格式的文件，因为这些格式存在冗余信息，文件大小会比较大。为例节省磁盘空间，UCSC提出来<code>genePred</code>这种格式。这种格式每一行代表一个转录本信息，冗余信息较少。</p>
+<p>UCSC RefSeq这种信息对应的文件为<code>refGene.txt.gz</code>, 需要借助UCSC官网提供的<a href="http://hgdownload.soe.ucsc.edu/admin/exe/" target="_blank" rel="noopener">格式转换工具</a><code>genePredToGtf</code> 将该文件转换为gtf格式。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget :&#x2F;&#x2F;hgdownload.soe.ucsc.edu&#x2F;goldenPath&#x2F;hg38&#x2F;database&#x2F;refGene.txt.gz</span><br><span class="line">gunzip refGene.txt.gz</span><br><span class="line">cut -f 2- refGene.txt | genePredToGtf file stdin -source&#x3D;hg38_Ref  hg38.gtf</span><br></pre></td></tr></table></figure>
+
+<p>refGene.txt的第一列信息是多余的，删除之后，整个文件就是<code>genePred</code>格式了。生成的gtf文件中有gene_id的信息。但是相比NCBI和Ensembl，UCSC提供的GTF文件中共缺少了gene_biotype的信息，因此无法确定基因类型。</p>
+<h4 id="ensemble上下载gtf文件"><a href="#ensemble上下载gtf文件" class="headerlink" title="ensemble上下载gtf文件"></a>ensemble上下载gtf文件</h4><p><a href="http://asia.ensembl.org/info/data/ftp/index.html" target="_blank" rel="noopener">http://asia.ensembl.org/info/data/ftp/index.html</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567778004426.png" alt="1567778004426"></p>
+<h1 id="第二部分：Download-reference-genome-and-annotation"><a href="#第二部分：Download-reference-genome-and-annotation" class="headerlink" title="第二部分：Download reference genome and annotation"></a>第二部分：Download reference genome and annotation</h1><ol>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#基因组各种版本对应关系" target="_blank" rel="noopener">基因组各种版本对应关系</a></li>
+<li>下载参考基因组<ol>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ucsc下载" target="_blank" rel="noopener">UCSC下载</a></li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ensembl-下载" target="_blank" rel="noopener">Ensembl 下载</a></li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ncbi下载" target="_blank" rel="noopener">NCBI下载</a></li>
+</ol>
+</li>
+<li>下载基因组注释文件<ol>
+<li>Ensembl 下载<ol>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ftp下载" target="_blank" rel="noopener">FTP下载</a></li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#biomart下载" target="_blank" rel="noopener">BioMart下载</a></li>
+</ol>
+</li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ncbi下载-1" target="_blank" rel="noopener">NCBI下载</a></li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#ucsc" target="_blank" rel="noopener">UCSC</a></li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#gencode下载" target="_blank" rel="noopener">GENCODE下载</a></li>
+</ol>
+</li>
+<li><a href="http://chenyuan.date/2018/01/Download-reference-genome-and-annotation/#下载外显子坐标-ccds-文件" target="_blank" rel="noopener">下载外显子坐标 (CCDS) 文件</a></li>
+</ol>
+<p>通常测序生成的reads要与参考基因组或参考转录组进行比对，所以首先需要获取参考基因组和参考转录组信息。</p>
+<h2 id="基因组各种版本对应关系"><a href="#基因组各种版本对应关系" class="headerlink" title="基因组各种版本对应关系"></a>基因组各种版本对应关系</h2><p>打开NCBI的，也可以看到里边很复杂，比如GRCh37.1, 37.2, 37.3 等等，不过这种版本一般指的是注释在更新，基因组序列一般不会更新。</p>
+<h2 id="下载参考基因组"><a href="#下载参考基因组" class="headerlink" title="下载参考基因组"></a><strong>下载参考基因组</strong></h2><p>UCSC(<a href="http://genome.ucsc.edu/index.html" target="_blank" rel="noopener">http://genome.ucsc.edu/index.html</a>) –&gt; <code>Downloads</code> –&gt; <code>Genome Data</code> –&gt; <code>Human</code> –&gt; <code>hg19 (Full data set)</code> –&gt; <code>chromFa.tar.gz</code></p>
+<p><a href="http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz" target="_blank" rel="noopener">http://hgdownload.soe.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567816293356.png" alt="1567816293356"></p>
+<p><strong>chromFa.tar.gz</strong> - The assembly sequence in one file per chromosome. Repeats from RepeatMasker and Tandem Repeats Finder (with period of 12 or less) are shown in lower case; non-repeating sequence is shown in upper case.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">mkdir reference &amp;&amp; cd reference</span><br><span class="line">mkdir -p genome&#x2F;hg19 &amp;&amp; cd genome&#x2F;hg19</span><br><span class="line">nohup wget http:&#x2F;&#x2F;hgdownload.soe.ucsc.edu&#x2F;goldenPath&#x2F;hg19&#x2F;bigZips&#x2F;chromFa.tar.gz &amp;</span><br><span class="line">tar -zvf chromFa.tar.gz</span><br><span class="line">cat *.fa &gt; hg19.fa</span><br><span class="line">rm chr*</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Ensembl-下载"><a href="#Ensembl-下载" class="headerlink" title="Ensembl 下载"></a>Ensembl 下载</h3><p><a href="http://www.ensembl.org/info/data/ftp/index.html" target="_blank" rel="noopener">Ensembl</a> 是常用的信息齐全的参考基因组和GTF文件下载网站。打开链接即可看到几个常用动物物种的DNA序列和GTF格式的基因组注释。点击相应物种后边的 <code>DNA(FASTA)</code> 栏目下的 <code>FASTA</code> 即可进入基因组序列下载目录。</p>
+<p>Ensembl 提供的参考基因组有2种组装形式 (<code>primary</code>，和 <code>toplevel</code>) 和3种重复序列处理方式 (<code>unmasked(dna)</code>、<code>soft-masked(dna_sm)</code> 和 <code>masked(dna_rm)</code>)。一般选择<code>dna.primary</code>或<code>dna_sm.primary</code>。</p>
+<ul>
+<li><p>为什么选择Primary</p>
+<p>Primary assembly contains all top level sequence regions excluding haplotypes and patches. This file is best used for performing sequence similarity searches where patch and haplotype sequences would confuse analysis.</p>
+</li>
+<li><p>为什么不选择masked<br>Masked基因组是指所有重复区和低复杂区被N代替的基因组序列，比对时就不会有reads比对到这些区域。一般不推荐用masked的基因组，因为它造成了信息的丢失，由此带来的一个问题是uniquely比对到masked基因组上的reads实际上可能不是unique的。而且masked基因组还会带来比对错误，使得在允许错配的情况下，本来来自重复区的reads比对到基因组的其它位置。 另外检测重复区和低复杂区的软件不可能是完美的，这就造成遮盖住的重复序列和低复杂区并不一定是100%准确和敏感的</p>
+</li>
+<li><p>soft-masked基因组</p>
+<p>是指把所有重复区和低复杂区的序列用小写字母标出的基因组，由于主要的比对软件，比如BWA、bowtie2等都忽略这些soft-mask，直接把小写字母当做大写字母比对，所以使用soft-masked基因组的比对效果和使用unmasked基因组的比对效果是相同的。</p>
+</li>
+</ul>
+<h3 id="NCBI下载"><a href="#NCBI下载" class="headerlink" title="NCBI下载"></a>NCBI下载</h3><p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567834630088.png" alt="1567834630088"></p>
+<p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_01/hs_ref_GRCh38.p12_chr1.fa.gz" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_01/hs_ref_GRCh38.p12_chr1.fa.gz</a></p>
+<p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_15/hs_ref_GRCh38.p12_chr15.fa.gz" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_15/hs_ref_GRCh38.p12_chr15.fa.gz</a></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">for i in $(seq 1 9) X Y M;</span><br><span class="line">do wget ftp://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_0$&#123;i&#125;/hs_ref_GRCh38.p12_chr$&#123;i&#125;.fa.gz;</span><br><span class="line">gzip -d hs_ref_GRCh38.p12_chr$&#123;i&#125;.fa.gz;</span><br><span class="line">done;</span><br><span class="line"></span><br><span class="line">for i in $(seq 10 22) X Y MT Un;</span><br><span class="line">do wget ftp://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/CHR_$&#123;i&#125;/hs_ref_GRCh38.p12_chr$&#123;i&#125;.fa.gz;</span><br><span class="line">gzip -d hs_ref_GRCh38.p12_chr$&#123;i&#125;.fa.gz;</span><br><span class="line">done;</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">## 下载后解压。因为文件名不同，所以需要两次下载CHR_0$&#123;i&#125; vs CHR_$&#123;i&#125;</span></span></span><br><span class="line"></span><br><span class="line">for i in $(seq 1 22) X Y MT Un;</span><br><span class="line">do cat hs_ref_GRCh38.p12_chr$&#123;i&#125;.fa &gt;&gt;hs_ref_GRCh38.fa;</span><br><span class="line">done;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>这里是hg19</p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567834727451.png" alt="1567834727451"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">for i in $(seq 1 22) X Y M;</span><br><span class="line">do wget ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;genomes&#x2F;Homo_sapiens&#x2F;ARCHIVE&#x2F;BUILD.37.3&#x2F;Assembled_chromosomes&#x2F;seq&#x2F;hs_ref_GRCh37.p5_chr$&#123;i&#125;.fa.gz; </span><br><span class="line">gzip -d hs_ref_GRCh37.p5_chr$&#123;i&#125;.fa.gz;</span><br><span class="line">cat hs_ref_GRCh37.p5_chr$&#123;i&#125;.fa &gt;&gt;hg19.fa;</span><br><span class="line">sleep 10s;</span><br><span class="line">done;</span><br></pre></td></tr></table></figure>
+
+<h2 id="下载基因组注释文件"><a href="#下载基因组注释文件" class="headerlink" title="下载基因组注释文件"></a>下载基因组注释文件</h2><h3 id="Ensembl-下载-1"><a href="#Ensembl-下载-1" class="headerlink" title="Ensembl 下载"></a>Ensembl 下载</h3><h4 id="FTP下载-1"><a href="#FTP下载-1" class="headerlink" title="FTP下载"></a><a href="http://www.ensembl.org/info/data/ftp/index.html" target="_blank" rel="noopener"><strong>FTP下载</strong></a></h4><p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567816508137.png" alt="1567816508137"></p>
+<p>点击该链接中对应物种后边 <code>Gene Sets</code> 目录下的 <code>GTF</code> 文件。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget ftp:&#x2F;&#x2F;ftp.ensembl.org&#x2F;pub&#x2F;release-75&#x2F;gtf&#x2F;homo_sapiens&#x2F;Homo_sapiens.GRCh38.94.gtf.gz</span><br></pre></td></tr></table></figure>
+
+<p>变幻中间的release就可以拿到所有版本信息：<a href="ftp://ftp.ensembl.org/pub/">ftp://ftp.ensembl.org/pub/</a></p>
+<p>Ensembl 中基因组和GTF文件中染色体的名字都没有添加<code>chr</code>，最好手动添加，以保持与<code>UCSC</code>或下游操作一致。</p>
+<h4 id="BioMart下载"><a href="#BioMart下载" class="headerlink" title="BioMart下载"></a><a href="http://www.ensembl.org/biomart/martview" target="_blank" rel="noopener"><strong>BioMart下载</strong></a></h4><p>ENSEMBL数据库的BioMart 工具为下载基因的功能信息、序列信息、结构信息、ID的转换等提供了很大的便利。</p>
+<p><strong>注意在BioMart的Attribute选项里如果选择了蛋白相关的选项，得到的结果中只有蛋白编码基因的信息。如果要下载所有基因信息，请不要选择蛋白相关的选项。</strong></p>
+<p>下载基因相关信息，可以选择 <code>Ensembl Genes 94</code> 数据集 –&gt; <code>Human genes (GRCh38.p12)(下拉框中最先出现的关于人的)</code> 。</p>
+<p>如果下载全部的基因信息，左侧 <code>Filters</code> 部分可以略过不填。如果只想下载比如说某个GO通路的基因或给定列表的基因信息，可以在<code>Filters</code>中指定对应的<code>GO ID</code>。</p>
+<p>左侧 <code>Attribute</code> 中包含基因的名字、位置、注释、在不同数据库中的名字、GO注释、KEGG注释、功能域信息等，按需选择下载。选择好后，点击<code>Results</code>，获取结果。</p>
+<p><code>Export al results to</code>选择存储到文件中。如果特别大，而自己网速又比较慢，可以选择通过<code>邮件发送下载链接</code>。</p>
+<p>也可以通过Biomart提取基因结构 (点击<code>Structures</code>) 信息，比如5’ UTR、3’ UTR、外显子、内含子的坐标等。</p>
+<p>Biomart下载很方便，但是一个个点击非常麻烦。在页面选项上边有 <code>XML</code> 按钮，点击打开看到选择的下载信息都记录在了这个文件中。使用<code>wget -O result.txt &#39;http://www.ensembl.org/biomart/martservice?query=</code> <code>+</code> <code>XML中的内容</code> (调整为一行，并且行尾加一个单引号) 即可反复使用。如果想换一个物种，只需修改对应的<code>Dataset name</code>即可。</p>
+<h3 id="NCBI下载-1"><a href="#NCBI下载-1" class="headerlink" title="NCBI下载"></a>NCBI下载</h3><p><a href="https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/" target="_blank" rel="noopener">https://ftp.ncbi.nlm.nih.gov/genomes/Homo_sapiens/</a></p>
+<p><img src="/2019/09/10/%E4%B8%8B%E8%BD%BD%E5%8F%82%E8%80%83%E5%9F%BA%E5%9B%A0%E7%BB%84%E5%8F%8A%E6%B3%A8%E9%87%8A%E6%96%87%E4%BB%B6/1567817400893.png" alt="1567817400893"></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># hg38</span><br><span class="line">wget ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;genomes&#x2F;Homo_sapiens&#x2F;GFF&#x2F;ref_GRCh38.p7_top_level.gff3.gz </span><br><span class="line"># hg19</span><br><span class="line">wget ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;genomes&#x2F;Homo_sapiens&#x2F;ARCHIVE&#x2F;BUILD.37.3&#x2F;GFF&#x2F;ref_GRCh37.p5_top_level.gff3.gz</span><br></pre></td></tr></table></figure>
+
+<h3 id="UCSC"><a href="#UCSC" class="headerlink" title="UCSC"></a>UCSC</h3><p>方法一：用Table Browser下载</p>
+<p>需要在<a href="http://genome.ucsc.edu/cgi-bin/hgTables" target="_blank" rel="noopener">Table Browser</a>里选择一系列参数：</p>
+<blockquote>
+<p>clade: Mammal genome: Human assembly: Feb. 2009 (GRCh37/hg19) group: Genes and Gene Predictions track: UCSC Genes table: knownGene region: Select “genome” for the entire genome. output format: GTF - gene transfer format output file: enter a file name to save your results to a file, or leave blank to display results in the browser</p>
+<p>Then click ‘get output’.</p>
+</blockquote>
+<p>但是这种方式下载的GTF文件是有限制的，只包含了转录本ID。转录本对应的基因名称是非常重要的信息，如果要解决这个问题，可以通过FTP服务器进行下载。</p>
+<p>方法二：用FTP下载</p>
+<p>UCSC的FTP服务提供了物种的注释文件供下载，但是FTP中并没有直接提供bed, gtf 格式的文件，因为这些格式存在冗余信息，文件大小会比较大。为例节省磁盘空间，UCSC提出来<code>genePred</code>这种格式。这种格式每一行代表一个转录本信息，冗余信息较少。</p>
+<p>UCSC RefSeq这种信息对应的文件为<code>refGene.txt.gz</code>, 需要借助UCSC官网提供的<a href="http://hgdownload.soe.ucsc.edu/admin/exe/" target="_blank" rel="noopener">格式转换工具</a><code>genePredToGtf</code> 将该文件转换为gtf格式。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">wget :&#x2F;&#x2F;hgdownload.soe.ucsc.edu&#x2F;goldenPath&#x2F;hg38&#x2F;database&#x2F;refGene.txt.gz</span><br><span class="line">gunzip refGene.txt.gz</span><br><span class="line">cut -f 2- refGene.txt | genePredToGtf file stdin -source&#x3D;hg38_Ref  hg38.gtf</span><br></pre></td></tr></table></figure>
+
+<p>refGene.txt的第一列信息是多余的，删除之后，整个文件就是<code>genePred</code>格式了。生成的gtf文件中有gene_id的信息。但是相比NCBI和Ensembl，UCSC提供的GTF文件中共缺少了gene_biotype的信息，因此无法确定基因类型。</p>
+<h3 id="GENCODE下载"><a href="#GENCODE下载" class="headerlink" title="GENCODE下载"></a>GENCODE下载</h3><p>GENCODE (<a href="http://www.gencodegenes.org/" target="_blank" rel="noopener">http://www.gencodegenes.org/</a>) –&gt; <code>Human</code> –&gt; <code>Current Release/Release history</code> –&gt; 下载所需要的版本注释文件(GTF/GFF3)</p>
+<h2 id="下载外显子坐标-CCDS-文件"><a href="#下载外显子坐标-CCDS-文件" class="headerlink" title="下载外显子坐标 (CCDS) 文件"></a>下载外显子坐标 (CCDS) 文件</h2><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 下载CCDS文件</span><br><span class="line">wget ftp:&#x2F;&#x2F;ftp.ncbi.nlm.nih.gov&#x2F;pub&#x2F;CCDS&#x2F;current_human&#x2F;CCDS.current.txt</span><br><span class="line"># 把CCDS转成bed</span><br><span class="line">cat CCDS.current.txt| grep -v &quot;Withdrawn&quot;|perl -alne &#39;&#123;&#x2F;\[(.*?)\]&#x2F;;next unless $1;$gene&#x3D;$F[2];$exons&#x3D;$1;$exons&#x3D;~s&#x2F;\s&#x2F;&#x2F;g;$exons&#x3D;~s&#x2F;-&#x2F;\t&#x2F;g;print &quot;$F[0]\t$_\t$gene&quot; foreach split&#x2F;,&#x2F;,$exons;&#125;&#39;|sort -u |bedtools sort -i |awk &#39;&#123;print &quot;chr&quot;$0&quot;\t0\t+&quot;&#125;&#39;  &gt; hg38.exon.bed</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://chenyuan.date/tags#Bioinformatics" target="_blank" rel="noopener"></a></p>
+<h2 id="深度探索GTF来理解基因结构"><a href="#深度探索GTF来理解基因结构" class="headerlink" title="深度探索GTF来理解基因结构"></a>深度探索GTF来理解基因结构</h2><p>可以针对上面的<code>my_gene</code>这个简单的数据框进行探索：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt; colnames(my_gene)</span><br><span class="line"> [1] &quot;id&quot; &quot;seqid&quot; </span><br><span class="line"> [3] &quot;source&quot; &quot;start&quot; </span><br><span class="line"> [5] &quot;end&quot; &quot;score&quot; </span><br><span class="line"> [7] &quot;strand&quot; &quot;frame&quot; </span><br><span class="line"> [9] &quot;ccds_id&quot; &quot;exon_id&quot; </span><br><span class="line">[11] &quot;protein_id&quot; &quot;transcript_support_level&quot; </span><br><span class="line">[13] &quot;protein_version&quot; &quot;havana_transcript_version&quot;</span><br><span class="line">[15] &quot;transcript_biotype&quot; &quot;transcript_version&quot; </span><br><span class="line">[17] &quot;transcript_source&quot; &quot;transcript_id&quot; </span><br><span class="line">[19] &quot;havana_gene&quot; &quot;exon_number&quot; </span><br><span class="line">[21] &quot;gene_name&quot; &quot;gene_biotype&quot; </span><br><span class="line">[23] &quot;tag&quot; &quot;havana_gene_version&quot; </span><br><span class="line">[25] &quot;exon_version&quot; &quot;gene_id&quot; </span><br><span class="line">[27] &quot;gene_source&quot; &quot;havana_transcript&quot; </span><br><span class="line">[29] &quot;transcript_name&quot; &quot;gene_version&quot;</span><br></pre></td></tr></table></figure>
+
+<p>下面是一些简单的考题啦，之前是强调学生用shell脚本知识完成， 现在换成R，同样的效果。</p>
+<ol>
+<li>不同类型的基因的数量，提示：<code>table(my_gene$gene_biotype)</code></li>
+<li>不同染色体的基因的数量，并且按照不同基因类型分组后继续统计</li>
+<li>所有<code>protein_coding</code>类型的基因的长度分布情况</li>
+<li>所有的<code>非protein_coding</code>类型的基因的长度分布情况</li>
+<li>把全部基因的坐标画在染色体上面</li>
+</ol>
+<p>还可以根据gtf提取转录本信息，外显子信息，这样就可以统计更多的基因特征啦。</p>
+<h3 id="GTF背景知识"><a href="#GTF背景知识" class="headerlink" title="GTF背景知识"></a>GTF背景知识</h3><p>Ensemble（ ensembl.org网站是常用<strong>真核生物</strong>参考<strong>基因组</strong>来源之一 ）能够对人类基因自动进行注释，包括人类，小鼠，斑马鱼，猪和大鼠等，也包括来自HAVANA的人工注释信息。<br>Ensembl是一项生物信息学研究计划，旨在开发种能够对真核生物基因组进行自动注释(automatic annotation)并加以维护的软件系统。该计划由英国Sanger研究所Wellcome基金会及欧洲分子生物学实验室所属分部欧洲生物信息学研究所共同协作运营。</p>
+<p>Ensembl与NCBI的NCBI Map Viewer和UCSC是最为常用基因组检索数据库。</p>
+<h4 id="Ensembl-与NCBI-Map-Viewer和UCSC最大区别表现在以下5点："><a href="#Ensembl-与NCBI-Map-Viewer和UCSC最大区别表现在以下5点：" class="headerlink" title="Ensembl 与NCBI Map Viewer和UCSC最大区别表现在以下5点："></a>Ensembl 与NCBI Map Viewer和UCSC最大区别表现在以下5点：</h4><ul>
+<li>a.Ensembl的基因数据集是依据mRNA和蛋内序列的数据信息白动注释的。数据来源为新的基因组数据，UniProt/SwissProt和UniProt/TrEMBL的蛋白序列，NCBI的RefSeq里的DNA和蛋白序列和EMBL的cDNA序列。</li>
+<li>b.Ensembl是一个开源（Perl API ）的全自动的基因注释软件系统，很多网站都采用Ensembl这套软件系</li>
+<li>c.Ensembl拥存其特有的BioMart功能。BioMart可以依据设定的要求对基 因组进行条件性检索，检索的结果吋以以图表的形式给出。</li>
+<li>d.与其它数据库相整合，比如DAS。</li>
+<li>e.基因组间的比较分析。</li>
+</ul>
+<h4 id="基因注释机构"><a href="#基因注释机构" class="headerlink" title="基因注释机构"></a>基因注释机构</h4><p>目前从事基因注释的机构组织有很多，这里列出的只是较为常用的几个。</p>
+<ol>
+<li>Ensembl:目的是做出最好的基因注释集。<br>2.Havana (VEGA):是桑格中心的一个基因注释组织，它的目标和Eiisembl—致，因此，结合得也最紧密。</li>
+<li>HGNC -给出人类基因唯一的名字和符号。</li>
+<li>UniProt 主要集中于蛋白质的信息注释。</li>
+</ol>
+<p>Ensembl的通用基因注释有两种，一是Ensembl GeneBuild，它是自动化注释，速度快，实时更新，在不同物种上均适用；另一种是Wellcome基金会的 Havana (VEGA)小组的注释，它是手工注释，速度慢，但是准确，它依据的都是已经验证过的mRNA和蛋白序列来注释，比较费时。因此Ensembl基因组数据库 中，会有两种注释。</p>
+<h4 id="Havana-VEGA-小组的注释常有以下几种类型："><a href="#Havana-VEGA-小组的注释常有以下几种类型：" class="headerlink" title="Havana (VEGA)小组的注释常有以下几种类型："></a>Havana (VEGA)小组的注释常有以下几种类型：</h4><p>详细信息：<a href="http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html" target="_blank" rel="noopener">http://vega.sanger.ac.uk/info/about/gene_and_transcript_types.html</a></p>
+<ul>
+<li>Protein coding： 包括开放阅读框 (ORF).</li>
+<li>Processed transcript：没有开放阅读框（ORF）</li>
+<li>Pseudogene：假基因，是指脱氧核糖核酸（DNA）的碱基序列中，一段与其他生物体内已知的基因序列非常相似的片段。但是这个片段由于移码突变或者无义突变破坏了ORF，无法发挥原有的基因功能，也就是无法制造出蛋白质</li>
+<li>IG gene：免疫球蛋白家族基因</li>
+<li>TR Gene：T细胞受体基因</li>
+<li>TEC (To be Experimentally Confirmed)</li>
+</ul>
+<p>人类和小鼠基因组的GTF文件与GENCODE计划发布的gene set文件相同。<br>The GENCODE project 的目标为对人类和小鼠基因组提供高质量的注释信息和实验确证。<br>The GENCODE gene sets被其他项目作为参考而广泛使用(如 1000 Genomes).<br>详细内容：<a href="https://www.gencodegenes.org/about.html" target="_blank" rel="noopener">https://www.gencodegenes.org/about.html</a></p>
+<p>还可以结合 Gviz 进行可视化，下回分解</p>
+]]></content>
   </entry>
 </search>
