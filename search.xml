@@ -7813,7 +7813,7 @@
 <blockquote>
 <p>具体参照从GDC下载数据</p>
 </blockquote>
-<h5 id="step1-2：methylation-data"><a href="#step1-2：methylation-data" class="headerlink" title="step1.2：methylation data"></a>step1.2：methylation data</h5><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/%E7%94%B2%E5%9F%BA%E5%8C%96%E6%95%99%E7%A8%8B/%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564823187746.png" alt="1564823187746"></p>
+<h5 id="step1-2：methylation-data"><a href="#step1-2：methylation-data" class="headerlink" title="step1.2：methylation data"></a>step1.2：methylation data</h5><p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564823187746.png" alt="1564823187746">)<img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564823187746.png" alt="1564823187746"></p>
 <figure class="highlight r"><table><tr><td class="code"><pre><span class="line">dir=<span class="string">'./methylation/'</span></span><br><span class="line">all_fiels=list.files(path = dir, pattern=<span class="string">'*.gdc_hg38.txt$'</span>,recursive=<span class="literal">T</span>)</span><br><span class="line">all_fiels</span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/05/25/TCGA%E7%94%B2%E5%9F%BA%E5%8C%96%E5%AE%9E%E6%88%98/1564824339435.png" alt="1564824339435"></p>
@@ -9148,6 +9148,12 @@
     <title>GSEA分析实战</title>
     <url>/2019/06/06/GSEA/</url>
     <content><![CDATA[<a id="more"></a>
+
+
+
+
+
+
 
 
 
@@ -10932,5 +10938,14 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
         <tag>数据下载</tag>
         <tag>参考基因组</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Untitled</title>
+    <url>/2020/07/17/Untitled/</url>
+    <content><![CDATA[<ol>
+<li>确认基因在结直肠癌的表达差异。</li>
+<li></li>
+</ol>
+]]></content>
   </entry>
 </search>
