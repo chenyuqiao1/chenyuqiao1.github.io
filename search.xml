@@ -10656,13 +10656,15 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
   </entry>
   <entry>
     <title>MCPcounter</title>
-    <url>/2020/07/11/MCPcounter/</url>
+    <url>/2020/07/18/MCPcounter/</url>
     <content><![CDATA[<h1 id="MCPcounter"><a href="#MCPcounter" class="headerlink" title="MCPcounter"></a>MCPcounter</h1><h4 id="关于MCPcounter的新的理解"><a href="#关于MCPcounter的新的理解" class="headerlink" title="关于MCPcounter的新的理解"></a>关于MCPcounter的新的理解</h4><p>安装MCPcounter</p>
 <figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="keyword">library</span>(devtools)</span><br><span class="line">BiocManager::install(<span class="string">'curl'</span>)</span><br><span class="line">??BiocManager</span><br><span class="line"><span class="comment">#####错误: (由警告转换成)程辑包'curl'是用R版本3.6.3 来建造的</span></span><br><span class="line"><span class="comment">##### 需要安装旧版本的curl：https://cran.r-project.org/src/contrib/Archive/curl/</span></span><br><span class="line"></span><br><span class="line">remove.packages(<span class="string">'curl'</span>)</span><br><span class="line"><span class="keyword">library</span>(curl)</span><br><span class="line">install_github(<span class="string">"ebecht/MCPcounter"</span>,ref=<span class="string">"master"</span>, subdir=<span class="string">"Source"</span>)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
 
 
 
-<p><img src="/2020/07/11/MCPcounter/image-20200711183237944.png" alt="image-20200711183237944"></p>
+
+<p><img src="/2020/07/18/MCPcounter/image-20200711183237944.png" alt="image-20200711183237944"></p>
 <p>需要重新下载一个低版本的curl <a href="https://cran.r-project.org/src/contrib/Archive/curl/" target="_blank" rel="noopener">https://cran.r-project.org/src/contrib/Archive/curl/</a></p>
 <p>就可以安装成功。</p>
 <p>官方帮助文档</p>
@@ -10670,11 +10672,11 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 
 
 
-<p><img src="/2020/07/11/MCPcounter/image-20200711204950063.png" alt="image-20200711204950063"></p>
+<p><img src="/2020/07/18/MCPcounter/image-20200711204950063.png" alt="image-20200711204950063"></p>
 <figure class="highlight r"><table><tr><td class="code"><pre><span class="line">probesets=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/probesets.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,colClasses=<span class="string">"character"</span>)</span><br><span class="line">genes=read.table(curl(<span class="string">"http://raw.githubusercontent.com/ebecht/MCPcounter/master/Signatures/genes.txt"</span>),sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,header=<span class="literal">TRUE</span>,colClasses=<span class="string">"character"</span>,check.names=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
 
 <p>其实这两个文件，我以前就下载下来了，现在可以利用</p>
-<p><img src="/2020/07/11/MCPcounter/image-20200711205152561.png" alt="image-20200711205152561"></p>
+<p><img src="/2020/07/18/MCPcounter/image-20200711205152561.png" alt="image-20200711205152561"></p>
 <figure class="highlight r"><table><tr><td class="code"><pre><span class="line">probesets&lt;- read.table(file = <span class="string">'./MCPcounter/probesets.txt'</span>,sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,colClasses=<span class="string">"character"</span>)</span><br><span class="line">genes&lt;- read.table(file = <span class="string">'./MCPcounter/genes.txt'</span>,sep=<span class="string">"\t"</span>,stringsAsFactors=<span class="literal">FALSE</span>,header=<span class="literal">TRUE</span>,colClasses=<span class="string">"character"</span>,check.names=<span class="literal">FALSE</span>)</span><br></pre></td></tr></table></figure>
 
 
@@ -10683,11 +10685,11 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 
 
 
-<p><img src="/2020/07/11/MCPcounter/image-20200711195411947.png" alt="image-20200711195411947"></p>
+<p><img src="/2020/07/18/MCPcounter/image-20200711195411947.png" alt="image-20200711195411947"></p>
 <h4 id="第一"><a href="#第一" class="headerlink" title="第一"></a>第一</h4><p>我得到的数据是nrpm值，处理的方法如下。考虑了管家基因后的normalization。然后limma做差异分析。</p>
-<p><img src="/2020/07/11/MCPcounter/13817032-224e26b1dfd135a0.webp" alt="img"></p>
+<p><img src="/2020/07/18/MCPcounter/13817032-224e26b1dfd135a0.webp" alt="img"></p>
 <p>image.png</p>
-<p><img src="/2020/07/11/MCPcounter/13817032-1e41cc1d5a5f9a5c.webp" alt="img"></p>
+<p><img src="/2020/07/18/MCPcounter/13817032-1e41cc1d5a5f9a5c.webp" alt="img"></p>
 <p>image.png</p>
 <blockquote>
 <p>我的问题：能不能使用原始read counts数据用DEseq2做normalization？（DEseq2做normilization时需要使用为整数的read counts，不然会<strong><em>报错\</em></strong>）<br>回答：DEseq2做normalization时没有考虑到管家基因，所以不建议用此方法</p>
@@ -10696,8 +10698,8 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <table>
 <thead>
 <tr>
-<th><img src="/2020/07/11/MCPcounter/13817032-366adc25316cd608.webp" alt="img"></th>
-<th><img src="/2020/07/11/MCPcounter/13817032-1c5704cff71e93fc.webp" alt="img"></th>
+<th><img src="/2020/07/18/MCPcounter/13817032-366adc25316cd608.webp" alt="img"></th>
+<th><img src="/2020/07/18/MCPcounter/13817032-1c5704cff71e93fc.webp" alt="img"></th>
 </tr>
 </thead>
 <tbody><tr>
@@ -10711,11 +10713,11 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">b&lt;- scale(expr)</span><br><span class="line">a&lt;- <span class="built_in">log</span>(expr+1)</span><br><span class="line"><span class="comment">########zscore就是scale</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="第三"><a href="#第三" class="headerlink" title="第三"></a>第三</h4><p>需要研究一下MCPcount是需要read counts还是可以用normalization的值<br>但是Xcell写的很明确，read counts或者normalization的值都可以，因为它只做ranking</p>
-<p><img src="/2020/07/11/MCPcounter/13817032-b999188cc01bba46.webp" alt="img"></p>
+<p><img src="/2020/07/18/MCPcounter/13817032-b999188cc01bba46.webp" alt="img"></p>
 <blockquote>
 <p>MCPcounter方法学原文中使用TCGA数据库验证时，使用了normalized results。所以解释了我的疑问。<br>查考文章：Estimating the population abundance of tissue-infiltrating immune and stromal cell populations using gene expression</p>
 </blockquote>
-<p><img src="/2020/07/11/MCPcounter/13817032-68da742443a52169.webp" alt="img"></p>
+<p><img src="/2020/07/18/MCPcounter/13817032-68da742443a52169.webp" alt="img"></p>
 <p>image.png</p>
 <blockquote>
 <p>MCP counter和cibersort最大的区别就是cibersort是计算淋巴细胞的比例，二MCPcounter是一个决定计数方法。</p>
@@ -10724,8 +10726,8 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <h5 id="Primary-tumor"><a href="#Primary-tumor" class="headerlink" title="Primary tumor"></a>Primary tumor</h5><table>
 <thead>
 <tr>
-<th><img src="/2020/07/11/MCPcounter/13817032-86f3aa28e2b4052a.webp" alt="img">image.png</th>
-<th><img src="/2020/07/11/MCPcounter/13817032-1ff0bf305000bb2d.webp" alt="img">image.png</th>
+<th><img src="/2020/07/18/MCPcounter/13817032-86f3aa28e2b4052a.webp" alt="img">image.png</th>
+<th><img src="/2020/07/18/MCPcounter/13817032-1ff0bf305000bb2d.webp" alt="img">image.png</th>
 </tr>
 </thead>
 <tbody><tr>
@@ -10736,7 +10738,7 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 <h4 id="Metastasis-lesion"><a href="#Metastasis-lesion" class="headerlink" title="Metastasis lesion"></a>Metastasis lesion</h4><table>
 <thead>
 <tr>
-<th><img src="/2020/07/11/MCPcounter/13817032-9518d7beffc343c8.webp" alt="img">image.png</th>
+<th><img src="/2020/07/18/MCPcounter/13817032-9518d7beffc343c8.webp" alt="img">image.png</th>
 <th><img src="https://upload-images.jianshu.io/upload_images/13817032-475c604ffda0d573.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1054/format/webp" alt="img">image.png</th>
 </tr>
 </thead>
@@ -10759,6 +10761,13 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
 
 <h5 id="第五-1"><a href="#第五-1" class="headerlink" title="第五"></a>第五</h5><p>修改生存曲线图例legend 参考资料：<br><a href="http://www.sthda.com/english/wiki/survminer-r-package-survival-data-analysis-and-visualization" target="_blank" rel="noopener">http://www.sthda.com/english/wiki/survminer-r-package-survival-data-analysis-and-visualization</a><br>待续。。。。。</p>
 ]]></content>
+      <categories>
+        <category>R</category>
+        <category>immuue</category>
+      </categories>
+      <tags>
+        <tag>R</tag>
+      </tags>
   </entry>
   <entry>
     <title>下载参考基因组及注释文件一文就够</title>
@@ -10970,12 +10979,36 @@ rownames(design)=colnames(es.max)</code></pre><p>6.3  deg = function(es.max,desi
       </tags>
   </entry>
   <entry>
-    <title>Untitled</title>
-    <url>/2020/07/17/Untitled/</url>
-    <content><![CDATA[<ol>
-<li>确认基因在结直肠癌的表达差异。</li>
-<li></li>
-</ol>
+    <title>KEGG_GO_annotation</title>
+    <url>/2020/09/18/KEGG_GO_annotation/</url>
+    <content><![CDATA[<a id="more"></a>
+
+
+
+<h3 id="KEGG-and-GO"><a href="#KEGG-and-GO" class="headerlink" title="KEGG_and_GO"></a>KEGG_and_GO</h3><figure class="highlight r"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">gene_list&lt;- gene_list</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(clusterProfiler)</span><br><span class="line"><span class="keyword">library</span>(org.Hs.eg.db)</span><br><span class="line"><span class="comment"># 转换ID</span></span><br><span class="line">ls(<span class="string">"package:org.Hs.eg.db"</span>)</span><br><span class="line">df &lt;- bitr(gene_list, fromType = <span class="string">"SYMBOL"</span>,</span><br><span class="line">           toType = c( <span class="string">"ENTREZID"</span>),</span><br><span class="line">           OrgDb = org.Hs.eg.db)</span><br><span class="line">head(df)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">gene_list&lt;- df$ENTREZID</span><br><span class="line"></span><br><span class="line"><span class="comment">###################KEGG分析</span></span><br><span class="line">enrich_KEGG &lt;- enrichKEGG(gene         = gene_list,</span><br><span class="line">                          organism     = <span class="string">'hsa'</span>,</span><br><span class="line">                          <span class="comment"># universe   = gene_all,</span></span><br><span class="line">                          pvalueCutoff = <span class="number">0.5</span>,</span><br><span class="line">                          qvalueCutoff =<span class="number">0.5</span>)</span><br><span class="line">head(enrich_KEGG)[,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line">data_enrich_KEGG&lt;- as.data.frame(enrich_KEGG)</span><br><span class="line"><span class="comment"># browseKEGG(enrich_KEGG,'hsa05323') ### 查看通路富集图</span></span><br><span class="line">g_KEGG=dotplot(data_enrich_KEGG)</span><br><span class="line">print(g_KEGG)</span><br><span class="line">dev.off()</span><br><span class="line">ggsave(g_KEGG,filename = <span class="string">'kegg.png'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">####################GO分析</span></span><br><span class="line">gene_list&lt;- gene_list</span><br><span class="line">ego_BP &lt;- enrichGO(gene          = gene_list,</span><br><span class="line">                <span class="comment"># universe      = gene_all,</span></span><br><span class="line">                OrgDb         = org.Hs.eg.db,</span><br><span class="line">                ont           = <span class="string">"BP"</span> , <span class="comment">### "MF"  "CC"</span></span><br><span class="line">                pAdjustMethod = <span class="string">"BH"</span>,</span><br><span class="line">                pvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                qvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                readable      = <span class="literal">TRUE</span>)</span><br><span class="line">head(ego_BP)</span><br><span class="line">ego_BP_results &lt;- as.data.frame(ego_BP)</span><br><span class="line">dotplot(ego_BP)</span><br><span class="line"></span><br><span class="line"><span class="comment">## CC</span></span><br><span class="line">gene_list&lt;- gene_list</span><br><span class="line">ego_CC &lt;- enrichGO(gene          = gene_list,</span><br><span class="line">                <span class="comment"># universe      = gene_all,</span></span><br><span class="line">                OrgDb         = org.Hs.eg.db,</span><br><span class="line">                ont           = <span class="string">"CC"</span> , <span class="comment">### "MF"  "CC"</span></span><br><span class="line">                pAdjustMethod = <span class="string">"BH"</span>,</span><br><span class="line">                pvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                qvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                readable      = <span class="literal">TRUE</span>)</span><br><span class="line">head(ego_CC)</span><br><span class="line">ego_CC_results &lt;- as.data.frame(ego_CC)</span><br><span class="line">dotplot(ego_CC)</span><br><span class="line"></span><br><span class="line"><span class="comment">## MF</span></span><br><span class="line">gene_list&lt;- gene_list</span><br><span class="line">ego_MF &lt;- enrichGO(gene          = gene_list,</span><br><span class="line">                <span class="comment"># universe      = gene_all,</span></span><br><span class="line">                OrgDb         = org.Hs.eg.db,</span><br><span class="line">                ont           = <span class="string">"MF"</span> , <span class="comment">### "MF"  "CC"</span></span><br><span class="line">                pAdjustMethod = <span class="string">"BH"</span>,</span><br><span class="line">                pvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                qvalueCutoff  = <span class="number">0.99</span>,</span><br><span class="line">                readable      = <span class="literal">TRUE</span>)</span><br><span class="line">head(ego_MF)</span><br><span class="line">ego_MF_results &lt;- as.data.frame(ego_MF)</span><br><span class="line">dotplot(ego_MF)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/09/18/KEGG_GO_annotation/image-20200918112919720.png" alt="image-20200918112919720"></p>
+<h3 id="GSEA"><a href="#GSEA" class="headerlink" title="GSEA"></a>GSEA</h3><figure class="highlight r"><table><tr><td class="code"><pre><span class="line"><span class="comment">####################GSEA</span></span><br><span class="line"><span class="comment">###  GSEA </span></span><br><span class="line"><span class="comment">##### 用于GSEA准备一个genelist,第一列是logFC,第二列是ENTREZID</span></span><br><span class="line"><span class="keyword">library</span>(readxl)</span><br><span class="line">wnt_data &lt;- read_excel(<span class="string">"D:/SynologyDrive/colorectal_cancer_project/wnt_related_genes/wnt相关基因重要文献2/JCI122383.sdt1.xlsx"</span>,</span><br><span class="line">                             sheet = <span class="number">6</span>)</span><br><span class="line"></span><br><span class="line">wnt_data&lt;- wnt_data[wnt_data$`Adjusted p-value`&lt;<span class="number">0.05</span>,]</span><br><span class="line">geneList=wnt_data$`log2(fold change)`</span><br><span class="line"></span><br><span class="line">gene_list&lt;- wnt_data$Symbol</span><br><span class="line">df &lt;- bitr(gene_list, fromType = <span class="string">"SYMBOL"</span>,</span><br><span class="line">           toType = c( <span class="string">"ENTREZID"</span>),</span><br><span class="line">           OrgDb = org.Hs.eg.db)</span><br><span class="line"></span><br><span class="line">names(geneList)=df$ENTREZID</span><br><span class="line">geneList=sort(geneList,decreasing = <span class="literal">T</span>)</span><br><span class="line">geneList</span><br><span class="line"><span class="comment">#### geneList是经过排序的基因表</span></span><br><span class="line">head(geneList)</span><br><span class="line">all(is.na(geneList))<span class="comment">## 不能有NA</span></span><br><span class="line">geneList&lt;- na.omit(geneList)</span><br><span class="line">kk_gse &lt;- gseKEGG(geneList     = geneList,</span><br><span class="line">                  organism     = <span class="string">'hsa'</span>,</span><br><span class="line">                  nPerm        = <span class="number">1000</span>,</span><br><span class="line">                  minGSSize    = <span class="number">120</span>,</span><br><span class="line">                  pvalueCutoff = <span class="number">0.9</span>,</span><br><span class="line">                  verbose      = <span class="literal">FALSE</span>)</span><br><span class="line">head(kk_gse)[,<span class="number">1</span>:<span class="number">6</span>]</span><br><span class="line"><span class="comment"># gseaplot(kk_gse, geneSetID = rownames(kk_gse[2,]))</span></span><br><span class="line">gseaplot(kk_gse, geneSetID = rownames(kk_gse[<span class="number">1</span>,]))</span><br><span class="line">down_kegg&lt;-kk_gse[kk_gse$pvalue&lt;<span class="number">0.05</span> &amp; kk_gse$enrichmentScore &lt; <span class="number">0</span>,];down_kegg$group=-<span class="number">1</span></span><br><span class="line">up_kegg&lt;-kk_gse[kk_gse$pvalue&lt;<span class="number">0.05</span> &amp; kk_gse$enrichmentScore &gt; <span class="number">0</span>,];up_kegg$group=<span class="number">1</span></span><br><span class="line"></span><br><span class="line">g_kegg=dotplot(kk_gse)</span><br><span class="line"></span><br><span class="line">print(g_kegg)</span><br><span class="line">ggsave(g_kegg,filename = <span class="string">'kegg_up_down_gsea.png'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="/2020/09/18/KEGG_GO_annotation/image-20200917201114085.png" alt="image-20200917201114085"></p>
+<h3 id="GSEA-官方版本"><a href="#GSEA-官方版本" class="headerlink" title="GSEA 官方版本"></a>GSEA 官方版本</h3><figure class="highlight r"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">#################################################下面开始GSEA分析</span></span><br><span class="line">rm(list=ls())</span><br><span class="line"><span class="comment"># options(BioC_mirror="https://mirrors.ustc.edu.cn/bioc/")</span></span><br><span class="line"><span class="comment"># options("repos" = c(CRAN="https://mirrors.tuna.tsinghua.edu.cn/CRAN/"))</span></span><br><span class="line"><span class="comment"># BiocManager::install('GSEABase')</span></span><br><span class="line"><span class="comment"># BiocManager::install('GSVA')</span></span><br><span class="line"><span class="keyword">library</span>(GSEABase)</span><br><span class="line"><span class="keyword">library</span>(GSVA)</span><br><span class="line"><span class="comment">### ---------------</span></span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(clusterProfiler)</span><br><span class="line"><span class="keyword">library</span>(org.Hs.eg.db)</span><br><span class="line"><span class="comment"># df &lt;- bitr(rownames(DEG), fromType = "SYMBOL",</span></span><br><span class="line"><span class="comment">#            toType = c( "ENTREZID"),</span></span><br><span class="line"><span class="comment">#            OrgDb = org.Hs.eg.db)</span></span><br><span class="line"><span class="comment"># head(df)</span></span><br><span class="line"><span class="comment"># head(DEG)</span></span><br><span class="line"><span class="comment"># DEG$SYMBOL = rownames(DEG)</span></span><br><span class="line"><span class="comment"># DEG=merge(DEG,df,by='SYMBOL')</span></span><br><span class="line"><span class="comment"># head(DEG)</span></span><br><span class="line"><span class="comment"># DEG&lt;- as.data.frame(DEG)</span></span><br><span class="line">DEG&lt;- nrDEG[nrDEG$P.Value&lt;<span class="number">0.05</span>,]</span><br><span class="line">geneList=DEG$logFC</span><br><span class="line"><span class="comment"># names(geneList)=DEG$ENTREZID ### 如果这里用ENTREZID会报错</span></span><br><span class="line">names(geneList)=rownames(DEG)</span><br><span class="line">geneList=sort(geneList,decreasing = <span class="literal">T</span>)</span><br><span class="line">head(geneList)</span><br><span class="line"></span><br><span class="line"><span class="comment">## Molecular Signatures Database (MSigDb) </span></span><br><span class="line">d=<span class="string">'D:/GSVA_and_GSEA_Gene_Sets/MsigDB/symbols/'</span></span><br><span class="line"><span class="comment"># gmts=list.files(d,pattern = 'all')</span></span><br><span class="line"><span class="comment"># gmts=list.files(d,pattern = 'c2')</span></span><br><span class="line">gmts=list.files(d,pattern = <span class="string">'h.all'</span>) <span class="comment">##### 这个是公认的数据集</span></span><br><span class="line">gmts</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line">  msigdb &lt;- lapply(gmts, <span class="keyword">function</span>(gmtfile)&#123;</span><br><span class="line">    geneset &lt;- read.gmt(file.path(d,gmtfile)) </span><br><span class="line">    egmt &lt;- GSEA(geneList, TERM2GENE=geneset, verbose=<span class="literal">FALSE</span>)</span><br><span class="line">    head(egmt)</span><br><span class="line">    <span class="keyword">return</span>(egmt)</span><br><span class="line">  &#125;)</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment"># ??GSEA</span></span><br><span class="line"><span class="comment"># GSEA(geneList, exponent = 1, nPerm = 1000, minGSSize = 10,</span></span><br><span class="line"><span class="comment">#      maxGSSize = 500, pvalueCutoff = 0.05, pAdjustMethod = "BH",</span></span><br><span class="line"><span class="comment">#      TERM2GENE, TERM2NAME = NA, verbose = TRUE, seed = FALSE,</span></span><br><span class="line"><span class="comment">#      by = "fgsea")</span></span><br><span class="line"></span><br><span class="line">save(msigdb,file=<span class="string">'./Rdata/msigdb.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">load(file=<span class="string">'./Rdata/msigdb.Rdata'</span>)</span><br><span class="line">msigdb_df &lt;- lapply(msigdb, <span class="keyword">function</span>(x)&#123;</span><br><span class="line">  cat(paste(dim(x@result)),<span class="string">'\n'</span>)</span><br><span class="line">  x@result</span><br><span class="line">&#125;)</span><br><span class="line">gmts</span><br><span class="line">df=do.call(rbind ,msigdb_df)</span><br><span class="line">df</span><br><span class="line"><span class="comment"># write.csv(df, file = './figure/GSEA_C2.csv')</span></span><br><span class="line">write.csv(df, file = <span class="string">'./results/GSEA_hall_FHL1_transcrption.csv'</span>)</span><br><span class="line">df$ID</span><br><span class="line">gseaplot(msigdb[[<span class="number">1</span>]],<span class="string">'HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION'</span>) </span><br><span class="line"><span class="comment"># KEGG_WNT_SIGNALING_PATHWAY  </span></span><br><span class="line"><span class="comment"># DODD_NASOPHARYNGEAL_CARCINOMA_UP</span></span><br><span class="line">gseaplot(msigdb[[<span class="number">1</span>]],<span class="string">'HALLMARK_EPITHELIAL_MESENCHYMAL_TRANSITION'</span>) </span><br><span class="line"><span class="comment"># gseaplot(msigdb[[2]],'KEGG_CELL_CYCLE') </span></span><br><span class="line"><span class="comment"># gseaplot(msigdb[[5]],'GO_NEGATIVE_REGULATION_OF_MACROAUTOPHAGY') </span></span><br><span class="line"></span><br><span class="line">??gseaplot</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 ]]></content>
+      <categories>
+        <category>R</category>
+        <category>KEGG</category>
+        <category>annotation</category>
+      </categories>
+      <tags>
+        <tag>R</tag>
+      </tags>
   </entry>
 </search>
