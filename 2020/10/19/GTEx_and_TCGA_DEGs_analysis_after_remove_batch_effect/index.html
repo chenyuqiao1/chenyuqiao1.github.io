@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect总结：remove_batch_effect 无论是limma方法还是sva方法，都需要有一个batch信息和group信息。当batch信息和group信息一致的时候，remove_batch_effect无效。如果同时使用batch信息和group信息，remove_batch_effec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect总结：remove_batch_effect 无论是limma方法还是sva方法，都需要有一个batch信息和group信息。当batch信息和group信息一致的时候，remove_batch_effect无效。如果同时使用batch信息和group信息，remove_batch_effec">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019200601061.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019195955876.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019200928591.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019214152090.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019195354765.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019202320287.png">
+<meta property="article:published_time" content="2020-10-18T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-19T13:59:26.207Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="R">
+<meta property="article:tag" content="cancer_normal_analysis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019200601061.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-10-19 00:00:00 / Modified: 21:59:26" itemprop="dateCreated datePublished" datetime="2020-10-19T00:00:00+08:00">2020-10-19</time>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="GTEx-and-TCGA-DEGs-analysis-after-remove-batch-effect"><a href="#GTEx-and-TCGA-DEGs-analysis-after-remove-batch-effect" class="headerlink" title="GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect"></a>GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect</h3><p>总结：remove_batch_effect 无论是limma方法还是sva方法，都需要有一个batch信息和group信息。当batch信息和group信息一致的时候，remove_batch_effect无效。如果同时使用batch信息和group信息，remove_batch_effect时，remove_batch_effect完全失效，如果只使用batch信息，没有group信息是，则会过去校正，导致各个基因无表达差异。</p>
+<h4 id="最终在实际分析的时候，不进行remove-batch-effect效应"><a href="#最终在实际分析的时候，不进行remove-batch-effect效应" class="headerlink" title="最终在实际分析的时候，不进行remove_batch_effect效应"></a>最终在实际分析的时候，不进行remove_batch_effect效应</h4><a id="more"></a>
+
+
+
+<h4 id="第一步：整理好GTEx和TCGA的数据"><a href="#第一步：整理好GTEx和TCGA的数据" class="headerlink" title="第一步：整理好GTEx和TCGA的数据"></a>第一步：整理好GTEx和TCGA的数据</h4><h5 id="GTEx数据"><a href="#GTEx数据" class="headerlink" title="GTEx数据"></a>GTEx数据</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># options(stringsAsFactors = F)</span></span><br><span class="line"><span class="comment"># pheno_data &lt;- read.delim("C:/Users/kexin/Desktop/R Project/data_GTEx/GTEx_v7_Annotations_SampleAttributesDS.txt")</span></span><br><span class="line"><span class="comment"># table(pheno_data$SMTS)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="literal">F</span>)&#123;</span><br><span class="line">  options(stringsAsFactors = <span class="literal">F</span>)</span><br><span class="line">  GTEx=read.table(<span class="string">'./GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz'</span></span><br><span class="line">                  ,header = <span class="literal">T</span>,sep = <span class="string">'\t'</span>,skip = <span class="number">2</span>)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">####### 文件非常大，读取速度很慢</span></span><br><span class="line"><span class="comment"># save(GTEx,file = 'GTEx_RNA_seq.Rdata')</span></span><br><span class="line"></span><br><span class="line">load(<span class="string">'./GTEx_RNA_seq.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># SMTS Tissue Type, area from which the tissue sample was taken. </span></span><br><span class="line"><span class="comment"># SMTSD Tissue Type, more specific detail of tissue type</span></span><br><span class="line">pheno_data=read.table(<span class="string">'./GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt'</span>,</span><br><span class="line">             header = <span class="literal">T</span>,sep = <span class="string">'\t'</span>,quote = <span class="string">''</span>)</span><br><span class="line">table(pheno_data$SMTS) </span><br><span class="line">colnames(GTEx)</span><br><span class="line">dim(pheno_data[pheno_data$SMTS==<span class="string">'Esophagus'</span>,<span class="number">1</span>])</span><br><span class="line">Esophagus_gtex=GTEx[,gsub(<span class="string">'[.]'</span>,<span class="string">'-'</span>,colnames(GTEx)) %<span class="keyword">in</span>% pheno_data[grepl(<span class="string">'Esophagus'</span>,pheno_data$SMTS),<span class="number">1</span>]]</span><br><span class="line">rownames(Esophagus_gtex)=GTEx[,<span class="number">1</span>]</span><br><span class="line">dat=Esophagus_gtex</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"></span><br><span class="line">pheno_data$SAMPID&lt;- gsub(<span class="string">'[-]'</span>,<span class="string">'.'</span>,pheno_data$SAMPID)</span><br><span class="line">pheno&lt;- pheno_data[pheno_data$SAMPID%<span class="keyword">in</span>%colnames(Esophagus_gtex),]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># tmp&lt;- dat['SPP1',]</span></span><br><span class="line"><span class="comment">#### 对表达矩阵进行重新排序和按表达量最大值去重</span></span><br><span class="line">GTEx[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">ids=GTEx[,<span class="number">1</span>:<span class="number">2</span>]</span><br><span class="line">head(ids)</span><br><span class="line">colnames(ids)=c(<span class="string">'probe_id'</span>,<span class="string">'symbol'</span>)</span><br><span class="line">dat=dat[ids$probe_id,]</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"><span class="comment"># 计算每个基因的平均值，然后排序，去每个探针最大的表达量的symbol</span></span><br><span class="line">ids$median=apply(dat,<span class="number">1</span>,median)</span><br><span class="line">ids=ids[order(ids$symbol,ids$median,decreasing = <span class="literal">T</span>),]</span><br><span class="line">ids=ids[!duplicated(ids$symbol),]</span><br><span class="line"><span class="comment">## 对dat重新排序，排序后重命名行</span></span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">dat=dat[ids$probe_id,]</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">head(ids)</span><br><span class="line">rownames(dat)=ids$symbol</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>] </span><br><span class="line"></span><br><span class="line"><span class="comment"># rownames(dat) &lt;- str_split(rownames(dat),'[.]',simplify = T)[,1]</span></span><br><span class="line">Esophagus_gtex=dat</span><br><span class="line">save(Esophagus_gtex,pheno,file = <span class="string">'Esophagus_gtex_counts.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># c('ENSG00000278709')%in%ids$probe_id</span></span><br><span class="line"><span class="comment"># tmp&lt;- Esophagus_gtex[grepl('ENSG00000278709',rownames(Esophagus_gtex)),]</span></span><br><span class="line"><span class="comment"># tmp&lt;- ids[grepl('ENSG00000278709',ids$probe_id),]</span></span><br><span class="line"></span><br><span class="line">tmp&lt;- dat[c(<span class="string">'LINC01614'</span>,<span class="string">'LINC01415'</span>,<span class="string">'NKILA'</span>,<span class="string">'SPP1'</span>,<span class="string">'BGN'</span>),]</span><br></pre></td></tr></table></figure>
+
+<h5 id="TCGA数据"><a href="#TCGA数据" class="headerlink" title="TCGA数据"></a>TCGA数据</h5><h4 id="第二步：merge-data-并选取"><a href="#第二步：merge-data-并选取" class="headerlink" title="第二步：merge data 并选取"></a>第二步：merge data 并选取</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line">load(file = <span class="string">'D:/data_GTEx_gtexportal.org/Esophagus_gtex_counts.Rdata'</span>)</span><br><span class="line">load(file = <span class="string">'D:/data_TCGA_gdc/ESCC_RPKM/Rdata/step_000_ESCC_expr_pheno.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### step1 selecting TCGA tumor sample</span></span><br><span class="line">expr_TCGA&lt;- exprSet_ESCC_tumor</span><br><span class="line">group_list=ifelse(as.numeric(substr(colnames(expr_TCGA),<span class="number">14</span>,<span class="number">15</span>)) &lt; <span class="number">10</span>,<span class="string">'tumor'</span>,<span class="string">'normal'</span>)</span><br><span class="line">expr_TCGA=na.omit(expr_TCGA)</span><br><span class="line">expr_TCGA=expr_TCGA[,group_list==<span class="string">'tumor'</span>]</span><br><span class="line">rownames(expr_TCGA)</span><br><span class="line"><span class="comment">#### </span></span><br><span class="line">Esophagus_gtex[<span class="number">1</span>:<span class="number">3</span>,<span class="number">1</span>:<span class="number">3</span>]</span><br><span class="line">Ensemble_ID&lt;- row.names(Esophagus_gtex)</span><br><span class="line"></span><br><span class="line">ID&lt;- strsplit(Ensemble_ID, <span class="string">"[.]"</span>)</span><br><span class="line">str(ID)</span><br><span class="line">IDlast&lt;- sapply(ID, <span class="string">"["</span>, <span class="number">1</span>)</span><br><span class="line">IDlast</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">row.names(Esophagus_gtex)&lt;- IDlast</span><br><span class="line">Esophagus_gtex[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"><span class="comment">#######</span></span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">row.names(expr_TCGA)&lt;- str_split(rownames(expr_TCGA),pattern = <span class="string">'\\.'</span>,simplify = <span class="literal">T</span>)[,<span class="number">1</span>]</span><br><span class="line"><span class="comment">########### merge两个表达矩阵</span></span><br><span class="line"></span><br><span class="line">table(row.names(expr_TCGA)%<span class="keyword">in</span>%row.names(Esophagus_gtex))</span><br><span class="line">table(row.names(Esophagus_gtex)%<span class="keyword">in</span>%row.names(expr_TCGA))</span><br><span class="line">expr_GTEx&lt;- Esophagus_gtex</span><br><span class="line"></span><br><span class="line"><span class="comment">#####随机抽取100个sample</span></span><br><span class="line">sample(<span class="number">10</span>,<span class="number">2</span>)</span><br><span class="line">sample(ncol(expr_GTEx), <span class="number">200</span>)</span><br><span class="line">expr_GTEx&lt;- expr_GTEx[,sample(ncol(expr_GTEx), <span class="number">200</span>)] <span class="comment">### 随机选择81个sample</span></span><br><span class="line"><span class="comment">#######</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">expr_GTEx$id&lt;- row.names(expr_GTEx)</span><br><span class="line">expr_TCGA$id&lt;- row.names(expr_TCGA)</span><br><span class="line">expr_all&lt;- merge.data.frame(expr_GTEx,expr_TCGA,by = <span class="string">'id'</span>)</span><br><span class="line">row.names(expr_all)&lt;- expr_all$id</span><br><span class="line">expr_all&lt;- expr_all[,!colnames(expr_all)==<span class="string">'id'</span>]</span><br><span class="line">expr_GTEx&lt;- expr_GTEx[,!colnames(expr_GTEx)==<span class="string">'id'</span>]</span><br><span class="line">expr_TCGA&lt;- expr_TCGA[,!colnames(expr_TCGA)==<span class="string">'id'</span>]</span><br><span class="line"></span><br><span class="line">save(expr_GTEx,expr_TCGA,expr_all,file = <span class="string">'./Rdata/expr_all_TCGA_GTEx.Rdata'</span>)</span><br><span class="line"><span class="comment">#############</span></span><br><span class="line">colnames(expr_all)</span><br><span class="line">rownames(expr_all)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h4 id="第三步：remove-batch-effect"><a href="#第三步：remove-batch-effect" class="headerlink" title="第三步：remove batch effect"></a>第三步：remove batch effect</h4><p>最初PCA图</p>
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019200601061.png" alt="最初PCA图"></p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">###### 校正批次效应 最简单的是QUANTILE </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(<span class="string">"preprocessCore"</span>)</span><br><span class="line">expr_GTEx&lt;- expr_GTEx[rownames(expr_GTEx)%<span class="keyword">in</span>%rownames(expr_TCGA),]</span><br><span class="line">expr_TCGA&lt;- expr_TCGA[rownames(expr_TCGA)%<span class="keyword">in</span>%rownames(expr_GTEx),]</span><br><span class="line">expr_GTEx&lt;- expr_GTEx[!duplicated(order(rownames(expr_GTEx),decreasing = <span class="literal">T</span>)),]</span><br><span class="line">expr_TCGA&lt;-expr_TCGA[order(rownames(expr_TCGA),decreasing = <span class="literal">T</span>),]</span><br><span class="line">expr_GTEx[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">expr_TCGA[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">expr_all &lt;- cbind(expr_GTEx, expr_TCGA)</span><br><span class="line">expr_all&lt;- as.matrix(expr_all)</span><br><span class="line">expr_all_quantiles &lt;- normalize.quantiles(expr_all)</span><br><span class="line">whichbatch &lt;- as.factor(c(rep(<span class="string">"normal"</span>, ncol(expr_GTEx)), rep(<span class="string">"cancer"</span>, ncol(expr_TCGA))))</span><br><span class="line">normal_batch=expr_all_quantiles[, whichbatch==<span class="string">"normal"</span>]</span><br><span class="line">cancer_batch=expr_all_quantiles[, whichbatch==<span class="string">"cancer"</span>]</span><br><span class="line"></span><br><span class="line">exprSet&lt;- expr_all_quantiles</span><br><span class="line">colnames(expr_all_quantiles)&lt;- colnames(expr_all)</span><br><span class="line">rownames(expr_all_quantiles)&lt;- rownames(expr_all) </span><br><span class="line">save(expr_all_quantiles,file = <span class="string">'./Rdata/expr_all_quantiles.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">dist_mat_combat &lt;- dist(t(exprSet))</span><br><span class="line">clustering_combat &lt;- hclust(dist_mat_combat, method = <span class="string">"complete"</span>)</span><br><span class="line">plot(clustering_combat, labels = pheno$batch)</span><br><span class="line">plot(clustering_combat, labels = pheno$group)</span><br><span class="line"></span><br><span class="line"><span class="comment">## PCA</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggfortify)</span><br><span class="line">df=as.data.frame(t(expr_all_quantiles))</span><br><span class="line">df$group=group_list</span><br><span class="line">png(<span class="string">'pca.png'</span>,res=<span class="number">120</span>)</span><br><span class="line">autoplot(prcomp( df[,<span class="number">1</span>:(ncol(df)-<span class="number">1</span>)] ), data=df,colour = <span class="string">'group'</span>)+theme_bw()</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">pca_plot = <span class="keyword">function</span>(dddd,ggggg)&#123;</span><br><span class="line">  <span class="keyword">library</span>(<span class="string">"FactoMineR"</span>)</span><br><span class="line">  <span class="keyword">library</span>(<span class="string">"factoextra"</span>)</span><br><span class="line">  df.pca &lt;- PCA(t(dddd), graph = <span class="literal">FALSE</span>)</span><br><span class="line">  fviz_pca_ind(df.pca,</span><br><span class="line">               <span class="comment">#axes = c(2,3),</span></span><br><span class="line">               geom.ind = <span class="string">"point"</span>,</span><br><span class="line">               col.ind = ggggg ,</span><br><span class="line">               addEllipses = <span class="literal">TRUE</span>,</span><br><span class="line">               legend.title = <span class="string">"Groups"</span></span><br><span class="line">  )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">g=factor( group_list )</span><br><span class="line">g</span><br><span class="line">pca_plot(expr_all_quantiles,g)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+<h5 id="3-1-limma-两者没有差异，所以limma-remove-batch-effect代码是失败的"><a href="#3-1-limma-两者没有差异，所以limma-remove-batch-effect代码是失败的" class="headerlink" title="3.1 limma: 两者没有差异，所以limma_remove_batch_effect代码是失败的"></a>3.1 limma: 两者没有差异，所以limma_remove_batch_effect代码是失败的</h5><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">load(<span class="string">'./Rdata/expr_all_TCGA_GTEx.Rdata'</span>)</span><br><span class="line"><span class="comment"># 每次都要检测数据</span></span><br><span class="line">dat&lt;- expr_all</span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">group_list=ifelse(substr(colnames(dat),<span class="number">1</span>,<span class="number">4</span>)==<span class="string">'GTEX'</span>,<span class="string">'normal'</span>,<span class="string">'tumor'</span>)</span><br><span class="line">table(group_list)</span><br><span class="line"><span class="keyword">library</span>(limma)</span><br><span class="line">g=factor( group_list )</span><br><span class="line">g</span><br><span class="line"><span class="comment"># g=relevel(g,'con')</span></span><br><span class="line">design=model.matrix(~g) </span><br><span class="line">fit=lmFit(dat,design) </span><br><span class="line">fit=eBayes(fit) </span><br><span class="line">options(digits = <span class="number">4</span>) </span><br><span class="line">topTable(fit,coef=<span class="number">2</span>,adjust=<span class="string">'BH'</span>) </span><br><span class="line"><span class="comment"># 首先是瘾君子与正常人的差异分析</span></span><br><span class="line">deg1=topTable(fit,coef=<span class="number">2</span>,adjust=<span class="string">'BH'</span>,number = <span class="literal">Inf</span>)</span><br><span class="line">pca_plot(dat,g)</span><br><span class="line"></span><br><span class="line">batch=group_list</span><br><span class="line"></span><br><span class="line"><span class="comment">## 使用 limma 的 removeBatchEffect 函数</span></span><br><span class="line">dat[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"><span class="comment">##### 理解design的意思，和sva一样，如果包含design，则无法进行remove_batch_effect</span></span><br><span class="line"><span class="comment"># ex_b_limma &lt;- removeBatchEffect(dat,</span></span><br><span class="line"><span class="comment">#                                 batch = batch,</span></span><br><span class="line"><span class="comment">#                                 design = design)</span></span><br><span class="line">ex_b_limma &lt;- removeBatchEffect(dat,</span><br><span class="line">                                batch = batch)</span><br><span class="line">dim(ex_b_limma) </span><br><span class="line">ex_b_limma[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line">fit=lmFit(ex_b_limma,design)  </span><br><span class="line">fit=eBayes(fit) </span><br><span class="line">options(digits = <span class="number">4</span>) </span><br><span class="line">topTable(fit,coef=<span class="number">2</span>,adjust=<span class="string">'BH'</span>) </span><br><span class="line">deg2=topTable(fit,coef=<span class="number">2</span>,adjust=<span class="string">'BH'</span>,number = <span class="literal">Inf</span>)</span><br><span class="line">pca_plot(ex_b_limma,g)</span><br><span class="line">save(ex_b_limma,file = <span class="string">'./Rdata/limma_batch_effect.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+<p>remove_batch_effect_by_limma</p>
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019195955876.png" alt="remove_batch_effect_by_limma"></p>
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019200928591.png" alt="两者没有差异，所以上述limma_remove_batch_effect代码是失败的"></p>
+<blockquote>
+<p>要点记录</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># ex_b_limma &lt;- removeBatchEffect(dat,</span></span><br><span class="line"><span class="comment">#                                 batch = batch,</span></span><br><span class="line"><span class="comment">#                                 design = design)</span></span><br><span class="line">ex_b_limma &lt;- removeBatchEffect(dat,</span><br><span class="line">                                batch = batch)</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019214152090.png" alt="image-20201019214152090"></p>
+<h5 id="3-2-使用sva"><a href="#3-2-使用sva" class="headerlink" title="3.2 使用sva"></a>3.2 使用sva</h5><blockquote>
+<p>要点记录</p>
+</blockquote>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># combat_edata &lt;- ComBat(dat = edata, batch = pheno$batch, mod = mod) ###### mod是防止combat时，对batch的过度校正，所以mod不能和batch一致。</span></span><br><span class="line">combat_edata &lt;- ComBat(dat = edata, batch = pheno$batch, mod = <span class="literal">NULL</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">####################################################</span></span><br><span class="line"></span><br><span class="line"><span class="comment">### 注意：RNA-seq count数据是不能进行校正批次效应的，必须对数据进行normalization，得到FPKM值或者简单的exprSet&lt;- scale(log2(exprSet+1))后</span></span><br><span class="line">rm(list = ls())</span><br><span class="line"><span class="keyword">library</span>(sva)</span><br><span class="line"><span class="keyword">library</span>(bladderbatch)</span><br><span class="line"><span class="comment">######## 将所有的表达矩阵都进行合并，并需要一个注释信息包含normal/cancer, batch</span></span><br><span class="line"></span><br><span class="line">load(<span class="string">'./Rdata/expr_all_TCGA_GTEx.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">exprSet&lt;- expr_all</span><br><span class="line">substr(colnames(exprSet),<span class="number">1</span>,<span class="number">4</span>)</span><br><span class="line">group_list=ifelse(substr(colnames(exprSet),<span class="number">1</span>,<span class="number">4</span>)==<span class="string">'GTEX'</span>,<span class="string">'normal'</span>,<span class="string">'tumor'</span>)</span><br><span class="line">table(group_list)</span><br><span class="line">batch&lt;- as.factor(group_list)</span><br><span class="line">sample_id&lt;- colnames(exprSet)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">### </span></span><br><span class="line">pheno&lt;- data.frame(sample = sample_id,batch = batch,group=group_list)</span><br><span class="line">batch = pheno$batch</span><br><span class="line"><span class="comment">### 这一步看一下batch effect</span></span><br><span class="line">exprSet&lt;- as.matrix(exprSet)</span><br><span class="line">exprSet&lt;- log2(exprSet+<span class="number">1</span>)</span><br><span class="line"><span class="comment"># exprSet&lt;- scale(log2(exprSet+1)) # normalization 标准化</span></span><br><span class="line">group_list&lt;- pheno$group</span><br><span class="line"></span><br><span class="line"><span class="comment">## hclust</span></span><br><span class="line"><span class="comment">##### 对行改名字</span></span><br><span class="line">colnames(exprSet)=paste(group_list,<span class="number">1</span>:ncol(exprSet),sep=<span class="string">'_'</span>)</span><br><span class="line"><span class="comment"># Define nodePar</span></span><br><span class="line">nodePar &lt;- list(lab.cex = <span class="number">0.6</span>, pch = c(<span class="literal">NA</span>, <span class="number">19</span>),</span><br><span class="line">                cex = <span class="number">0.7</span>, col = <span class="string">"blue"</span>)</span><br><span class="line">hc=hclust(dist(t(exprSet)))</span><br><span class="line">par(mar=c(<span class="number">5</span>,<span class="number">5</span>,<span class="number">5</span>,<span class="number">10</span>))</span><br><span class="line">png(<span class="string">'hclust.png'</span>,res=<span class="number">120</span>,height = <span class="number">1800</span>)</span><br><span class="line">plot(as.dendrogram(hc), nodePar = nodePar, horiz = <span class="literal">TRUE</span>)</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"><span class="comment">## PCA</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">library</span>(ggfortify)</span><br><span class="line">df=as.data.frame(t(exprSet))</span><br><span class="line">df$group=group_list</span><br><span class="line">png(<span class="string">'pca.png'</span>,res=<span class="number">120</span>)</span><br><span class="line">autoplot(prcomp( df[,<span class="number">1</span>:(ncol(df)-<span class="number">1</span>)] ), data=df,colour = <span class="string">'group'</span>)+theme_bw()</span><br><span class="line">dev.off()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">###### 校正批次效应前hcluster图</span></span><br><span class="line">dist_mat &lt;- dist(t(exprSet))</span><br><span class="line">clustering &lt;- hclust(dist_mat, method = <span class="string">"complete"</span>)</span><br><span class="line">plot(clustering, labels = pheno$batch)</span><br><span class="line">plot(clustering, labels = pheno$group)</span><br><span class="line"></span><br><span class="line"><span class="comment">######## sva校正批次效应。构建expre的matrix格式，构建pheno包含batch 和 mod</span></span><br><span class="line"><span class="comment">######## 此外sva校正时不可以所有列都为0</span></span><br><span class="line">edata = as.matrix(na.omit(exprSet))</span><br><span class="line">edata_sum&lt;- apply(edata,<span class="number">1</span>,sum)</span><br><span class="line">table(edata_sum==<span class="number">0</span>)</span><br><span class="line">edata&lt;- edata[edata_sum!=<span class="number">0</span>,]</span><br><span class="line"></span><br><span class="line"><span class="comment"># mod = model.matrix(~as.factor(ramdon_number), data=pheno)</span></span><br><span class="line"><span class="comment"># combat_edata &lt;- ComBat(dat = edata, batch = pheno$batch, mod = mod) ###### mod是防止combat时，对batch的过度校正，所以mod不能和batch一致。</span></span><br><span class="line">combat_edata &lt;- ComBat(dat = edata, batch = pheno$batch, mod = <span class="literal">NULL</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">dist_mat_combat &lt;- dist(t(combat_edata))</span><br><span class="line">clustering_combat &lt;- hclust(dist_mat_combat, method = <span class="string">"complete"</span>)</span><br><span class="line">plot(clustering_combat, labels = pheno$batch)</span><br><span class="line">plot(clustering_combat, labels = pheno$group)</span><br><span class="line"></span><br><span class="line"><span class="comment">#### 校正后再看batch effect</span></span><br><span class="line"><span class="comment">### 略</span></span><br><span class="line"></span><br><span class="line">save(combat_edata,pheno,file = <span class="string">'./Rdata/sva_remove_batch_effect.Rdata'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ####################################################</span></span><br><span class="line"><span class="comment"># ####################################################</span></span><br><span class="line"><span class="comment"># #####################简单版本</span></span><br><span class="line"><span class="comment"># ####################################################</span></span><br><span class="line"><span class="comment"># ####################################################</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># library(sva)</span></span><br><span class="line"><span class="comment"># library(limma)</span></span><br><span class="line"><span class="comment"># table(batch)</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># # ## 使用 sva 的 ComBat 函数</span></span><br><span class="line"><span class="comment"># library(sva)</span></span><br><span class="line"><span class="comment"># table(batch)</span></span><br><span class="line"><span class="comment"># table(g)</span></span><br><span class="line"><span class="comment"># dat_sum&lt;- apply(dat,1,sum)</span></span><br><span class="line"><span class="comment"># table(dat_sum==0)</span></span><br><span class="line"><span class="comment"># dat&lt;- dat[dat_sum!=0,]</span></span><br><span class="line"><span class="comment"># ex_b_sva = ComBat(dat=as.matrix(dat),</span></span><br><span class="line"><span class="comment">#                   batch=batch</span></span><br><span class="line"><span class="comment"># )</span></span><br><span class="line"><span class="comment"># fit=lmFit(ex_b_sva,design)  </span></span><br><span class="line"><span class="comment"># fit=eBayes(fit) </span></span><br><span class="line"><span class="comment"># options(digits = 4) </span></span><br><span class="line"><span class="comment"># topTable(fit,coef=2,adjust='BH') </span></span><br><span class="line"><span class="comment"># # 首先是瘾君子与正常人的差异分析</span></span><br><span class="line"><span class="comment"># deg3=topTable(fit,coef=2,adjust='BH',number = Inf)</span></span><br><span class="line"><span class="comment"># pca_plot(ex_b_sva,g)</span></span><br><span class="line"><span class="comment"># save(ex_b_sva,file = './Rdata/sva_batch_effect.Rdata')</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># ##### 校正批次效应高级一点是SVA包的COMBAT函数 http://www.bio-info-trainee.com/3280.html</span></span><br><span class="line"><span class="comment"># # BiocManager::install('sva')</span></span><br><span class="line"><span class="comment"># library("sva")</span></span><br><span class="line"><span class="comment"># ?ComBat</span></span><br><span class="line"><span class="comment"># # subset to common genes andbatch correct using ComBat</span></span><br><span class="line"><span class="comment"># # expr_GTEx&lt;- expr_GTEx[,!colnames(expr_GTEx)=='id']</span></span><br><span class="line"><span class="comment"># # expr_TCGA&lt;- expr_TCGA[,!colnames(expr_TCGA)=='id']</span></span><br><span class="line"><span class="comment"># # library("FactoMineR")</span></span><br><span class="line"><span class="comment"># # library("factoextra")  </span></span><br><span class="line"><span class="comment"># # PCA(expr_all)</span></span><br><span class="line"><span class="comment"># trainExprMat&lt;- expr_GTEx[rownames(expr_GTEx)%in%rownames(expr_TCGA),]</span></span><br><span class="line"><span class="comment"># testExprMat&lt;- expr_TCGA[rownames(expr_TCGA)%in%rownames(expr_GTEx),]</span></span><br><span class="line"><span class="comment"># trainExprMat&lt;- trainExprMat[!duplicated(order(rownames(trainExprMat),decreasing = T)),]</span></span><br><span class="line"><span class="comment"># testExprMat&lt;-testExprMat[order(rownames(testExprMat),decreasing = T),]</span></span><br><span class="line"><span class="comment"># trainExprMat[1:4,1:4]  </span></span><br><span class="line"><span class="comment"># testExprMat[1:4,1:4]  </span></span><br><span class="line"><span class="comment"># ##############################</span></span><br><span class="line"><span class="comment"># expr_all[1:10,1:10]</span></span><br><span class="line"><span class="comment"># rownames(expr_all)</span></span><br><span class="line"><span class="comment"># dataMat&lt;- as.data.frame.matrix(expr_all)</span></span><br><span class="line"><span class="comment"># dataMat&lt;- as.matrix(sapply(expr_all, as.numeric))</span></span><br><span class="line"><span class="comment"># dataMat &lt;- matrix(expr_all)</span></span><br><span class="line"><span class="comment"># dataMat$</span></span><br><span class="line"><span class="comment"># dataMat[1:4,1:4]</span></span><br><span class="line"><span class="comment"># </span></span><br><span class="line"><span class="comment"># # mod &lt;- data.frame("(Intercept)"=rep(1, ncol(dataMat)))</span></span><br><span class="line"><span class="comment"># a&lt;- substr(colnames(expr_all),1,4)</span></span><br><span class="line"><span class="comment"># mod = model.matrix(~as.factor(a))</span></span><br><span class="line"><span class="comment"># rownames(mod) &lt;- colnames(dataMat)</span></span><br><span class="line"><span class="comment"># whichbatch &lt;- as.numeric(as.factor(c(rep("train", ncol(trainExprMat)), rep("test", ncol(testExprMat)))))</span></span><br><span class="line"><span class="comment"># combatout &lt;- ComBat(data=dataMat, batch=whichbatch, mod=mod,par.prior=TRUE, ref.batch=2)</span></span><br><span class="line"><span class="comment"># train=combatout[, whichbatch=="train"]</span></span><br><span class="line"><span class="comment"># test=combatout[, whichbatch=="test"]</span></span><br><span class="line"><span class="comment"># whichbatch</span></span><br><span class="line"><span class="comment"># batch</span></span><br><span class="line"><span class="comment"># mod</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>remove_batch_effect_by_sva</p>
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019195354765.png" alt="remove_batch_effect_by_sva"></p>
+<p><img src="/2020/10/19/GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect/image-20201019202320287.png" alt="image-20201019202320287"></p>
+<h4 id="第四步：ID-trans"><a href="#第四步：ID-trans" class="headerlink" title="第四步：ID_trans"></a>第四步：ID_trans</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">rm(list=ls())</span><br><span class="line"></span><br><span class="line"><span class="comment"># load(file='./step1.Rdata') </span></span><br><span class="line">load(file=<span class="string">'./Rdata/sva_remove_batch_effect.Rdata'</span>)</span><br><span class="line"><span class="comment"># exprSet&lt;- ex_b_limma</span></span><br><span class="line">exprSet&lt;- combat_edata</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">ID_trans &lt;- read.table(<span class="string">"D:/annotation_and_reference/gtf_v30_ID.txt"</span>,sep = <span class="string">'"'</span>,header=<span class="literal">FALSE</span>, fill = <span class="literal">TRUE</span>)</span><br><span class="line">ID_trans&lt;- ID_trans[ID_trans$V3!=<span class="string">''</span>,]</span><br><span class="line"><span class="keyword">library</span>(stringr)</span><br><span class="line">ENSG&lt;- str_split(ID_trans$V1,pattern = <span class="string">'ENSG'</span>, simplify = <span class="literal">T</span>)[,<span class="number">2</span>]</span><br><span class="line">ENSG&lt;- str_split(ENSG,pattern = <span class="string">'\\.'</span>, simplify = <span class="literal">T</span>)[,<span class="number">1</span>]</span><br><span class="line">head(ENSG)</span><br><span class="line">ENSG&lt;- str_c(<span class="string">'ENSG'</span>,ENSG)</span><br><span class="line">head(ENSG)</span><br><span class="line">ID&lt;- data.frame(ensg=ENSG,SYMBOL=ID_trans$V3)</span><br><span class="line">ID&lt;- unique.data.frame(ID)</span><br><span class="line">ids&lt;- data.frame(probe_id=ID$ensg,symbol=ID$SYMBOL)</span><br><span class="line"></span><br><span class="line">length(unique(ids$symbol))</span><br><span class="line">tail(sort(table(ids$symbol)))</span><br><span class="line">table(sort(table(ids$symbol)))</span><br><span class="line">plot(table(sort(table(ids$symbol))))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">table(rownames(exprSet) %<span class="keyword">in</span>% ids$probe_id)</span><br><span class="line">dim(exprSet)</span><br><span class="line">exprSet=exprSet[rownames(exprSet) %<span class="keyword">in</span>% ids$probe_id,]</span><br><span class="line">dim(exprSet)</span><br><span class="line"></span><br><span class="line">ids=ids[match(rownames(exprSet),ids$probe_id),]</span><br><span class="line">head(ids)</span><br><span class="line">exprSet[<span class="number">1</span>:<span class="number">4</span>,<span class="number">1</span>:<span class="number">4</span>]</span><br><span class="line"><span class="comment"># load(file = 'D:/data_GTEx_gtexportal.org/GTEx_RNA_seq.Rdata')</span></span><br><span class="line"><span class="comment"># load(file = './step0_ID_trans.Rdata')</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># library(stringr)</span></span><br><span class="line"><span class="comment"># ids$probe_id &lt;- str_split(ids$probe_id,'[.]',simplify = T)[,1]</span></span><br><span class="line"><span class="comment"># ids&lt;- ids[ids$probe_id%in%rownames(expr_all),]</span></span><br><span class="line"><span class="comment"># match(ids$probe_id,row.names(expr_all))</span></span><br><span class="line"><span class="comment"># ids&lt;- ids[match(rownames(expr_all),ids$probe_id),]  #### 重新排序</span></span><br><span class="line"><span class="comment"># match(ids$probe_id,row.names(expr_all))</span></span><br><span class="line"><span class="comment">##### symbol 会有重复，所以要选取表达量最大的那个</span></span><br><span class="line">jimmy &lt;- <span class="keyword">function</span>(exprSet,ids)&#123;</span><br><span class="line">  tmp = by(exprSet, ids$symbol, <span class="keyword">function</span>(x) rownames(x)[which.max(rowMeans(x))] )</span><br><span class="line">  probes = as.character(tmp)</span><br><span class="line">  print(dim(exprSet))</span><br><span class="line">  exprSet=exprSet[rownames(exprSet) %<span class="keyword">in</span>% probes ,]</span><br><span class="line">  </span><br><span class="line">  print(dim(exprSet))</span><br><span class="line">  rownames(exprSet)=ids[match(rownames(exprSet),ids$probe_id),<span class="number">2</span>]</span><br><span class="line">  <span class="keyword">return</span>(exprSet)</span><br><span class="line">&#125;</span><br><span class="line">new_exprSet &lt;- jimmy(exprSet,ids)</span><br><span class="line"></span><br><span class="line">new_exprSet[<span class="string">'LINC01415'</span>,]</span><br><span class="line"><span class="comment"># save(ids,new_exprSet,file = './Rdata/step00_idtransed_limma_batch.Rdata')</span></span><br><span class="line">save(ids,new_exprSet,file = <span class="string">'./Rdata/step00_idtransed_sva_batch.Rdata'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第五步：target-gene-box-plot"><a href="#第五步：target-gene-box-plot" class="headerlink" title="第五步：target_gene_box_plot"></a>第五步：target_gene_box_plot</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">rm(list = ls())</span><br><span class="line"><span class="comment"># load('./Rdata/step00_idtransed.Rdata')</span></span><br><span class="line">load(<span class="string">'./Rdata/step00_idtransed_limma_batch.Rdata'</span>)</span><br><span class="line"></span><br><span class="line">exprSet&lt;- new_exprSet</span><br><span class="line"><span class="comment"># group_list=ifelse(substr(colnames(exprSet),1,4)=='GTEX','normal','tumor')</span></span><br><span class="line"><span class="comment">### sva_remove_batcj_effect时，hclust已经改了行名</span></span><br><span class="line">group_list=ifelse(grepl(<span class="string">'tumor'</span>,colnames(exprSet))==<span class="literal">F</span>,<span class="string">'normal'</span>,<span class="string">'tumor'</span>) </span><br><span class="line">table(group_list)</span><br><span class="line">exprSet&lt;- log2(exprSet+<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">gene_name&lt;- c(<span class="string">'LINC01415'</span>,<span class="string">'LINC01614'</span>,<span class="string">'NKILA'</span>,<span class="string">'SPP1'</span>,<span class="string">'BGN'</span>) <span class="comment">## 'ACTA1'</span></span><br><span class="line"><span class="keyword">library</span>(reshape2)</span><br><span class="line"><span class="comment">########### 探索数据   </span></span><br><span class="line"><span class="keyword">library</span>(ggpubr)</span><br><span class="line"><span class="keyword">library</span>(ggplot2)</span><br><span class="line"><span class="keyword">library</span>(reshape2)</span><br><span class="line"><span class="keyword">if</span>(<span class="literal">T</span>)&#123;</span><br><span class="line">  gene_expression&lt;- as.data.frame(t(exprSet[gene_name,]))</span><br><span class="line">  gene_expression$group&lt;- group_list</span><br><span class="line">  <span class="comment"># gene_expression$samlple&lt;- rownames(gene_expression)</span></span><br><span class="line">  exprSet_L&lt;- melt(gene_expression,id.vars = c(<span class="string">'group'</span>))</span><br><span class="line">  names(exprSet_L)[<span class="number">2</span>]&lt;- c(<span class="string">'sample'</span>)</span><br><span class="line">  p=ggplot(exprSet_L,aes(x=sample,y=value,fill=group))+geom_boxplot() + stat_compare_means(method = <span class="string">'wilcox.test'</span>,label=<span class="string">'p.signif'</span>) + theme(axis.title.x  = element_text(angle = <span class="number">0</span>,hjust = <span class="number">.5</span>,vjust = <span class="number">.5</span>))+</span><br><span class="line">    theme(axis.text.x = element_text(angle = <span class="number">0</span>, hjust = <span class="number">0.5</span>, vjust = <span class="number">0.5</span>,size = <span class="number">8</span>))</span><br><span class="line">  print(p)</span><br><span class="line">&#125;</span><br><span class="line">ggsave(<span class="string">'./figure/ggplot_boxplot_module2_version1130.pdf'</span>,p,width = <span class="number">25</span>, height = <span class="number">12.5</span>, units = <span class="string">'cm'</span>)</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="第六步：limma-DEGs-and-vocanno-plot"><a href="#第六步：limma-DEGs-and-vocanno-plot" class="headerlink" title="第六步：limma_DEGs and vocanno_plot"></a>第六步：limma_DEGs and vocanno_plot</h4><figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/R/" rel="tag"># R</a>
+              <a href="/tags/cancer-normal-analysis/" rel="tag"># cancer_normal_analysis</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/08/chip_seq_annotation_R/" rel="prev" title="chip-seq annotation">
+      <i class="fa fa-chevron-left"></i> chip-seq annotation
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/19/sva%E6%A0%A1%E6%AD%A3%E6%89%B9%E6%AC%A1%E6%95%88%E5%BA%94/" rel="next" title="sva校正批次效应">
+      sva校正批次效应 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#GTEx-and-TCGA-DEGs-analysis-after-remove-batch-effect"><span class="nav-number">1.</span> <span class="nav-text">GTEx_and_TCGA_DEGs_analysis_after_remove_batch_effect</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#最终在实际分析的时候，不进行remove-batch-effect效应"><span class="nav-number">1.1.</span> <span class="nav-text">最终在实际分析的时候，不进行remove_batch_effect效应</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第一步：整理好GTEx和TCGA的数据"><span class="nav-number">1.2.</span> <span class="nav-text">第一步：整理好GTEx和TCGA的数据</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#GTEx数据"><span class="nav-number">1.2.1.</span> <span class="nav-text">GTEx数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#TCGA数据"><span class="nav-number">1.2.2.</span> <span class="nav-text">TCGA数据</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第二步：merge-data-并选取"><span class="nav-number">1.3.</span> <span class="nav-text">第二步：merge data 并选取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第三步：remove-batch-effect"><span class="nav-number">1.4.</span> <span class="nav-text">第三步：remove batch effect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-limma-两者没有差异，所以limma-remove-batch-effect代码是失败的"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1 limma: 两者没有差异，所以limma_remove_batch_effect代码是失败的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-使用sva"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 使用sva</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第四步：ID-trans"><span class="nav-number">1.5.</span> <span class="nav-text">第四步：ID_trans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第五步：target-gene-box-plot"><span class="nav-number">1.6.</span> <span class="nav-text">第五步：target_gene_box_plot</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#第六步：limma-DEGs-and-vocanno-plot"><span class="nav-number">1.7.</span> <span class="nav-text">第六步：limma_DEGs and vocanno_plot</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="用R获取芯片探针与基因的对应关系三部曲-bioconductor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用R获取芯片探针与基因的对应关系三部曲-bioconductor">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/10/04/%E7%94%A8R%E8%8E%B7%E5%8F%96%E8%8A%AF%E7%89%87%E6%8E%A2%E9%92%88%E4%B8%8E%E5%9F%BA%E5%9B%A0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB%E4%B8%89%E9%83%A8%E6%9B%B2-bioconductor/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="用R获取芯片探针与基因的对应关系三部曲-bioconductor">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-10-03T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-08T12:05:41.452Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="GEO">
+<meta property="article:tag" content="GSE">
+<meta property="article:tag" content="ID_trans">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/10/04/%E7%94%A8R%E8%8E%B7%E5%8F%96%E8%8A%AF%E7%89%87%E6%8E%A2%E9%92%88%E4%B8%8E%E5%9F%BA%E5%9B%A0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB%E4%B8%89%E9%83%A8%E6%9B%B2-bioconductor/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>用R获取芯片探针与基因的对应关系三部曲-bioconductor | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/10/04/%E7%94%A8R%E8%8E%B7%E5%8F%96%E8%8A%AF%E7%89%87%E6%8E%A2%E9%92%88%E4%B8%8E%E5%9F%BA%E5%9B%A0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB%E4%B8%89%E9%83%A8%E6%9B%B2-bioconductor/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用R获取芯片探针与基因的对应关系三部曲-bioconductor
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-04 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-04T00:00:00+08:00">2020-10-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-08 20:05:41" itemprop="dateModified" datetime="2020-10-08T20:05:41+08:00">2020-10-08</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="用R获取芯片探针与基因的对应关系三部曲-bioconductor"><a href="#用R获取芯片探针与基因的对应关系三部曲-bioconductor" class="headerlink" title="用R获取芯片探针与基因的对应关系三部曲-bioconductor"></a>用R获取芯片探针与基因的对应关系三部曲-bioconductor</h1><a id="more"></a>
+
+<p>找到 GPL6244 platform of Affymetrix Human Gene 1.0 ST Array 对应的R的bioconductor注释包，并且安装它！</p>
+<figure class="highlight r"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">options()$repos</span><br><span class="line">options()$BioC_mirror </span><br><span class="line">options(BioC_mirror=<span class="string">"https://mirrors.ustc.edu.cn/bioc/"</span>)</span><br><span class="line">options(<span class="string">"repos"</span> = c(CRAN=<span class="string">"https://mirrors.tuna.tsinghua.edu.cn/CRAN/"</span>))</span><br><span class="line">BiocManager::install(<span class="string">"请输入自己找到的R包"</span>,ask = <span class="literal">F</span>,update = <span class="literal">F</span>)</span><br><span class="line">options()$repos</span><br><span class="line">options()$BioC_mirror</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>现有的基因芯片种类不要太多了！</p>
+<p>但是重要而且常用的芯片并不多！</p>
+<p>一般分析芯片数据都需要把探针的ID切换成基因的ID，我一般喜欢用基因的entrez ID。</p>
+<p><strong>一般有三种方法可以得到芯片探针与gene的对应关系。</strong></p>
+<p><strong>金标准当然是去基因芯片的厂商的官网直接去下载啦！！！</strong></p>
+<p><strong>一种是直接用bioconductor的包</strong></p>
+<p><strong>一种是从NCBI里面下载文件来解析好！</strong></p>
+<p>首先，我们说官网，肯定可以找到，不然这种芯片出来就没有意义了！</p>
+<p>然后，我们看看NCBI下载的，会比较大</p>
+<p><a href="http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6947" target="_blank" rel="noopener">http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GPL6947</a></p>
+<p>这两种方法都比较麻烦，需要一个个的来！</p>
+<p>所以我接下来要讲的是用R的bioconductor包来批量得到芯片探针与gene的对应关系！</p>
+<p>一般重要的芯片在R的bioconductor里面都是有包的，用一个R包可以批量获取有注释信息的芯片平台，我选取了常见的物种，如下：</p>
+<h4 id="重要备注：后面要加一个db"><a href="#重要备注：后面要加一个db" class="headerlink" title="重要备注：后面要加一个db"></a>重要备注：后面要加一个db</h4><blockquote>
+<p>​    gpl      organism         bioc_package</p>
+<p>1   GPL32    Mus musculus            mgu74a</p>
+<p>2   GPL33    Mus musculus            mgu74b</p>
+<p>3   GPL34    Mus musculus            mgu74c</p>
+<p>6   GPL74    Homo sapiens            hcg110</p>
+<p>7   GPL75    Mus musculus           mu11ksuba</p>
+<p>8   GPL76    Mus musculus           mu11ksubb</p>
+<p>9   GPL77    Mus musculus           mu19ksuba</p>
+<p>10  GPL78    Mus musculus           mu19ksubb</p>
+<p>11  GPL79    Mus musculus           mu19ksubc</p>
+<p>12  GPL80    Homo sapiens            hu6800</p>
+<p>13  GPL81    Mus musculus           mgu74av2</p>
+<p>14  GPL82    Mus musculus           mgu74bv2</p>
+<p>15  GPL83    Mus musculus           mgu74cv2</p>
+<p>16  GPL85 Rattus norvegicus            rgu34a</p>
+<p>17  GPL86 Rattus norvegicus            rgu34b</p>
+<p>18  GPL87 Rattus norvegicus            rgu34c</p>
+<p>19  GPL88 Rattus norvegicus             rnu34</p>
+<p>20  GPL89 Rattus norvegicus             rtu34</p>
+<p>22  GPL91    Homo sapiens           hgu95av2</p>
+<p>23  GPL92    Homo sapiens            hgu95b</p>
+<p>24  GPL93    Homo sapiens            hgu95c</p>
+<p>25  GPL94    Homo sapiens            hgu95d</p>
+<p>26  GPL95    Homo sapiens            hgu95e</p>
+<p>27  GPL96    Homo sapiens            hgu133a</p>
+<p>28  GPL97    Homo sapiens            hgu133b</p>
+<p>29  GPL98    Homo sapiens           hu35ksuba</p>
+<p>30  GPL99    Homo sapiens           hu35ksubb</p>
+<p>31  GPL100    Homo sapiens           hu35ksubc</p>
+<p>32  GPL101    Homo sapiens           hu35ksubd</p>
+<p>36  GPL201    Homo sapiens            hgfocus</p>
+<p>37  GPL339    Mus musculus            moe430a</p>
+<p>38  GPL340    Mus musculus           mouse4302</p>
+<p>39  GPL341 Rattus norvegicus            rae230a</p>
+<p>40  GPL342 Rattus norvegicus            rae230b</p>
+<p>41  GPL570    Homo sapiens          hgu133plus2</p>
+<p>42  GPL571    Homo sapiens           hgu133a2</p>
+<p>43  GPL886    Homo sapiens           hgug4111a</p>
+<p>44  GPL887    Homo sapiens           hgug4110b</p>
+<p>45 GPL1261    Mus musculus          mouse430a2</p>
+<p>49 GPL1352    Homo sapiens            u133x3p</p>
+<p>50 GPL1355 Rattus norvegicus            rat2302</p>
+<p>51 GPL1708    Homo sapiens           hgug4112a</p>
+<p>54 GPL2891    Homo sapiens            h20kcod</p>
+<p>55 GPL2898 Rattus norvegicus           adme16cod</p>
+<p>60 GPL3921    Homo sapiens           hthgu133a</p>
+<p>63 GPL4191    Homo sapiens            h10kcod</p>
+<p>64 GPL5689    Homo sapiens           hgug4100a</p>
+<p>65 GPL6097    Homo sapiens        illuminaHumanv1</p>
+<p>66 GPL6102    Homo sapiens        illuminaHumanv2</p>
+<p>67 GPL6244    Homo sapiens  hugene10sttranscriptcluster</p>
+<p>68 GPL6947    Homo sapiens        illuminaHumanv3</p>
+<p>69 GPL8300    Homo sapiens           hgu95av2</p>
+<p>70 GPL8490    Homo sapiens  IlluminaHumanMethylation27k</p>
+<p>71 GPL10558    Homo sapiens        illuminaHumanv4</p>
+<p>72 GPL11532    Homo sapiens  hugene11sttranscriptcluster</p>
+<p>73 GPL13497    Homo sapiens     HsAgilentDesign026652</p>
+<p>74 GPL13534    Homo sapiens IlluminaHumanMethylation450k</p>
+<p>75 GPL13667    Homo sapiens            hgu219</p>
+<p>76 GPL15380    Homo sapiens   GGHumanMethCancerPanelv1</p>
+<p>77 GPL15396    Homo sapiens           hthgu133b</p>
+<p>78 GPL17897    Homo sapiens           hthgu133a</p>
+</blockquote>
+<p>这些包首先需要都下载</p>
+<blockquote>
+<p>gpl_info=read.csv(“GPL_info.csv”,stringsAsFactors = F)</p>
+<p>### first download all of the annotation packages from bioconductor</p>
+<p>for (i in 1:nrow(gpl_info)){</p>
+<p> print(i)</p>
+<p> platform=gpl_info[i,4]</p>
+<p> platform=gsub(‘^ ‘,””,platform) ##主要是因为我处理包的字符串前面有空格</p>
+<p> #platformDB=’hgu95av2.db’</p>
+<p> platformDB=paste(platform,”.db”,sep=””)</p>
+<p> if( platformDB %in% rownames(installed.packages()) == FALSE) {</p>
+<p>  BiocInstaller::biocLite(platformDB)</p>
+<p>  #source(“<a href="http://bioconductor.org/biocLite.R&quot;" target="_blank" rel="noopener">http://bioconductor.org/biocLite.R&quot;</a>);</p>
+<p>  #biocLite(platformDB )</p>
+<p> }</p>
+<p>}</p>
+</blockquote>
+<blockquote>
+<p>下载完了所有的包， 就可以进行批量导出芯片探针与gene的对应关系！</p>
+</blockquote>
+<blockquote>
+<p>for (i in 1:nrow(gpl_info)){</p>
+<p> print(i)</p>
+<p> platform=gpl_info[i,4]</p>
+<p> platform=gsub(‘^ ‘,””,platform)</p>
+<p> #platformDB=’hgu95av2.db’</p>
+<p> platformDB=paste(platform,”.db”,sep=””)</p>
+<p> if( platformDB %in% rownames(installed.packages()) != FALSE) {</p>
+<p>  library(platformDB,character.only = T)</p>
+<p>  #tmp=paste(‘head(mappedkeys(‘,platform,’ENTREZID))’,sep=’’)</p>
+<p>  #eval(parse(text = tmp))</p>
+<p>###重点在这里，把字符串当做命令运行</p>
+<p>  all_probe=eval(parse(text = paste(‘mappedkeys(‘,platform,’ENTREZID)’,sep=’’)))</p>
+<p>  EGID &lt;- as.numeric(lookUp(all_probe, platformDB, “ENTREZID”))</p>
+<p>##自己把内容写出来即可</p>
+<p> }</p>
+<p>}</p>
+</blockquote>
+<p>参考：<a href="http://blog.sina.com.cn/s/blog_62b37bfe0101jbuq.html" target="_blank" rel="noopener">http://blog.sina.com.cn/s/blog_62b37bfe0101jbuq.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GEO/" rel="tag"># GEO</a>
+              <a href="/tags/GSE/" rel="tag"># GSE</a>
+              <a href="/tags/ID-trans/" rel="tag"># ID_trans</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/26/xargs/" rel="prev" title="xargs">
+      <i class="fa fa-chevron-left"></i> xargs
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/" rel="next" title="引物设计教程">
+      引物设计教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用R获取芯片探针与基因的对应关系三部曲-bioconductor"><span class="nav-number">1.</span> <span class="nav-text">用R获取芯片探针与基因的对应关系三部曲-bioconductor</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#重要备注：后面要加一个db"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">重要备注：后面要加一个db</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

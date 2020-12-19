@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"bio_info_bridge.cn","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="引物设计教程  ① 在基因页面中，点击Pick Primers，即可以直接跳转到Primer designing tool的页面。 ② 如果已经有了基因的序列，可以不通过基因查找页面，直接进入Primer designing tool。具体的入口是NCBI——BLAST——Primer-Blast。 ② Primer Parameters 引物参数栏中，前两行是引物的序列栏，用于对已有的引物进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="引物设计教程">
+<meta property="og:url" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Bio_info_bridge">
+<meta property="og:description" content="引物设计教程  ① 在基因页面中，点击Pick Primers，即可以直接跳转到Primer designing tool的页面。 ② 如果已经有了基因的序列，可以不通过基因查找页面，直接进入Primer designing tool。具体的入口是NCBI——BLAST——Primer-Blast。 ② Primer Parameters 引物参数栏中，前两行是引物的序列栏，用于对已有的引物进">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201143526.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201216023.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201810168.png">
+<meta property="og:image" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201010125441532.png">
+<meta property="article:published_time" content="2020-10-07T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-10-10T04:55:23.666Z">
+<meta property="article:author" content="yuqiao chen">
+<meta property="article:tag" content="基础实验技术">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201143526.png">
+
+<link rel="canonical" href="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>引物设计教程 | Bio_info_bridge</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Bio_info_bridge</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://bio_info_bridge.cn/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="yuqiao chen">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Bio_info_bridge">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          引物设计教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-10-08 00:00:00" itemprop="dateCreated datePublished" datetime="2020-10-08T00:00:00+08:00">2020-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-10 12:55:23" itemprop="dateModified" datetime="2020-10-10T12:55:23+08:00">2020-10-10</time>
+              </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <a id="more"></a>
+
+<h3 id="引物设计教程"><a href="#引物设计教程" class="headerlink" title="引物设计教程"></a>引物设计教程</h3><p><img src="/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201143526.png" alt="image-20201008201143526"></p>
+<p><img src="/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201216023.png" alt="image-20201008201216023"></p>
+<p>① 在基因页面中，点击Pick Primers，即可以直接跳转到Primer designing tool的页面。</p>
+<p>② 如果已经有了基因的序列，可以不通过基因查找页面，直接进入Primer designing tool。具体的入口是NCBI——BLAST——Primer-Blast。</p>
+<p><strong>② Primer Parameters</strong></p>
+<p>引物参数栏中，前两行是引物的序列栏，用于对已有的引物进行特异性分析，在设计引物的过程中并不会用到，因此留空即可。在PCR product size一行中，可以设定PCR引物的扩增产物长度范围，对于qPCR来讲，范围设为50<del>250时结果比较精确，可以先设定一个较小的范围，如80</del>150，如果该范围内没有设计出比较好的引物，则可以返回扩大产物大小范围。# of primers to return是指软件设计引物的数量(如果有的话)，默认为10对。引物的Tm值一行中，可以设定引物的最大、最小和最佳Tm值，以及正反向引物Tm的最大差值。对于qPCR来讲，默认的即为最佳Tm值60°C，不需做任何修改。</p>
+<p><img src="/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201008201810168.png" alt="image-20201008201810168"></p>
+<blockquote>
+<p>陈宇乔备注：</p>
+<p>引物长度150-200</p>
+<p>退火温度相差不超过2度</p>
+<p>必须跨越外显子区域</p>
+</blockquote>
+<p><strong>④ Primer Pair Specificity Checking Parameters</strong></p>
+<p>良好的引物特异性能够保证在qPCR过程中只扩增出目的基因的片段，而不会出现非特异性结合与扩增产物，这对保证qPCR结果的真实可靠是至关重要的。除了在qPCR最后一步添加熔解曲线检测步骤，我们更应该在设计引物的时候就保证引物的特异性，哪怕仅仅是在软件预测的层面上。</p>
+<p>Primer Design Tool的最后一部分参数设置就是针对引物特异性检测的。首先，要确保Specificity check一栏中已经打勾。Search mode一般选择Automatic即可，这样当用户输入的模板在比对的数据库中有很多相似的序列时（比如一段DNA序列在多个转录变体中都有），用户可以选择哪一些是需要检测的PCR模板。Database是指特异性检测所用到的数据库：对于常用的检测基因表达上下调变化，一般选择Refseq mRNA，因为此时PCR模板是mRNA的逆转录产物；若要检测lncRNA，该数据库就应该选择覆盖面更广的Refseq RNA。若模板是基因组，则应该选择Refseq representative genomes。在Exclusion行中，可以对预测的序列以及环境/不可培养样本序列的干扰。Organism是指样本所属物种，将物种名称如：Homo sapiens(或直接human)输入，选择候选栏中对应的物种即可。也可以直接输入物种ID (常用的如：人9606，小鼠10090，大鼠10114)。在Organism下方，可以对特异性要求的严格程度进行设置，比如引物对非特异结合位置至少要有几个不匹配碱基等。在Splice variant handling一栏中，我们可以勾选上，使得引物由“转录本特异”变为“基因特异”，即能与该基因的多个转录变体结合。但需要注意的是，该选项只能保证设计出的引物可以结合多个转录变体，但并不能保证所有的转录变体都能检测到。</p>
+<p><img src="/2020/10/08/%E5%BC%95%E7%89%A9%E8%AE%BE%E8%AE%A1/image-20201010125441532.png" alt="image-20201010125441532"></p>
+<h3 id="陈宇乔备注：重要"><a href="#陈宇乔备注：重要" class="headerlink" title="陈宇乔备注：重要"></a>陈宇乔备注：重要</h3><p>这一步不能省略，省略这一步，会出现产物并不在CDS区的情况。</p>
+<p>如果需要设计能够覆盖所有转录变体的引物，可以参考上一期的微信推送中“多转录变体的共有序列查找”一文，将所有转录变体的共有序列粘贴到序列框中即可。</p>
+<p><strong>⑤ 高级参数设置</strong></p>
+<p>在Advanced parameters中，我们可以进一步对引物的参数信息进行调整，如特异性检测参数、引物长度、GC含量范围等等。其中比较常用到的是最后一项：内部杂交寡核苷酸(Internal hybridization oligo)，可以在此进行Taqman探针的设计。</p>
+<p>虽然上面罗嗦了这么多，但实际上大多参数在Primer designing tool中已经预设好了，无需做任何改动。绝大多数情况下，我们只需要调整PCR产物大小、引物Tm值、物种等参数即可。参数设置结束之后，点击“Get Primers”，即可等待结果的出现了。</p>
+<p><strong>“</strong></p>
+<ol start="4">
+<li>设计结果中优秀引物的选取</li>
+</ol>
+<p><strong>”</strong></p>
+<p>这里以人的GAPDH为例，该基因有四个转录变体，将转录变体的共有序列粘贴到序列框中，产物大小设置为80-150 bp，另外为了保证引物质量，将Max Poly-X设置为3，即引物中不能出现超过三个以上连续相同碱基。</p>
+<p>点击Get Primers，系统会对这段序列进行Blast，弹出以下界面让您选择对应的转录本，由于我们粘贴了共有序列，因此四个转录本都会列出，这里点击“All”将这四个都选中，之后点击Submit提交。</p>
+<p>经过一段时间的等待，我们得到了NCBI设计的引物序列，如下图所示有三对引物，每一对引物的特性和序列都罗列其中。</p>
+<p>引物的特性有以下几个方面：序列、模板链、长度、起止位置、Tm、GC含量、自我互补能力、产物大小以及引物对应的模板。其中多数特性都或多或少影响了引物的好坏，比如：序列中最好不要出现连续的相同碱基（尤其在3端）；正反向引物的Tm值要接近；以Oligo dT引物进行逆转录时，引物的起止位置要尽量靠后；引物对的自我互补配对打分要尽量低。根据上述几个简单规则，很快就能够在NCBI反馈的结果中挑取到合适的引物了。</p>
+<p>当然，所有这些引物特性都是根据公式打分得到的，只是起到了建议的作用，并不能代表该引物的实际使用情况，特性好的引物在实际使用过程中不一定表现优秀，反之特性不好的引物也不一定不能够使用，但是NCBI的引物设计工具凭借基因序列直达引物设计的入口、其丰富的设置选项、特异性预测的功能还是得到了广大科研工作者的青睐，熟悉掌握了该工具，将为您的分子生物学实验起到很大帮助！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%BA%E7%A1%80%E5%AE%9E%E9%AA%8C%E6%8A%80%E6%9C%AF/" rel="tag"># 基础实验技术</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/10/04/%E7%94%A8R%E8%8E%B7%E5%8F%96%E8%8A%AF%E7%89%87%E6%8E%A2%E9%92%88%E4%B8%8E%E5%9F%BA%E5%9B%A0%E7%9A%84%E5%AF%B9%E5%BA%94%E5%85%B3%E7%B3%BB%E4%B8%89%E9%83%A8%E6%9B%B2-bioconductor/" rel="prev" title="用R获取芯片探针与基因的对应关系三部曲-bioconductor">
+      <i class="fa fa-chevron-left"></i> 用R获取芯片探针与基因的对应关系三部曲-bioconductor
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/10/08/venn_diagram_for_publication/" rel="next" title="venn_diagram">
+      venn_diagram <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引物设计教程"><span class="nav-number">1.</span> <span class="nav-text">引物设计教程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#陈宇乔备注：重要"><span class="nav-number">2.</span> <span class="nav-text">陈宇乔备注：重要</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">yuqiao chen</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yuqiao chen</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
